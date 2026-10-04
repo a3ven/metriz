@@ -1,0 +1,58 @@
+{
+  "version": "V196",
+  "analysisDatabase": "تجزیه بها",
+  "source": "xls تجزیه بها ۱۳۹۹ تا ۱۴۰۴ — تطبیق بر اساس شمارهٔ ردیف آنالیز",
+  "years": [
+    "1399",
+    "1400",
+    "1401",
+    "1402",
+    "1403",
+    "1404"
+  ],
+  "disciplines": [
+    "ابنیه",
+    "مکانیک",
+    "برق"
+  ],
+  "files": [
+    "analysis-1399-abnieh-v196.json",
+    "analysis-1399-bargh-v196.json",
+    "analysis-1399-mechanic-v196.json",
+    "analysis-1400-abnieh-v196.json",
+    "analysis-1400-bargh-v196.json",
+    "analysis-1400-mechanic-v196.json",
+    "analysis-1401-abnieh-v196.json",
+    "analysis-1401-bargh-v196.json",
+    "analysis-1401-mechanic-v196.json",
+    "analysis-1402-abnieh-v196.json",
+    "analysis-1402-bargh-v196.json",
+    "analysis-1402-mechanic-v196.json",
+    "analysis-1403-abnieh-v196.json",
+    "analysis-1403-bargh-v196.json",
+    "analysis-1403-mechanic-v196.json",
+    "analysis-1404-abnieh-v196.json",
+    "analysis-1404-bargh-v196.json",
+    "analysis-1404-mechanic-v196.json"
+  ],
+  "counts": {
+    "1399-abnieh": 1439,
+    "1399-bargh": 1624,
+    "1399-mechanic": 919,
+    "1400-abnieh": 1396,
+    "1400-bargh": 1401,
+    "1400-mechanic": 760,
+    "1401-abnieh": 1396,
+    "1401-bargh": 932,
+    "1401-mechanic": 760,
+    "1402-abnieh": 1395,
+    "1402-bargh": 932,
+    "1402-mechanic": 760,
+    "1403-abnieh": 1376,
+    "1403-bargh": 932,
+    "1403-mechanic": 760,
+    "1404-abnieh": 1376,
+    "1404-bargh": 930,
+    "1404-mechanic": 760
+  }
+}

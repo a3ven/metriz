@@ -1,0 +1,11 @@
+name = 'construction-test'
+main = "worker.js"
+compatibility_date = "2026-09-08"
+
+[assets]
+directory = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "constructionpricelist-db"
+database_id = "cd023571-acf8-41ab-9e23-42672a817e26"
