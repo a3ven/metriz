@@ -1,4 +1,4 @@
-name = 'construction-test'
+name = 'metriz'
 main = "worker.js"
 compatibility_date = "2026-09-08"
 
