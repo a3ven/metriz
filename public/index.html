@@ -12910,3 +12910,148 @@ document.addEventListener('mousedown',function(e){
   sched();
 })();
 </script>
+<style id="metriz-mobile-v1">
+/* ===================================================================
+   metriz-mobile-v1 — اصلاح کامل چیدمان گوشی (فقط ≤720px)
+   همه‌ی قانون‌ها داخل media-query هستند؛ لپ‌تاپ/دسکتاپ هیچ تغییری نمی‌کند.
+   =================================================================== */
+@media (max-width:720px){
+  /* ۰) هیچ‌چیز نباید صفحه را به چپ/راست هل بدهد */
+  html body #stEditor#stEditor, html body #mnEditor#mnEditor{overflow-x:hidden!important;max-width:100vw!important}
+  html body #stEditor#stEditor>.mnPanel, html body #mnEditor#mnEditor>.mnPanel{overflow-x:clip!important;max-width:100%!important;box-sizing:border-box!important;min-width:0!important}
+  html body #stEditor#stEditor .mnStick, html body #mnEditor#mnEditor .mnStick{max-width:100%!important;box-sizing:border-box!important;margin-inline:0!important;transform:none!important;inset-inline:auto!important}
+  html body #stEditor#stEditor .mnStick *, html body #mnEditor#mnEditor .mnStick *{min-width:0}
+
+  /* ۱) هدر: عنوان جا را به دکمه‌ها می‌دهد و می‌شکند، دکمه‌ها همیشه یک ردیف */
+  html body #stEditor#stEditor .mnHead, html body #mnEditor#mnEditor .mnHead{gap:8px!important;flex-wrap:nowrap!important}
+  html body #stEditor#stEditor .mnHead .mnHeadTitle, html body #mnEditor#mnEditor .mnHead>b{flex:1 1 0!important;min-width:0!important}
+  html body #stEditor#stEditor .mnHead .mnHeadTitle b, html body #mnEditor#mnEditor .mnHead>b{white-space:normal!important;font-size:16px!important;line-height:1.5!important;overflow-wrap:anywhere}
+  html body #stEditor#stEditor .mnHead .mnBtns, html body #mnEditor#mnEditor .mnHead .mnBtns{flex:0 0 auto!important;flex-wrap:nowrap!important;gap:6px!important}
+
+  /* ۲) بالای صفحه‌ی صورت‌وضعیت: شبکه‌ی دو ستونه‌ی ثابت */
+  html body #stEditor#stEditor#stEditor .mnTop{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;width:100%!important}
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:end!important;width:100%!important;max-width:100%!important}
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField{grid-column:auto!important;flex:none!important;width:auto!important;min-width:0!important;max-width:100%!important;white-space:normal!important;gap:4px!important}
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField:nth-child(n+3){grid-column:1/-1!important}
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField:nth-child(-n+2){font-size:14px!important}
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnField>input:not([type=checkbox]):not([type=hidden]),
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnField>select,
+  html body #stEditor#stEditor#stEditor #stNo#stNo,html body #stEditor#stEditor#stEditor #stWd#stWd{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:16px!important;text-align:center}
+  html body #stEditor#stEditor#stEditor #stWd#stWd{direction:ltr}
+  html body #stEditor#stEditor#stEditor .stDiscWrap{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;min-width:0!important}
+  html body #stEditor#stEditor#stEditor .stDiscWrap select{flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;text-align:start}
+  html body #stEditor#stEditor#stEditor .stAllChk{flex:0 0 auto!important;min-height:44px;padding:0 4px}
+  html body #stEditor#stEditor#stEditor .mnChapWrap{display:flex!important;gap:8px!important;width:100%!important;max-width:100%!important;min-width:0!important;align-items:stretch!important}
+  html body #stEditor#stEditor#stEditor .mnChapWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;text-align:start}
+  html body #stEditor#stEditor#stEditor .mnChapWrap>.mnChapIntroBtn{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
+  html body #stEditor#stEditor#stEditor .mnYrHead{display:block}
+
+  /* ۳) ردیف ابزارها (ترتیب، فیلتر، حمل، ضرایب): ۴ دکمه‌ی هم‌اندازه، پشت‌سرهم */
+  html body #stEditor#stEditor#stEditor .mnRow4.mnRow3>.stRowTools{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin:0!important;width:100%!important;align-self:stretch!important}
+  html body #stEditor#stEditor#stEditor .stRowTools>.btn{width:100%!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center}
+  html body #stEditor#stEditor#stEditor .stRowTools>.btn svg{width:24px!important;height:24px!important}
+
+  /* ۴) ردیف انتخاب آیتم: بالا تمام‌عرض، پایین ۴ دکمه‌ی مساوی */
+  html body #stEditor#stEditor#stEditor .mnPick,html body #mnEditor#mnEditor#mnEditor .mnPick{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important;width:100%!important;max-width:100%!important;margin-top:0!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnPickItem,html body #mnEditor#mnEditor#mnEditor .mnPick>.mnPickItem{grid-column:1/-1!important;order:0!important;width:auto!important;min-width:0!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnSortField,html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSortField{display:contents!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnAddBtn{order:1!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnPickSrch{order:2!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnStarDefBtn:not(#stClr){order:3!important}
+  html body #stEditor#stEditor#stEditor .mnPick #stClr{order:4!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnPickSrch,
+  html body #stEditor#stEditor#stEditor .mnPick .mnAddBtn,
+  html body #stEditor#stEditor#stEditor .mnPick .mnStarDefBtn{grid-column:auto!important;width:100%!important;min-width:0!important;max-width:none!important;justify-self:stretch!important;align-self:stretch!important;margin:0!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnAddBtn,
+  html body #stEditor#stEditor#stEditor .mnPick .mnStarDefBtn,
+  html body #stEditor#stEditor#stEditor .mnPick .mnSrchBtn{height:44px!important;min-height:44px!important;max-height:44px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap{display:flex!important;gap:8px!important;align-items:stretch!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap .mnSrchBtn{flex:1 1 0!important;width:auto!important;min-width:0!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
+  html body #stEditor#stEditor#stEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])) .mnSrchBtn{flex:0 0 44px!important;width:44px!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #stEditor#stEditor#stEditor .mnItemWrap{display:flex!important;gap:8px!important;width:100%!important;min-width:0!important;align-items:stretch!important}
+  html body #stEditor#stEditor#stEditor .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;text-align:start}
+  html body #stEditor#stEditor#stEditor .mnItemWrap{flex-wrap:wrap!important}
+  html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
+
+  /* ۵) کارت آیتم: ردیف اول [i][کد][پایکار] ... [حذف]، ردیف دوم شرح کامل */
+  html body #stEditor#stEditor#stEditor #stItems .mnItem{padding:10px!important;overflow:hidden}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important;margin-bottom:6px!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child{display:contents!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow{display:contents!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnChipRow>*{order:3;flex:0 0 auto}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnExtraToggle{order:0}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnInfoBtn{order:1}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnCode{order:2}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPayk,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPaykInfo{order:3}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>.mnHeadSide{order:4!important;margin-inline-start:auto!important;width:auto!important;height:auto!important;min-height:0!important;flex:0 0 auto!important;align-self:center!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead .mnHeadTop{height:auto!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead .mnItemDel{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:15px!important;line-height:1.8!important;text-overflow:ellipsis}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSep,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSrc{order:6!important;flex:0 0 auto}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnInfoPanel,html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnDescRow{order:7!important;flex:1 1 100%!important;width:100%!important;min-width:0}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnInfoBtn,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPayk{height:40px!important;min-height:40px!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnInfoBtn{width:40px!important;min-width:40px!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnCode.mnCodeBox{height:40px!important;min-height:40px!important}
+
+  /* ۶) خانه‌های ورودی ردیف‌های ریزمتره: ارتفاع مناسب لمس */
+  html body #stEditor#stEditor#stEditor #stItems .mnCell input{height:44px!important;min-height:44px!important;padding:0 2px!important;min-width:0!important}
+
+  /* ===== صفحه‌ی ریزمتره‌ی صورت‌جلسه (mnEditor): همان منطق ===== */
+  html body #mnEditor#mnEditor#mnEditor .mnTop{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;width:100%!important}
+  html body #mnEditor#mnEditor#mnEditor .mnRow4{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:end!important;width:100%!important;max-width:100%!important}
+  html body #mnEditor#mnEditor#mnEditor .mnRow4>.mnField{grid-column:auto!important;width:auto!important;min-width:0!important;max-width:100%!important}
+  html body #mnEditor#mnEditor#mnEditor .mnRow4>.mnField:nth-child(3){grid-column:1/-1!important}
+  html body #mnEditor#mnEditor#mnEditor .mnField>input:not([type=checkbox]):not([type=hidden]),html body #mnEditor#mnEditor#mnEditor .mnRow4 .mnField>select{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnChapWrap{display:flex!important;flex-wrap:wrap!important;gap:8px!important;width:100%!important;max-width:100%!important;min-width:0!important;align-items:stretch!important}
+  html body #mnEditor#mnEditor#mnEditor .mnChapWrap>select{flex:1 1 55%!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;text-align:start}
+  html body #mnEditor#mnEditor#mnEditor .mnChapWrap>.mnChapIntroBtn{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
+  html body #mnEditor#mnEditor#mnEditor .mnChapWrap>.mnSortBtn{flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;padding:0!important;margin:0!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+
+  /* ۴) ردیف انتخاب آیتم: بالا تمام‌عرض، پایین ۴ دکمه‌ی مساوی */
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnPickItem,html body #mnEditor#mnEditor#mnEditor .mnPick>.mnPickItem{grid-column:1/-1!important;order:0!important;width:auto!important;min-width:0!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSortField,html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSortField{display:contents!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnAddBtn{order:1!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnPickSrch{order:2!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnPickSrch,
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnAddBtn,
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnStarDefBtn{grid-column:auto!important;width:100%!important;min-width:0!important;max-width:none!important;justify-self:stretch!important;align-self:stretch!important;margin:0!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnAddBtn,
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnStarDefBtn,
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchBtn{height:44px!important;min-height:44px!important;max-height:44px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap{display:flex!important;gap:8px!important;align-items:stretch!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap .mnSrchBtn{flex:1 1 0!important;width:auto!important;min-width:0!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])) .mnSrchBtn{flex:0 0 44px!important;width:44px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap{display:flex!important;gap:8px!important;width:100%!important;min-width:0!important;align-items:stretch!important}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;text-align:start}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap{flex-wrap:wrap!important}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
+  /* ۵) کارت آیتم: ردیف اول [i][کد][پایکار] ... [حذف]، ردیف دوم شرح کامل */
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItem{padding:10px!important;overflow:hidden}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important;margin-bottom:6px!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child{display:contents!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow{display:contents!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnChipRow>*{order:3;flex:0 0 auto}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnExtraToggle{order:0}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnInfoBtn{order:1}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnCode{order:2}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPayk,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPaykInfo{order:3}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>.mnHeadSide{order:4!important;margin-inline-start:auto!important;width:auto!important;height:auto!important;min-height:0!important;flex:0 0 auto!important;align-self:center!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead .mnHeadTop{height:auto!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead .mnItemDel{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:15px!important;line-height:1.8!important;text-overflow:ellipsis}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSep,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSrc{order:6!important;flex:0 0 auto}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnInfoPanel,html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnDescRow{order:7!important;flex:1 1 100%!important;width:100%!important;min-width:0}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnInfoBtn,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPayk{height:40px!important;min-height:40px!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnInfoBtn{width:40px!important;min-width:40px!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnCode.mnCodeBox{height:40px!important;min-height:40px!important}
+  /* ۶) خانه‌های ورودی ردیف‌های ریزمتره: ارتفاع مناسب لمس */
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnCell input{height:44px!important;min-height:44px!important;padding:0 2px!important;min-width:0!important}
+}
+</style>
