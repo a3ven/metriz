@@ -815,7 +815,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  <div class="projectPanel">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
     <div><h3 style="margin:0" id="historyTitle">تاریخچه پروژه‌ها و محاسبات</h3><div class="muted" id="historyHint">پروژه‌های ذخیره‌شده این حساب</div></div>
-    <button class="btn" id="closeProjects" title="بستن" aria-label="بستن">✕</button>
+    <div style="display:flex;gap:8px;align-items:stretch"><button type="button" class="btn primary cplListNewBtn cplListNewIcon" id="historyNewBtn" title="پروژه جدید" aria-label="پروژه جدید"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="btn" id="closeProjects" title="بستن" aria-label="بستن">✕</button></div>
   </div>
   <div id="projectList" style="margin-top:10px"></div>
   <div class="muted" style="margin-top:14px;text-align:center;font-size:12px;line-height:1.8">ایمیل پشتیبانی : <bdi dir="ltr" style="direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:Arial,Helvetica,sans-serif;font-variant-numeric:normal">Siadati7@gmail.com</bdi></div>
@@ -2741,8 +2741,10 @@ window.exportRowsData=exportRowsData;
     if($('currentProjectName'))$('currentProjectName').textContent=settings ? name+'('+settings+')' : name;
     if($('currentProjectSettings'))$('currentProjectSettings').textContent='';
   }
+  (function(){const nb=$('historyNewBtn');if(nb&&!nb.__h){nb.__h=1;nb.addEventListener('click',()=>{closeHistory();if(historyMode==='calculations')createCalculation();else newMainEntry()})}})();
   function setHistoryTitle(mode){
     historyMode=mode;
+    {const nb=$('historyNewBtn');if(nb){const t=mode==='calculations'?'محاسبه جدید':'پروژه جدید';nb.title=t;nb.setAttribute('aria-label',t)}}
     if($('historyTitle'))$('historyTitle').textContent=mode==='calculations'?'تاریخچه محاسبات':'تاریخچه پروژه‌ها و محاسبات';
     if($('historyHint'))$('historyHint').textContent=mode==='calculations'?'محاسبات ذخیره‌شده در پروژه فعلی':'پروژه‌های ذخیره‌شده این حساب';
   }
@@ -2756,13 +2758,13 @@ window.exportRowsData=exportRowsData;
         const projectRow=rows.find(x=>String(x.id)===String(pid||''));
         const projectLabel=projectRow?.name||'پروژه فعلی';
         const subs=rows.filter(x=>String(x.parentProjectId||'')===String(pid||'') && x.projectType==='calculation').sort((a,b)=>b.updated_at-a.updated_at);
-        box.innerHTML='<div class="historyActions"><button class="btn primary" id="historyNewCalc">محاسبه جدید</button><button class="btn" id="historyBackProjects">تاریخچه پروژه‌ها و محاسبات</button></div>'+ (subs.length?subs.map(x=>`<div class="projectItem"><div><b>${escP(x.calculationName||x.name)}</b><small>${new Date(x.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns calcBtns"><button class="btn primary" data-open="${x.id}">فراخوانی</button><button class="btn" data-rename-calc="${x.id}">تغییر نام</button><button class="btn" data-del="${x.id}">حذف</button></div></div>`).join(''):'<div class="historyEmpty" style="margin-top:10px"><b>هنوز محاسبه‌ای ذخیره نشده.</b></div>');
+        box.innerHTML='<div class="historyActions"><button class="btn" id="historyBackProjects" style="grid-column:1/-1">تاریخچه پروژه‌ها و محاسبات</button></div>'+ (subs.length?subs.map(x=>`<div class="projectItem"><div><b>${escP(x.calculationName||x.name)}</b><small>${new Date(x.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns calcBtns"><button class="btn primary" data-open="${x.id}">فراخوانی</button><button class="btn" data-rename-calc="${x.id}">تغییر نام</button><button class="btn" data-del="${x.id}">حذف</button></div></div>`).join(''):'<div class="historyEmpty" style="margin-top:10px"><b>هنوز محاسبه‌ای ذخیره نشده.</b></div>');
         $('historyNewCalc')?.addEventListener('click',()=>{closeHistory();createCalculation()});
         $('historyBackProjects')?.addEventListener('click',()=>loadHistory('projects'));
       }else{
         // تاریخچه پروژه‌ها فقط پروژه‌های اصلی را نشان می‌دهد؛ محاسبات فقط در تاریخچه محاسبات هستند.
         const mains=rows.filter(x=>!x.parentProjectId && x.projectType!=='calculation');
-        box.innerHTML='<div class="historyActions"><button class="btn primary" id="historyNewEntry"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>پروژه جدید</span></button></div>'+ (mains.length?mains.map(m=>`<div class="projectItem" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><b>پروژه: ${escP(m.name)}</b><small>${new Date(m.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns projBtns"><button class="btn primary projIco" data-open="${m.id}" title="باز کردن" aria-label="باز کردن"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2"/><path d="M5 19h12.5a2 2 0 0 0 1.9-1.4L22 11H8.5a2 2 0 0 0-1.9 1.4z"/></svg></button><button class="btn" data-calcs-project="${m.id}">تاریخچه محاسبات</button><button class="btn projIco" data-edit-project="${m.id}" title="ویرایش" aria-label="ویرایش"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="btn danger projIco" data-del="${m.id}" title="حذف" aria-label="حذف"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join(''):'<div class="historyEmpty"><b>هنوز پروژه‌ای ذخیره نشده.</b></div>');
+        box.innerHTML=''+ (mains.length?mains.map(m=>`<div class="projectItem" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><b>پروژه: ${escP(m.name)}</b><small>${new Date(m.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns projBtns"><button class="btn primary projIco" data-open="${m.id}" title="باز کردن" aria-label="باز کردن"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2"/><path d="M5 19h12.5a2 2 0 0 0 1.9-1.4L22 11H8.5a2 2 0 0 0-1.9 1.4z"/></svg></button><button class="btn" data-calcs-project="${m.id}">تاریخچه محاسبات</button><button class="btn projIco" data-edit-project="${m.id}" title="ویرایش" aria-label="ویرایش"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="btn danger projIco" data-del="${m.id}" title="حذف" aria-label="حذف"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join(''):'<div class="historyEmpty"><b>هنوز پروژه‌ای ذخیره نشده.</b></div>');
         $('historyNewEntry')?.addEventListener('click',()=>{closeHistory();newMainEntry()});
       }
       box.querySelectorAll('[data-calcs-project]').forEach(b=>b.addEventListener('click',()=>loadHistory('calculations',b.dataset.calcsProject)));
@@ -7456,12 +7458,11 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
         '<label class="mnField mnWide">عنوان صورت‌جلسه<input id="mnName" autocomplete="off" placeholder="مثلاً صورت‌جلسه شماره ۱"></label>'+
         '<div class="mnWide mnRow4">'+
           '<label class="mnField">شماره صورت‌جلسه<input id="mnNo" autocomplete="off" inputmode="numeric" placeholder="مثلاً ۱"></label>'+
-          '<label class="mnField">سال فهرست بها<input id="mnYear" readonly></label>'+
-          '<label class="mnField">نوع فهرست<select id="mnDisc">'+DISCS.map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label>'+
+          '<label class="mnField"><span class="mnYrHead">نوع فهرست <span class="mnYrLbl" id="mnYrLbl"></span></span><input id="mnYear" type="hidden"><select id="mnDisc">'+DISCS.map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label>'+
           '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="mnChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="mnChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button><button type="button" class="btn mnSortBtn" data-sel="mnSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="mnFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button></span></label>'+
         '</div>'+
         '<div class="mnWide mnPick">'+
-          '<div class="mnField mnPickItem">آیتم<span class="mnChapWrap mnItemWrap"><select id="mnItem"></select><input id="mnFree" class="mnFreeIn" hidden type="text" autocomplete="off" enterkeyhint="done" placeholder="آیتم دلخواه را وارد کنید" aria-label="ورود مستقیم آیتم" title="کد یا شرح آیتم را بنویس و Enter بزن؛ اگر در فهرست یا قیمت جدید باشد با همه مشخصاتش اضافه می‌شود"><button type="button" class="btn mnFreeTxt" id="mnFreeBtn" aria-expanded="false" title="ورود مستقیم آیتم" aria-label="ورود مستقیم آیتم">ورود مستقیم</button></span></div>'+
+          '<div class="mnField mnPickItem"><span class="mnChapWrap mnItemWrap"><select id="mnItem" aria-label="آیتم"></select><input id="mnFree" class="mnFreeIn" hidden type="text" autocomplete="off" enterkeyhint="done" placeholder="آیتم دلخواه را وارد کنید" aria-label="ورود مستقیم آیتم" title="کد یا شرح آیتم را بنویس و Enter بزن؛ اگر در فهرست یا قیمت جدید باشد با همه مشخصاتش اضافه می‌شود"><button type="button" class="btn mnFreeTxt" id="mnFreeBtn" aria-expanded="false" title="ورود مستقیم آیتم" aria-label="ورود مستقیم آیتم">ورود مستقیم</button></span></div>'+
           '<div class="mnField mnPickSrch mnSrchWrap"><button type="button" class="btn mnSrchBtn" aria-expanded="false" title="جستجوی آیتم" aria-label="جستجوی آیتم"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><input id="mnFilter" class="mnSrchIn" hidden autocomplete="off" placeholder="جستجوی شماره یا شرح…" aria-label="جستجوی آیتم"></div>'+
           '<div class="mnField mnSortField mnPickBar"><button type="button" class="btn mnStarDefBtn" id="mnStarDef" title="تعریف آیتم ستاره‌دار جدید" aria-label="تعریف آیتم ستاره‌دار جدید"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button><button type="button" class="btn primary mnAddBtn" id="mnAdd" title="افزودن آیتم" aria-label="افزودن آیتم"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button><select id="mnFilt" hidden><option value="all">همه آیتم‌ها</option><option value="list">فهرست بها</option><option value="star">ستاره‌دار</option><option value="fac">فاکتوری</option><option value="pay">پایکار</option></select><select id="mnSort" hidden><option value="added">ترتیب افزودن</option><option value="code">شماره آیتم</option></select></div>'+
         '</div>'+
@@ -7726,7 +7727,7 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
   }
   function priceTag(v){return '<span class="mnPriceTag">بهای آیتم: <b>'+fmt(v)+'</b> ریال</span>'}
   function infoBtn(it){return '<button type="button" class="btn mnInfoBtn" aria-expanded="'+(openExtras[it.uid]&&!it.extraOf?'true':'false')+'" title="مشخصات آیتم" aria-label="مشخصات آیتم"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="6.8" r="1.7" fill="currentColor"/><rect x="10.8" y="10" width="2.4" height="8" rx="1.1" fill="currentColor"/></svg></button>'}
-  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(it.discipline)+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div><div class="mnInfoDesc">'+esc(it.desc)+'</div></div>'}
+  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(it.discipline)+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div></div>'}
   function exPrice(it,r){var d=DATA.find(function(y){return String(y.id)===String(it.id)})||DATA.find(function(y){return String(y.year)===String(cur&&cur.year)&&y.discipline===it.discipline&&String(y.code)===String(it.code)}),v=0;try{v=d?Math.round(relatedUnitCost(r,priceVal(d),1)):0}catch(e){}return '<span class="mnExPrice">قیمت: <b>'+fmt(v)+'</b> ریال</span>'}
   function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==0)return n>1?'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>':'';return '<div class="mnTot"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
   function rowHtml(ii,ri,r){
@@ -8409,16 +8410,15 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
       '<div class="mnStick"><div class="mnHead"><div class="mnHeadTitle"><b>'+TITLE_MIN+'</b></div><div class="mnBtns">'+iconBtns('st',true)+'<button type="button" class="btn mnTextBtn" id="stQuote">نقل از صورت‌جلسات</button><button type="button" class="btn mnTextBtn" id="stImport" title="ورودی از اکسل — وارد کردن ریزمتره از فایل اکسل" aria-label="ورودی از اکسل"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#fff" stroke="#bdbdbd" stroke-width=".8"></path><path d="M14 2v5h5" fill="#e6e6e6" stroke="#bdbdbd" stroke-width=".8" stroke-linejoin="round"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#1a7f4e" text-anchor="middle">XLS</text></svg><span>ورودی از اکسل</span></button><button type="button" class="btn mnTextBtn" id="stTrMenu" title="محاسبات حمل" aria-label="محاسبات حمل">'+ICO_TRUCK+'<span>حمل</span></button><button type="button" class="btn mnTextBtn" id="stCoef">ضرایب</button><button type="button" class="btn mnTextBtn" id="stNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="stClose">✕</button></div></div>'+
       '<div class="mnTop">'+
         '<div class="mnWide mnRow4 mnRow3">'+
-          '<label class="mnField">شماره<input id="stNo" class="stRowNo" autocomplete="off" inputmode="numeric" placeholder="شماره" title="شماره صورت‌وضعیت" aria-label="شماره صورت‌وضعیت"></label>'+
-          '<label class="mnField">تاریخ<input id="stWd" class="stRowWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ صورت‌وضعیت" aria-label="تاریخ صورت‌وضعیت"></label>'+
-          '<label class="mnField">سال فهرست بها<input id="stYear" readonly></label>'+
-          '<label class="mnField">نوع فهرست<span class="stDiscWrap"><label class="stAllChk" title="نمایش ریزمتره همهٔ انواع فهرست"><input type="checkbox" id="stAll"><span>همه</span></label><select id="stDisc">'+DISCS.map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></span></label>'+
+          '<label class="mnField stNoWrapLbl">شماره صورت‌وضعیت<input id="stNo" class="stRowNo" autocomplete="off" inputmode="numeric" placeholder="شماره" title="شماره صورت‌وضعیت" aria-label="شماره صورت‌وضعیت"></label>'+
+          '<label class="mnField stNoWrapLbl">تاریخ صورت‌وضعیت<input id="stWd" class="stRowWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ صورت‌وضعیت" aria-label="تاریخ صورت‌وضعیت"></label>'+
+          '<label class="mnField"><span class="mnYrHead">نوع فهرست <span class="mnYrLbl" id="stYrLbl"></span></span><input id="stYear" type="hidden"><span class="stDiscWrap"><label class="stAllChk" title="نمایش ریزمتره همهٔ انواع فهرست"><input type="checkbox" id="stAll"><span>همه</span></label><select id="stDisc">'+DISCS.map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></span></label>'+
           '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="stChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="stChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button></span></label>'+
-          '<div class="stRowTools"><button type="button" class="btn mnSortBtn" data-sel="stSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="stFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button><button type="button" class="btn stTrBtn" id="stTr" title="محاسبات حمل" aria-label="محاسبات حمل">'+ICO_TRUCK+'</button></div>'+
+          '<div class="stRowTools"><button type="button" class="btn mnSortBtn" data-sel="stSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="stFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button><button type="button" class="btn stTrBtn" id="stTr" title="محاسبات حمل" aria-label="محاسبات حمل">'+ICO_TRUCK+'</button><button type="button" class="btn stTrBtn" id="stCoefIco" title="ضرایب" aria-label="ضرایب"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></button></div>'+
         '</div>'+
         '<div class="mnMuted mnWide" id="stWdNote"></div>'+
         '<div class="mnWide mnPick">'+
-          '<div class="mnField mnPickItem">آیتم<span class="mnChapWrap mnItemWrap"><select id="stItem"></select><input id="stFree" class="mnFreeIn" hidden type="text" autocomplete="off" enterkeyhint="done" placeholder="آیتم دلخواه را وارد کنید" aria-label="ورود مستقیم آیتم" title="کد یا شرح آیتم را بنویس و Enter بزن؛ اگر در فهرست یا قیمت جدید باشد با همه مشخصاتش اضافه می‌شود"><button type="button" class="btn mnFreeTxt" id="stFreeBtn" aria-expanded="false" title="ورود مستقیم آیتم" aria-label="ورود مستقیم آیتم">ورود مستقیم</button></span></div>'+
+          '<div class="mnField mnPickItem"><span class="mnChapWrap mnItemWrap"><select id="stItem" aria-label="آیتم"></select><input id="stFree" class="mnFreeIn" hidden type="text" autocomplete="off" enterkeyhint="done" placeholder="آیتم دلخواه را وارد کنید" aria-label="ورود مستقیم آیتم" title="کد یا شرح آیتم را بنویس و Enter بزن؛ اگر در فهرست یا قیمت جدید باشد با همه مشخصاتش اضافه می‌شود"><button type="button" class="btn mnFreeTxt" id="stFreeBtn" aria-expanded="false" title="ورود مستقیم آیتم" aria-label="ورود مستقیم آیتم">ورود مستقیم</button></span></div>'+
           '<div class="mnField mnPickSrch mnSrchWrap"><button type="button" class="btn mnSrchBtn" aria-expanded="false" title="جستجوی آیتم" aria-label="جستجوی آیتم"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><input id="stFilter" class="mnSrchIn" hidden autocomplete="off" placeholder="جستجوی شماره یا شرح…" aria-label="جستجوی آیتم"></div>'+
           '<div class="mnField mnSortField mnPickBar"><button type="button" class="btn danger mnStarDefBtn" id="stClr" title="پاک کردن کل ریزمتره" aria-label="پاک کردن کل ریزمتره"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button><button type="button" class="btn mnStarDefBtn" id="stStarDef" title="تعریف آیتم ستاره‌دار جدید" aria-label="تعریف آیتم ستاره‌دار جدید"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button><button type="button" class="btn primary mnAddBtn" id="stAdd" title="افزودن آیتم" aria-label="افزودن آیتم"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button><select id="stFilt" hidden><option value="all">همه آیتم‌ها</option><option value="list">فهرست بها</option><option value="star">ستاره‌دار</option><option value="fac">فاکتوری</option><option value="pay">پایکار</option></select><select id="stSort" hidden><option value="added">ترتیب افزودن</option><option value="code">شماره آیتم</option></select></div>'+
         '</div>'+
@@ -8752,7 +8752,7 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
 
   function priceTag(v){return '<span class="mnPriceTag">بهای آیتم: <b>'+fmt(v)+'</b> ریال</span>'}
   function infoBtn(it){return '<button type="button" class="btn mnInfoBtn" aria-expanded="'+(openExtras[it.uid]&&!it.extraOf?'true':'false')+'" title="مشخصات آیتم" aria-label="مشخصات آیتم"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="6.8" r="1.7" fill="currentColor"/><rect x="10.8" y="10" width="2.4" height="8" rx="1.1" fill="currentColor"/></svg></button>'}
-  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(it.discipline)+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div><div class="mnInfoDesc">'+esc(it.desc)+'</div></div>'}
+  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(it.discipline)+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div></div>'}
   function exPrice(it,r){var d=DATA.find(function(y){return String(y.id)===String(it.id)})||DATA.find(function(y){return String(y.year)===String(cur&&cur.year)&&y.discipline===it.discipline&&String(y.code)===String(it.code)}),v=0;try{v=d?Math.round(relatedUnitCost(r,priceVal(d),1)):0}catch(e){}return '<span class="mnExPrice">قیمت: <b>'+fmt(v)+'</b> ریال</span>'}
   function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==0)return n>1?'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>':'';return '<div class="mnTot"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
   function rowHtml(ii,ri,r){
@@ -10057,7 +10057,6 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
       '<div class="mnStick"><div class="mnHead"><div class="mnHeadTitle"><b>محاسبات درآمد</b><input id="ciNo" class="mnHeadIn mnHeadNm" autocomplete="off" placeholder="نام" title="نام هزینه-درآمد" aria-label="نام هزینه-درآمد"><input id="ciWd" class="mnHeadIn mnHeadWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ دوره کارکرد" aria-label="تاریخ دوره کارکرد"></div><div class="mnBtns">'+iconBtns('ci',true)+'<button type="button" class="btn mnTextBtn" id="ciQuote">نقل از صورت‌جلسات</button><button type="button" class="btn mnTextBtn" id="ciCoef">ضرایب</button><button type="button" class="btn mnTextBtn" id="ciNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="ciClose">✕</button></div></div>'+
       '<div class="mnTop">'+
         '<div class="mnWide mnRow4 mnRow3">'+
-          '<label class="mnField">سال فهرست بها<input id="ciYear" readonly></label>'+
           '<label class="mnField">نوع فهرست<select id="ciDisc">'+DISCS.map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label>'+
           '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="ciChap"></select><button type="button" class="btn mnChapIntroBtn" id="ciChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>'+'</button></span></label>'+
         '</div>'+
@@ -10789,10 +10788,7 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
     var a=cur.adj,ib=getAdjIndex(c,a.baseY,a.baseP,d),iw=getAdjIndex(c,a.workY,a.workP,d),ok=isFinite(ib)&&isFinite(iw)&&ib!==0,r=ok?iw/ib:1;
     return {ib:ok?ib:'—',iw:ok?iw:'—',r:r,ok:ok,adj:Math.round(amt*(r-1))};
   }
-  function adjNotes(miss){
-    var a=cur.adj,o=[['مبنا: سال '+toEn(a.baseY)+' — '+adjPeriodLabel(a.baseP,a.baseY,null,null)+'      دوره کار: سال '+toEn(a.workY)+' — '+adjPeriodLabel(a.workP,a.workY,null,null)]];
-    if(trOn())o.push(['ردیف‌های با واحد مترمکعب‌کیلومتر (کارکرد از 1399/01/01) با شاخص‌های فصل حمل همان رشته تعدیل شده‌اند.']);
-    if(miss)o.push(['برای '+fmt(miss)+' مورد شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها ۱ حساب شد.']);
+  function adjNotes(miss){     var o=[];     if(miss)o.push(['برای '+fmt(miss)+' مورد شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها ۱ حساب شد.']);
     return o;
   }
   function adjSpecN(s){
@@ -10812,7 +10808,7 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
     var bm={};its.forEach(function(x){var w=amountWC(x),q=adjIdxIt(x,w);if(!q.ok)miss++;var b=bm[x.discipline]||(bm[x.discipline]=[x.discipline,0,0,0]);b[1]+=w;b[2]+=q.adj;b[3]+=w+q.adj});
     var r4=DISCS.filter(function(d){return bm[d]}).map(function(d){return bm[d]}),t1=sum(r4,cn(1)),t3=sum(r4,cn(3));
     return {t:'مجموع آیتم‌ها و تعدیل',band:0,cols:['نوع فهرست','مجموع آیتم‌ها (با ضرایب)','مجموع تعدیل','جمع با تعدیل'],w:[16,22,20,22],rows:r4,
-      extra:[['ضریب تعدیل کلی (جمع با تعدیل ÷ جمع با ضرایب): '+fm(t1?t3/t1:1)]].concat(adjNotes(miss)),foot:['جمع کل',t1,sum(r4,cn(2)),t3]};
+      extra:adjNotes(miss),foot:['جمع کل',t1,sum(r4,cn(2)),t3]};
   }
   function drawPanel(){
     var p=$('cifPanel');if(!p)return;
@@ -10822,7 +10818,7 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
     function fillP(id,y,cv){var v=periodsFor(String(y)),el=$(id);el.innerHTML=v.map(function(q){return '<option value="'+esc(q)+'">'+esc(adjPeriodLabel(q,y,null,null))+'</option>'}).join('');el.value=cv}
     p.innerHTML='<div class="mnTop"><label class="mnField">سال مبنا<select id="cifBY">'+yo()+'</select></label><label class="mnField">دوره مبنا<select id="cifBP"></select></label><label class="mnField">سال دوره کار<select id="cifWY">'+yo()+'</select></label><label class="mnField">دوره کار<select id="cifWP"></select></label></div><div class="mnMuted" id="cifANote" style="margin-bottom:6px"></div>';
     $('cifBY').value=a.baseY;$('cifWY').value=a.workY;fillP('cifBP',a.baseY,a.baseP);fillP('cifWP',a.workY,a.workP);
-    $('cifANote').textContent='مبنا از تنظیمات پروژه گرفته شده و قابل تغییر است. '+workNote(cur,a);
+    $('cifANote').textContent='';$('cifANote').style.display='none';
     function ch(){dirty=true;renderFlow()}
     $('cifBY').onchange=function(){a.baseY=this.value;a.baseP='';ch()};
     $('cifBP').onchange=function(){a.baseP=this.value;ch()};
@@ -11925,6 +11921,14 @@ html body .stageNav>.btn.btn.cplListNewBtn,html body .analysisHead .stageNav>.bt
 html body .analysisHead .stageNav{flex-wrap:nowrap!important}
 @media(max-width:520px){html body .analysisHead{flex-wrap:wrap}html body .analysisHead .stageNav{flex-wrap:wrap!important;justify-content:flex-end}}
 .cplListNewBtn span{display:block;line-height:1.2}
+/* + و ✕ کنار هم: هر دو دقیقاً مربع و هم‌اندازه */
+html body .cplListHeadBtns>.btn,html body #historyNewBtn,html body #closeProjects{box-sizing:border-box!important;width:var(--ctl-h,32px)!important;min-width:var(--ctl-h,32px)!important;max-width:var(--ctl-h,32px)!important;height:var(--ctl-h,32px)!important;min-height:var(--ctl-h,32px)!important;max-height:var(--ctl-h,32px)!important;padding:0!important;flex:0 0 var(--ctl-h,32px)!important;display:inline-flex!important;align-items:center;justify-content:center;line-height:1;align-self:center!important}
+html body .stageNav>.cplListNewBtn~#closeStarred,html body .stageNav>#closeStarred{box-sizing:border-box!important;width:var(--ico-btn,34px)!important;min-width:var(--ico-btn,34px)!important;max-width:var(--ico-btn,34px)!important;height:var(--ico-btn,34px)!important;min-height:var(--ico-btn,34px)!important;max-height:var(--ico-btn,34px)!important;padding:0!important;flex:0 0 var(--ico-btn,34px)!important}
+/* فقط آیکن + (بدون متن) کنار دکمهٔ بستن */
+.cplListNewBtn.cplListNewIcon{padding:0!important;width:var(--ctl-h,32px)!important;min-width:var(--ctl-h,32px)!important;max-width:var(--ctl-h,32px)!important;min-height:0!important;flex:0 0 var(--ctl-h,32px)!important;align-self:stretch}
+.cplListNewBtn.cplListNewIcon svg{width:20px;height:20px;flex:0 0 20px}
+.cplListHeadBtns{align-items:stretch}
+html body .stageNav>.btn.btn.cplListNewBtn.cplListNewIcon,html body .analysisHead .stageNav>.btn.cplListNewBtn.cplListNewIcon{width:var(--ico-btn,34px)!important;min-width:var(--ico-btn,34px)!important;max-width:var(--ico-btn,34px)!important;height:var(--ico-btn,34px)!important;min-height:var(--ico-btn,34px)!important;padding:0!important;aspect-ratio:auto}
 </style>
 <script id="v319-list-new-btn-js">
 (function(){
@@ -11938,7 +11942,7 @@ html body .analysisHead .stageNav{flex-wrap:nowrap!important}
   ];
   function mk(cfg,modal){
     var b=document.createElement('button');
-    b.type='button';b.className='btn primary cplListNewBtn';b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span></span>';b.lastChild.textContent=cfg.label;
+    b.type='button';b.className='btn primary cplListNewBtn cplListNewIcon';b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';b.title=cfg.label;b.setAttribute('aria-label',cfg.label);
     b.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
       if(cfg.isStar){if(typeof closeStarred==='function')closeStarred();}
@@ -13366,6 +13370,41 @@ html body .mnTot.mnTotEmpty>span{visibility:hidden}
 html body #mnItems .mnRow.mnRowNext,html body #stItems .mnRow.mnRowNext{border-top:0!important;padding-top:3px!important;padding-bottom:0!important;margin-top:0}
 html body #mnItems .mnRow:not(.mnRowNext),html body #stItems .mnRow:not(.mnRowNext){padding-bottom:0!important}
 html body #mnItems .mnRowNext .mnTot>span,html body #stItems .mnRowNext .mnTot>span{display:none!important}
+/* ردیف انتخاب آیتم بدون تایتل و چسبیده به ردیف بالا */
+html body #stWdNote:empty{display:none!important}
+html body #mnEditor .mnPick,html body #stEditor .mnPick{margin-top:0}
+/* مثلث مرحله قبل/بعد در قیمت جدید: مثل صورت‌جلسه/صورت‌وضعیت */
+html body .stageNav>.btn[data-step],html body .analysisHead .stageNav>.btn.analysisStepBtn[data-step],html body .stageNav>.btn.stageProxyBtn[data-step]{padding:0!important;font-size:0!important;display:inline-flex!important;align-items:center;justify-content:center;white-space:nowrap}
+html body .btn[data-step] svg{flex:0 0 20px;min-width:20px;min-height:20px}
+html body #mnEditor .mnPick.mnAligned,html body #stEditor .mnPick.mnAligned{grid-template-columns:auto minmax(0,1fr) auto auto auto auto!important}
+html body #mnEditor .mnPick.mnAligned .mnAddBtn,html body #stEditor .mnPick.mnAligned .mnAddBtn{grid-column:3!important}
+html body #mnEditor .mnPick.mnAligned>.mnPickSrch,html body #stEditor .mnPick.mnAligned>.mnPickSrch{grid-column:4!important}
+html body #mnEditor .mnPick.mnAligned .mnStarDefBtn:not(#stClr),html body #stEditor .mnPick.mnAligned .mnStarDefBtn:not(#stClr){grid-column:5!important}
+html body #stEditor .mnPick.mnAligned #stClr{grid-column:6!important}
+html body .mnYrHead{white-space:nowrap;display:block}html body .mnYrLbl{white-space:nowrap}
+html body #stEditor .mnRow4.mnRow3 .mnField input.stRowNo{width:64px!important;min-width:0!important}
+</style>
+<style id="v600-user-fixes">
+/* برچسب‌های شماره و تاریخ صورت‌وضعیت: تک‌خطی و هم‌عرض با کادر */
+html body #stEditor .mnRow4.mnRow3>.mnField.stNoWrapLbl{white-space:nowrap}
+html body #stEditor .mnRow4.mnRow3 .mnField.stNoWrapLbl #stNo{width:116px!important;min-width:0!important}
+html body #stEditor .mnRow4.mnRow3 .mnField.stNoWrapLbl #stWd{width:124px!important}
+/* ریزمتره صورت‌جلسه: ردیف فصل تا انتهای (چپ) ردیف بکشد؛ کادر فصل بزرگ‌تر؛ سورت و فیلتر چپ‌چین */
+html body #mnEditor .mnRow4{grid-template-columns:minmax(96px,.7fr) minmax(110px,.8fr) minmax(0,2.8fr)!important}
+html body #mnEditor .mnRow4 .mnChapWrap{width:100%}
+html body #mnEditor .mnRow4 .mnChapWrap select{flex:1 1 auto!important;min-width:0!important;width:auto!important}
+html body #mnEditor .mnRow4 .mnChapWrap>.mnSortBtn:not(.mnFiltBtn){margin-inline-start:auto}
+/* آیکن ستاره‌دار / پاک‌کردن هم‌اندازه و دقیقاً زیر فیلتر ردیف بالا */
+html body #mnEditor .mnPick .mnStarDefBtn,html body #stEditor .mnPick .mnStarDefBtn{width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important;max-height:36px!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;justify-self:start}
+html body #mnEditor .mnRow4 .mnChapWrap{padding:0;margin:0}
+@media(min-width:641px){
+  html body #mnEditor .mnPick{grid-template-columns:minmax(0,1fr) auto auto auto!important}
+  html body #mnEditor .mnPick.mnAligned{grid-template-columns:auto minmax(0,1fr) auto auto auto!important}
+}
+@media(max-width:640px){
+  html body #mnEditor .mnRow4{grid-template-columns:1fr 1fr!important}
+  html body #mnEditor .mnRow4>.mnField:nth-child(3){grid-column:1/-1!important}
+}
 </style>
 
 <script id="metriz-free-toggle">
@@ -13401,4 +13440,58 @@ document.addEventListener('mousedown',function(e){
     i.setAttribute('hidden','');var b=i.parentNode.querySelector('.mnSrchBtn');if(b)b.setAttribute('aria-expanded','false');
   });
 },true);
+</script>
+
+<script id="metriz-pick-align">
+(function(){
+  var raf=0;
+  function align(pre){
+    var f=document.querySelector('#'+pre+'Editor .mnPick>.mnPickItem'),ci=document.getElementById(pre+'ChapIntro'),w=f&&f.querySelector('.mnItemWrap');
+    if(!f||!ci||!w)return;
+    var wide=window.innerWidth>640;
+    if(!wide){f.style.width='';f.parentNode.classList.remove('mnAligned');var sb0=document.querySelector('#'+pre+'Editor .mnChapWrap>.mnSortBtn:not(.mnFiltBtn)');if(sb0&&pre==='mn')sb0.style.removeProperty('margin-inline-start');return}
+    var pk=f.parentNode,sb=pre==='mn'?document.querySelector('#mnEditor .mnChapWrap>.mnSortBtn:not(.mnFiltBtn)'):null;
+    if(sb)sb.style.setProperty('margin-inline-start','0px','important');
+    var fr=f.getBoundingClientRect(),cr=ci.getBoundingClientRect();
+    if(!fr.width||!cr.width){return}
+    var host=pk.getBoundingClientRect();
+    var gp=parseFloat(getComputedStyle(pk).columnGap)||8,need=0,cn=0;
+    [].forEach.call(pk.children,function(c){
+      if(c===f)return;
+      var ks=getComputedStyle(c).display==='contents'?[].slice.call(c.children):[c];
+      ks.forEach(function(x){if(x.hidden)return;var r=x.getBoundingClientRect();if(r.width){need+=r.width;cn++}});
+    });
+    /* کمترین فاصلهٔ «مقدمه فصل» تا لبهٔ چپ = دکمه‌های ردیف آیتم + فاصله‌ها (۲ فاصله برای ستون خالی میانی) */
+    var minOff=need+(cn+1)*gp;
+    if(sb){
+      var off=cr.left-host.left;
+      if(off<minOff){sb.style.setProperty('margin-inline-start',Math.ceil(minOff-off)+'px','important');cr=ci.getBoundingClientRect()}
+    }
+    var W=Math.round((fr.right-cr.left)*100)/100;
+    if(W<200||host.width-W<need){f.style.width='';pk.classList.remove('mnAligned');return}
+    f.style.width=W+'px';f.parentNode.classList.add('mnAligned');
+  }
+  function yr(pre){var i=document.getElementById(pre+'Year'),l=document.getElementById(pre+'YrLbl');if(!i||!l)return;var v=String(i.value||'').replace(/[\u06f0-\u06f9]/g,function(c){return c.charCodeAt(0)-0x06f0});var s=v?'(سال '+v+')':'';if(l.textContent!==s)l.textContent=s}
+  function eq(pre){
+    var a=document.getElementById(pre+'ChapIntro'),b=document.getElementById(pre+'FreeBtn');
+    if(!a||!b)return;
+    a.style.boxSizing=b.style.boxSizing='border-box';
+    a.style.setProperty('width','auto','important');b.style.setProperty('width','auto','important');
+    var wa=a.getBoundingClientRect().width,wb=b.getBoundingClientRect().width;
+    if(!wa||!wb){a.style.removeProperty('width');b.style.removeProperty('width');return}
+    var w=Math.ceil(Math.max(wa,wb))+'px';
+    a.style.setProperty('width',w,'important');b.style.setProperty('width',w,'important');
+    a.style.setProperty('min-width',w,'important');b.style.setProperty('min-width',w,'important');
+  }
+  function run(){raf=0;yr('mn');yr('st');eq('mn');eq('st');align('mn');align('st')}
+  function sched(){if(!raf)raf=requestAnimationFrame(run)}
+  window.addEventListener('resize',sched);
+  new MutationObserver(sched).observe(document.body,{childList:true,subtree:true});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sched);
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#stCoefIco');if(!b)return;
+    var o=document.getElementById('stCoef');if(o)o.click();
+  });
+  sched();
+})();
 </script>
