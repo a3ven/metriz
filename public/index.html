@@ -4292,6 +4292,8 @@ window.exportRowsData=exportRowsData;
     if($('historyHint'))$('historyHint').textContent=mode==='calculations'?'محاسبات ذخیره‌شده در پروژه فعلی':'پروژه‌های ذخیره‌شده این حساب';
   }
   async function fetchProjects(){if(window.__fpCache&&Date.now()-window.__fpCache.t<8000)return window.__fpCache.p;const p=api('/api/projects').then(d=>{window.__projectRows=d.projects||[];return window.__projectRows});window.__fpCache={t:Date.now(),p};p.catch(()=>{if(window.__fpCache&&window.__fpCache.p===p)window.__fpCache=null});return p}
+  function projYearTxt(r){var y='';try{var d=r&&r.data;if(typeof d==='string')d=JSON.parse(d);if(d)y=String((d.project&&d.project.listYear)||d.year||'')}catch(e){}if(!y&&r)y=String(r.listYear||(r.settings&&r.settings.listYear)||'');return y?('سال فهرست: '+String(y).replace(/[0-9]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'[c]})):''}
+  function fillProjYears(box){box.querySelectorAll('small.projYear[data-yr]').forEach(function(el){if(el.textContent.trim())return;var id=el.getAttribute('data-yr');api('/api/projects/'+id).then(function(d){var x={};try{x=JSON.parse(d.project.data)}catch(e){}var y=String((x.project&&x.project.listYear)||x.year||'');if(y)el.textContent='سال فهرست: '+y.replace(/[0-9]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'[c]})}).catch(function(){})})}
   async function loadHistory(mode='projects', requestedProjectId=null){
     setHistoryTitle(mode); const box=$('projectList');if(!box)return;
     try{
@@ -4301,19 +4303,19 @@ window.exportRowsData=exportRowsData;
         const projectRow=rows.find(x=>String(x.id)===String(pid||''));
         const projectLabel=projectRow?.name||'پروژه فعلی';
         const subs=rows.filter(x=>String(x.parentProjectId||'')===String(pid||'') && x.projectType==='calculation').sort((a,b)=>b.updated_at-a.updated_at);
-        box.innerHTML='<div class="historyActions"><button class="btn" id="historyBackProjects" style="grid-column:1/-1">تاریخچه پروژه‌ها و محاسبات</button></div>'+ (subs.length?subs.map(x=>`<div class="projectItem"><div><b>${escP(x.calculationName||x.name)}</b><small>${new Date(x.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns calcBtns"><button class="btn primary" data-open="${x.id}">فراخوانی</button><button class="btn" data-rename-calc="${x.id}">تغییر نام</button><button class="btn" data-del="${x.id}">حذف</button></div></div>`).join(''):'<div class="historyEmpty" style="margin-top:10px"><b>هنوز محاسبه‌ای ذخیره نشده.</b></div>');
+        box.innerHTML='<div class="historyActions"><button class="btn" id="historyBackProjects" style="grid-column:1/-1">تاریخچه پروژه‌ها و محاسبات</button></div>'+ (subs.length?subs.map(x=>`<div class="projectItem"><div><b>${escP(x.calculationName||x.name)}</b><small class="projYear" data-yr="${x.id}">${projYearTxt(x)}</small></div><div class="btns calcBtns"><button class="btn primary" data-open="${x.id}">فراخوانی</button><button class="btn" data-rename-calc="${x.id}">تغییر نام</button><button class="btn" data-del="${x.id}">حذف</button></div></div>`).join(''):'<div class="historyEmpty" style="margin-top:10px"><b>هنوز محاسبه‌ای ذخیره نشده.</b></div>');
         $('historyNewCalc')?.addEventListener('click',()=>{closeHistory();createCalculation()});
         $('historyBackProjects')?.addEventListener('click',()=>loadHistory('projects'));
       }else{
         // تاریخچه پروژه‌ها فقط پروژه‌های اصلی را نشان می‌دهد؛ محاسبات فقط در تاریخچه محاسبات هستند.
         const mains=rows.filter(x=>!x.parentProjectId && x.projectType!=='calculation');
-        box.innerHTML=''+ (mains.length?mains.map(m=>`<div class="projectItem" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><b>پروژه: ${escP(m.name)}</b><small>${new Date(m.updated_at).toLocaleString('fa-IR')}</small></div><div class="btns projBtns"><button class="btn primary projIco" data-open="${m.id}" title="باز کردن" aria-label="باز کردن"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2"/><path d="M5 19h12.5a2 2 0 0 0 1.9-1.4L22 11H8.5a2 2 0 0 0-1.9 1.4z"/></svg></button><button class="btn" data-calcs-project="${m.id}">تاریخچه محاسبات</button><button class="btn projIco" data-edit-project="${m.id}" title="ویرایش" aria-label="ویرایش"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="btn danger projIco" data-del="${m.id}" title="حذف" aria-label="حذف"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join(''):'<div class="historyEmpty"><b>هنوز پروژه‌ای ذخیره نشده.</b></div>');
+        box.innerHTML=''+ (mains.length?mains.map(m=>`<div class="projectItem" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><b>پروژه: ${escP(m.name)}</b><small class="projYear" data-yr="${m.id}">${projYearTxt(m)}</small></div><div class="btns projBtns"><button class="btn primary projIco" data-open="${m.id}" title="باز کردن" aria-label="باز کردن"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2"/><path d="M5 19h12.5a2 2 0 0 0 1.9-1.4L22 11H8.5a2 2 0 0 0-1.9 1.4z"/></svg></button><button class="btn" data-calcs-project="${m.id}">تاریخچه محاسبات</button><button class="btn projIco" data-edit-project="${m.id}" title="ویرایش" aria-label="ویرایش"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="btn danger projIco" data-del="${m.id}" title="حذف" aria-label="حذف"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join(''):'<div class="historyEmpty"><b>هنوز پروژه‌ای ذخیره نشده.</b></div>');
         $('historyNewEntry')?.addEventListener('click',()=>{closeHistory();newMainEntry()});
       }
       box.querySelectorAll('[data-calcs-project]').forEach(b=>b.addEventListener('click',()=>loadHistory('calculations',b.dataset.calcsProject)));
       box.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openProjectV26(b.dataset.open)));
       box.querySelectorAll('[data-edit-calc]').forEach(b=>b.addEventListener('click',async()=>{await openProjectV26(b.dataset.editCalc);closeHistory();renderHeader();}));
-      box.querySelectorAll('[data-edit-project]').forEach(b=>b.addEventListener('click',()=>{closeHistory();openProjectV26(b.dataset.editProject).then(()=>editProject())}));
+      fillProjYears(box);box.querySelectorAll('[data-edit-project]').forEach(b=>b.addEventListener('click',()=>{closeHistory();openProjectV26(b.dataset.editProject).then(()=>editProject())}));
       box.querySelectorAll('[data-rename-calc]').forEach(b=>b.addEventListener('click',async(ev)=>{
         ev.preventDefault();ev.stopPropagation();
         const rid=b.dataset.renameCalc;
@@ -13232,7 +13234,7 @@ var ICON={
  search:function(c){return S('<circle cx="10.8" cy="10.8" r="6.6"/><path d="M15.8 15.8l5 5"/>',null,c)}
 };
 var BYID={cplHomeMenuBtn:'dots',cplMenuBtn:'dots',cplHomeQuickBtn:'home',cplPriceBack:'home',stfHome:'home',cifHome:'home',
- newProject:'folderPlus',newCalculation:'calc',openProjects:'clock',openCalculations:'clock',
+ newProject:'plus',newCalculation:'calc',openProjects:'clock',openCalculations:'clock',
  mnAdd:'plus',cplAddItemBtn:'plus',starredItemsBtn:'star',stAdd:'plus',ciAdd:'plus',stcoAdd:'plus',cicoAdd:'plus',closeProjects:'close',closeAdmin:'close'};
 var NEXTIDS={nextStage:1,goAdjustment:1,goAdjustmentResult:1,goComparison:1,goComparisonResult:1,analysisNext:1,mnNext:1,stNext:1,ciNext:1,stfNext:1,cifNext:1,exNext:1};
 var BACKIDS={backFromSummary:1,backFromAdjustment:1,backFromAdjustmentResult:1,backFromComparison:1,backFromComparisonResult:1,backFromAnalysisPage:1,mnCovBack:1,stfBack:1,cifBack:1,exBack:1};
@@ -13517,4 +13519,9 @@ html body .glPill>button#mnBackList,html body .glPill>button#stBackList{opacity:
 /* «مقدمه فصل» و «ورود دستی آیتم»: خاکستری تیره‌تر */
 html body .mnFreeTxt,html body .mnItemWrap .mnFreeTxt,html body .mnChapIntroBtn,html body .mnChapIntroTxt,html body button#cbChapIntro{background:#2b2b2b!important;color:#fff!important;border:1px solid #4a4a4a!important}
 html body #mnChapIntro#mnChapIntro#mnChapIntro.mnChapIntroBtn,html body #stChapIntro#stChapIntro#stChapIntro.mnChapIntroBtn,html body #ciChapIntro#ciChapIntro#ciChapIntro.mnChapIntroBtn,html body #cbChapIntro#cbChapIntro#cbChapIntro.mnChapIntroBtn,html body #cplBase #cbChapIntro#cbChapIntro.mnChapIntroTxt{background:#2b2b2b!important;color:#fff!important;border:1px solid #4a4a4a!important;border-start-start-radius:0!important;border-end-start-radius:0!important}
+</style>
+<style id="cbMenuRight">
+/* صفحهٔ اول داده‌های پایه: آیکون و متن راست‌چین */
+html body #cplBase .cbMenu button{flex-direction:row!important;justify-content:flex-start!important;text-align:right!important;direction:rtl!important}
+html body #cplBase .cbMenu button b{text-align:right!important;flex:0 1 auto!important}
 </style>
