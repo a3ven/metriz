@@ -2387,7 +2387,15 @@ html body #mnEditor .mnRow4 .mnChapWrap{padding:0;margin:0}
 })();
 </script>
 <script id="cpl-srch-toggle">document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.mnSrchBtn');if(!b)return;var i=b.parentNode.querySelector('input');if(!i)return;if(i.hasAttribute('hidden')){i.removeAttribute('hidden');b.setAttribute('aria-expanded','true');i.focus()}else{i.value='';i.dispatchEvent(new Event('input',{bubbles:true}));i.setAttribute('hidden','');b.setAttribute('aria-expanded','false')}});</script>
-<meta name="color-scheme" content="dark light"><style id="select-arrow-fix">html:not([data-theme="light"]){color-scheme:dark}html[data-theme="light"]{color-scheme:light}html:not([data-theme="light"]) select,html:not([data-theme="light"]) input,html:not([data-theme="light"]) textarea{color-scheme:dark}html[data-theme="light"] select,html[data-theme="light"] input,html[data-theme="light"] textarea{color-scheme:light}</style></head><body>
+<meta name="color-scheme" content="dark light"><style id="select-arrow-fix">html:not([data-theme="light"]){color-scheme:dark}html[data-theme="light"]{color-scheme:light}html:not([data-theme="light"]) select,html:not([data-theme="light"]) input,html:not([data-theme="light"]) textarea{color-scheme:dark}html[data-theme="light"] select,html[data-theme="light"] input,html[data-theme="light"] textarea{color-scheme:light}</style><style id="home-next-to-menu">
+/* دکمه خانه کنار دکمه منو: صفحه اصلی و زیرمجموعه‌ها (قیمت جدید، صورت جلسه، صورت وضعیت، هزینه-درآمد) */
+html:root:root:root:root body #cplHome #cplPriceBack{left:auto!important;right:66px!important}
+/* صفحه فهرست‌بها: منو سمت راست، خانه درست کنار آن */
+html:root:root:root:root body #projectBar#projectBar #cplMenuBtn{margin-inline-end:0!important}
+html:root:root:root:root body #projectBar .projectBtns #cplHomeQuickBtn{order:0!important;margin-inline-end:auto!important}
+html:root:root:root:root body #projectBar .projectBtns .glPill{order:1!important}
+</style>
+</head><body>
 
 <div id="authGate">
   <div class="authBox">
@@ -3889,7 +3897,17 @@ function adjMergeOverlay(arr){
 function adjKey(ch,year,period,discipline){return normalizeDiscipline(discipline)+'|'+normChapterCode(ch)+'|'+String(year)+'|'+String(period)}
 const ADJ_MONTHS=['تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 function chapterAvailablePeriods(ch,year,discipline){const d=normalizeDiscipline(discipline||window.__mainProjectSettings?.listType||'ابنیه');const effCh=adjEffectiveChapter(d,ch,year);const rows=ADJUSTMENT_INDEX_DATA.filter(r=>normalizeDiscipline(r[5])===d&&normChapterCode(r[0])===effCh&&String(r[1])===String(year));const qs=[...new Set(rows.map(r=>String(r[2])).filter(p=>['1','2','3','4'].includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));const ms=[...new Set(rows.map(r=>String(r[2])).filter(p=>ADJ_MONTHS.includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));const out=[...qs,...ms];if(ms.length)out.push('AVG');return out;}
-function getAdjIndex(ch,year,period,discipline){const d=normalizeDiscipline(discipline||window.__mainProjectSettings?.listType||'ابنیه'),p=String(period||'');if(p==='AVG'){const ms=chapterAvailablePeriods(ch,year,d).filter(x=>ADJ_MONTHS.includes(x));const vals=ms.map(m=>getAdjIndex(ch,year,m,d)).filter(Number.isFinite);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10:NaN;}const target=adjKey(adjEffectiveChapter(d,ch,year),year,p,d);for(const r of ADJUSTMENT_INDEX_DATA){if(adjKey(r[0],r[1],r[2],r[5])===target)return Number(r[3]);}return NaN;}
+/* [perf] نمایهٔ سریع شاخص‌ها: به‌جای پیمایش کل جدول برای هر آیتم، یک بار Map ساخته می‌شود (اولین ردیف منطبق، مثل قبل) */
+let __adjIdxMap=null,__adjIdxSrc=null,__adjIdxLen=-1,__adjPerCache=new Map();
+function adjIdxLookup(){
+  if(__adjIdxMap&&__adjIdxSrc===ADJUSTMENT_INDEX_DATA&&__adjIdxLen===ADJUSTMENT_INDEX_DATA.length)return __adjIdxMap;
+  const m=new Map();
+  for(const r of ADJUSTMENT_INDEX_DATA){const k=adjKey(r[0],r[1],r[2],r[5]);if(!m.has(k))m.set(k,r)}
+  __adjIdxMap=m;__adjIdxSrc=ADJUSTMENT_INDEX_DATA;__adjIdxLen=ADJUSTMENT_INDEX_DATA.length;
+  __adjPerCache=new Map();
+  return m;
+}
+function getAdjIndex(ch,year,period,discipline){const d=normalizeDiscipline(discipline||window.__mainProjectSettings?.listType||'ابنیه'),p=String(period||'');if(p==='AVG'){const ms=chapterAvailablePeriods(ch,year,d).filter(x=>ADJ_MONTHS.includes(x));const vals=ms.map(m=>getAdjIndex(ch,year,m,d)).filter(Number.isFinite);return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10:NaN;}const target=adjKey(adjEffectiveChapter(d,ch,year),year,p,d);const row=adjIdxLookup().get(target);return row?Number(row[3]):NaN;}
 /* ===== تعدیل بخش حمل (ردیف‌های با واحد «مترمکعب کیلومتر») =====
    طبق دستورالعمل تعدیل: برای کارکرد از 1399/01/01 به بعد، بهای حمل ردیف‌هایی که واحدشان مترمکعب‌کیلومتر است و
    در فصلی غیر از فصل حمل آمده، با شاخص‌های «فصل حمل» همان رشته (مبنا و دوره کار) تعدیل می‌شود؛
@@ -3938,11 +3956,15 @@ window.__adjustmentPeriods=window.__adjustmentPeriods||{};
 function adjAvailablePeriods(year,ch,discipline){
   const d=normalizeDiscipline(discipline||window.__mainProjectSettings?.listType||'ابنیه');
   if(ch) return chapterAvailablePeriods(ch,year,d);
+  adjIdxLookup();
+  const __ck=d+'|'+String(year);
+  if(__adjPerCache.has(__ck))return __adjPerCache.get(__ck).slice();
   const rows=ADJUSTMENT_INDEX_DATA.filter(r=>normalizeDiscipline(r[5])===d&&String(r[1])===String(year));
   const quarters=[...new Set(rows.map(r=>String(r[2])).filter(p=>['1','2','3','4'].includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));
   const monthly=[...new Set(rows.map(r=>String(r[2])).filter(p=>ADJ_MONTHS.includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));
   const out=[...quarters,...monthly];
   if(monthly.length) out.push('AVG');
+  __adjPerCache.set(__ck,out.slice());
   return out;
 }
 function fillAdjustmentPeriods(selectId,year,current,discipline){
@@ -10294,7 +10316,7 @@ setInterval(bindExports,500);
     migrateRows(cur);
     dirty=!!isNew;
     var m=shell('ciEditor',
-      '<div class="mnStick"><div class="mnHead"><div class="mnHeadTitle"><b>محاسبات هزینه-درآمد — ریزمتره</b></div><div class="mnBtns">'+iconBtns('ci',true)+'<button type="button" class="btn mnTextBtn" id="ciQuote">نقل از صورت‌جلسات</button><button type="button" class="btn mnTextBtn" id="ciCoef">ضرایب</button><button type="button" class="btn mnTextBtn" id="ciBackList" title="بازگشت به لیست" aria-label="بازگشت به لیست">→ لیست</button><button type="button" class="btn mnTextBtn" id="ciNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="ciClose">✕</button></div></div>'+
+      '<div class="mnStick"><div class="mnHead"><div class="mnHeadTitle"><b>هزینه-درآمد — ریزمتره</b></div><div class="mnBtns">'+iconBtns('ci',true)+'<button type="button" class="btn mnTextBtn" id="ciQuote">نقل از صورت‌جلسات</button><button type="button" class="btn mnTextBtn" id="ciCoef">ضرایب</button><button type="button" class="btn mnTextBtn" id="ciBackList" title="بازگشت به لیست" aria-label="بازگشت به لیست">→ لیست</button><button type="button" class="btn mnTextBtn" id="ciNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="ciClose">✕</button></div></div>'+
       '<div class="mnTop">'+
         '<div class="mnWide mnRow4 mnRow3">'+
           '<label class="mnField stNoWrapLbl">نام<input id="ciNo" autocomplete="off" placeholder="نام" title="نام هزینه-درآمد" aria-label="نام هزینه-درآمد"></label>'+
@@ -10908,7 +10930,7 @@ setInterval(bindExports,500);
       drawPanel();renderExpStep();return;
     }
     var sp=specN(step);
-    $('cifTitle').textContent='محاسبات هزینه-درآمد — '+sp.t;
+    $('cifTitle').textContent='هزینه-درآمد — '+sp.t;
     $('cifSub').textContent=stTitle(cur)+' — سال فهرست بها '+toEn(cur.year||'')+(cur.workDate?' — دوره کارکرد '+faD(toEn(cur.workDate)):'');
     b.innerHTML=tblHtml(sp);drawPanel();
   }
@@ -11034,7 +11056,7 @@ setInterval(bindExports,500);
   function adjSpecN(s){
     var a=adjState(),miss=0;window.__adjLabelYear=a.workY;var __u=0,cn=function(i){return function(r){return r[i]}};
     var its=bookSorted(),cm={};
-    its.forEach(function(x){var q=adjIdxIt(x,amountWC(x)),k=adjKeyIt(x);cm[k]=(cm[k]||0)+q.adj});
+    if(s===2)its.forEach(function(x){var q=adjIdxIt(x,amountWC(x)),k=adjKeyIt(x);cm[k]=(cm[k]||0)+q.adj});
     if(s===2){
       var rows=adjGroups().map(function(g){var q=adjIdx(g.d,g.c,g.wc),ad=cm[g.k]||0;if(!q.ok)miss++;return [g.d,chapterLabel(g.d,g.c)+(g.tOf?' — بخش حمل (مترمکعب‌کیلومتر) ردیف‌های فصل '+g.tOf:''),g.wc,q.ib,q.iw,q.r,ad,g.wc+ad]});
       return {t:'تعدیل فصول',land:1,band:1,cols:['نوع فهرست','فصل','مبلغ با ضرایب','شاخص مبنا','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل','مبلغ پس از تعدیل'],w:[10,40,18,11,13,11,18,18],rows:rows,extra:adjNotes(miss),
@@ -11298,12 +11320,12 @@ setInterval(bindExports,500);
       var r=await api2.readList(),x=(r.list||[]).find(function(y){return y.id===cur.ciId});
       if(!x)return;
       var nm=String(api2.title(x)||'').trim();
-      if(nm&&nm!=='بدون نام'&&cur.name!==nm){cur.name=nm;var t=$('exTitle');if(t)t.textContent='محاسبات هزینه-درآمد — '+(step===1?'آنالیز هزینه':'مقایسه هزینه با درآمد')}
+      if(nm&&nm!=='بدون نام'&&cur.name!==nm){cur.name=nm;var t=$('exTitle');if(t)t.textContent='هزینه-درآمد — '+(step===1?'آنالیز هزینه':'مقایسه هزینه با درآمد')}
     }catch(e){}
   }
   function paint(){
     var t=$('exTitle'),nx=$('exNext'),bk=$('exBack');if(!t)return;
-    var _b=step===1?'آنالیز هزینه':'مقایسه هزینه با درآمد',_n=String((cur&&cur.name)||'').trim();t.textContent='محاسبات هزینه-درآمد — '+_b;
+    var _b=step===1?'آنالیز هزینه':'مقایسه هزینه با درآمد',_n=String((cur&&cur.name)||'').trim();t.textContent='هزینه-درآمد — '+_b;
     nx.classList.toggle('stHid',step!==1);bk.classList.remove('stHid');
     var ap=$('exAllPdf'),ax=$('exAllXls');if(ap)ap.classList.toggle('stHid',step!==2);if(ax)ax.classList.toggle('stHid',step!==2);
     if(step===1)renderAnalysis();else renderCompare();
@@ -12507,10 +12529,10 @@ document.addEventListener('input',function(e){
   var raf=0;
   function measure(){
     raf=0;
-    document.querySelectorAll('.mnClampWrap:not(.open)').forEach(function(w){
-      var c=w.querySelector('.mnClamp');if(!c)return;
-      w.classList.toggle('ovf',c.scrollHeight>c.clientHeight+1);
-    });
+    /* [perf] اول همه‌ی اندازه‌ها خوانده می‌شود، بعد کلاس‌ها نوشته می‌شود (بدون reflow تکراری برای هر ردیف) */
+    var ws=document.querySelectorAll('.mnClampWrap:not(.open)'),res=new Array(ws.length),i;
+    for(i=0;i<ws.length;i++){var c=ws[i].querySelector('.mnClamp');res[i]=c?(c.scrollHeight>c.clientHeight+1):null}
+    for(i=0;i<ws.length;i++){if(res[i]===null)continue;if(ws[i].classList.contains('ovf')!==res[i])ws[i].classList.toggle('ovf',res[i])}
   }
   function sched(){if(!raf)raf=requestAnimationFrame(measure)}
   document.addEventListener('click',function(e){
@@ -13033,9 +13055,9 @@ html body .mnHead[data-hdrp],html body .analysisHead[data-hdrp]{flex-wrap:nowrap
 html body .mnHead[data-hdrp]>b,html body .mnHead[data-hdrp]>.mnHeadTitle,html body .analysisHead[data-hdrp]>div:not(.analysisActions){flex:1 1 0!important;min-width:0!important}
 html:not([data-theme="light"]) body .btn.primary,html:not([data-theme="light"]) body button.primary,html:not([data-theme="light"]) body #nextStage,html:not([data-theme="light"]) body .stageProxyBtn.primary,html:not([data-theme="light"]) body .cplListNewBtn,html:not([data-theme="light"]) body .finalSaveIcon.primary,html:not([data-theme="light"]) body #authGate #loginBtn,html:not([data-theme="light"]) body #projectBar .projectBtns>.btn.primary{border:1px solid #8c8c8c!important}
 html body .ttl2{display:block!important;text-align:center!important;width:100%;line-height:1.5}
-html body .ttl2>.ttlA{display:block;text-align:center;font-size:inherit;font-weight:inherit}
-html body .ttl2>.ttlA,html body .ttl2>.ttlB{text-wrap:balance}
-html body .ttl2>.ttlB{display:block;text-align:center;font-size:.84em;font-weight:400;opacity:.85;margin-top:1px}
+html body .ttl2>.ttlA{display:inline;font-size:inherit;font-weight:700!important}
+html body .ttl2{text-wrap:balance}
+html body .ttl2>.ttlB{display:inline;font-size:inherit;font-weight:400!important;opacity:1}
 </style>
 <script id="final-white-btn-border-js">
 (function(){
@@ -13138,8 +13160,9 @@ html:root body #chapterSummaryModal .summaryHead{top:0!important;padding-top:var
     var t=e.textContent||'',k=t.indexOf(SEP);if(k<1)return;
     var a=t.slice(0,k).trim(),b=t.slice(k+SEP.length).trim();if(!a||!b)return;
     e.classList.add('ttl2');e.textContent='';
+    ['صورت\u200cوضعیت','صورت\u200cجلسه'].forEach(function(W){if(a.indexOf(W)===0&&b.length>W.length+1&&b.slice(-(W.length+1))===' '+W)b=b.slice(0,-(W.length+1)).trim()});
     var x=document.createElement('span');x.className='ttlA';x.textContent=b;
-    var y=document.createElement('span');y.className='ttlB';y.textContent=a;
+    var y=document.createElement('span');y.className='ttlB';y.textContent=' ('+a+')';
     e.appendChild(x);e.appendChild(y);
   }
   function sweep(root){
@@ -13513,9 +13536,37 @@ html body #projectList .projectItem,html body .projectPanel .projectItem{backgro
 html body .glPill{flex-direction:row-reverse!important}
 html body .glPill>button.glNav svg{transform:scaleX(-1)!important}
 </style>
+<style id="ciEditorTopRowFix">
+/* ریزمتره هزینه-درآمد: نام / تاریخ / نوع فهرست / شماره فصل هم‌تراز در یک ردیف */
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3{display:flex!important;flex-wrap:nowrap!important;align-items:flex-end!important;gap:10px!important;width:100%!important;max-width:100%!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3>.mnField{flex:0 0 auto!important;width:auto!important;min-width:0!important;max-width:100%!important;grid-column:auto!important;margin:0!important;align-self:flex-end!important;font-size:14px!important;line-height:1.5!important;gap:4px!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3>.mnField:last-child{flex:1 1 0!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnField>input:not([type=checkbox]):not([type=hidden]),
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnField>select,
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnChapWrap>select{height:44px!important;min-height:44px!important;max-height:44px!important;box-sizing:border-box!important;margin:0!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 #ciNo{width:150px!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 #ciWd{width:140px!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 #ciDisc{width:auto!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnChapWrap{display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;margin:0!important;padding:0!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnChapWrap>select{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3 .mnChapWrap>.mnChapIntroBtn{flex:0 0 44px!important;width:44px!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0!important}
+@media (max-width:720px){
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:end!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3>.mnField{width:100%!important;flex:none!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3>.mnField:nth-child(n+3){grid-column:1/-1!important}
+html body #ciEditor#ciEditor#ciEditor .mnRow4.mnRow3>.mnField:nth-child(-n+2) input{width:100%!important}
+}
+</style>
+<style id="ciExTitleFontFix">
+/* عنوان صفحه‌های هزینه-درآمد (ریزمتره، آنالیز هزینه، مقایسه) در گوشی هم‌اندازه عنوان صفحه‌های قبلی (۲۲px) */
+@media (max-width:720px){
+html body #ciEditor#ciEditor#ciEditor .mnHead b,html body #exEditor#exEditor#exEditor .mnHead b{font-size:var(--fs-h1)!important;font-weight:700!important;line-height:1.5!important}
+html body #ciEditor#ciEditor#ciEditor .mnHead b .ttlB,html body #exEditor#exEditor#exEditor .mnHead b .ttlB{font-size:.8em!important;font-weight:400!important}
+}
+</style>
 <style id="firstPageBackDim">
 /* صفحهٔ اول ریزمتره: دکمهٔ بازگشت فقط کم‌رنگ دیده می‌شود (هنوز کار می‌کند) */
-html body .glPill>button#mnBackList,html body .glPill>button#stBackList{opacity:.32!important}
+html body .glPill>button#mnBackList,html body .glPill>button#stBackList,html body .glPill>button#ciBackList{opacity:.32!important}
 </style>
 <style id="darkerGrayBtns">
 /* «مقدمه فصل» و «ورود دستی آیتم»: خاکستری تیره‌تر */
@@ -13547,4 +13598,31 @@ html body #mnItems#mnItems#mnItems .mnRow .mnRowBtns{flex-direction:row!importan
 @media (max-width:720px){
  :root{--fs-body:16px;--fs-input:16px;--fs-btn:15px;--fs-table:14px;--fs-h2:18px;--fs-h1:22px;--fs-md:16px;--fs-xl:22px}
 }
+
+
+
+/* عنوان صفحه‌ها: ردیف جدا، زیر ردیف آیکون‌ها، وسط‌چین، هم‌اندازه در همه صفحه‌ها */
+html:root:root:root:root body .mnHead,html:root:root:root:root body .analysisHead,html:root:root:root:root body #cplBase .cbHead,html:root:root:root:root body .adjustmentHead,html:root:root:root:root body .summaryHead,html body #stEditor#stEditor .mnHead,html body #mnEditor#mnEditor .mnHead,html body #mnListModal#mnListModal .mnHead,html body #stListModal#stListModal .mnHead,html body #stAdjL#stAdjL .mnHead,html body #ciListModal#ciListModal .mnHead,html body #exListModal#exListModal .mnHead,html body #starredModal#starredModal .analysisHead{flex-wrap:wrap!important;row-gap:6px!important}
+html:root:root:root:root body .mnHead>b,html:root:root:root:root body .mnHead>.mnHeadTitle,html:root:root:root:root body .analysisHead>div:not(.analysisActions),html:root:root:root:root body #cplBase .cbHead>b,html:root:root:root:root body .adjustmentHead>div:first-child,html:root:root:root:root body .summaryHead>div:first-child,html:root:root:root:root body #stCover .mnHead>b#stfTitle,html:root:root:root:root body #ciCover .mnHead>b#cifTitle,html:root:root:root:root body #chapterSummaryModal .summaryHead>div:first-child,html body #stEditor#stEditor .mnHead>.mnHeadTitle,html body #stEditor#stEditor .mnHead>b,html body #mnEditor#mnEditor .mnHead>.mnHeadTitle,html body #mnEditor#mnEditor .mnHead>b,html body #mnListModal#mnListModal .mnHead>b,html body #stListModal#stListModal .mnHead>b,html body #stAdjL#stAdjL .mnHead>b,html body #ciListModal#ciListModal .mnHead>b,html body #exListModal#exListModal .mnHead>b,html body #starredModal#starredModal .analysisHead>div:not(.stageNav){position:static!important;transform:none!important;order:10!important;flex:0 0 100%!important;width:100%!important;max-width:100%!important;min-width:0!important;text-align:center!important;justify-content:center!important;white-space:normal!important;overflow-wrap:anywhere}
+html:root:root:root:root body .mnHead>b,html:root:root:root:root body .mnHeadTitle b,html:root:root:root:root body #stfTitle,html:root:root:root:root body #cifTitle,html:root:root:root:root body #exTitle,html:root:root:root:root body #mnHdT,html:root:root:root:root body #stHdT,html:root:root:root:root body #analysisTitle,html:root:root:root:root body #chapterIntroTitle,html:root:root:root:root body .analysisHead>div>b,html:root:root:root:root body .adjustmentHead>div>b,html:root:root:root:root body .summaryHead>div>b,html:root:root:root:root body #cplBase .cbHead>b,html body #stEditor#stEditor .mnHead b,html body #mnEditor#mnEditor .mnHead b{font-size:var(--fs-h1)!important;font-weight:700!important;line-height:1.5!important;zoom:1!important;letter-spacing:0!important}
+html:root:root:root:root body .mnHead>b .ttlB,html:root:root:root:root body .mnHeadTitle b .ttlB,html:root:root:root:root body #stfTitle .ttlB,html:root:root:root:root body #cifTitle .ttlB,html:root:root:root:root body #exTitle .ttlB,html:root:root:root:root body #mnHdT .ttlB,html:root:root:root:root body #stHdT .ttlB,html:root:root:root:root body #analysisTitle .ttlB,html:root:root:root:root body #chapterIntroTitle .ttlB,html:root:root:root:root body .analysisHead>div>b .ttlB,html:root:root:root:root body .adjustmentHead>div>b .ttlB,html:root:root:root:root body .summaryHead>div>b .ttlB,html:root:root:root:root body #cplBase .cbHead>b .ttlB,html body #stEditor#stEditor .mnHead b .ttlB,html body #mnEditor#mnEditor .mnHead b .ttlB{font-size:.8em!important;font-weight:400!important}
+html:root:root:root:root body .mnHead:not([data-hdrp])>.mnBtns,html:root:root:root:root body .adjustmentHead>.stageNav,html:root:root:root:root body .summaryHead>.stageNav,html:root:root:root:root body #chapterSummaryModal .summaryHead>.stageNav{position:static!important;margin:0 auto 0 0!important}
+html body #mnListModal#mnListModal .mnHead .mnMenuBtn,html body #stListModal#stListModal .mnHead .mnMenuBtn,html body #stAdjL#stAdjL .mnHead .mnMenuBtn,html body #ciListModal#ciListModal .mnHead .mnMenuBtn,html body #exListModal#exListModal .mnHead .mnMenuBtn,html body #starredModal#starredModal .analysisHead .mnMenuBtn{margin-left:auto!important}
+@media (max-width:720px){
+html:root:root:root:root body .mnHead>b,html:root:root:root:root body .mnHeadTitle b,html:root:root:root:root body #stfTitle,html:root:root:root:root body #cifTitle,html:root:root:root:root body #exTitle,html:root:root:root:root body #mnHdT,html:root:root:root:root body #stHdT,html:root:root:root:root body #analysisTitle,html:root:root:root:root body #chapterIntroTitle,html:root:root:root:root body .analysisHead>div>b,html:root:root:root:root body .adjustmentHead>div>b,html:root:root:root:root body .summaryHead>div>b,html:root:root:root:root body #cplBase .cbHead>b,html body #stEditor#stEditor .mnHead b,html body #mnEditor#mnEditor .mnHead b{font-size:16px!important}
+}
+
+
+
+/* ریدیزاین دکمه‌های هدر: از راست: منو، هوم، سیو، سورت، پلاس — بک/فوروارد چپ — عنوان ردیف جدا */
+html:root:root:root:root body .mnHead,html:root:root:root:root body .analysisHead,html:root:root:root:root body .adjustmentHead,html:root:root:root:root body .summaryHead{justify-content:flex-start!important;flex-wrap:wrap!important}
+html:root:root:root:root body .mnHead>.mnBtns,html:root:root:root:root body .analysisHead>.analysisActions,html:root:root:root:root body .analysisHead>.stageNav,html:root:root:root:root body .adjustmentHead>.stageNav,html:root:root:root:root body .summaryHead>.stageNav,html:root:root:root:root body #chapterSummaryModal .summaryHead>.stageNav,html:root:root:root:root body #adjustmentPage .adjustmentHead>.stageNav{display:contents!important}
+html:root:root:root:root body .mnHead>*,html:root:root:root:root body .analysisHead>*,html:root:root:root:root body .adjustmentHead>*,html:root:root:root:root body .summaryHead>*,html:root:root:root:root body .mnHead>.mnBtns>*,html:root:root:root:root body .analysisHead>.analysisActions>*,html:root:root:root:root body .analysisHead>.stageNav>*,html:root:root:root:root body .adjustmentHead>.stageNav>*,html:root:root:root:root body .summaryHead>.stageNav>*,html:root:root:root:root body #chapterSummaryModal .summaryHead>.stageNav>*{order:6}
+html:root:root:root:root body .mnHead::before,html:root:root:root:root body .analysisHead::before,html:root:root:root:root body .adjustmentHead::before,html:root:root:root:root body .summaryHead::before{content:"";order:6;flex:1 1 0;min-width:0;display:block}
+html:root:root:root:root body .mnHead .mnMenuBtn,html:root:root:root:root body .analysisHead .mnMenuBtn,html:root:root:root:root body .adjustmentHead .mnMenuBtn,html:root:root:root:root body .summaryHead .mnMenuBtn,html:root:root:root:root body .mnHead .stgMenuBtn,html:root:root:root:root body .analysisHead .stgMenuBtn,html:root:root:root:root body .adjustmentHead .stgMenuBtn,html:root:root:root:root body .summaryHead .stgMenuBtn{order:1!important}
+html:root:root:root:root body .mnHead .mnHomeBtn,html:root:root:root:root body .analysisHead .mnHomeBtn,html:root:root:root:root body .adjustmentHead .mnHomeBtn,html:root:root:root:root body .summaryHead .mnHomeBtn,html:root:root:root:root body .mnHead [id$="Home"],html:root:root:root:root body .analysisHead [id$="Home"],html:root:root:root:root body .adjustmentHead [id$="Home"],html:root:root:root:root body .summaryHead [id$="Home"]{order:2!important}
+html:root:root:root:root body .mnHead .mnSaveBtn,html:root:root:root:root body .analysisHead .mnSaveBtn,html:root:root:root:root body .adjustmentHead .mnSaveBtn,html:root:root:root:root body .summaryHead .mnSaveBtn,html:root:root:root:root body .mnHead .finalSaveIcon,html:root:root:root:root body .analysisHead .finalSaveIcon,html:root:root:root:root body .adjustmentHead .finalSaveIcon,html:root:root:root:root body .summaryHead .finalSaveIcon,html:root:root:root:root body .mnHead [id$="Save"],html:root:root:root:root body .analysisHead [id$="Save"],html:root:root:root:root body .adjustmentHead [id$="Save"],html:root:root:root:root body .summaryHead [id$="Save"]{order:3!important}
+html:root:root:root:root body .mnHead .mnSortBtn,html:root:root:root:root body .analysisHead .mnSortBtn,html:root:root:root:root body .adjustmentHead .mnSortBtn,html:root:root:root:root body .summaryHead .mnSortBtn{order:4!important}
+html:root:root:root:root body .mnHead .cplListNewBtn,html:root:root:root:root body .analysisHead .cplListNewBtn,html:root:root:root:root body .adjustmentHead .cplListNewBtn,html:root:root:root:root body .summaryHead .cplListNewBtn,html:root:root:root:root body .mnHead .cplListNewIcon,html:root:root:root:root body .analysisHead .cplListNewIcon,html:root:root:root:root body .adjustmentHead .cplListNewIcon,html:root:root:root:root body .summaryHead .cplListNewIcon{order:5!important}
+html:root:root:root:root body .mnHead .glPill,html:root:root:root:root body .analysisHead .glPill,html:root:root:root:root body .adjustmentHead .glPill,html:root:root:root:root body .summaryHead .glPill{order:7!important}
 </style>
