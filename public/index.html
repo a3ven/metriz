@@ -8618,7 +8618,7 @@ setInterval(bindExports,500);
   }
   function workFromStatement(st){
     if(!st||!st.workDate||!window.__DATA_READY)return null;
-    var d=parseWd(st.workDate);if(!d||YEARS.indexOf(d.y)<0)return null;
+    var d=parseWd(st.workDate);if(!d||ADJ_YEARS.indexOf(d.y)<0)return null;
     var p=periodForDate(d.y,d.m);return p?{y:d.y,p:p,d:d}:null;
   }
   function workNote(st,a){
@@ -10010,11 +10010,11 @@ setInterval(bindExports,500);
       var c=cm[k],p=pm[k],g=c||p,cw=c?c.wc:0,pw=p?p.wc:0;if(!cw&&!pw)return;
       var per=cw-pw,ib=getAdjIndex(g.c,a.baseY,a.baseP,g.d);
       segs.forEach(function(sgm){
-        var iw=getAdjIndex(g.c,sgm.y,sgm.p,g.d),ok=isFinite(ib)&&isFinite(iw)&&ib!==0;if(!ok)miss++;var r=ok?Math.round((1+(iw/ib-1)*KK)*1000)/1000:1;
+        var iw=getAdjIndex(g.c,sgm.y,sgm.p,g.d),ok=isFinite(ib)&&isFinite(iw)&&ib!==0;if(!ok)miss++;var r=ok?(iw/ib-1)*KK:0;
         var fr=sgm.frac,spc=adjSplitComposite(g.c),chNum=faD(String(spc.grp?adjEffectiveChapter(g.d,g.c,a.workY):spc.ch)),
           dayRatio=(sg&&sg.total)?faD(sgm.days)+'/'+faD(sg.total):'—',
           perYr=adjPeriodLabel(sgm.p,sgm.y,null,null)+' '+faD(toEn(sgm.y));
-        rows.push([g.d,chNum,dayRatio,cw*fr,per*fr,ok?ib:'—',perYr,ok?iw:'—',Math.round((r-1)*1000)/1000,Math.round(per*fr*(r-1)),Math.round(cw*fr*(r-1))]);
+        rows.push([g.d,chNum,dayRatio,cw*fr,per*fr,ok?ib:'—',perYr,ok?iw:'—',Math.round(r*1000)/1000,Math.round(per*fr*r),Math.round(cw*fr*r)]);
       });
     });
     var eqSel=eqDiscOf(a,st),eqCw=eqTotal(st),eqPw=pv?eqTotal(pv):0,eqNote='';
@@ -10022,10 +10022,10 @@ setInterval(bindExports,500);
       var eqPer=eqCw-eqPw,eqG=Object.keys(cm).map(function(k){return cm[k]}),eqIb=eqIdx(eqSel,a.baseY,a.baseP,eqG);
       segs.forEach(function(sgm){
         var eqIw=eqIdx(eqSel,sgm.y,sgm.p,eqG),ok=isFinite(eqIb)&&isFinite(eqIw)&&eqIb!==0;if(!ok)miss++;
-        var r=ok?Math.round((1+(eqIw/eqIb-1)*KK)*1000)/1000:1,fr=sgm.frac,
+        var r=ok?(eqIw/eqIb-1)*KK:0,fr=sgm.frac,
           dayRatio=(sg&&sg.total)?faD(sgm.days)+'/'+faD(sg.total):'—',
           perYr=adjPeriodLabel(sgm.p,sgm.y,null,null)+' '+faD(toEn(sgm.y));
-        rows.push(['تجهیز','تجهیز و برچیدن کارگاه',dayRatio,eqCw*fr,eqPer*fr,ok?eqIb:'—',perYr,ok?eqIw:'—',Math.round((r-1)*1000)/1000,Math.round(eqPer*fr*(r-1)),Math.round(eqCw*fr*(r-1))]);
+        rows.push(['تجهیز','تجهیز و برچیدن کارگاه',dayRatio,eqCw*fr,eqPer*fr,ok?eqIb:'—',perYr,ok?eqIw:'—',Math.round(r*1000)/1000,Math.round(eqPer*fr*r),Math.round(eqCw*fr*r)]);
       });
       eqNote=1;
     }
@@ -10060,14 +10060,14 @@ setInterval(bindExports,500);
     if(!sts.length){alert('ابتدا یک صورت‌وضعیت ذخیره کن.');return}
     var s=window.__mainProjectSettings||{},by=toEn(s.baseYear||''),
       mx=L0.reduce(function(m,x){var v=parseFloat(toEn(x.no||''));return isNaN(v)?m:Math.max(m,v)},0),
-      a=existing||{id:uid(),name:'',no:String(mx+1),createdAt:Date.now(),stId:sts[0].id,prevId:'0',baseY:YEARS.indexOf(by)>=0?by:YEARS[YEARS.length-1],baseP:String(s.basePeriod||''),workY:YEARS[0],workP:''};
+      a=existing||{id:uid(),name:'',no:String(mx+1),createdAt:Date.now(),stId:sts[0].id,prevId:'0',baseY:ADJ_YEARS.indexOf(by)>=0?by:YEARS[YEARS.length-1],baseP:String(s.basePeriod||''),workY:YEARS[0],workP:''};
     if(a.prevId==null)a.prevId='0';
     if(!existing){var w0=workFromStatement(sts.find(function(x){return x.id===a.stId}));if(w0){a.workY=w0.y;a.workP=w0.p}}
     if(a.k==null||!(parseFloat(toEn(a.k))>0))a.k='0.95';
     if(a.workDate==null){var s0=sts.find(function(x){return x.id===a.stId});a.workDate=(s0&&s0.workDate)||''}
     if(a.startManual&&a.startPrev==null)a.startPrev=false;
     if(!a.startManual)a.startDate=null;
-    function yopt(){return YEARS.map(function(y){return '<option>'+y+'</option>'}).join('')}
+    function yopt(){return ADJ_YEARS.map(function(y){return '<option>'+y+'</option>'}).join('')}
     function stOpt(x){return '<option value="'+esc(x.id)+'">'+esc(stTitle(x))+'</option>'}
     var m=shell('stAdjM','<div class="mnHead"><b>تعدیل صورت‌وضعیت</b><div class="mnBtns">'+iconBtns('stad',true)+'<button type="button" class="btn mnCloseBtn" id="stadX">✕</button></div></div><div class="mnTop stadTop">'+
       '<label class="mnField"><span class="stadLb">شماره تعدیل</span><input id="stadNo" autocomplete="off" inputmode="numeric" dir="ltr" placeholder="مثلاً ۱"></label>'+
@@ -10093,7 +10093,7 @@ setInterval(bindExports,500);
       a.no=$('stadNo').value;a.name=adjTitle(a);a.stId=$('stadSt').value;a.prevId=$('stadPv').value;a.baseY=$('stadBY').value;a.baseP=$('stadBP').value;a.workY=$('stadWY').value;a.workP=$('stadWP').value;a.workDate=toEn($('stadWd').value).trim();a.k=$('stadK').value;a.eqDisc=$('stadEq').value;a.startDate=toEn($('stadSd').value).trim();
       var r=recs();if(!r.st)return;var sp=adjSpec(a,r.st,r.pv);var sgx=adjSegs(a,r.st),sdn='';
       if(a.startDate&&jFull(a.startDate)&&jFull(a.workDate)&&jCmp(jFull(a.startDate),jFull(a.workDate))>((a.startManual&&a.startPrev===false)?0:-1))sdn='تاریخ صورت‌وضعیت قبلی بعد از (یا برابر با) تاریخ صورت‌وضعیت فعلی است؛ دوره کارکرد انتخابی استفاده شد. ';
-      $('stadNote').textContent=(sgx?'کارکرد از '+faD(jStr(sgx.from))+' تا '+faD(jStr(sgx.to))+' ('+faD(sgx.total)+' روز) بین '+faD(sgx.segs.length)+' دوره تعدیل بر اساس روز تقسیم شد. ':(sdn+workNote(Object.assign({},r.st,{workDate:a.workDate}),a)))+(sp.miss?('برای '+fmt(sp.miss)+' فصل شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها ۱ حساب شد.'):'');
+      $('stadNote').textContent=(sgx?'کارکرد از '+faD(jStr(sgx.from))+' تا '+faD(jStr(sgx.to))+' ('+faD(sgx.total)+' روز) بین '+faD(sgx.segs.length)+' دوره تعدیل بر اساس روز تقسیم شد. ':(sdn+workNote(Object.assign({},r.st,{workDate:a.workDate}),a)))+(sp.miss?('برای '+fmt(sp.miss)+' فصل شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها صفر حساب شد.'):'');
       withCur(r.st,function(){$('stadBody').innerHTML=tblHtml(sp)});
     }
     $('stadBY').onchange=function(){fillP('stadBP',this.value,'');draw()};$('stadWY').onchange=function(){fillP('stadWP',this.value,'');draw()};
@@ -10266,7 +10266,7 @@ setInterval(bindExports,500);
   }
   function workFromStatement(st){
     if(!st||!st.workDate||!window.__DATA_READY)return null;
-    var d=parseWd(st.workDate);if(!d||YEARS.indexOf(d.y)<0)return null;
+    var d=parseWd(st.workDate);if(!d||ADJ_YEARS.indexOf(d.y)<0)return null;
     var p=periodForDate(d.y,d.m);return p?{y:d.y,p:p,d:d}:null;
   }
   function workNote(st,a){
@@ -11012,7 +11012,7 @@ setInterval(bindExports,500);
   function fixP(y,p){var v=periodsFor(String(y));return v.indexOf(String(p))>=0?String(p):(v[0]||'')}
   function adjState(){
     var s=window.__mainProjectSettings||{},by=toEn(s.baseYear||'');
-    if(!cur.adj)cur.adj={baseY:YEARS.indexOf(by)>=0?by:YEARS[YEARS.length-1],baseP:String(s.basePeriod||''),workY:YEARS[0],workP:'',manual:0};
+    if(!cur.adj)cur.adj={baseY:ADJ_YEARS.indexOf(by)>=0?by:YEARS[YEARS.length-1],baseP:String(s.basePeriod||''),workY:YEARS[0],workP:'',manual:0};
     var a=cur.adj;
     if(!a.manual){var w=workFromStatement(cur);if(w){a.workY=w.y;a.workP=w.p}}
     a.baseP=fixP(a.baseY,a.baseP);a.workP=fixP(a.workY,a.workP);
@@ -11025,10 +11025,10 @@ setInterval(bindExports,500);
   function adjGroups(){var m={},o=[];sortedItems().forEach(function(it){var tc=trSplit(it),d=it.discipline,c=tc||subCh(it),k=adjKeyIt(it);if(!m[k]){m[k]={d:d,c:c,net:0,wc:0,tOf:tc?it.chapter:'',k:k};o.push(m[k])}m[k].net+=amount(it);m[k].wc+=amountWC(it)});return o.sort(function(a,b){return DISCS.indexOf(a.d)-DISCS.indexOf(b.d)||parseFloat(a.c)-parseFloat(b.c)||String(a.c).localeCompare(String(b.c),'en',{numeric:true})||String(a.tOf).localeCompare(String(b.tOf))})}
   function adjIdxIt(x,amt){return adjIdx(x.discipline,trSplit(x)||subCh(x),amt)}
   function adjIdx(d,c,amt){
-    var a=cur.adj,ib=getAdjIndex(c,a.baseY,a.baseP,d),iw=getAdjIndex(c,a.workY,a.workP,d),ok=isFinite(ib)&&isFinite(iw)&&ib!==0,r=ok?iw/ib:1;
-    return {ib:ok?ib:'—',iw:ok?iw:'—',r:r,ok:ok,adj:Math.round(amt*(r-1))};
+    var a=cur.adj,ib=getAdjIndex(c,a.baseY,a.baseP,d),iw=getAdjIndex(c,a.workY,a.workP,d),ok=isFinite(ib)&&isFinite(iw)&&ib!==0,r=ok?(iw/ib-1)*0.95:0;
+    return {ib:ok?ib:'—',iw:ok?iw:'—',r:r,ok:ok,adj:Math.round(amt*r)};
   }
-  function adjNotes(miss){     var o=[];     if(miss)o.push(['برای '+fmt(miss)+' مورد شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها ۱ حساب شد.']);
+  function adjNotes(miss){     var o=[];     if(miss)o.push(['برای '+fmt(miss)+' مورد شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها صفر حساب شد.']);
     return o;
   }
   function adjSpecN(s){
@@ -11054,7 +11054,7 @@ setInterval(bindExports,500);
     var p=$('cifPanel');if(!p)return;
     if(step<2||step>4){p.innerHTML='';return}
     var a=adjState();
-    function yo(){return YEARS.map(function(y){return '<option>'+y+'</option>'}).join('')}
+    function yo(){return ADJ_YEARS.map(function(y){return '<option>'+y+'</option>'}).join('')}
     function fillP(id,y,cv){var v=periodsFor(String(y)),el=$(id);el.innerHTML=v.map(function(q){return '<option value="'+esc(q)+'">'+esc(adjPeriodLabel(q,y,null,null))+'</option>'}).join('');el.value=cv}
     p.innerHTML='<div class="mnTop"><label class="mnField">سال مبنای تعدیل<select id="cifBY">'+yo()+'</select></label><label class="mnField">دوره مبنای تعدیل<select id="cifBP"></select></label><label class="mnField">سال دوره کار<select id="cifWY">'+yo()+'</select></label><label class="mnField">دوره کار<select id="cifWP"></select></label></div><div class="mnMuted" id="cifANote" style="margin-bottom:6px"></div>';
     $('cifBY').value=a.baseY;$('cifWY').value=a.workY;fillP('cifBP',a.baseY,a.baseP);fillP('cifWP',a.workY,a.workP);
