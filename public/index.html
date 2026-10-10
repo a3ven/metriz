@@ -34,7 +34,7 @@ html,body{margin:0;padding:0;background:var(--c1);color:var(--c2);font-family:'B
 .title{font-weight:700}
 .sub{color:var(--c3)}
 .toolbar{display:grid;grid-template-columns:140px 1fr 140px}
-.box,select,input{width:100%;background:var(--c4);color:var(--surfaceText);border:1px solid var(--c5);border-radius:12px;padding:11px 12px;font:inherit;font-size:16px;outline:none}
+.box,select,input{width:100%;background:var(--c4);color:var(--surfaceText);border:1px solid var(--c5);border-radius:12px;padding:11px 12px;font:inherit;font-size:var(--fs-input);outline:none}
 .box:focus,select:focus,input:focus{border-color:var(--c6)}
 .searchWrap{position:relative}
 .searchIcon{position:absolute;color:var(--c7)}
@@ -56,7 +56,7 @@ html,body{margin:0;padding:0;background:var(--c1);color:var(--c2);font-family:'B
  .itemCompactRow{grid-template-columns:auto 1fr auto auto}
  .itemCompactDesc{grid-column:1/-1;grid-row:2;white-space:nowrap}
  .itemCompactBadge:nth-of-type(1){grid-column:auto}
- .itemCompactPrice{font-size:16px}
+ .itemCompactPrice{font-size:var(--fs-body)}
  .itemCompactAdd{padding:8px 9px}
 }
 .item.checked .itemHead{background:var(--c16)}
@@ -107,7 +107,7 @@ html,body{margin:0;padding:0;background:var(--c1);color:var(--c2);font-family:'B
  .itemHead .addItem{margin-right:auto}
 }
 .listMainInfo{padding-bottom:4px}
-.listCode{font-size:16px}
+.listCode{font-size:var(--fs-body)}
 .listDesc{margin-top:4px;line-height:1.8}
 .basePrice{margin-top:7px;display:inline-block;padding:5px 9px;border:1px solid var(--c37);border-radius:8px;font-size:14px}
 .basePrice strong{font-size:14px}
@@ -121,7 +121,7 @@ html,body{margin:0;padding:0;background:var(--c1);color:var(--c2);font-family:'B
 @media (max-width:720px){
  .projectBtns{width:100%}
 }
-.projectBtns.toolbarRows .projectRow .btn{font-weight:700;font-size:14px}
+.projectBtns.toolbarRows .projectRow .btn{font-weight:700;font-size:var(--fs-btn)}
 #adminPanelBtn{display:none!important;align-items:center;justify-content:center;text-align:center}
 #adminPanelBtn.admin-visible{display:inline-flex!important}
 .listItemRow{align-items:flex-start!important}
@@ -145,7 +145,7 @@ html,body{margin:0;padding:0;background:var(--c1);color:var(--c2);font-family:'B
 }
 .item.open .itemHead{position:sticky!important;top:0!important;z-index:200!important;background:var(--c35)!important}
 .listRelControl{display:inline-flex;flex-direction:column;gap:4px;font-size:14px;color:var(--c17)}
-.listRelControl input{padding:6px 8px!important;font-size:14px!important}
+.listRelControl input{padding:6px 8px!important;font-size:var(--fs-input)!important}
 .relSync{color:var(--c10);margin-right:3px}
 .effectBox{flex-wrap:wrap}
 .relEffectText{font-size:14px;color:var(--c17)}
@@ -188,28 +188,28 @@ html,body,input,select,button,textarea,*{font-family:'BNazaninWeb','B Nazanin','
 .meterCollapsed #meterList{display:none!important}
 .meterCollapsed .listHead{cursor:pointer}
 .meterToggle{display:inline-flex;align-items:center;gap:6px}
-.meterToggleIcon{font-size:14px;opacity:.8}
+.meterToggleIcon{font-size:var(--fs-btn);opacity:.8}
 .meterActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 @media (max-width:720px){
  .app{padding:10px 9px 58px}
  .sub{margin-bottom:8px}
- .box,select,input{padding:8px 9px;font-size:14px;border-radius:10px}
- .chapterTitle{font-size:16px}
+ .box,select,input{padding:8px 9px;font-size:var(--fs-input);border-radius:10px}
+ .chapterTitle{font-size:var(--fs-h2)}
  .hint{font-size:14px}
  .desc{font-size:14px!important;line-height:1.7}
  .code{font-size:14px}
- .price{font-size:16px!important}
+ .price{font-size:var(--fs-body)!important}
  .badge,.pill{font-size:14px;padding:3px 7px}
  .related{padding:9px;margin-top:8px}
  .rdesc{font-size:14px;line-height:1.7}
- .btn{font-size:14px}
+ .btn{font-size:var(--fs-btn)}
  .listRow{font-size:14px}
  .listCode{font-size:14px}
  .listDesc{font-size:14px;line-height:1.7}
  .basePrice{font-size:14px}
  .basePrice strong{font-size:14px}
- .meterInputs input{font-size:14px!important}
- .meterToggle{font-size:14px}
+ .meterInputs input{font-size:var(--fs-input)!important}
+ .meterToggle{font-size:var(--fs-btn)}
  .list{bottom:5px}
 }
 .relTop{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;direction:rtl}
@@ -225,7 +225,7 @@ html,body,input,select,button,textarea,*{font-family:'BNazaninWeb','B Nazanin','
 .exportPreview iframe{width:100%;height:70vh;border:1px solid var(--c5);border-radius:10px;background:#fff;margin-top:12px}
 .projectBtns.toolbarRows{display:flex!important;flex-direction:column;gap:6px!important}
 .projectRow{display:flex;gap:7px;flex-wrap:wrap}
-.projectRow .btn{font-size:14px;padding:7px 10px}
+.projectRow .btn{font-size:var(--fs-btn);padding:7px 10px}
 .projectCoeffBox{border:1px solid var(--c5);border-radius:12px;padding:10px;background:var(--c42);display:grid;gap:8px}
 .card.list{background:var(--c43);border-color:var(--c44);box-shadow:0 8px 24px rgba(0,0,0,.22)}
 .card.list .listHead{background:rgba(91,99,73,.18);margin:-10px -10px 0;padding:10px;border-radius:12px}
@@ -249,7 +249,7 @@ html,body,input,select,button,textarea,*{font-family:'BNazaninWeb','B Nazanin','
 #chapterCoefEditor table{width:100%;border-collapse:collapse;min-width:360px}
 #chapterCoefEditor th{position:sticky;top:0;background:var(--card);z-index:1;padding:7px;font-size:14px}
 #chapterCoefEditor td{padding:5px;border-top:1px solid rgba(127,140,155,.2)}
-#chapterCoefEditor input{width:100%;box-sizing:border-box;height:36px;border:1px solid rgba(127,140,155,.35);border-radius:7px;padding:4px;text-align:center;direction:ltr;font-size:16px}
+#chapterCoefEditor input{width:100%;box-sizing:border-box;height:36px;border:1px solid rgba(127,140,155,.35);border-radius:7px;padding:4px;text-align:center;direction:ltr;font-size:var(--fs-input)}
 #meterCard .empty{color:var(--c52)!important}
 @supports (padding-top: env(safe-area-inset-top)){
  body{padding-top:env(safe-area-inset-top)}
@@ -325,17 +325,17 @@ html,body,input,select,button,textarea,*{font-family:'BNazaninWeb','B Nazanin','
 #adjustmentPage .adjustmentActions{position:sticky!important;bottom:0!important;z-index:100!important;background:var(--c8)!important}
 button,input,select,textarea{touch-action:manipulation}
 @supports (-webkit-touch-callout:none){
- input,select,textarea{font-size:16px!important}
+ input,select,textarea{font-size:var(--fs-input)!important}
  button,.btn{min-height:44px}
 }
 @media (max-width:720px){
  html,body{width:100%;min-width:0;overflow-x:hidden}
- body{font-size:16px}
+ body{font-size:var(--fs-body)}
  .app{max-width:none;margin:0;padding:8px 10px calc(96px + env(safe-area-inset-bottom))}
  .top{z-index:100;top:0}
  .sub{line-height:1.35}
  .toolbar>*:only-child{grid-column:1/-1}
- .box,select,input,textarea{min-height:44px;font-size:16px!important;padding:9px 10px}
+ .box,select,input,textarea{min-height:44px;font-size:var(--fs-input)!important;padding:9px 10px}
  .card{width:100%;max-width:100%}
  .btn{min-height:44px;padding:8px 10px;line-height:1.25;white-space:normal}
  .summaryModal{position:fixed!important;inset:0!important;width:100%!important;height:100dvh!important;min-height:100dvh!important;overflow:hidden!important}
@@ -356,7 +356,7 @@ button,input,select,textarea{touch-action:manipulation}
 }
 @media (max-width:430px){
  .card{padding:8px;border-radius:11px}
- .title{font-size:20px}
+ .title{font-size:var(--fs-h1)}
  .sub{font-size:14px}
  .toolbar{grid-template-columns:1fr}
  .toolbar>*:only-child{grid-column:auto}
@@ -391,7 +391,7 @@ img,svg{max-width:100%;height:auto}
 }
 .analysisCopyTitle{font-weight:800}
 .analysisCopyRow{display:grid;grid-template-columns:minmax(150px,1fr) minmax(220px,2.2fr) auto;gap:8px;align-items:center}
-.analysisCopyRow input,.analysisCopyRow select{width:100%;min-height:42px;box-sizing:border-box;background:var(--c35);color:var(--c17);border:1px solid var(--c37);border-radius:9px;padding:6px 9px;font:inherit;font-size:14px}
+.analysisCopyRow input,.analysisCopyRow select{width:100%;min-height:42px;box-sizing:border-box;background:var(--c35);color:var(--c17);border:1px solid var(--c37);border-radius:9px;padding:6px 9px;font:inherit;font-size:var(--fs-input)}
 .analysisCopyRow .btn{min-height:42px;padding:8px 18px;font-weight:800;white-space:nowrap}
 .analysisCopyMsg{margin-top:8px;font-size:14px;line-height:1.8;color:var(--c10);font-weight:700}
 @media (max-width:700px){
@@ -417,7 +417,7 @@ img,svg{max-width:100%;height:auto}
 .analysisStarCode{direction:ltr;font-family:monospace;font-weight:800}
 .analysisPageTotal{font-weight:900;background:var(--c36)}
 .starredItem{border:1px solid var(--c59);border-radius:12px;padding:10px;margin-top:8px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
-.starredItem .desc{font-size:16px;margin:0}
+.starredItem .desc{font-size:var(--fs-body);margin:0}
 .starMark{font-weight:900;font-size:18px}
 @media (max-width:700px){
  .starredItem{grid-template-columns:auto 1fr}
@@ -436,13 +436,13 @@ img,svg{max-width:100%;height:auto}
 .analysisTable td:first-child{text-align:right;min-width:260px}
 .analysisInput{width:100%;min-width:90px;box-sizing:border-box;background:var(--c35);color:var(--c17);border:1px solid var(--c37);border-radius:7px;padding:6px 7px;text-align:center;font:inherit}
 .analysisTotalRow td{font-weight:800;background:var(--c36)}
-.analysisGrand{margin-top:16px;padding:13px;border-radius:12px;border:2px solid var(--c37);font-size:16px;font-weight:900;text-align:center}
+.analysisGrand{margin-top:16px;padding:13px;border-radius:12px;border:2px solid var(--c37);font-size:var(--fs-body);font-weight:900;text-align:center}
 .analysisActions{display:flex;align-items:center;gap:6px}
 .analysisActions .exportIconBtn{width:42px!important;height:42px!important;min-width:42px!important;padding:7px!important}
 .analysisActions .exportIconBtn img{width:26px;height:26px;object-fit:contain}
 .analysisActions .exportIconBtn svg{width:26px!important;height:26px!important}
 .analysisSectionTitle{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.analysisAddRow{font-size:14px!important;padding:5px 10px!important;min-height:30px!important}
+.analysisAddRow{font-size:var(--fs-btn)!important;padding:5px 10px!important;min-height:30px!important}
 .analysisTextInput{min-width:160px}
 .analysisDeleteRow{min-width:32px!important;width:32px!important;height:32px!important;padding:3px!important}
 .analysisNoRows td{color:var(--c55);padding:12px}
@@ -452,7 +452,7 @@ img,svg{max-width:100%;height:auto}
  .analysisActions .exportIconBtn img{width:24px;height:24px}
  .analysisActions .exportIconBtn svg{width:24px!important;height:24px!important}
 }
-.analysisOpenBtn{white-space:nowrap!important;padding:6px 10px!important;font-size:14px!important;min-height:36px!important}
+.analysisOpenBtn{white-space:nowrap!important;padding:6px 10px!important;font-size:var(--fs-btn)!important;min-height:36px!important}
 .itemCompactRow .analysisOpenBtn{grid-column:auto}
 @media (max-width:650px){
  .analysisModal{padding:env(safe-area-inset-top) 5px env(safe-area-inset-bottom)}
@@ -461,7 +461,7 @@ img,svg{max-width:100%;height:auto}
  .analysisTable{font-size:14px}
  .analysisTable th,.analysisTable td{padding:6px}
  .analysisTable td:first-child{min-width:220px}
- .analysisOpenBtn{padding:5px 8px!important;font-size:14px!important}
+ .analysisOpenBtn{padding:5px 8px!important;font-size:var(--fs-btn)!important}
 }
 @media (max-width:720px){
  .top{top:calc(env(safe-area-inset-top) + 44px)!important;padding-top:8px!important}
@@ -489,9 +489,9 @@ html[data-theme="light"] #meterCard .meterActions{background:var(--c43)!importan
 .cplMsgRow{display:flex;align-items:flex-start;gap:12px}
 .cplMsgIco{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--c18);color:var(--c2)}
 .cplMsgIco svg{width:20px;height:20px;display:block}
-.cplMsgTxt{flex:1;min-width:0;font-size:16px;line-height:1.9;white-space:pre-line;overflow-wrap:anywhere;padding-top:3px}
+.cplMsgTxt{flex:1;min-width:0;font-size:var(--fs-body);line-height:1.9;white-space:pre-line;overflow-wrap:anywhere;padding-top:3px}
 .cplMsgBtns{display:flex;justify-content:flex-start;margin-top:16px}
-html body .cplMsgBtns .btn{flex:0 0 auto!important;width:auto!important;min-width:88px!important;height:42px!important;padding:0 22px!important;font-size:16px!important;font-weight:700}
+html body .cplMsgBtns .btn{flex:0 0 auto!important;width:auto!important;min-width:88px!important;height:42px!important;padding:0 22px!important;font-size:var(--fs-btn)!important;font-weight:700}
 html body .brandEn svg,html body .brandEn svg *{shape-rendering:geometricPrecision!important}
 html body .brandEn .z77 path{stroke:currentColor;stroke-width:.6;stroke-linejoin:round;paint-order:stroke fill}
 html body .brandEn{-webkit-font-smoothing:antialiased;backface-visibility:visible;image-rendering:auto}
@@ -518,7 +518,7 @@ html body #mnItems .mnChipRow>.mnCode.mnCodeBox,html body #stItems .mnChipRow>.m
 html body #mnItems .mnRow,html body #stItems .mnRow{grid-template-columns:repeat(5,minmax(0,1fr)) 1.3fr 1.6fr auto auto}
 html body .mnTot{display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--c55);min-width:0}
 html body .mnTot[hidden]{display:none}
-html body .mnTot>b{font-size:16px;color:var(--c2);min-height:var(--ctl-h,32px);display:flex;align-items:center;justify-content:center;background:var(--c8);border:1px solid var(--c5);border-radius:8px;padding:0 6px}
+html body .mnTot>b{font-size:var(--fs-body);color:var(--c2);min-height:var(--ctl-h,32px);display:flex;align-items:center;justify-content:center;background:var(--c8);border:1px solid var(--c5);border-radius:8px;padding:0 6px}
 @media (max-width:560px){
  html body #mnItems .mnRow,html body #stItems .mnRow{grid-template-columns:repeat(5,minmax(0,1fr))}
  html body .mnTot{grid-column:3/6}
@@ -536,7 +536,7 @@ html body .mnSrchWrap .mnSrchIn[hidden]{display:none!important}
 #newChoiceModal.show{display:flex}
 .newChoicePanel{width:min(360px,calc(100vw - 32px));background:var(--c35);border:1px solid var(--c37);border-radius:16px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .newChoiceActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.newChoiceActions .btn{min-height:46px;font-size:14px;font-weight:700}
+.newChoiceActions .btn{min-height:46px;font-size:var(--fs-btn);font-weight:700}
 #projectSetup{position:fixed;inset:0;z-index:26000;background:var(--pageOverlay98);display:none;align-items:center;justify-content:center;padding:16px;direction:rtl}
 #projectSetup.show{display:flex}
 .projectSetupPanel{width:min(620px,96vw);background:var(--c35);border:1px solid var(--c37);border-radius:20px;padding:20px;box-shadow:0 25px 80px rgba(0,0,0,.55)}
@@ -570,7 +570,7 @@ html body .mnSrchWrap .mnSrchIn[hidden]{display:none!important}
 .projectItem .btns{display:flex}
 @media (max-width:720px){
  #projectBar{font-size:14px}
- .projectBtns .btn{font-size:14px;padding:7px 9px}
+ .projectBtns .btn{font-size:var(--fs-btn);padding:7px 9px}
  .authBox{padding:18px}
 }
 .historyActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -637,11 +637,11 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
 .coefFormula{display:block!important;margin-top:4px!important;font-size:14px!important;line-height:1.3!important;direction:ltr!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;opacity:.9!important}
 @media (max-width:700px){
  .meterInputs{grid-template-columns:minmax(86px,1fr) minmax(86px,1fr)!important;max-width:240px!important}
- .meterInputs input{font-size:14px!important}
+ .meterInputs input{font-size:var(--fs-input)!important}
 }
 .comparisonPriceBox{margin-top:14px;padding:16px;border:1px solid var(--c37);border-radius:14px;display:flex;flex-direction:column;gap:10px}
 .comparisonPriceBox label{display:flex;flex-direction:column;gap:6px;font-size:14px}
-.comparisonPriceBox select{width:100%;box-sizing:border-box;min-height:40px;font-family:inherit;font-size:14px}
+.comparisonPriceBox select{width:100%;box-sizing:border-box;min-height:40px;font-family:inherit;font-size:var(--fs-input)}
 .v-cmp-pos{color:#2e7d32;font-weight:800}
 .v-cmp-neg{color:#c62828;font-weight:800}
 .summaryTable{display:table;width:100%;border-collapse:collapse;margin-top:10px;border:1px solid var(--c37);border-radius:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -653,20 +653,20 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  .adjustmentResultRow>div{padding:7px 5px;font-size:14px;min-width:64px}
 }
 .meterCoefParts{display:block!important;width:100%!important;margin-top:6px!important;position:relative!important}
-.meterCoefToggle{display:inline-flex!important;align-items:center!important;justify-content:center!important;height:30px!important;padding:2px 10px!important;font-size:14px!important;line-height:1!important;margin:0!important}
+.meterCoefToggle{display:inline-flex!important;align-items:center!important;justify-content:center!important;height:30px!important;padding:2px 10px!important;font-size:var(--fs-btn)!important;line-height:1!important;margin:0!important}
 .meterCoefPanel{display:none;margin-top:6px;padding:6px;border:1px solid rgba(127,140,155,.25);border-radius:8px;background:rgba(127,140,155,.05)}
 .meterCoefParts.open .meterCoefPanel{display:grid;grid-template-columns:repeat(5,minmax(52px,1fr));gap:4px}
 .meterCoefParts label{display:flex!important;flex-direction:column!important;gap:2px!important;font-size:14px!important;white-space:nowrap!important;min-width:0!important}
-.meterCoefParts input{width:100%!important;box-sizing:border-box!important;height:27px!important;min-height:27px!important;padding:2px 3px!important;text-align:center!important;direction:ltr!important;font-size:14px!important;font-variant-numeric:tabular-nums!important}
+.meterCoefParts input{width:100%!important;box-sizing:border-box!important;height:27px!important;min-height:27px!important;padding:2px 3px!important;text-align:center!important;direction:ltr!important;font-size:var(--fs-input)!important;font-variant-numeric:tabular-nums!important}
 .meterCoefProduct{grid-column:1/-1;font-size:14px!important;opacity:.75!important;margin-top:1px!important;direction:ltr!important;text-align:center!important}
 .meterCoefParts .optionalCoef{grid-column:auto}
 .meterInputs{width:150px!important}
 @media (max-width:720px){
  .meterInputs{width:100%!important;max-width:130px!important}
  .meterCoefParts.open .meterCoefPanel{grid-template-columns:repeat(5,minmax(44px,1fr));gap:3px;padding:5px}
- .meterCoefToggle{height:28px!important;font-size:14px!important;padding:2px 9px!important}
+ .meterCoefToggle{height:28px!important;font-size:var(--fs-btn)!important;padding:2px 9px!important}
  .meterCoefParts label{font-size:12px!important}
- .meterCoefParts input{height:25px!important;min-height:25px!important;font-size:14px!important}
+ .meterCoefParts input{height:25px!important;min-height:25px!important;font-size:var(--fs-input)!important}
 }
 @media (max-width:420px){
  .meterCoefParts.open .meterCoefPanel{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
@@ -688,7 +688,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  .card.list .meterCoefParts{flex:0 0 auto!important}
  .card.list .meterInputs{flex-wrap:nowrap!important}
  .card.list .remove{margin-top:4px!important}
- .card.list .listRelControl input{font-size:14px!important}
+ .card.list .listRelControl input{font-size:var(--fs-input)!important}
  .card.list .meterCoefPanel{left:0!important;bottom:auto!important;max-height:50vh!important;overflow-y:auto!important}
 }
 .projectCurrentInfo{order:2;flex:1 1 360px;min-width:260px;border:1px solid var(--c62);border-radius:12px;background:var(--c35);box-shadow:0 5px 18px rgba(0,0,0,.18)}
@@ -705,7 +705,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  #projectBar .projectBtns{order:3!important;width:100%!important}
  .projectBtns.toolbarRows{gap:5px!important}
  .projectRow{gap:5px!important;width:100%!important}
- .projectRow .btn{flex:1 1 0!important;min-width:0!important;font-size:14px!important;padding:7px 5px!important;white-space:nowrap!important}
+ .projectRow .btn{flex:1 1 0!important;min-width:0!important;font-size:var(--fs-btn)!important;padding:7px 5px!important;white-space:nowrap!important}
 }
 @media (max-width:430px){
  body{padding-bottom:0!important}
@@ -717,7 +717,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  .card.list{left:5px!important;right:5px!important;bottom:calc(6px + env(safe-area-inset-bottom))!important;width:auto!important;max-height:46vh!important;box-shadow:0 -10px 30px rgba(0,0,0,.5)!important}
  .card.list.meterCollapsed{max-height:67px!important}
  .card.list .listHead{min-height:42px!important}
- .card.list .meterToggle{font-size:14px!important}
+ .card.list .meterToggle{font-size:var(--fs-btn)!important}
  .card.list .listHead .muted{font-size:14px!important}
  .card.list .total{white-space:nowrap!important}
  .card.list #meterList{max-height:calc(46vh - 112px)!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important}
@@ -734,7 +734,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
 .summaryPanel{background:var(--c35)!important;max-width:1100px!important;width:min(1100px,96vw)!important;max-height:90vh!important}
 .projectCurrentInfo{padding:10px 14px!important}
 .projectCurrentInfo b{font-size:20px!important;font-weight:900!important;line-height:1.65!important}
-.projectCurrentInfo span{font-size:16px!important;font-weight:800!important;line-height:1.65!important}
+.projectCurrentInfo span{font-size:var(--fs-body)!important;font-weight:800!important;line-height:1.65!important}
 @media (max-width:720px){
  .projectCurrentInfo{width:100%!important;min-width:0!important;padding:9px 12px!important}
  .projectCurrentInfo b{font-size:18px!important}
@@ -757,14 +757,14 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  .app{padding-left:5px!important;padding-right:5px!important;padding-bottom:92px!important}
  .card.list{border-radius:11px!important;padding:7px!important;margin-top:8px!important}
  .card.list .listHead{gap:5px!important;padding:2px 1px!important}
- .card.list .total{font-size:16px!important}
+ .card.list .total{font-size:var(--fs-body)!important}
  .card.list .listRow{display:grid!important;grid-template-columns:minmax(0,1fr) 62px!important;gap:5px!important;padding:7px 0!important}
  .card.list .listMain{grid-column:1/-1!important;width:100%!important}
  .card.list .meterInputs{grid-column:1!important;width:62px!important;max-width:62px!important}
  .card.list .meterInputs label{font-size:12px!important;display:block!important}
- .card.list .meterInputs input{height:25px!important;font-size:14px!important;padding:2px 3px!important}
+ .card.list .meterInputs input{height:25px!important;font-size:var(--fs-input)!important;padding:2px 3px!important}
  .card.list .listLineTotal{grid-column:2!important;align-self:end!important;font-size:14px!important;white-space:nowrap!important;text-align:left!important}
- .card.list .remove{grid-column:1/-1!important;justify-self:start!important;font-size:14px!important;padding:4px 8px!important}
+ .card.list .remove{grid-column:1/-1!important;justify-self:start!important;font-size:var(--fs-btn)!important;padding:4px 8px!important}
  .card.list .listCode{font-size:14px!important}
  .card.list .listDesc{font-size:14px!important;line-height:1.65!important}
  .card.list .meterCompactMeta{font-size:12px!important;gap:3px!important;line-height:1.35!important}
@@ -777,7 +777,7 @@ svg.mzIco{width:1.25em;height:1.25em;min-width:1.25em;flex:0 0 auto;display:inli
  .card.list .listRelControl input{width:43px!important;height:20px!important}
  .card.list .relAmount{font-size:14px!important}
  .card.list .meterActions{gap:4px!important;margin-top:6px!important}
- .card.list .meterActions .btn{font-size:14px!important;padding:5px 7px!important}
+ .card.list .meterActions .btn{font-size:var(--fs-btn)!important;padding:5px 7px!important}
 }
 .related .addRelated{position:relative;z-index:5;touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,255,255,.12)}
 body{padding-bottom:0!important}
@@ -825,16 +825,16 @@ body.v53-adjustment-open #meterCard{display:none!important}
  .v53-table{min-width:680px}
  .v53-table th,.v53-table td{padding:9px 7px;font-size:14px}
 }
-#meterCard .meterCoefParts .meterCoefToggle{font-size:14px!important;min-height:30px!important;padding:5px 10px!important}
+#meterCard .meterCoefParts .meterCoefToggle{font-size:var(--fs-btn)!important;min-height:30px!important;padding:5px 10px!important}
 #meterCard .meterCoefParts label{font-size:14px!important;font-weight:600!important}
-#meterCard .meterCoefParts input.meterCoefPart{font-size:16px!important;font-weight:700!important;height:32px!important;min-height:32px!important}
+#meterCard .meterCoefParts input.meterCoefPart{font-size:var(--fs-input)!important;font-weight:700!important;height:32px!important;min-height:32px!important}
 #meterCard .meterCoefProduct{font-size:14px!important;font-weight:700!important}
 #meterCard .meterCoefDisplay{font-size:14px!important;font-weight:600!important}
 #meterCard .meterInputs label{font-size:14px!important}
 #meterCard .meterInputs .coef{font-size:14px!important;font-weight:700!important}
 @media (max-width:430px){
  #meterCard .meterCoefParts label{font-size:14px!important}
- #meterCard .meterCoefParts input.meterCoefPart{font-size:14px!important;height:29px!important;min-height:29px!important}
+ #meterCard .meterCoefParts input.meterCoefPart{font-size:var(--fs-input)!important;height:29px!important;min-height:29px!important}
  #meterCard .meterCoefProduct{font-size:14px!important}
  #meterCard .meterCoefDisplay{font-size:14px!important}
  #meterCard .meterInputs .coef{font-size:14px!important}
@@ -849,7 +849,7 @@ body.v53-adjustment-open #meterCard,body:has(#adjustmentPage.show) #meterCard,bo
 .projectItem .btns.calcBtns{flex-wrap:wrap}
 @media (max-width:720px){
  .projectItem .btns.calcBtns{grid-template-columns:repeat(3,1fr)!important}
- .projectItem .btns.calcBtns .btn{padding:6px 4px!important;font-size:14px}
+ .projectItem .btns.calcBtns .btn{padding:6px 4px!important;font-size:var(--fs-btn)}
 }
 html{height:100%;-webkit-text-size-adjust:100%}
 body{min-height:100%;padding-bottom:env(safe-area-inset-bottom);overscroll-behavior-x:none}
@@ -861,7 +861,7 @@ button,.btn{touch-action:manipulation}
 @media (max-width:720px){
  .app{width:100%;padding:8px 10px calc(104px + env(safe-area-inset-bottom))}
  .top{position:sticky;top:0;padding:7px 0 9px;margin:0 -10px;padding-left:10px;padding-right:10px}
- .title{font-size:20px;line-height:1.35}
+ .title{font-size:var(--fs-h1);line-height:1.35}
  .sub{font-size:14px;margin:2px 0 8px}
  .toolbar{grid-template-columns:1fr 1fr}
  .toolbar select,.toolbar input{min-height:44px}
@@ -890,7 +890,7 @@ button,.btn{touch-action:manipulation}
 }
 @media (max-width:430px){
  .actions,.exportActions,.historyActions{grid-template-columns:1fr 1fr}
- .actions .btn,.exportActions .btn,.historyActions .btn{font-size:14px}
+ .actions .btn,.exportActions .btn,.historyActions .btn{font-size:var(--fs-btn)}
  .meterInputs{max-width:none!important}
  .listRelated{font-size:14px}
 }
@@ -906,12 +906,12 @@ button,.btn{touch-action:manipulation}
 .relCoefPanel{display:none;grid-template-columns:repeat(5,minmax(65px,1fr));gap:4px;padding:5px;margin-top:4px;border:1px solid var(--c79);border-radius:7px;background:var(--c80)}
 .relCoefParts.open .relCoefPanel{display:grid}
 .relCoefPanel label{font-size:14px!important;color:var(--c81)}
-.relCoefPanel input{width:100%!important;box-sizing:border-box!important;height:27px!important;min-height:27px!important;text-align:center!important;direction:ltr!important;font-size:14px!important;padding:2px!important}
+.relCoefPanel input{width:100%!important;box-sizing:border-box!important;height:27px!important;min-height:27px!important;text-align:center!important;direction:ltr!important;font-size:var(--fs-input)!important;padding:2px!important}
 .relCoefProduct{grid-column:1/-1;font-size:14px;color:var(--c82);text-align:center;padding-top:2px}
 @media (max-width:430px){
  .relCoefPanel{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
  .relCoefPanel label{font-size:12px!important}
- .relCoefPanel input{font-size:14px!important}
+ .relCoefPanel input{font-size:var(--fs-input)!important}
 }
 @media (min-width:721px){
  #projectBar .projectRow{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
@@ -922,7 +922,7 @@ button,.btn{touch-action:manipulation}
  #projectBar .projectBtns.toolbarRows{width:auto!important;display:flex!important;gap:5px!important;justify-self:end!important;max-width:430px!important}
  #projectBar .projectRow{display:grid!important;grid-template-columns:repeat(3,minmax(85px,1fr))!important;width:auto!important;gap:5px!important}
  #projectBar .projectRow:last-child{grid-template-columns:repeat(2,minmax(85px,1fr))!important}
- #projectBar .projectRow .btn{width:auto!important;min-width:85px!important;margin:0!important;padding:6px 9px!important;font-size:14px!important;line-height:1.25!important;white-space:nowrap!important}
+ #projectBar .projectRow .btn{width:auto!important;min-width:85px!important;margin:0!important;padding:6px 9px!important;font-size:var(--fs-btn)!important;line-height:1.25!important;white-space:nowrap!important}
 }
 .card.list#meterCard{display:flex!important;flex-direction:column!important}
 .card.list#meterCard .listHead{flex:0 0 auto!important}
@@ -933,7 +933,7 @@ button,.btn{touch-action:manipulation}
  .card.list#meterCard .meterActions{margin-top:6px!important}
 }
 .v53-book-summary{margin:12px 0;padding:10px;border:1px solid var(--c9);border-radius:10px;background:var(--c8)!important}
-.v53-book-title{font-weight:800;font-size:16px;margin-bottom:8px;text-align:right}
+.v53-book-title{font-weight:800;font-size:var(--fs-body);margin-bottom:8px;text-align:right}
 .v53-book-summary .v53-table-wrap{margin:0}
 .v53-book-totals{margin-top:8px}
 #adjustmentResultPage .finalSaveIcon{width:46px!important;height:46px!important;min-width:46px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
@@ -959,7 +959,7 @@ button,.btn{touch-action:manipulation}
 .app{width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important}
 .adjustmentPanel,#adjustmentPage .adjustmentPanel,#adjustmentResultPage .adjustmentPanel{width:100%!important;max-width:100%!important;margin:0!important;border-radius:0!important;box-shadow:none!important;box-sizing:border-box!important}
 .meterActions,.card.list .meterActions,#chapterSummaryModal .actions.summaryNext,.adjustmentActions,#adjustmentPage .adjustmentActions,.exportActions,.historyActions{position:sticky!important;bottom:0!important;left:0!important;right:0!important;z-index:500!important;background:var(--c8)!important;border-top:1px solid var(--c9)!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;justify-content:center!important;align-items:center!important;gap:8px!important;overflow-x:auto!important;;width:100%!important;max-width:100%!important;margin:0!important;padding:8px 10px calc(8px + env(safe-area-inset-bottom))!important;box-sizing:border-box!important}
-.meterActions .btn,.card.list .meterActions .btn,#chapterSummaryModal .actions.summaryNext .btn,.adjustmentActions .btn,.exportActions .btn,.historyActions .btn,.actions.summaryNext .btn{flex:0 0 auto!important;width:auto!important;min-width:0!important;white-space:nowrap!important;padding:10px 14px!important;font-size:14px!important}
+.meterActions .btn,.card.list .meterActions .btn,#chapterSummaryModal .actions.summaryNext .btn,.adjustmentActions .btn,.exportActions .btn,.historyActions .btn,.actions.summaryNext .btn{flex:0 0 auto!important;width:auto!important;min-width:0!important;white-space:nowrap!important;padding:10px 14px!important;font-size:var(--fs-btn)!important}
 .meterActions .btn.exportIconBtn,.meterActions .btn.clearIconBtn,#chapterSummaryModal .actions.summaryNext .btn.exportIconBtn,.adjustmentActions .btn.exportIconBtn,.exportActions .btn.exportIconBtn,.exportActions .btn.finalSaveIcon,.historyActions .btn.exportIconBtn{width:44px!important;height:44px!important;min-width:44px!important;flex:0 0 44px!important;padding:6px!important}
 .meterActions .btn.exportIconBtn img,.meterActions .btn.clearIconBtn img,#chapterSummaryModal .actions.summaryNext .btn.exportIconBtn img,.adjustmentActions .btn.exportIconBtn img,.exportActions .btn.exportIconBtn img,.exportActions .btn.finalSaveIcon img,.historyActions .btn.exportIconBtn img{width:26px!important;height:26px!important;object-fit:contain!important}
 #newChoiceModal .setupTitleRow{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;width:100%!important;direction:rtl!important;margin:0!important}
@@ -1001,7 +1001,7 @@ html[data-theme="light"] #adjustmentResultPage .exportActions .finalSaveIcon img
 .cplGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .cplGrid label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--c17)}
 .cplGrid .wide{grid-column:1/-1}
-.cplGrid textarea{width:100%;background:var(--c4);color:var(--surfaceText);border:1px solid var(--c5);border-radius:12px;padding:11px 12px;font:inherit;font-size:16px;outline:none;resize:vertical;min-height:84px;line-height:1.8}
+.cplGrid textarea{width:100%;background:var(--c4);color:var(--surfaceText);border:1px solid var(--c5);border-radius:12px;padding:11px 12px;font:inherit;font-size:var(--fs-input);outline:none;resize:vertical;min-height:84px;line-height:1.8}
 .cplGrid textarea:focus{border-color:var(--c6)}
 .cplGrid .num{direction:ltr;text-align:right}
 .cplChap{grid-column:1/-1;font-size:14px;color:var(--c55);min-height:20px;margin-top:-4px}
@@ -1012,25 +1012,25 @@ html[data-theme="light"] #adjustmentResultPage .exportActions .finalSaveIcon img
 @media (max-width:520px){
  .cplGrid{grid-template-columns:1fr}
  .cplPanel{padding:16px}
- .cplGrid textarea{font-size:16px}
+ .cplGrid textarea{font-size:var(--fs-input)}
 }
 #analysisItemUnit{width:100%}
 :root{--ctl-h:32px;--ctl-h-sm:28px;--ico-btn:34px;--ico-img:20px;--r-md:8px;--r-lg:10px;--fs-xs:14px;--fs-sm:16px;--fs-md:16px;--fs-xl:20px}
 @media (pointer:coarse){
  :root{--ctl-h:40px;--ctl-h-sm:32px;--ico-btn:40px;--ico-img:22px}
 }
-body{font-size:var(--fs-md)!important;line-height:1.5}
+body{font-size:var(--fs-body)!important;line-height:1.5}
 .app{padding-top:6px!important;padding-inline:12px!important}
 .item{content-visibility:auto;contain-intrinsic-size:auto 44px}
 .box,select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]){min-height:var(--ctl-h)!important;padding:4px 10px!important;border-radius:var(--r-md)!important;line-height:1.4}
 textarea{min-height:64px!important;padding:6px 10px!important;line-height:1.7}
 @supports not (-webkit-touch-callout:none){
- .box,select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=file]){font-size:var(--fs-md)!important}
+ .box,select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=file]){font-size:var(--fs-input)!important}
 }
 .searchIcon{top:50%!important;transform:translateY(-50%);right:10px!important}
 .searchWrap input{padding-right:30px!important}
 button,.btn{min-height:var(--ctl-h)!important}
-.btn{padding:4px 12px!important;font-size:var(--fs-md)!important;border-radius:var(--r-md)!important;line-height:1.3!important}
+.btn{padding:4px 12px!important;font-size:var(--fs-btn)!important;border-radius:var(--r-md)!important;line-height:1.3!important}
 .btn.primary,.btn.danger{font-weight:700}
 .stageNav>.btn.btn{width:var(--ico-btn)!important;height:var(--ico-btn)!important;min-width:var(--ico-btn)!important;min-height:var(--ico-btn)!important;flex:0 0 var(--ico-btn)!important;padding:0!important}
 .stageNav{gap:6px!important}
@@ -1047,7 +1047,7 @@ button,.btn{min-height:var(--ctl-h)!important}
 }
 #projectBar>div:first-child{font-size:var(--fs-xs)!important}
 #projectBar .projectCurrentInfo{padding:3px 10px!important;border-radius:var(--r-md)!important;box-shadow:none!important;min-width:0!important}
-#projectBar .projectCurrentInfo b{font-size:16px!important;line-height:1.5!important;font-weight:700!important}
+#projectBar .projectCurrentInfo b{font-size:var(--fs-body)!important;line-height:1.5!important;font-weight:700!important}
 #projectBar .projectCurrentInfo span{font-size:var(--fs-xs)!important;line-height:1.4!important;margin-top:0!important;font-weight:400!important}
 #projectBar .projectBtns.toolbarRows,#projectBar .projectBtns.toolbarRows .projectRow{gap:4px!important}
 @media (min-width:721px){
@@ -1055,7 +1055,7 @@ button,.btn{min-height:var(--ctl-h)!important}
  #projectBar .projectBtns.toolbarRows .projectRow:first-child{width:auto!important}
 }
 .top{padding:4px 0 6px!important}
-.title{font-size:var(--fs-xl)!important;line-height:1.4!important;margin:0!important}
+.title{font-size:var(--fs-h1)!important;line-height:1.4!important;margin:0!important}
 .sub{font-size:var(--fs-xs)!important;margin:0 0 4px!important}
 .toolbar{gap:6px!important}
 .toolbar .toolbarActions{gap:6px!important}
@@ -1085,23 +1085,23 @@ button,.btn{min-height:var(--ctl-h)!important}
  body{padding-top:max(env(safe-area-inset-top,0px),20px)}
 }
 .card{padding:8px 10px!important;border-radius:var(--r-lg)!important;margin-top:8px!important}
-.chapterTitle{font-size:16px!important;margin-bottom:2px!important}
+.chapterTitle{font-size:var(--fs-h2)!important;margin-bottom:2px!important}
 .hint{font-size:var(--fs-xs)!important;line-height:1.6!important}
 .item{margin-top:6px!important;border-radius:var(--r-md)!important}
 .itemHead{padding:6px 10px!important}
 .itemCompactRow{gap:6px 8px!important}
-.itemHead .desc,.itemCompactDesc{font-size:var(--fs-md)!important;line-height:1.5!important;margin:0!important}
+.itemHead .desc,.itemCompactDesc{font-size:var(--fs-body)!important;line-height:1.5!important;margin:0!important}
 .code,.itemHead .code{font-size:var(--fs-xs)!important}
-.price,.itemHead .price,.itemCompactPrice{font-size:var(--fs-md)!important}
+.price,.itemHead .price,.itemCompactPrice{font-size:var(--fs-body)!important}
 .badge,.pill{font-size:var(--fs-xs)!important;padding:1px 7px!important;line-height:1.5}
-.itemHead .addItem,.itemCompactAdd,.analysisOpenBtn,.related .btn{min-height:var(--ctl-h-sm)!important;padding:2px 10px!important;font-size:var(--fs-sm)!important}
+.itemHead .addItem,.itemCompactAdd,.analysisOpenBtn,.related .btn{min-height:var(--ctl-h-sm)!important;padding:2px 10px!important;font-size:var(--fs-btn)!important}
 .details{padding:8px 10px!important}
 .related{padding:6px 8px!important;margin-top:6px!important;border-radius:var(--r-md)!important}
 .rdesc{font-size:var(--fs-sm)!important;line-height:1.55!important}
 .rmeta{margin:2px 0!important}
 .rmeta .badge,.related .calc,.effectBox .relEffectText{font-size:var(--fs-xs)!important}
 .related .addRelated{font-size:var(--fs-xs)!important;padding:2px 8px!important}
-.effectBox input{min-height:var(--ctl-h-sm)!important;height:var(--ctl-h-sm)!important;font-size:var(--fs-sm)!important;padding:2px 6px!important}
+.effectBox input{min-height:var(--ctl-h-sm)!important;height:var(--ctl-h-sm)!important;font-size:var(--fs-input)!important;padding:2px 6px!important}
 .cplTag{font-size:var(--fs-xs)!important;padding:0 7px!important}
 .item.open .itemHead{box-shadow:0 4px 12px rgba(0,0,0,.3)!important}
 @media (max-width:720px){
@@ -1110,9 +1110,9 @@ button,.btn{min-height:var(--ctl-h)!important}
 }
 .card.list#meterCard{padding:4px 8px 0!important;border-radius:var(--r-lg) var(--r-lg) 0 0!important}
 .card.list#meterCard .listHead{padding:4px 10px!important;margin:0!important;min-height:0!important;border-radius:var(--r-md)!important}
-.card.list#meterCard .meterToggle{font-size:var(--fs-md)!important}
+.card.list#meterCard .meterToggle{font-size:var(--fs-btn)!important}
 .card.list#meterCard .listHead .muted,#listCount{font-size:var(--fs-xs)!important}
-.card.list#meterCard .total{font-size:16px!important}
+.card.list#meterCard .total{font-size:var(--fs-body)!important}
 .card.list#meterCard #meterList{padding:2px 8px!important;margin-top:4px!important;border-radius:var(--r-md)!important;max-height:calc(46vh - 92px)!important}
 .card.list#meterCard .listRow.listItemRow{padding:8px 0!important;gap:8px!important}
 @media (min-width:721px){
@@ -1124,25 +1124,25 @@ button,.btn{min-height:var(--ctl-h)!important}
 .card.list#meterCard .meterCompactMeta,.card.list#meterCard .meterCompactMeta .meterBaseInline,.card.list#meterCard .basePrice{font-size:var(--fs-xs)!important;line-height:1.5!important}
 .card.list#meterCard .meterInputs{gap:4px!important;margin:0!important;max-width:none!important}
 .card.list#meterCard .meterInputs label{font-size:var(--fs-xs)!important;gap:2px!important;display:flex!important}
-.card.list#meterCard .meterInputs input{height:var(--ctl-h)!important;min-height:var(--ctl-h)!important;font-size:var(--fs-md)!important;font-weight:400!important;border-width:1px!important;padding:2px 6px!important}
-.card.list#meterCard .listLineTotal{font-size:var(--fs-md)!important;padding-top:4px!important;line-height:1.5!important}
-.card.list#meterCard .remove{min-height:var(--ctl-h-sm)!important;padding:2px 10px!important;font-size:var(--fs-sm)!important}
+.card.list#meterCard .meterInputs input{height:var(--ctl-h)!important;min-height:var(--ctl-h)!important;font-size:var(--fs-input)!important;font-weight:400!important;border-width:1px!important;padding:2px 6px!important}
+.card.list#meterCard .listLineTotal{font-size:var(--fs-body)!important;padding-top:4px!important;line-height:1.5!important}
+.card.list#meterCard .remove{min-height:var(--ctl-h-sm)!important;padding:2px 10px!important;font-size:var(--fs-btn)!important}
 .card.list#meterCard .meterCoefParts{margin-top:4px!important}
 .card.list#meterCard .meterCoefParts .meterCoefToggle{font-size:var(--fs-xs)!important;min-height:var(--ctl-h-sm)!important;height:var(--ctl-h-sm)!important;padding:0 10px!important}
 .card.list#meterCard .meterCoefParts label{font-size:var(--fs-xs)!important;white-space:normal!important}
-.card.list#meterCard .meterCoefParts input.meterCoefPart{height:var(--ctl-h-sm)!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-sm)!important;font-weight:400!important;padding:0 4px!important}
+.card.list#meterCard .meterCoefParts input.meterCoefPart{height:var(--ctl-h-sm)!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-input)!important;font-weight:400!important;padding:0 4px!important}
 .card.list#meterCard .meterCoefProduct,.card.list#meterCard .meterCoefDisplay{font-size:var(--fs-xs)!important;font-weight:400!important}
 .card.list#meterCard .listRelated{padding:6px 8px!important;margin-top:6px!important;border-radius:var(--r-md)!important}
 .card.list#meterCard .relAmount,.card.list#meterCard .relSync,.card.list#meterCard .listRelSubTotal,.card.list#meterCard .emptyRel{font-size:var(--fs-xs)!important}
 .card.list#meterCard .listRel{padding:4px 0!important;gap:8px!important;font-size:var(--fs-sm)!important;line-height:1.6!important}
 .card.list#meterCard .relAmount{padding-top:0!important}
 .card.list#meterCard .listRelControl{font-size:var(--fs-xs)!important;min-width:0!important;gap:2px!important}
-.card.list#meterCard .listRelControl input,.card.list#meterCard .standaloneEffectInput{width:96px!important;height:var(--ctl-h-sm)!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-sm)!important;padding:0 6px!important}
+.card.list#meterCard .listRelControl input,.card.list#meterCard .standaloneEffectInput{width:96px!important;height:var(--ctl-h-sm)!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-input)!important;padding:0 6px!important}
 .card.list#meterCard .standaloneEffect{font-size:var(--fs-xs)!important}
 .relCoefToggle{font-size:var(--fs-xs)!important;min-height:var(--ctl-h-sm)!important;padding:0 10px!important}
 .relCoefPanel label,.relCoefProduct{font-size:var(--fs-xs)!important}
 .card.list#meterCard .meterActions{padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))!important;gap:6px!important;margin:4px 0 0!important}
-.card.list#meterCard .meterActions .btn{padding:4px 12px!important;font-size:var(--fs-md)!important;white-space:nowrap!important}
+.card.list#meterCard .meterActions .btn{padding:4px 12px!important;font-size:var(--fs-btn)!important;white-space:nowrap!important}
 @media (max-width:720px){
  .card.list#meterCard{left:4px!important;right:4px!important}
  .card.list#meterCard .listRow.listItemRow{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:4px 8px!important;padding:8px 0!important}
@@ -1154,27 +1154,27 @@ button,.btn{min-height:var(--ctl-h)!important}
  .card.list#meterCard .meterCoefParts.open .meterCoefPanel{grid-template-columns:repeat(3,minmax(0,1fr))!important;min-width:0!important;gap:6px!important;padding:8px!important}
  .card.list#meterCard .listRelControls{grid-template-columns:1fr 1fr!important;gap:6px!important;max-width:none!important}
  .card.list#meterCard .listRelControl input{width:100%!important}
- .card.list#meterCard .meterActions .btn{font-size:var(--fs-sm)!important;padding:4px 10px!important}
+ .card.list#meterCard .meterActions .btn{font-size:var(--fs-btn)!important;padding:4px 10px!important}
 }
 .exportActions,.adjustmentActions,#chapterSummaryModal .actions.summaryNext,.historyActions{gap:6px!important;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px))!important}
-.adjustmentActions .btn,.exportActions .btn,#chapterSummaryModal .actions.summaryNext .btn,.historyActions .btn{padding:4px 12px!important;font-size:var(--fs-md)!important}
+.adjustmentActions .btn,.exportActions .btn,#chapterSummaryModal .actions.summaryNext .btn,.historyActions .btn{padding:4px 12px!important;font-size:var(--fs-btn)!important}
 .authBox{padding:16px!important;border-radius:12px!important}
-.authBox h2{font-size:18px!important;margin:0 0 4px!important}
+.authBox h2{font-size:var(--fs-h2)!important;margin:0 0 4px!important}
 .authBox .muted{margin-bottom:8px!important}
 .authBox input{margin:4px 0!important}
 .authBtns{margin-top:8px!important;gap:6px!important}
 .authSwitch{margin-top:8px!important}
 .rememberLogin{margin:2px 0 4px!important}
 .projectPanel,.adminPanel,.analysisPanel,.cplPanel,.projectSetupPanel,.newChoicePanel{padding:12px 14px!important;border-radius:12px!important}
-.projectSetupPanel h2,.cplPanel h2,.newChoicePanel h2{font-size:18px!important;margin:0 0 4px!important}
-.projectPanel h3,.adminPanel h3{font-size:16px!important}
+.projectSetupPanel h2,.cplPanel h2,.newChoicePanel h2{font-size:var(--fs-h2)!important;margin:0 0 4px!important}
+.projectPanel h3,.adminPanel h3{font-size:var(--fs-h2)!important}
 .projectSetupGrid,.cplGrid{gap:8px!important;margin-top:10px!important}
 .projectSetupGrid label,.cplGrid label,.adminEditGrid label{gap:4px!important;font-size:var(--fs-sm)!important}
 .projectSetupActions,.cplActions,.newChoiceActions{gap:6px!important;margin-top:10px!important}
-.cplActions .btn,.newChoiceActions .btn{min-height:var(--ctl-h)!important;font-size:var(--fs-md)!important}
+.cplActions .btn,.newChoiceActions .btn{min-height:var(--ctl-h)!important;font-size:var(--fs-btn)!important}
 .cplSub,.cplMsg,.projectSetupError{font-size:var(--fs-xs)!important;line-height:1.6!important}
 .projectItem{padding:8px 10px!important;margin:5px 0!important;border-radius:var(--r-md)!important}
-.projectItem b{font-size:var(--fs-md)!important}
+.projectItem b{font-size:var(--fs-body)!important}
 .projectItem small{font-size:var(--fs-xs)!important;margin-top:1px!important}
 .projectItem .btn{padding:2px 10px!important;min-height:var(--ctl-h-sm)!important}
 .projectItem .btns{gap:4px!important}
@@ -1187,7 +1187,7 @@ button,.btn{min-height:var(--ctl-h)!important}
 #adminDrawer{padding-top:calc(4vh + env(safe-area-inset-top,0px))!important}
 .analysisPageItemControls,.analysisItemFields,.analysisCopyBar{padding:8px!important;gap:6px!important;margin-bottom:8px!important;border-radius:var(--r-md)!important}
 .analysisPageItemControls label,.analysisItemFields label{font-size:var(--fs-xs)!important;gap:2px!important}
-.analysisCopyTitle{font-size:var(--fs-md)!important;margin-bottom:4px!important}
+.analysisCopyTitle{font-size:var(--fs-body)!important;margin-bottom:4px!important}
 .analysisCopyMsg,.analysisPageSaveMsg{font-size:var(--fs-xs)!important;line-height:1.6!important}
 #chapterSummaryModal .summaryPanel{padding:10px 12px!important}
 .adjustmentPanel,#adjustmentPage .adjustmentPanel,#adjustmentResultPage .adjustmentPanel{padding:10px 12px!important}
@@ -1200,8 +1200,8 @@ button,.btn{min-height:var(--ctl-h)!important}
 .adjCalc{gap:6px!important;margin-top:8px!important}
 .adjCalc .box{padding:6px 8px!important;border-radius:var(--r-md)!important;min-height:0!important}
 .adjCalc .label{font-size:var(--fs-xs)!important}
-.adjustmentTotal{margin-top:8px!important;padding:8px 12px!important;font-size:16px!important;border-radius:var(--r-lg)!important}
-.v53-table th,.v53-table td{padding:5px 8px!important;line-height:1.5!important;font-size:var(--fs-sm)!important}
+.adjustmentTotal{margin-top:8px!important;padding:8px 12px!important;font-size:var(--fs-body)!important;border-radius:var(--r-lg)!important}
+.v53-table th,.v53-table td{padding:5px 8px!important;line-height:1.5!important;font-size:var(--fs-table)!important}
 .v53-grand{margin-top:8px!important;padding:8px 10px!important;line-height:1.7!important;border-radius:var(--r-lg)!important}
 .compactSummary .summaryRow>div{padding:5px 8px!important}
 .summaryNext{margin-top:8px!important}
@@ -1224,7 +1224,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline-offset:0
  .top .toolbar{display:contents!important}
  .top .title{grid-column:1;grid-row:1}
  .top .toolbar .toolbarActions{grid-column:2/-1!important;grid-row:1;display:flex!important;justify-content:flex-end;gap:6px!important}
- .top .toolbar .toolbarActions>.btn{width:auto!important;flex:0 0 auto!important;padding:2px 10px!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-sm)!important}
+ .top .toolbar .toolbarActions>.btn{width:auto!important;flex:0 0 auto!important;padding:2px 10px!important;min-height:var(--ctl-h-sm)!important;font-size:var(--fs-btn)!important}
  .top .toolbar .searchWrap{grid-column:1/-1!important;grid-row:2;order:0}
  .top .toolbar>select#discipline{grid-column:1;grid-row:3}
  .top .toolbar>select#year{grid-column:2;grid-row:3}
@@ -1253,7 +1253,7 @@ small{font-size:var(--fs-xs)!important}
 .card.list#meterCard .listHead .muted,#listCount{color:var(--c14)!important}
 html:not([data-theme="light"]){--c2:#dbe2ea;--surfaceText:#e8edf3;font-synthesis-weight:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 html:not([data-theme="light"]) :is(.btn.primary,h1,h2,h3,.title,.chapterTitle,.total,.projectCurrentInfo b,.adjustmentTotal,.authBox h2){font-synthesis-weight:auto}
-html:not([data-theme="light"]) :is(.itemHead .desc,.itemCompactDesc,.itemHead .price,.itemCompactPrice){font-size:16px!important}
+html:not([data-theme="light"]) :is(.itemHead .desc,.itemCompactDesc,.itemHead .price,.itemCompactPrice){font-size:var(--fs-body)!important}
 html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.list#meterCard .listRel){font-size:14px!important}
 @media (max-width:720px){
  html:not([data-theme="light"]) :is(.itemHead .desc,.itemCompactDesc){font-size:14px!important}
@@ -1267,7 +1267,7 @@ html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.l
 .supportPopup{position:fixed;inset:0;background:#0009;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px}
 .supportPopup .supportBox{background:var(--c1,#fff);color:var(--c2,#111);border:1px solid var(--c37,#ccc);border-radius:14px;padding:20px;max-width:320px;width:100%;text-align:center;box-shadow:0 10px 40px #0006}
 .supportPopup .supportBox svg{color:#2e7d32;margin-bottom:8px}
-.supportPopup .supportBox h3{margin:0 0 10px;font-size:16px}
+.supportPopup .supportBox h3{margin:0 0 10px;font-size:var(--fs-h2)}
 .supportPopup .supportBox .supportEmail{direction:ltr;unicode-bidi:plaintext;font-weight:700;font-size:14px;background:var(--c34,#f2f2f2);border-radius:8px;padding:8px 10px;margin:8px 0 14px;word-break:break-all}
 .supportPopup .supportBox .supportActions{display:flex;gap:8px;justify-content:center}
 #projectBar .projectBtns.toolbarRows.cplReady{width:auto!important;flex:0 0 auto!important;position:relative!important;display:flex!important;flex-direction:row!important}
@@ -1280,7 +1280,7 @@ html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.l
 #projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button#adminPanelBtn:not(.admin-visible){display:none!important}
 #projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn:hover,#projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn:active{background:var(--c9)!important;color:var(--c2)!important}
 #projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn svg,#projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn img{width:24px!important;height:24px!important;max-width:24px!important;max-height:24px!important;flex:0 0 24px!important}
-#projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn .cplLbl{font-size:16px!important;line-height:1.2;flex:1 1 auto;text-align:right}
+#projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button.projectIconBtn .cplLbl{font-size:var(--fs-btn)!important;line-height:1.2;flex:1 1 auto;text-align:right}
 #projectBar .projectBtns.toolbarRows.cplReady.cplOpen>.projectRow:first-child>button#logoutProject{color:#ff5a52!important;margin-top:4px!important;border-top:1px solid var(--c5)!important;border-radius:0 0 12px 12px!important}
 #projectBar.cplBarOpen{z-index:27000!important}
 #projectBar #cplMenuBtn,#projectBar #cplHomeQuickBtn{width:46px!important;min-width:46px!important;height:46px!important;flex:0 0 46px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:14px!important;border:1px solid var(--c5)!important;background:var(--c8)!important;color:var(--c2)!important;box-shadow:none!important;cursor:pointer}
@@ -1288,7 +1288,7 @@ html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.l
 #projectBar .projectBtns.toolbarRows.cplReady{gap:8px!important}
 #cplCostMenu{display:none;position:fixed;width:min(250px,86vw);padding:6px;border-radius:18px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);z-index:27500;flex-direction:column;direction:rtl}
 #cplCostMenu.open{display:flex}
-#cplCostMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:16px;font-weight:600;text-align:right;cursor:pointer}
+#cplCostMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:var(--fs-btn);font-weight:600;text-align:right;cursor:pointer}
 #cplCostMenu button:active{background:var(--c9)}
 @media (hover:hover){
  #cplCostMenu button:hover{background:var(--c9)}
@@ -1325,7 +1325,7 @@ html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.l
 #cplHomeMenuBtn svg{width:26px;height:26px}
 #cplHomeMenu{display:none;position:fixed;top:calc(68px + env(safe-area-inset-top,0px));width:min(250px,86vw);padding:6px;border-radius:18px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);z-index:3;flex-direction:column}
 #cplHomeMenu.open{display:flex}
-#cplHomeMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:16px;font-weight:600;text-align:right;cursor:pointer}
+#cplHomeMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:var(--fs-btn);font-weight:600;text-align:right;cursor:pointer}
 #cplHomeMenu button:active{background:var(--c9)}
 #cplHomeMenu button svg{width:24px;height:24px;flex:0 0 24px}
 #cplHomeMenu button.danger{color:#ff5a52;margin-top:4px;border-top:1px solid var(--c5);border-radius:0 0 12px 12px}
@@ -1348,7 +1348,7 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 .mnOverlay{position:fixed;inset:0;z-index:29800;background:var(--pageOverlay98,var(--c1));display:flex;align-items:flex-start;justify-content:center;padding:calc(10px + env(safe-area-inset-top,0px)) 8px calc(10px + env(safe-area-inset-bottom,0px));direction:rtl;overflow:auto;-webkit-overflow-scrolling:touch}
 .mnPanel{width:min(900px,100%);background:var(--c35);color:var(--c2);border:1px solid var(--c37);border-radius:16px;padding:12px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
 .mnHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;position:sticky;top:-12px;background:var(--c35);padding:8px 0;z-index:2}
-.mnHead b{font-size:18px}
+.mnHead b{font-size:var(--fs-h1)}
 .mnBtns{display:flex;gap:6px;align-items:center}
 .mnTop{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .mnField{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--c17)}
@@ -1363,8 +1363,8 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 .mnCell{display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--c55);min-width:0}
 .mnCell input{width:100%;min-width:0;text-align:center}
 .mnRes{display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--c55);min-width:0}
-.mnRes b{font-size:16px;color:var(--c2);display:flex;align-items:center;justify-content:center;background:var(--c8);border-radius:8px;padding:0 6px}
-.mnTotal{font-size:16px}
+.mnRes b{font-size:var(--fs-body);color:var(--c2);display:flex;align-items:center;justify-content:center;background:var(--c8);border-radius:8px;padding:0 6px}
+.mnTotal{font-size:var(--fs-body)}
 .mnTotal b{font-size:18px}
 .mnListItem{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--c5);border-radius:12px;background:var(--c4);padding:10px;margin-top:8px}
 .mnBtns{flex-wrap:wrap;justify-content:flex-end}
@@ -1380,7 +1380,7 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 .mnExCode{font-weight:700;white-space:nowrap;direction:ltr}
 .mnExDesc{flex:1}
 .mnExUnit{font-size:14px;color:var(--c55);white-space:nowrap}
-.mnExAdd{white-space:nowrap;font-size:14px;padding:3px 10px}
+.mnExAdd{white-space:nowrap;font-size:var(--fs-btn);padding:3px 10px}
 .mnExAdd.done{opacity:.6}
 .mnDescBtn{position:relative;width:36px;height:36px;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:8px;align-self:end}
 .mnDescBtn svg{width:20px;height:20px}
@@ -1396,7 +1396,7 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 .mnBtns .mnCloseBtn{height:var(--ico-btn,40px);min-width:var(--ico-btn,40px);padding:0 10px;border-radius:var(--r-md,8px);display:inline-flex;align-items:center;justify-content:center}
 .mnRow4{display:grid;grid-template-columns:.7fr .8fr .8fr 2.2fr;gap:6px;align-items:end}
 .mnRow4 .mnField{font-size:14px;min-width:0;gap:2px}
-.mnRow4 .mnField input,.mnRow4 .mnField select{height:30px!important;min-height:30px!important;font-size:14px!important;padding:0 6px!important}
+.mnRow4 .mnField input,.mnRow4 .mnField select{height:30px!important;min-height:30px!important;font-size:var(--fs-input)!important;padding:0 6px!important}
 .mnPick{display:grid;grid-template-columns:.9fr 2fr auto;gap:6px;align-items:end}
 .mnPick .mnField{min-width:0;font-size:14px}
 .mnAddBtn{width:var(--ctl-h,36px);height:var(--ctl-h,36px);min-width:var(--ctl-h,36px);padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:var(--r-md,8px)}
@@ -1424,17 +1424,17 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 .stBook{font-weight:700;color:var(--c2)}
 .mnCovTable tfoot td{font-weight:700;background:var(--c8)}
 #stTrM .mnPanel{width:min(1000px,100%)}
-#stTrM .trLbl{font-weight:700;margin:14px 0 8px;font-size:16px}
+#stTrM .trLbl{font-weight:700;margin:14px 0 8px;font-size:var(--fs-body)}
 #stTrM .trWarn{margin:6px 0 10px;padding:8px 12px;border:1px solid var(--c5);border-radius:10px;background:var(--c8);font-size:14px;line-height:1.9}
 #stTrM .mnTableWrap{overflow-x:auto;max-height:46vh}
 #stTrM tfoot td{font-weight:700;background:var(--c8)}
-#stTrM .trSum{display:flex;flex-wrap:wrap;gap:8px 28px;margin:12px 0 6px;font-size:16px}
+#stTrM .trSum{display:flex;flex-wrap:wrap;gap:8px 28px;margin:12px 0 6px;font-size:var(--fs-body)}
 #stTrM .trSum b{font-size:18px}
 #stTrM .trSel{max-width:280px;font-size:14px}
 #stTrM .trApplyBtn:disabled{opacity:.5;cursor:not-allowed}
 #stTrM .trApplyBtn{min-height:44px;padding:8px 18px;font-weight:700}
 #stTrM .trDd{margin-bottom:10px}
-#stTrM .trDdBtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;max-width:420px;padding:10px 14px;border:1px solid var(--c5);border-radius:12px;background:var(--c8);color:var(--c2);cursor:pointer;font-size:16px}
+#stTrM .trDdBtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;max-width:420px;padding:10px 14px;border:1px solid var(--c5);border-radius:12px;background:var(--c8);color:var(--c2);cursor:pointer;font-size:var(--fs-btn)}
 #stTrM .trDd.open .trDdBtn{border-color:var(--c2)}
 #stTrM .trDd.open .trDdBtn svg{transform:rotate(180deg)}
 #stTrM .trDdPanel{display:none;max-width:420px;margin-top:6px;border:1px solid var(--c5);border-radius:12px;background:var(--c8);overflow:hidden}
@@ -1452,7 +1452,7 @@ body.cplDrawerTop #projectDrawer [data-calcs-project]{display:none!important}
 #stTrM .trTag{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:6px 10px;border:1px solid var(--c2);border-radius:12px;background:var(--c9);font-size:14px}
 #stTrM .trTag b{min-width:120px}
 #stTrM .trTagIn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:auto;font-size:14px}
-#stTrM .trTagIn input{width:110px;min-width:0;padding:6px 8px;border:1px solid var(--c5);border-radius:8px;background:var(--c1);color:var(--c2);font-size:14px}
+#stTrM .trTagIn input{width:110px;min-width:0;padding:6px 8px;border:1px solid var(--c5);border-radius:8px;background:var(--c1);color:var(--c2);font-size:var(--fs-input)}
 html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:0 0 auto;margin-inline-start:auto}
 #stTrM .trTag.empty{border-color:var(--c5);opacity:.75}
 #stTrM .trTag small{color:var(--c55)}
@@ -1479,7 +1479,7 @@ html body #ciItems .mnRow{grid-template-columns:minmax(0,1fr) auto!important}
 .mnFx{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-end;margin:6px 0 2px;padding:8px 10px;border:1px dashed var(--c37);border-radius:10px;font-size:14px}
 .mnFxFn{align-self:center}
 .mnFxLab{display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--c55)}
-.mnFxInput{width:120px;box-sizing:border-box;text-align:center;font:inherit;font-size:16px;background:var(--c35);color:var(--c17);border:1px solid var(--c37);border-radius:8px;padding:6px 8px}
+.mnFxInput{width:120px;box-sizing:border-box;text-align:center;font:inherit;font-size:var(--fs-input);background:var(--c35);color:var(--c17);border:1px solid var(--c37);border-radius:8px;padding:6px 8px}
 .mnFxRes{align-self:center}
 .mnFxRes b{font-size:14px}
 #cplHome[data-view="expense"] .cplMainView{display:none}
@@ -1489,7 +1489,7 @@ html body #ciItems .mnRow{grid-template-columns:minmax(0,1fr) auto!important}
 #exEditor .exSubHead{margin:2px 0 4px;font-size:14px;color:var(--c55)}
 #exEditor .exCmpBox{margin-top:12px;padding:14px;border:1px solid var(--c37);border-radius:14px;display:flex;flex-direction:column;gap:10px}
 #exEditor .exCmpBox label{display:flex;flex-direction:column;gap:6px;font-size:14px}
-#exEditor .exCmpBox select{width:100%;box-sizing:border-box;min-height:40px;font-family:inherit;font-size:14px}
+#exEditor .exCmpBox select{width:100%;box-sizing:border-box;min-height:40px;font-family:inherit;font-size:var(--fs-input)}
 #exEditor .exStat{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--c55)}
 #exEditor .exStat b{color:var(--c2);font-size:14px}
 .mnStick{position:sticky;top:-12px;z-index:6;background:var(--c35);padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid var(--c5)}
@@ -1504,7 +1504,7 @@ html body #ciItems .mnRow{grid-template-columns:minmax(0,1fr) auto!important}
 .mnRow .mnDescBtn svg{width:20px;height:20px}
 .mnRes b{min-height:var(--ctl-h,32px)!important}
 .mnTotal,.mnTotal b{font-weight:900!important}
-.mnCovTable tfoot td,.mnCovTable tfoot th{font-weight:900!important;font-size:16px}
+.mnCovTable tfoot td,.mnCovTable tfoot th{font-weight:900!important;font-size:var(--fs-table)}
 @media (max-width:560px){
  .mnStick .mnRow4 .mnField input,.mnStick .mnRow4 .mnField select{height:28px!important;min-height:28px!important}
 }
@@ -1528,12 +1528,12 @@ html body #projectBar #cplMenuBtn svg,html body #projectBar #cplHomeQuickBtn svg
  #mnEditor .mnPick>.mnAddBtn,#stEditor .mnPick>.mnAddBtn{order:3}
  #mnEditor .mnPick>label:nth-child(2),#stEditor .mnPick>label:nth-child(2){order:4;grid-column:1/-1}
 }
-.mnExtraToggle{gap:6px!important;padding:4px 12px!important;min-height:38px;border-width:2px!important;border-radius:10px!important;font-size:16px!important;background:var(--c9)!important}
+.mnExtraToggle{gap:6px!important;padding:4px 12px!important;min-height:38px;border-width:2px!important;border-radius:10px!important;font-size:var(--fs-btn)!important;background:var(--c9)!important}
 .mnExtraToggle .mnTri{font-size:28px;line-height:1;font-weight:900;display:inline-block;min-width:22px;text-align:center}
 .mnExtraToggle .mnExCnt{font-size:18px;font-weight:800;min-width:20px;text-align:center}
 .mnMenuPanel{display:none;position:fixed;z-index:31000;min-width:230px;max-width:min(330px,92vw);padding:6px;border-radius:14px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);flex-direction:column;gap:2px;direction:rtl}
 .mnMenuPanel.open{display:flex}
-.mnHead .mnBtns .mnMenuPanel .btn:not(.stHid){display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;height:46px!important;min-height:46px!important;flex:0 0 auto!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;padding:0 12px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:var(--c2)!important;font-size:16px!important;font-weight:600!important;text-align:right!important;box-shadow:none!important}
+.mnHead .mnBtns .mnMenuPanel .btn:not(.stHid){display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;height:46px!important;min-height:46px!important;flex:0 0 auto!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;padding:0 12px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:var(--c2)!important;font-size:var(--fs-btn)!important;font-weight:600!important;text-align:right!important;box-shadow:none!important}
 .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid):hover,.mnHead .mnBtns .mnMenuPanel .btn:not(.stHid):active{background:var(--c9)!important}
 .mnHead .mnBtns .mnMenuPanel .btn svg{width:24px!important;height:24px!important;max-width:24px!important;max-height:24px!important;flex:0 0 24px!important}
 .mnMenuPanel .mnMenuLbl{flex:1 1 auto;text-align:right;white-space:nowrap}
@@ -1547,21 +1547,21 @@ html body .mnChapIntroBtn{flex:0 0 auto;width:var(--ctl-h,32px);min-width:var(--
 #chapterIntroModal{z-index:31500!important}
 html body .mnField{font-size:14px}
 html body .mnRow4 .mnField,html body .mnPick .mnField{font-size:14px;gap:3px}
-html body .mnStick .mnRow4 .mnField input,html body .mnStick .mnRow4 .mnField select,html body .mnRow4 .mnField input,html body .mnRow4 .mnField select{height:36px!important;min-height:36px!important;font-size:16px!important;padding:0 8px!important}
-html body .mnPick .mnField input,html body .mnPick .mnField select{font-size:16px!important;min-height:36px}
-html body .mnField select option,html body #chapter option,html body select option{font-size:16px}
+html body .mnStick .mnRow4 .mnField input,html body .mnStick .mnRow4 .mnField select,html body .mnRow4 .mnField input,html body .mnRow4 .mnField select{height:36px!important;min-height:36px!important;font-size:var(--fs-input)!important;padding:0 8px!important}
+html body .mnPick .mnField input,html body .mnPick .mnField select{font-size:var(--fs-input)!important;min-height:36px}
+html body .mnField select option,html body #chapter option,html body select option{font-size:var(--fs-input)}
 html body .mnCell{font-size:14px}
-html body .mnCell input{font-size:16px!important}
+html body .mnCell input{font-size:var(--fs-input)!important}
 html body .mnRes{font-size:14px}
-html body .mnRes b{font-size:16px}
+html body .mnRes b{font-size:var(--fs-body)}
 html body .mnCode{font-size:20px;font-weight:900}
 html body .mnItem .mnMuted{font-size:14px}
-html body .mnItem .mnDesc{font-size:16px;line-height:1.8}
+html body .mnItem .mnDesc{font-size:var(--fs-body);line-height:1.8}
 html body .mnItem .mnExTag{font-size:14px}
 html body .mnItem .mnSrcLine{font-size:14px}
 .mnHeadTitle{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1 1 auto}
 .mnHeadTitle b{white-space:nowrap}
-html body .mnHeadIn{height:34px!important;min-height:34px!important;font-size:16px!important;padding:0 8px!important;text-align:center;border-radius:var(--r-md,8px)}
+html body .mnHeadIn{height:34px!important;min-height:34px!important;font-size:var(--fs-input)!important;padding:0 8px!important;text-align:center;border-radius:var(--r-md,8px)}
 html body .mnHeadNo{width:84px!important}
 html body .mnHeadWd{width:118px!important}
 .mnRow4.mnRow3{grid-template-columns:.8fr 1fr 2.4fr}
@@ -1572,7 +1572,7 @@ html body .mnHeadWd{width:118px!important}
  html body .mnHeadWd{width:104px!important}
 }
 .mnHeadSide{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-.mnHeadSide .mnTotal{font-size:16px;white-space:nowrap}
+.mnHeadSide .mnTotal{font-size:var(--fs-body);white-space:nowrap}
 .mnHeadSide .mnTotal b{font-size:18px}
 @media (max-width:560px){
  .mnHeadSide{width:100%;justify-content:space-between}
@@ -1584,12 +1584,12 @@ html body .mnRow .mnRowAdd{width:var(--ctl-h,32px)!important;min-width:var(--ctl
  html body .mnRow .mnDescBtn{grid-column:3}
  html body .mnRow .mnRowBtns{grid-column:4/6}
 }
-html body .analysisStepBtn{width:auto!important;min-height:var(--ico-btn,40px)!important;padding:0 14px!important;font-size:16px!important;font-weight:800;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
-html body .analysisHead .analysisStepBtn{min-height:var(--ico-btn,40px)!important;height:var(--ico-btn,40px)!important;padding:0 10px!important;font-size:14px!important;line-height:1.25!important;font-weight:800;white-space:normal!important;text-align:center;max-width:104px}
+html body .analysisStepBtn{width:auto!important;min-height:var(--ico-btn,40px)!important;padding:0 14px!important;font-size:var(--fs-btn)!important;font-weight:800;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
+html body .analysisHead .analysisStepBtn{min-height:var(--ico-btn,40px)!important;height:var(--ico-btn,40px)!important;padding:0 10px!important;font-size:var(--fs-btn)!important;line-height:1.25!important;font-weight:800;white-space:normal!important;text-align:center;max-width:104px}
 .analysisHead .analysisActions{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
 html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid){height:46px!important;min-height:46px!important;padding:0 14px!important;gap:14px!important;line-height:1!important;color:var(--c2)!important}
 html body .mnHead .mnBtns .mnMenuPanel .btn svg,html body .mnHead .mnBtns .mnMenuPanel .btn img{width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;flex:0 0 24px!important;display:block!important}
-html body .mnMenuPanel .mnMenuLbl{flex:1 1 auto;font-size:16px!important;font-weight:600!important;line-height:1.2!important;text-align:right;white-space:nowrap;color:inherit}
+html body .mnMenuPanel .mnMenuLbl{flex:1 1 auto;font-size:var(--fs-btn)!important;font-weight:600!important;line-height:1.2!important;text-align:right;white-space:nowrap;color:inherit}
 html body .mnMenuPanel{min-width:240px;padding:8px;gap:2px}
 #stNewM{align-items:center!important}
 #stNewM .mnPanel{width:min(460px,100%)!important;padding:14px 16px 16px}
@@ -1599,39 +1599,39 @@ html body .mnMenuPanel{min-width:240px;padding:8px;gap:2px}
 .stnOpt input[type=radio]{width:20px!important;height:20px!important;min-width:20px;margin:0;flex:0 0 20px}
 .stnOpt.on{border-color:var(--c2);background:var(--c9)}
 .stnOptTxt{display:flex;flex-direction:column;gap:2px;min-width:0}
-.stnOptTxt b{font-size:16px}
+.stnOptTxt b{font-size:var(--fs-body)}
 .stnOptTxt small{font-size:14px;color:var(--c55);line-height:1.6}
 .stnSelBox{font-size:14px;gap:6px}
-.stnSelBox select{min-height:40px;font-size:16px}
+.stnSelBox select{min-height:40px;font-size:var(--fs-input)}
 .stnActions{display:flex;gap:10px;margin-top:16px}
-.stnActions .btn{flex:1 1 0;min-height:42px;font-size:16px!important;font-weight:700}
+.stnActions .btn{flex:1 1 0;min-height:42px;font-size:var(--fs-btn)!important;font-weight:700}
 .stnActions .btn.primary{flex:1.4 1 0}
 .adjustmentActions{display:none!important}
 .summaryNext #backFromSummary,.summaryNext #goAdjustment{display:none!important}
-.stageNav .stageProxyBtn{min-height:36px;padding:0 12px!important;font-size:14px!important;font-weight:700;white-space:nowrap}
+.stageNav .stageProxyBtn{min-height:36px;padding:0 12px!important;font-size:var(--fs-btn)!important;font-weight:700;white-space:nowrap}
 .stageNav{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
-html body .stageNav>.btn.analysisStepBtn,html body .stageNav>.btn.stageProxyBtn{width:auto!important;min-width:0!important;max-width:none!important;flex:0 0 auto!important;height:var(--ico-btn,40px)!important;min-height:var(--ico-btn,40px)!important;padding:0 14px!important;font-size:14px!important;font-weight:700;line-height:1!important;white-space:nowrap!important;text-align:center;align-items:center;justify-content:center}
+html body .stageNav>.btn.analysisStepBtn,html body .stageNav>.btn.stageProxyBtn{width:auto!important;min-width:0!important;max-width:none!important;flex:0 0 auto!important;height:var(--ico-btn,40px)!important;min-height:var(--ico-btn,40px)!important;padding:0 14px!important;font-size:var(--fs-btn)!important;font-weight:700;line-height:1!important;white-space:nowrap!important;text-align:center;align-items:center;justify-content:center}
 html body .stageNav>.btn.analysisStepBtn br{display:none}
 @media (max-width:640px){
  html body .analysisHead,html body .adjustmentHead{flex-wrap:wrap}
  html body .analysisHead>.stageNav,html body .adjustmentHead>.stageNav,html body .summaryHead>.stageNav{flex-wrap:wrap!important;justify-content:flex-end}
- html body .stageNav>.btn.analysisStepBtn,html body .stageNav>.btn.stageProxyBtn{padding:0 10px!important;font-size:14px!important}
+ html body .stageNav>.btn.analysisStepBtn,html body .stageNav>.btn.stageProxyBtn{padding:0 10px!important;font-size:var(--fs-btn)!important}
 }
-html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid){font-weight:400!important;font-size:16px!important;letter-spacing:0!important;text-shadow:none!important;-webkit-font-smoothing:antialiased}
-html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid) .mnMenuLbl,html body .mnMenuPanel .mnMenuLbl{font-weight:400!important;font-size:16px!important;line-height:1.3!important;color:var(--c2)!important;opacity:1!important;text-shadow:none!important;font-synthesis:none}
+html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid){font-weight:400!important;font-size:var(--fs-btn)!important;letter-spacing:0!important;text-shadow:none!important;-webkit-font-smoothing:antialiased}
+html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid) .mnMenuLbl,html body .mnMenuPanel .mnMenuLbl{font-weight:400!important;font-size:var(--fs-btn)!important;line-height:1.3!important;color:var(--c2)!important;opacity:1!important;text-shadow:none!important;font-synthesis:none}
 html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid) svg{opacity:1!important}
 .cplAskOv{position:fixed;inset:0;z-index:45000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.55);direction:rtl}
 .cplAskBox{width:min(440px,100%);background:var(--c4);color:var(--c2);border:1px solid var(--c5);border-radius:16px;padding:18px 18px 16px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.cplAskBox h3{margin:0 0 6px;font-size:18px;font-weight:700;color:var(--c2)}
-.cplAskBox p{margin:0 0 16px;font-size:16px;line-height:1.9;color:var(--c2);opacity:.85}
+.cplAskBox h3{margin:0 0 6px;font-size:var(--fs-h2);font-weight:700;color:var(--c2)}
+.cplAskBox p{margin:0 0 16px;font-size:var(--fs-body);line-height:1.9;color:var(--c2);opacity:.85}
 .cplAskBtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
-html body .cplAskBtns .btn{flex:0 0 auto!important;width:auto!important;min-width:0!important;height:42px!important;padding:0 16px!important;white-space:nowrap;font-size:16px!important;font-weight:700}
+html body .cplAskBtns .btn{flex:0 0 auto!important;width:auto!important;min-width:0!important;height:42px!important;padding:0 16px!important;white-space:nowrap;font-size:var(--fs-btn)!important;font-weight:700}
 #ciItems .mnItemHead{align-items:center;margin-bottom:4px}
 #ciItems .mnHeadMain{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0}
 #ciItems .mnHeadSide{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
 #ciItems .mnHeadSide .mnTotal{white-space:nowrap}
 html body #ciItems .mnRow.mnLine{display:flex!important;align-items:center;gap:10px;grid-template-columns:none!important;margin:0}
-#ciItems .mnLineDesc{flex:1 1 0;min-width:0;font-size:16px;line-height:1.7;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#ciItems .mnLineDesc{flex:1 1 0;min-width:0;font-size:var(--fs-body);line-height:1.7;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 #ciItems .mnLineDesc .mnLineTxt{display:inline}
 #ciItems .mnLineDesc .mnSrcLine{display:none}
 #ciItems .mnLineDesc.open{white-space:normal;overflow:visible;text-overflow:clip}
@@ -1662,53 +1662,53 @@ html body .stageNav>.btn.stgMenuBtn svg{width:24px;height:24px}
 .stgHid{display:none!important}
 #stgMenu{display:none;position:fixed;width:min(250px,86vw);padding:6px;border-radius:18px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);z-index:60000;flex-direction:column;direction:rtl}
 #stgMenu.open{display:flex}
-#stgMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:16px;font-weight:400;text-align:right;cursor:pointer}
+#stgMenu button{display:flex;align-items:center;gap:14px;width:100%;height:48px;padding:0 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:var(--fs-btn);font-weight:400;text-align:right;cursor:pointer}
 #stgMenu button:active{background:var(--c9)}
 @media (hover:hover){
  #stgMenu button:hover{background:var(--c9)}
 }
 #stgMenu button svg{width:24px;height:24px;flex:0 0 24px}
 #stgMenu button.danger{color:#ff5a52;margin-top:4px;border-top:1px solid var(--c5);border-radius:0 0 12px 12px}
-#cplHome .cplMainView .cplHomeHead h1{font-size:34px!important;line-height:1.4!important}
+#cplHome .cplMainView .cplHomeHead h1{font-size:var(--fs-h1)!important;line-height:1.4!important}
 #cplHome .cplMainView .cplHomeHead .who{font-size:18px!important;line-height:1.7!important;opacity:1!important}
 #cplHome .cplCard.pick .pickTxt b{font-size:18px!important}
-#cplHome .cplCard.pick .pickTxt small{font-size:16px!important}
+#cplHome .cplCard.pick .pickTxt small{font-size:var(--fs-body)!important}
 html body #exEditor .exTopBar{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 4px}
-html body #exEditor .exTopBar .btn{min-height:40px!important;height:40px!important;padding:0 16px!important;font-size:16px!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:var(--r-md,8px)!important}
-html body #ciCover .mnHead b,html body #exEditor .mnHead b{font-size:20px!important}
-html body #ciCover .mnHead .mnBtns .btn,html body #exEditor .mnHead .mnBtns .btn{font-size:16px!important}
-html body #exEditor #exName{font-size:16px!important}
-html body #ciCover .mnCovTable,html body #ciCover .mnCovTable th,html body #ciCover .mnCovTable td,html body #ciCover .mnCovTable tfoot td,html body #ciCover .mnCovTable tfoot th{font-size:16px!important;line-height:1.7!important}
+html body #exEditor .exTopBar .btn{min-height:40px!important;height:40px!important;padding:0 16px!important;font-size:var(--fs-btn)!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:var(--r-md,8px)!important}
+html body #ciCover .mnHead b,html body #exEditor .mnHead b{font-size:var(--fs-h1)!important}
+html body #ciCover .mnHead .mnBtns .btn,html body #exEditor .mnHead .mnBtns .btn{font-size:var(--fs-btn)!important}
+html body #exEditor #exName{font-size:var(--fs-input)!important}
+html body #ciCover .mnCovTable,html body #ciCover .mnCovTable th,html body #ciCover .mnCovTable td,html body #ciCover .mnCovTable tfoot td,html body #ciCover .mnCovTable tfoot th{font-size:var(--fs-table)!important;line-height:1.7!important}
 html body #ciCover .mnCovTable th{font-weight:700}
-html body #ciCover .stIn{font-size:16px!important}
-html body #ciCover .mnMuted,html body #ciCover #cifSub,html body #ciCover #cifANote{font-size:16px!important;line-height:1.8!important}
-html body #ciCover .mnField{font-size:16px!important}
-html body #ciCover .mnField input,html body #ciCover .mnField select{font-size:16px!important}
-html body #ciCover .ciExHint{font-size:16px!important;line-height:1.9!important;max-width:520px}
-html body #ciCover .ciExBtn{font-size:16px!important;height:46px!important;min-height:46px!important}
-html body #exEditor .exSubHead{font-size:16px!important;line-height:1.8!important}
-html body #exEditor .analysisSectionTitle{font-size:18px!important}
-html body #exEditor .analysisTable th,html body #exEditor .analysisTable td,html body #exEditor .analysisInput,html body #exEditor .analysisTable input{font-size:16px!important}
-html body #exEditor .analysisAddRow,html body #exEditor .analysisDeleteRow{font-size:16px!important}
+html body #ciCover .stIn{font-size:var(--fs-input)!important}
+html body #ciCover .mnMuted,html body #ciCover #cifSub,html body #ciCover #cifANote{font-size:var(--fs-body)!important;line-height:1.8!important}
+html body #ciCover .mnField{font-size:var(--fs-body)!important}
+html body #ciCover .mnField input,html body #ciCover .mnField select{font-size:var(--fs-input)!important}
+html body #ciCover .ciExHint{font-size:var(--fs-body)!important;line-height:1.9!important;max-width:520px}
+html body #ciCover .ciExBtn{font-size:var(--fs-btn)!important;height:46px!important;min-height:46px!important}
+html body #exEditor .exSubHead{font-size:var(--fs-body)!important;line-height:1.8!important}
+html body #exEditor .analysisSectionTitle{font-size:var(--fs-h2)!important}
+html body #exEditor .analysisTable th,html body #exEditor .analysisTable td,html body #exEditor .analysisInput,html body #exEditor .analysisTable input{font-size:var(--fs-input)!important}
+html body #exEditor .analysisAddRow,html body #exEditor .analysisDeleteRow{font-size:var(--fs-btn)!important}
 html body #exEditor .analysisTotalRow td,html body #exEditor .analysisGrand,html body #exEditor .analysisGrand span{font-size:18px!important}
-html body #exEditor .exStat{font-size:16px!important}
+html body #exEditor .exStat{font-size:var(--fs-body)!important}
 html body #exEditor .exStat b{font-size:18px!important}
-html body #exEditor .exCmpBox{font-size:16px!important}
-html body #exEditor .mnEmpty{font-size:16px!important;line-height:1.9!important}
-html body #exEditor .adjustmentResultRow>div{font-size:16px!important;padding:12px 10px!important;min-width:110px}
+html body #exEditor .exCmpBox{font-size:var(--fs-body)!important}
+html body #exEditor .mnEmpty{font-size:var(--fs-body)!important;line-height:1.9!important}
+html body #exEditor .adjustmentResultRow>div{font-size:var(--fs-body)!important;padding:12px 10px!important;min-width:110px}
 @media (max-width:600px){
  html body #exEditor .adjustmentResultTable{display:grid!important;grid-auto-flow:column;grid-template-rows:repeat(4,auto);grid-template-columns:auto 1fr}
  html body #exEditor .adjustmentResultRow{display:contents!important}
  html body #exEditor .adjustmentResultRow>div{display:block!important;text-align:start!important;min-width:0!important;padding:10px 8px!important;border-bottom:1px solid var(--c37)!important}
 }
-html body{font-size:16px!important;line-height:1.8!important}
-html body h1{font-size:36px!important;line-height:1.4!important}
+html body{font-size:var(--fs-body)!important;line-height:1.8!important}
+html body h1{font-size:var(--fs-h1)!important;line-height:1.4!important}
 html body h2{font-size:28px!important;line-height:1.5!important}
 html body h3{font-size:20px!important;line-height:1.6!important}
 html body small{font-size:14px!important}
-html body #cplHome .cplHomeHead .who{font-size:16px!important}
+html body #cplHome .cplHomeHead .who{font-size:var(--fs-body)!important}
 @media (max-width:480px){
- html body h1,html body #cplHome .cplHomeHead h1{font-size:30px!important}
+ html body h1,html body #cplHome .cplHomeHead h1{font-size:var(--fs-h1)!important}
  html body h2{font-size:24px!important}
 }
 :root{--vh-full:100vh}
@@ -1754,12 +1754,12 @@ html body #cplHome .cplMainView .cplHomeHead h1,html body #cplHome .cplHomeHead 
 }
 html body #ciCover .mnFin{table-layout:auto}
 html body #ciCover .mnFin th:nth-child(n+8):nth-child(-n+12),html body #ciCover .mnFin td:nth-child(n+8):nth-child(-n+12){padding:4px 2px!important;width:56px;font-size:14px!important}
-html body #ciCover .mnFin td:nth-child(n+8):nth-child(-n+12) .stIn{width:50px!important;min-width:0!important;padding:2px 3px!important;font-size:16px!important;text-align:center}
+html body #ciCover .mnFin td:nth-child(n+8):nth-child(-n+12) .stIn{width:50px!important;min-width:0!important;padding:2px 3px!important;font-size:var(--fs-input)!important;text-align:center}
 html body #ciCover .mnFin th:nth-child(1),html body #ciCover .mnFin th:nth-child(2),html body #ciCover .mnFin th:nth-child(4){width:1%;white-space:nowrap;padding-inline:6px!important}
 html body #ciCover .mnFin td.mnCovSm{width:1%;white-space:nowrap;padding:4px 6px!important;min-width:0!important;font-size:14px!important}
 html body #ciCover .mnFin th:nth-child(3){width:38%}
-html body #ciCover .mnFin td.mnCovDesc{min-width:300px;font-size:16px!important;line-height:1.6!important}
-html body #ciItems .mnHeadMain .mnFxToggle{min-height:32px;padding:0 10px!important;font-size:14px!important}
+html body #ciCover .mnFin td.mnCovDesc{min-width:300px;font-size:var(--fs-table)!important;line-height:1.6!important}
+html body #ciItems .mnHeadMain .mnFxToggle{min-height:32px;padding:0 10px!important;font-size:var(--fs-btn)!important}
 html body #ciItems .mnHeadMain .mnFxFn{font-size:14px}
 html body #ciItems .mnHeadMain .mnFxFn[hidden]{display:none!important}
 html body #ciItems .mnHeadMain .mnFxLab{flex-direction:row;align-items:center;gap:6px;font-size:14px;color:inherit}
@@ -1767,7 +1767,7 @@ html body #ciItems .mnHeadMain .mnFxInput{width:80px}
 html body #ciItems .mnHeadMain .mnFxRes{font-size:14px}
 html body #ciItems .mnHeadMain .mnUP{font-size:14px;margin-inline-start:6px}
 html body .analysisActions .mnIco{box-sizing:border-box;width:var(--ico-btn,40px);height:var(--ico-btn,40px);min-width:0;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
-html body .analysisActions .mnMenuPanel .btn{display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;height:46px!important;min-height:46px!important;flex:0 0 auto!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;padding:0 12px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:var(--c2)!important;font-size:16px!important;font-weight:400!important;text-align:right!important}
+html body .analysisActions .mnMenuPanel .btn{display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;height:46px!important;min-height:46px!important;flex:0 0 auto!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;padding:0 12px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:var(--c2)!important;font-size:var(--fs-btn)!important;font-weight:400!important;text-align:right!important}
 html body .analysisActions .mnMenuPanel .btn:hover,html body .analysisActions .mnMenuPanel .btn:active{background:var(--c9)!important}
 html body .analysisActions .mnMenuPanel .btn svg,html body .analysisActions .mnMenuPanel .btn img{width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;flex:0 0 24px!important;display:block!important}
 html body .analysisActions .mnMenuPanel .mnMenuLbl{flex:1 1 auto;text-align:right;white-space:nowrap;color:inherit}
@@ -1776,16 +1776,16 @@ html body #stCover .mnFin th,html body #stCover .mnFin td{padding:4px 3px!import
 html body #stCover .mnFin th:nth-child(1),html body #stCover .mnFin th:nth-child(2),html body #stCover .mnFin th:nth-child(4),html body #stCover .mnFin td.mnCovSm{width:1%;white-space:nowrap}
 html body #stCover .mnFin th:nth-child(n+5):nth-child(-n+8),html body #stCover .mnFin td:nth-child(n+5):nth-child(-n+8),html body #stCover .mnFin th:nth-child(14),html body #stCover .mnFin td:nth-child(14){width:1%;white-space:nowrap}
 html body #stCover .mnFin th:nth-child(n+9):nth-child(-n+13),html body #stCover .mnFin td:nth-child(n+9):nth-child(-n+13){width:52px;padding:4px 2px!important}
-html body #stCover .mnFin td:nth-child(7) .stIn{width:86px!important;min-width:0!important;padding:2px 4px!important;font-size:14px!important}
-html body #stCover .mnFin td.mnCovDesc{font-size:16px!important;line-height:1.6!important}
+html body #stCover .mnFin td:nth-child(7) .stIn{width:86px!important;min-width:0!important;padding:2px 4px!important;font-size:var(--fs-input)!important}
+html body #stCover .mnFin td.mnCovDesc{font-size:var(--fs-table)!important;line-height:1.6!important}
 html body #stItems .mnHeadSrc{font-size:14px}
 html body #mnItems .mnRowNext .mnCell>span,html body #mnItems .mnRowNext .mnRes>span,html body #stItems .mnRowNext .mnCell>span,html body #stItems .mnRowNext .mnRes>span{display:none!important}
 html body #mnItems .mnItemHead>div:first-child,html body #stItems .mnItemHead>div:first-child{flex:1 1 auto;min-width:0}
-html body .mnCode.mnCodeBox{font-size:16px;font-weight:400;display:inline-block;border:2px solid var(--c2);border-radius:8px;padding:1px 10px;line-height:1.5;vertical-align:middle}
+html body .mnCode.mnCodeBox{font-size:var(--fs-body);font-weight:400;display:inline-block;border:2px solid var(--c2);border-radius:8px;padding:1px 10px;line-height:1.5;vertical-align:middle}
 html body #mnItems .mnItemHead .mnHeadSide,html body #stItems .mnItemHead .mnHeadSide{flex-direction:column;align-items:flex-end;gap:6px}
 html body .mnItemHead .mnHeadTop{display:flex;align-items:center;gap:10px}
 html body .mnItemHead .mnHeadSide .mnPriceTag{white-space:nowrap;font-size:14px;color:var(--c55);padding:2px 10px;border:1px solid var(--c5);border-radius:8px;background:var(--c8)}
-html body .mnItemHead .mnHeadSide .mnPriceTag b{color:var(--c2);font-size:16px}
+html body .mnItemHead .mnHeadSide .mnPriceTag b{color:var(--c2);font-size:var(--fs-body)}
 html body .mnItemHead .mnDescRow{display:flex;flex-wrap:wrap;gap:6px 14px}
 html body .mnItemHead .mnDescRow .mnDesc{flex:0 1 auto;min-width:0}
 html body .mnItemHead .mnDescRow .mnExOpts{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0;padding:0;border:0;background:transparent}
@@ -1801,7 +1801,7 @@ html body .mnItemHead .mnDesc{margin-top:0!important}
 .cplListHeadBtns{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .cplListNewBtn{display:inline-flex!important;align-items:center;justify-content:center;gap:6px;white-space:nowrap;font-weight:700;line-height:1.2;width:auto!important;min-width:max-content!important;height:auto!important;min-height:0!important;flex:0 0 auto!important;padding:8px 14px!important}
 .cplListNewBtn svg{width:16px;height:16px;flex:0 0 16px;display:block}
-html body .stageNav>.btn.btn.cplListNewBtn,html body .analysisHead .stageNav>.btn.cplListNewBtn{width:auto!important;min-width:max-content!important;max-width:none!important;height:auto!important;min-height:36px!important;flex:0 0 auto!important;padding:6px 14px!important;font-size:14px!important;line-height:1.2!important;white-space:nowrap!important;overflow:visible!important}
+html body .stageNav>.btn.btn.cplListNewBtn,html body .analysisHead .stageNav>.btn.cplListNewBtn{width:auto!important;min-width:max-content!important;max-width:none!important;height:auto!important;min-height:36px!important;flex:0 0 auto!important;padding:6px 14px!important;font-size:var(--fs-btn)!important;line-height:1.2!important;white-space:nowrap!important;overflow:visible!important}
 html body .analysisHead .stageNav{flex-wrap:nowrap!important}
 @media (max-width:520px){
  html body .analysisHead{flex-wrap:wrap}
@@ -1827,9 +1827,9 @@ html body .mnChipRow>.mnExtraToggle{padding:0 10px!important;border-width:1px!im
 html body .mnChipRow>.mnExtraToggle .mnTri{font-size:16px!important;line-height:1!important;min-width:12px!important}
 html body .mnChipRow>.mnExtraToggle .mnExCnt{font-size:14px!important;line-height:1!important;min-width:0!important}
 html body .mnChipRow>.mnExTag{padding:0 10px!important;border:1px solid var(--c5);font-size:14px!important}
-html body .mnChipRow>.mnCode.mnCodeBox{padding:0 10px!important;border:2px solid var(--c2)!important;font-size:16px;font-weight:400}
+html body .mnChipRow>.mnCode.mnCodeBox{padding:0 10px!important;border:2px solid var(--c2)!important;font-size:var(--fs-body);font-weight:400}
 html body .mnChipRow>.mnPriceTag{padding:0 10px!important;border:1px solid var(--c5);background:var(--c8);color:var(--c55);font-size:14px}
-html body .mnChipRow>.mnPriceTag b{color:var(--c2);font-size:16px;margin-inline:3px}
+html body .mnChipRow>.mnPriceTag b{color:var(--c2);font-size:var(--fs-body);margin-inline:3px}
 html body .mnChipRow>.mnHeadSep,html body .mnChipRow>.mnHeadSrc{align-self:center}
 html body .mnItemHead .mnDescRow{margin-top:6px}
 html body #stCover>.mnPanel>.mnHead,html body #ciCover>.mnPanel>.mnHead{flex-wrap:wrap;row-gap:6px}
@@ -1853,13 +1853,13 @@ html body .mnChipRow>.mnExtraToggle,html body .mnChipRow>.mnExTag,html body .mnC
  html body #mnItems .mnItemHead,html body #stItems .mnItemHead{flex-direction:column;align-items:stretch!important}
  html body #mnItems .mnItemHead .mnHeadSide,html body #stItems .mnItemHead .mnHeadSide{width:100%;justify-content:space-between;height:auto;min-height:32px}
 }
-html body .analysisDeleteRow{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;line-height:1!important;text-align:center;font-size:16px}
+html body .analysisDeleteRow{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;line-height:1!important;text-align:center;font-size:var(--fs-body)}
 html body .analysisTable td:last-child{text-align:center;vertical-align:middle}
 html body .mnChipRow>.mnPayk{box-sizing:border-box;height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 10px;border:1px solid var(--c5);border-radius:8px;background:var(--c8);color:var(--c2);font-size:14px;line-height:1;white-space:nowrap;cursor:pointer;margin:0}
 html body .mnChipRow>.mnPayk.on{border-color:var(--c2);font-weight:700}
 html body .mnChipRow>.mnPayk input{width:18px;height:18px;margin:0;cursor:pointer;accent-color:var(--c2)}
 html body .mnChipRow>.mnPaykInfo{box-sizing:border-box;height:32px;display:inline-flex;align-items:center;padding:0 10px;border:1px dashed var(--c5);border-radius:8px;color:var(--c55);font-size:14px;line-height:1;white-space:nowrap}
-html body .mnChipRow>.mnPaykInfo b{color:var(--c2);font-size:16px;margin-inline-start:4px}
+html body .mnChipRow>.mnPaykInfo b{color:var(--c2);font-size:var(--fs-body);margin-inline-start:4px}
 html body #cplCostMenu,html body #stgMenu,html body .mnMenuPanel{direction:rtl!important;align-items:stretch!important}
 html body #cplCostMenu button,html body #stgMenu button,html body .mnMenuPanel .btn,html body .mnHead .mnBtns .mnMenuPanel .btn:not(.stHid),html body .analysisActions .mnMenuPanel .btn{display:flex!important;flex-direction:row!important;justify-content:flex-start!important;align-items:center!important;text-align:right!important;direction:rtl!important}
 html body #cplCostMenu button>span,html body #stgMenu button>span,html body .mnMenuPanel .btn>span,html body .mnMenuPanel .mnMenuLbl{flex:1 1 auto!important;text-align:right!important;justify-content:flex-start!important;margin:0!important}
@@ -1876,7 +1876,7 @@ html body .projectItem>div:first-child>div:first-child small{display:block}
 html body .projectItem .btns.projBtns{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:6px!important;flex:0 0 auto;grid-template-columns:none!important}
 html body .projectItem .btns.projBtns .btn{width:auto!important;white-space:nowrap}
 html body .projectItem .btns.projBtns .btn.projIco{display:inline-flex!important;align-items:center;justify-content:center;width:34px!important;height:34px!important;min-height:34px!important;padding:0!important;border-radius:9px}
-html body .projectItem .btns.projBtns .btn:not(.projIco){height:34px;min-height:34px!important;padding:0 10px!important;font-size:14px}
+html body .projectItem .btns.projBtns .btn:not(.projIco){height:34px;min-height:34px!important;padding:0 10px!important;font-size:var(--fs-btn)}
 html body .mnHead .mnBtns>.btn.mnSaveBtn svg,html body .mnHead .mnBtns>.btn.mnSaveBtn svg *{stroke-width:1.5!important}
 html body .mnListItem .mnBtns,html body .starredItem .actions{display:flex!important;flex-wrap:nowrap!important;gap:6px!important;align-items:center;flex:0 0 auto}
 html body .btn.mnListIco{display:inline-flex!important;align-items:center;justify-content:center;padding:0!important}
@@ -1895,7 +1895,7 @@ html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDes
 html body .mnOverlay>.mnPanel>.mnHead{top:0!important}
 html body .mnListItem{flex-direction:row!important;align-items:center!important;gap:8px!important;padding:8px 10px!important;margin-top:8px!important}
 html body .mnListItem>div:first-child{flex:1 1 auto;min-width:0;line-height:1.6}
-html body .mnListItem>div:first-child>b{font-size:16px;overflow-wrap:anywhere}
+html body .mnListItem>div:first-child>b{font-size:var(--fs-body);overflow-wrap:anywhere}
 html body .mnListItem .mnMuted{font-size:12px;margin-top:2px}
 html body .btn.mnListIco{width:32px!important;min-width:32px!important;height:32px!important;min-height:32px!important;flex:0 0 32px!important;border-radius:8px}
 html body .btn.mnListIco svg{width:17px!important;height:17px!important}
@@ -1904,8 +1904,8 @@ html body .mnOverlay>.mnPanel>.mnHead>b{flex:1 1 0;min-width:0;line-height:1.5;o
 @media (max-width:480px){
  html body .mnHead .mnBtns{gap:5px}
  html body .mnHead .mnBtns>.btn.mnIco{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important;flex:0 0 38px!important}
- html body .mnHead .mnBtns>.mnTextBtn,html body .mnHead .mnBtns>.mnCloseBtn{height:38px!important;min-height:38px!important;padding:0 10px!important;font-size:14px!important;white-space:nowrap}
- html body .mnOverlay>.mnPanel>.mnHead>b{font-size:16px}
+ html body .mnHead .mnBtns>.mnTextBtn,html body .mnHead .mnBtns>.mnCloseBtn{height:38px!important;min-height:38px!important;padding:0 10px!important;font-size:var(--fs-btn)!important;white-space:nowrap}
+ html body .mnOverlay>.mnPanel>.mnHead>b{font-size:var(--fs-h1)}
 }
 @media (max-width:360px){
  html body .mnHead .mnBtns{gap:4px}
@@ -1935,7 +1935,7 @@ body.cplBaseOpen .analysisModal{z-index:29500!important}
 #cplBase .cbMenu b{font-size:18px;font-weight:800}
 #cplBase .cbForm{display:grid;grid-template-columns:1fr;gap:12px}
 #cplBase .cbForm label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--c3)}
-#cplBase .cbForm select{font-size:16px;height:46px;padding:0 10px}
+#cplBase .cbForm select{font-size:var(--fs-input);height:46px;padding:0 10px}
 #cplBase .cbRow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 #cplBase .cbRow3{display:grid;grid-template-columns:1.5fr 1fr 1.2fr;gap:8px}
 #cplBase .cbRow3 select,#cplBase .cbRow2 select{min-width:0;width:100%}
@@ -1945,12 +1945,12 @@ body.cplBaseOpen .analysisModal{z-index:29500!important}
 #cplBase .cbTop .code{flex:0 0 auto}
 #cplBase .cbTop .cbPrice{flex:1 1 auto;min-width:0;font-size:18px;font-weight:800;white-space:nowrap}
 #cplBase .cbTop .btn{flex:0 0 auto;height:40px;padding:0 16px;white-space:nowrap}
-#cplBase .cbDesc{margin-top:10px;font-size:16px;line-height:1.9;overflow-wrap:anywhere}
+#cplBase .cbDesc{margin-top:10px;font-size:var(--fs-body);line-height:1.9;overflow-wrap:anywhere}
 #cplBase .cbMeta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 #cplBase .cbEmpty{padding:26px 10px;text-align:center;color:var(--c10);line-height:2}
 #cplBase .cbCount{margin:14px 0 8px;font-size:14px;color:var(--c11)}
 #cplBase .cbTblWrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--c9);border-radius:14px;background:var(--c8)}
-#cplBase table.cbTbl{width:100%;border-collapse:collapse;font-size:16px}
+#cplBase table.cbTbl{width:100%;border-collapse:collapse;font-size:var(--fs-table)}
 #cplBase .cbTbl th,#cplBase .cbTbl td{padding:9px 10px;border-bottom:1px solid var(--c9);text-align:right;vertical-align:middle}
 #cplBase .cbTbl th{background:var(--c35);white-space:nowrap;font-weight:800}
 #cplBase .cbTbl tr:last-child td{border-bottom:0}
@@ -1962,7 +1962,7 @@ body.cplBaseOpen .analysisModal{z-index:29500!important}
 #cplBase .cbHead .btn{flex:0 0 46px!important;width:46px!important;min-width:46px!important;height:46px!important;min-height:46px!important;padding:0!important;box-sizing:border-box}
 #cplBase .cbHead .btn svg{width:30px!important;height:30px!important}
 #cplBase .cbHead .btn[data-cb="home"] svg{width:30px!important;height:30px!important;stroke-width:2}
-#cplBase .cbForm select,#cplBase .cbForm input{box-sizing:border-box!important;width:100%;height:46px!important;min-height:46px!important;max-height:46px!important;padding:0 12px!important;font-size:16px!important;line-height:normal!important;margin:0}
+#cplBase .cbForm select,#cplBase .cbForm input{box-sizing:border-box!important;width:100%;height:46px!important;min-height:46px!important;max-height:46px!important;padding:0 12px!important;font-size:var(--fs-input)!important;line-height:normal!important;margin:0}
 #cplBase .cbSrch{display:flex;gap:8px;align-items:stretch}
 #cplBase .cbSrch input{flex:1 1 auto;min-width:0;width:auto}
 #cplBase .cbSrch .btn{flex:0 0 46px;width:46px;min-width:46px;height:46px;min-height:46px;padding:0;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;border-radius:12px}
@@ -1976,11 +1976,11 @@ body.cplBaseOpen .analysisModal{z-index:29500!important}
 #cplBase .cbRel.hit{border-color:var(--c6)}
 #cplBase .cbRelTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
 #cplBase .cbRelPrice{font-weight:800;white-space:nowrap}
-#cplBase .cbRelDesc{margin-top:6px;font-size:16px;line-height:1.9;overflow-wrap:anywhere}
+#cplBase .cbRelDesc{margin-top:6px;font-size:var(--fs-body);line-height:1.9;overflow-wrap:anywhere}
 #cplBase .cbRes{margin-top:10px}
 #cplBase .cbRes .cbTop .code,#cplBase .cbRel .code{direction:ltr}
 .mnSortMenu{position:fixed;z-index:2147483000;min-width:190px;max-width:calc(100vw - 16px);background:var(--c1,#fff);color:var(--c2,#111);border:1px solid var(--c5,#d8d8d8);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.22);padding:6px;display:flex;flex-direction:column;gap:2px;direction:rtl}
-.mnSortMenuItem{display:flex;align-items:center;gap:8px;width:100%;text-align:right;background:transparent;border:0;border-radius:8px;padding:10px 10px;font:inherit;font-size:16px;color:inherit;cursor:pointer;white-space:nowrap}
+.mnSortMenuItem{display:flex;align-items:center;gap:8px;width:100%;text-align:right;background:transparent;border:0;border-radius:8px;padding:10px 10px;font:inherit;font-size:var(--fs-body);color:inherit;cursor:pointer;white-space:nowrap}
 .mnSortMenuItem:hover,.mnSortMenuItem:focus-visible{background:var(--c8,#f1f1f1);outline:none}
 .mnSortMenuItem.sel{font-weight:700}
 .mnSortTick{display:inline-block;width:16px;text-align:center}
@@ -2006,7 +2006,7 @@ html body #cplBase .cbForm .mnChapWrap{display:flex;gap:4px;align-items:stretch}
 html body #projectSetup{align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px calc(env(safe-area-inset-bottom,0px) + 8px)!important}
 html body #projectSetup .projectSetupPanel{width:min(620px,100%)!important;box-sizing:border-box!important;max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 14px 14px!important;border-radius:16px!important}
 html body #projectSetup .setupTitleRow{position:sticky;top:0;z-index:20;justify-content:space-between;margin:0 -14px;padding:12px 14px 10px;background:var(--c35);border-bottom:1px solid var(--c37)}
-html body #projectSetup .setupTitleRow h2{margin:0!important;font-size:18px!important;line-height:1.5}
+html body #projectSetup .setupTitleRow h2{margin:0!important;font-size:var(--fs-h2)!important;line-height:1.5}
 html body #projectSetup #closeProjectSetup{flex:0 0 auto;min-height:40px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 html body #projectSetup .projectSetupPanel>.muted{margin-top:10px;font-size:14px!important;line-height:1.7!important}
 html body #projectSetup .projectSetupGrid{grid-template-columns:1fr 1fr!important;gap:8px!important;margin-top:10px!important}
@@ -2021,8 +2021,8 @@ html body .starredItem{direction:rtl;grid-template-columns:auto minmax(0,1fr) au
 html body .starredItem .actions{grid-column:3;grid-row:1;justify-self:end}
 html body #projectSetup #chapterCoefEditor{padding:10px!important;border-radius:12px;background:var(--c8)!important;border:1px solid var(--c5)!important}
 html body #projectSetup #chapterCoefEditor .coefEditorHead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 0 8px!important;background:transparent!important}
-html body #projectSetup #chapterCoefEditor .coefEditorHead b{font-size:16px;line-height:1.5}
-html body #projectSetup #chapterCoefCloseBtn{min-height:34px!important;height:34px;padding:0 10px!important;font-size:14px!important;white-space:nowrap;flex:0 0 auto}
+html body #projectSetup #chapterCoefEditor .coefEditorHead b{font-size:var(--fs-body);line-height:1.5}
+html body #projectSetup #chapterCoefCloseBtn{min-height:34px!important;height:34px;padding:0 10px!important;font-size:var(--fs-btn)!important;white-space:nowrap;flex:0 0 auto}
 html body #projectSetup #chapterCoefEditor .coefEditorScroll{max-height:46vh!important;max-height:46dvh!important;overflow-y:auto;overflow-x:hidden;border:1px solid var(--c5);border-radius:10px;background:var(--c35);-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 html body #projectSetup #chapterCoefEditor table{width:100%!important;min-width:0!important;table-layout:fixed;border-collapse:collapse}
 html body #projectSetup #chapterCoefEditor th{position:sticky;top:0;z-index:1;background:var(--c35);padding:8px 4px!important;font-size:14px!important;font-weight:700;text-align:center;border-bottom:1px solid var(--c5)}
@@ -2032,7 +2032,7 @@ html body #projectSetup #chapterCoefEditor th:nth-child(3){width:38%}
 html body #projectSetup #chapterCoefEditor td{padding:6px 4px!important;font-size:14px;text-align:center;vertical-align:middle;border-top:1px solid var(--c5)!important;overflow-wrap:anywhere}
 html body #projectSetup #chapterCoefEditor td:nth-child(1){text-align:right;padding-right:8px!important}
 html body #projectSetup #chapterCoefEditor tbody tr:nth-child(even){background:var(--c8)}
-html body #projectSetup #chapterCoefEditor input{width:100%!important;max-width:110px;height:36px!important;margin:0 auto;display:block;font-size:16px!important;text-align:center;direction:ltr;box-sizing:border-box}
+html body #projectSetup #chapterCoefEditor input{width:100%!important;max-width:110px;height:36px!important;margin:0 auto;display:block;font-size:var(--fs-input)!important;text-align:center;direction:ltr;box-sizing:border-box}
 html body #projectSetup #chapterCoefApplyBtn{width:100%;min-height:44px}
 html body #projectSetup #chapterCoefEditBtn{width:100%;min-height:42px;white-space:normal;line-height:1.5}
 html body #projectSetup #chapterCoefEditor .coefHeadBtns{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto}
@@ -2041,7 +2041,7 @@ html body #projectSetup #chapterCoefEditor .coefIconBtn svg{width:22px;height:22
 html body #projectSetup #closeProjectSetup{width:40px;min-width:40px;height:40px;padding:0!important;justify-content:center;font-size:18px}
 html body #analysisPage .analysisPageItemControls{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;padding:6px!important;margin:0 0 8px!important}
 html body #analysisPage .analysisPageItemControls label{font-size:12px!important;gap:2px!important;min-width:0}
-html body #analysisPage .analysisPageItemControls select,html body #analysisPage .analysisPageItemControls input{min-height:32px!important;height:32px!important;padding:0 4px!important;font-size:14px!important;width:100%;min-width:0;text-overflow:ellipsis}
+html body #analysisPage .analysisPageItemControls select,html body #analysisPage .analysisPageItemControls input{min-height:32px!important;height:32px!important;padding:0 4px!important;font-size:var(--fs-input)!important;width:100%;min-width:0;text-overflow:ellipsis}
 html body #analysisPage .analysisSectionTitle{padding:6px 10px!important;font-size:14px!important;line-height:1.5}
 html body #analysisPage .analysisHead{padding-bottom:6px!important}
 html body #analysisPage .analysisSection{margin-bottom:10px}
@@ -2069,8 +2069,8 @@ html body #ciEditor .mnPick>.mnSortField{order:3!important}
 html body #cplHome .cplCard.cplBaseCard{color:var(--c2)}
 html body #cplHome .cplPickClone{justify-content:center;text-align:center}
 html body #cplHome .cplPickClone .pickTxt{align-items:center;text-align:center}
-html body .mnOverlay>.mnPanel>.mnHead>b{font-size:20px!important}
-html body #stCover .mnHead>b#stfTitle,html body #ciCover .mnHead>b#cifTitle{font-size:18px!important}
+html body .mnOverlay>.mnPanel>.mnHead>b{font-size:var(--fs-h1)!important}
+html body #stCover .mnHead>b#stfTitle,html body #ciCover .mnHead>b#cifTitle{font-size:var(--fs-h1)!important}
 html body #cplHome .cplCard.pick:not(.cplBaseCard) svg{width:44px!important;height:44px!important;flex:0 0 44px!important}
 html body #cplHome .cplCard.pick:not(.cplBaseCard){gap:16px}
 html body #cplHome .cplCard.cplBaseCard{min-height:58px}
@@ -2082,7 +2082,7 @@ html body .mnChapIntroBtn,html body #chapterIntroBtn{background:#4a4a4a!importan
 html body .mnChapIntroBtn svg,html body #chapterIntroBtn svg{stroke:#fff!important;color:#fff!important}
 html body #chapterIntroBtn{display:inline-flex;align-items:center;gap:6px}
 html body #historyNewEntry{display:inline-flex;align-items:center;justify-content:center;gap:8px}
-html body #cplHome .cplHomeHead h1:not(.brandFa),html body #cplHome .cplMainView .cplHomeHead h1:not(.brandFa){font-size:32px!important;line-height:1.5!important}
+html body #cplHome .cplHomeHead h1:not(.brandFa),html body #cplHome .cplMainView .cplHomeHead h1:not(.brandFa){font-size:var(--fs-h1)!important;line-height:1.5!important}
 @media (max-width:480px){
  html body #cplHome .cplHomeHead h1:not(.brandFa),html body #cplHome .cplMainView .cplHomeHead h1:not(.brandFa){font-size:28px!important}
 }
@@ -2115,7 +2115,7 @@ html body #stAdjM .stadTop .stadW2{grid-column:span 2}
 }
 html body #stAdjM .stadTop .mnField{min-width:0;justify-content:flex-end;gap:3px;font-size:14px}
 html body #stAdjM .stadTop .stadLb{line-height:1.35}
-html body #stAdjM .stadTop .mnField input,html body #stAdjM .stadTop .mnField select{width:100%;box-sizing:border-box;height:40px!important;min-height:40px!important;max-height:40px!important;padding:0 8px!important;font-size:16px!important;margin:0}
+html body #stAdjM .stadTop .mnField input,html body #stAdjM .stadTop .mnField select{width:100%;box-sizing:border-box;height:40px!important;min-height:40px!important;max-height:40px!important;padding:0 8px!important;font-size:var(--fs-input)!important;margin:0}
 html body #stCover .stModeBar{display:flex;margin:0 0 8px}
 html body #stCover .stModeBar label{display:flex;align-items:center;gap:8px;font-size:14px}
 html body #stCover .stModeBar select{height:36px;min-height:36px;min-width:130px;padding:0 8px}
@@ -2129,7 +2129,7 @@ html body #cplItemModal,html body #analysisModal,html body #analysisPage,html bo
 #mnStarChooser .scHead b{font-size:18px}
 #mnStarChooser .scX{width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center}
 #mnStarChooser .scX svg,#mnStarChooser .scCard svg{width:26px;height:26px;flex:0 0 26px}
-#mnStarChooser .scCard{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;margin-top:8px;padding:10px 14px;font-size:16px;text-align:right;justify-content:flex-start}
+#mnStarChooser .scCard{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;margin-top:8px;padding:10px 14px;font-size:var(--fs-body);text-align:right;justify-content:flex-start}
 #stImportModal{position:fixed;inset:0;z-index:30000;background:var(--c38,rgba(0,0,0,.55));display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl}
 #stImportModal .impPanel{width:min(520px,100%);max-height:100%;overflow:auto;background:var(--c4,#161616);color:var(--c2,#f2f2f2);border:1px solid var(--c5,#393939);border-radius:16px;padding:14px;box-shadow:0 10px 40px rgba(0,0,0,.45)}
 #stImportModal .impHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -2137,9 +2137,9 @@ html body #cplItemModal,html body #analysisModal,html body #analysisPage,html bo
 #stImportModal .impX{width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center}
 #stImportModal svg{width:24px;height:24px;flex:0 0 24px}
 #stImportModal .impRow{display:flex;flex-wrap:wrap;gap:8px}
-#stImportModal .impBtn{flex:1 1 180px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:16px;cursor:pointer}
+#stImportModal .impBtn{flex:1 1 180px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:var(--fs-btn);cursor:pointer}
 #stImportModal .impNote{margin-top:12px;font-size:14px;line-height:1.9;color:var(--c3,#a7a7a7)}
-#stImportModal .impMsg{margin-top:10px;font-size:16px;line-height:1.9}
+#stImportModal .impMsg{margin-top:10px;font-size:var(--fs-body);line-height:1.9}
 #stImportModal .impMsg.ok{color:#4ade80}
 #stImportModal .impMsg.err{color:#ff6b6b}
 html body .mnItem.mnPending>.mnItemHead{background:rgba(229,72,77,.16)!important;border:1px solid #e5484d!important;border-radius:12px}
@@ -2236,7 +2236,7 @@ html body .stRowTools .btn{flex:0 0 36px;width:36px!important;min-width:36px!imp
 html body .stRowTools .btn svg{width:22px!important;height:22px!important;stroke:#fff!important;color:#fff!important}
 html body #stCover .mnFin th:nth-child(n+9):nth-child(-n+13){width:46px!important;max-width:54px!important;white-space:normal!important;line-height:1.35!important;font-size:14px!important;padding:4px 2px!important;word-break:keep-all}
 html body #stCover .mnFin td:nth-child(n+9):nth-child(-n+13){width:46px!important;max-width:54px!important;padding:4px 2px!important}
-html body #stCover .mnFin td:nth-child(n+9):nth-child(-n+13) .stIn{width:44px!important;min-width:0!important;max-width:100%!important;padding:2px 2px!important;font-size:14px!important;text-align:center}
+html body #stCover .mnFin td:nth-child(n+9):nth-child(-n+13) .stIn{width:44px!important;min-width:0!important;max-width:100%!important;padding:2px 2px!important;font-size:var(--fs-input)!important;text-align:center}
 html body #stCover .mnFin th:nth-child(3){width:100%!important}
 html body #stCover .mnFin td.mnCovDesc{min-width:300px}
 html body #mnEditor .mnPick,html body #stEditor .mnPick{grid-template-columns:minmax(0,1fr) auto auto auto auto!important;align-items:end!important}
@@ -9642,7 +9642,7 @@ setInterval(bindExports,500);
     t.dist='';
     return t;
   }
-  var ICO_TRUCK='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>';
+  var ICO_TRUCK='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12v10H2z"/><path d="M14 9h4.5l3.5 3.5V16h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
   function trSelected(full,t){return full.groups.filter(function(g){return t.groups[g.key]})}
   function trTotal(sel){return trRound(sel.reduce(function(a,g){return a+g.tk},0),2)}
 
@@ -12576,7 +12576,7 @@ document.addEventListener('mousedown',function(e){
     var fr=f.getBoundingClientRect(),cr=ci.getBoundingClientRect();
     if(!fr.width||!cr.width){return}
     var host=pk.getBoundingClientRect();
-    var gp=parseFloat(getComputedStyle(pk).columnGap)||8,need=0,cn=0;
+    pk.style.removeProperty('column-gap');var gp=parseFloat(getComputedStyle(pk).columnGap)||8,need=0,cn=0;
     [].forEach.call(pk.children,function(c){
       if(c===f)return;
       var ks=getComputedStyle(c).display==='contents'?[].slice.call(c.children):[c];
@@ -12591,6 +12591,8 @@ document.addEventListener('mousedown',function(e){
     var W=Math.round((fr.right-cr.left)*100)/100;
     if(W<200||host.width-W<need){f.style.width='';pk.classList.remove('mnAligned');return}
     f.style.width=W+'px';f.parentNode.classList.add('mnAligned');
+    /* اگر جا کم بود فقط فاصلهٔ بین دکمه‌ها کم شود؛ در صفحهٔ بزرگ همان فاصلهٔ عادی (هم‌اندازه با ردیف بالا) می‌ماند */
+    var g5=Math.floor((host.width-W-need)/5);if(g5<gp)pk.style.setProperty('column-gap',Math.max(0,g5)+'px','important');
   }
   function yr(pre){var i=document.getElementById(pre+'Year'),l=document.getElementById(pre+'YrLbl');if(!i||!l)return;var v=String(i.value||'').replace(/[\u06f0-\u06f9]/g,function(c){return c.charCodeAt(0)-0x06f0});var s=v?'(سال '+v+')':'';if(l.textContent!==s)l.textContent=s}
   function eq(pre){
@@ -12853,7 +12855,7 @@ document.addEventListener('mousedown',function(e){
   html body #stEditor#stEditor .mnStick *, html body #mnEditor#mnEditor .mnStick *{min-width:0}
   html body #stEditor#stEditor .mnHead, html body #mnEditor#mnEditor .mnHead{gap:8px!important;flex-wrap:nowrap!important}
   html body #stEditor#stEditor .mnHead .mnHeadTitle, html body #mnEditor#mnEditor .mnHead>b{flex:1 1 0!important;min-width:0!important}
-  html body #stEditor#stEditor .mnHead .mnHeadTitle b, html body #mnEditor#mnEditor .mnHead>b{white-space:normal!important;font-size:16px!important;line-height:1.5!important;overflow-wrap:anywhere}
+  html body #stEditor#stEditor .mnHead .mnHeadTitle b, html body #mnEditor#mnEditor .mnHead>b{white-space:normal!important;font-size:var(--fs-h1)!important;line-height:1.5!important;overflow-wrap:anywhere}
   html body #stEditor#stEditor .mnHead .mnBtns, html body #mnEditor#mnEditor .mnHead .mnBtns{flex:0 0 auto!important;flex-wrap:nowrap!important;gap:6px!important}
   html body #stEditor#stEditor#stEditor .mnTop{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;width:100%!important}
   html body #stEditor#stEditor#stEditor .mnRow4.mnRow3{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:end!important;width:100%!important;max-width:100%!important}
@@ -12862,7 +12864,7 @@ document.addEventListener('mousedown',function(e){
   html body #stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField:nth-child(-n+2){font-size:14px!important}
   html body #stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnField>input:not([type=checkbox]):not([type=hidden]),
   html body #stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnField>select,
-  html body #stEditor#stEditor#stEditor #stNo#stNo,html body #stEditor#stEditor#stEditor #stWd#stWd{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:16px!important;text-align:center}
+  html body #stEditor#stEditor#stEditor #stNo#stNo,html body #stEditor#stEditor#stEditor #stWd#stWd{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:var(--fs-input)!important;text-align:center}
   html body #stEditor#stEditor#stEditor #stWd#stWd{direction:ltr}
   html body #stEditor#stEditor#stEditor .stDiscWrap{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;min-width:0!important}
   html body #stEditor#stEditor#stEditor .stDiscWrap select{flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;text-align:start}
@@ -12891,11 +12893,11 @@ document.addEventListener('mousedown',function(e){
   html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap .mnSrchBtn{flex:1 1 0!important;width:auto!important;min-width:0!important}
   html body #stEditor#stEditor#stEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
   html body #stEditor#stEditor#stEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])) .mnSrchBtn{flex:0 0 44px!important;width:44px!important}
-  html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #stEditor#stEditor#stEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:var(--fs-body)!important}
   html body #stEditor#stEditor#stEditor .mnItemWrap{display:flex!important;gap:8px!important;width:100%!important;min-width:0!important;align-items:stretch!important}
   html body #stEditor#stEditor#stEditor .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;text-align:start}
   html body #stEditor#stEditor#stEditor .mnItemWrap{flex-wrap:wrap!important}
-  html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:var(--fs-body)!important}
   html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
   html body #stEditor#stEditor#stEditor #stItems .mnItem{padding:10px!important;overflow:hidden}
   html body #stEditor#stEditor#stEditor #stItems .mnItemHead{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important;margin-bottom:6px!important}
@@ -12909,7 +12911,7 @@ document.addEventListener('mousedown',function(e){
   html body #stEditor#stEditor#stEditor #stItems .mnItemHead>.mnHeadSide{order:4!important;margin-inline-start:auto!important;width:auto!important;height:auto!important;min-height:0!important;flex:0 0 auto!important;align-self:center!important}
   html body #stEditor#stEditor#stEditor #stItems .mnItemHead .mnHeadTop{height:auto!important}
   html body #stEditor#stEditor#stEditor #stItems .mnItemHead .mnItemDel{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
-  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:16px!important;line-height:1.8!important;text-overflow:ellipsis}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:var(--fs-body)!important;line-height:1.8!important;text-overflow:ellipsis}
   html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSep,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSrc{order:6!important;flex:0 0 auto}
   html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnInfoPanel,html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnDescRow{order:7!important;flex:1 1 100%!important;width:100%!important;min-width:0}
   html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnInfoBtn,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPayk{height:40px!important;min-height:40px!important}
@@ -12920,7 +12922,7 @@ document.addEventListener('mousedown',function(e){
   html body #mnEditor#mnEditor#mnEditor .mnRow4{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:end!important;width:100%!important;max-width:100%!important}
   html body #mnEditor#mnEditor#mnEditor .mnRow4>.mnField{grid-column:auto!important;width:auto!important;min-width:0!important;max-width:100%!important}
   html body #mnEditor#mnEditor#mnEditor .mnRow4>.mnField:nth-child(3){grid-column:1/-1!important}
-  html body #mnEditor#mnEditor#mnEditor .mnField>input:not([type=checkbox]):not([type=hidden]),html body #mnEditor#mnEditor#mnEditor .mnRow4 .mnField>select{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnField>input:not([type=checkbox]):not([type=hidden]),html body #mnEditor#mnEditor#mnEditor .mnRow4 .mnField>select{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;font-size:var(--fs-input)!important}
   html body #mnEditor#mnEditor#mnEditor .mnChapWrap{display:flex!important;flex-wrap:wrap!important;gap:8px!important;width:100%!important;max-width:100%!important;min-width:0!important;align-items:stretch!important}
   html body #mnEditor#mnEditor#mnEditor .mnChapWrap>select{flex:1 1 55%!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;text-align:start}
   html body #mnEditor#mnEditor#mnEditor .mnChapWrap>.mnChapIntroBtn{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
@@ -12940,11 +12942,11 @@ document.addEventListener('mousedown',function(e){
   html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap .mnSrchBtn{flex:1 1 0!important;width:auto!important;min-width:0!important}
   html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
   html body #mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])) .mnSrchBtn{flex:0 0 44px!important;width:44px!important}
-  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnPick .mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:var(--fs-body)!important}
   html body #mnEditor#mnEditor#mnEditor .mnItemWrap{display:flex!important;gap:8px!important;width:100%!important;min-width:0!important;align-items:stretch!important}
   html body #mnEditor#mnEditor#mnEditor .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;text-align:start}
   html body #mnEditor#mnEditor#mnEditor .mnItemWrap{flex-wrap:wrap!important}
-  html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:16px!important}
+  html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden]){order:3!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;margin:0!important;border-radius:8px!important;height:44px!important;min-height:44px!important;max-height:44px!important;font-size:var(--fs-body)!important}
   html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItem{padding:10px!important;overflow:hidden}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important;margin-bottom:6px!important}
@@ -12958,7 +12960,7 @@ document.addEventListener('mousedown',function(e){
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>.mnHeadSide{order:4!important;margin-inline-start:auto!important;width:auto!important;height:auto!important;min-height:0!important;flex:0 0 auto!important;align-self:center!important}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead .mnHeadTop{height:auto!important}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead .mnItemDel{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
-  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:16px!important;line-height:1.8!important;text-overflow:ellipsis}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnDescInline{order:5!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:var(--fs-body)!important;line-height:1.8!important;text-overflow:ellipsis}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSep,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSrc{order:6!important;flex:0 0 auto}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnInfoPanel,html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnDescRow{order:7!important;flex:1 1 100%!important;width:100%!important;min-width:0}
   html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnInfoBtn,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPayk{height:40px!important;min-height:40px!important}
@@ -12974,7 +12976,7 @@ html body .mnFreeIn:not([hidden])+.mnFreeOk{display:inline-flex!important;align-
 html body .mnChapWrap>.mnChapIntroBtn.mnChapIntroTxt,html body .mnItemWrap>.mnFreeTxt,
 html body #stEditor#stEditor#stEditor .mnChapWrap>.mnChapIntroBtn,html body #mnEditor#mnEditor#mnEditor .mnChapWrap>.mnChapIntroBtn,
 html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeTxt,html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeTxt,
-html body #cplBase #cbChapIntro.mnChapIntroTxt{flex:0 0 var(--pickBtnW)!important;width:var(--pickBtnW)!important;min-width:var(--pickBtnW)!important;max-width:var(--pickBtnW)!important;box-sizing:border-box!important;padding:0 4px!important;margin-inline-start:0!important;display:inline-flex!important;align-items:center;justify-content:center;text-align:center;font-size:14px!important;font-weight:700!important;line-height:1!important;white-space:nowrap}
+html body #cplBase #cbChapIntro.mnChapIntroTxt{flex:0 0 var(--pickBtnW)!important;width:var(--pickBtnW)!important;min-width:var(--pickBtnW)!important;max-width:var(--pickBtnW)!important;box-sizing:border-box!important;padding:0 4px!important;margin-inline-start:0!important;display:inline-flex!important;align-items:center;justify-content:center;text-align:center;font-size:var(--fs-btn)!important;font-weight:700!important;line-height:1!important;white-space:nowrap}
 html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden]),html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden]){flex:1 1 calc(100% - 80px)!important;width:auto!important;min-width:0!important;border-radius:8px!important}
 html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden])+.mnFreeOk,html body #mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden])+.mnFreeOk{order:3!important;flex:0 0 72px!important;width:72px!important;height:44px!important;min-height:44px!important;margin:0!important;border-radius:8px!important}
 html body .mnItemWrap>.mnFreeIn:not([hidden]){order:3}
@@ -12999,8 +13001,8 @@ html body #stEditor#stEditor#stEditor .mnItemWrap>.mnFreeIn:not([hidden])+.mnFre
 html body #stEditor#stEditor#stEditor .mnItemWrap,html body #mnEditor#mnEditor#mnEditor .mnItemWrap{flex-wrap:nowrap!important;gap:0!important}
 }
 html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{font-size:16px}
-input,select,textarea,button{font-size:max(16px,1em)}
+body{font-size:var(--fs-body)}
+input,select,textarea{font-size:var(--fs-input)}button{font-size:var(--fs-btn)}
 </style>
 <style id="final-menu-right-title-center">
 html body #cplHomeMenuBtn{left:auto!important;right:14px!important}
@@ -13071,7 +13073,7 @@ html body #ciEditor .mnRow4.mnRow3 .mnChapWrap select{flex:0 1 auto!important;ma
  html body #ciEditor .mnRow4.mnRow3 .mnField input:not([type=checkbox]),html body #ciEditor .mnRow4.mnRow3 .mnField select,html body #ciEditor .mnRow4.mnRow3 #ciNo,html body #ciEditor .mnRow4.mnRow3 #ciWd{width:100%!important}
 }
 html body #analysisMeta:empty{display:none}
-html body #ciItems .mnExtra>.mnExCode{box-sizing:border-box;height:32px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;border:1px solid var(--c5);border-radius:8px;font-size:16px;font-weight:700}
+html body #ciItems .mnExtra>.mnExCode{box-sizing:border-box;height:32px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;border:1px solid var(--c5);border-radius:8px;font-size:var(--fs-body);font-weight:700}
 html body #ciItems .mnExtra>.mnExAdd{flex:0 0 auto}
 </style>
 <style id="patch-uniform-header-top-v1">
@@ -13154,14 +13156,14 @@ html:root body #chapterSummaryModal .summaryHead{top:0!important;padding-top:var
 <style id="metriz-compat-v1">
 #cplBase .cbMenuPanel{display:none;position:fixed;z-index:31000;min-width:230px;max-width:min(330px,92vw);padding:6px;border-radius:14px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);flex-direction:column;gap:2px;direction:rtl}
 #cplBase .cbMenuPanel.open{display:flex}
-#cplBase .cbHead .cbMenuPanel .btn{flex:0 0 auto!important;width:100%!important;max-width:none!important;height:46px!important;min-height:46px!important;justify-content:flex-start;gap:12px;padding:0 12px!important;background:transparent;border:0;color:var(--c2);font-size:16px;font-weight:400;text-align:right}
+#cplBase .cbHead .cbMenuPanel .btn{flex:0 0 auto!important;width:100%!important;max-width:none!important;height:46px!important;min-height:46px!important;justify-content:flex-start;gap:12px;padding:0 12px!important;background:transparent;border:0;color:var(--c2);font-size:var(--fs-btn);font-weight:400;text-align:right}
 #cplBase .cbHead .cbMenuPanel .btn:hover,#cplBase .cbHead .cbMenuPanel .btn:active{background:var(--c9)}
 #cplBase .cbHead .cbMenuPanel .btn svg{width:24px!important;height:24px!important;flex:0 0 24px}
 #cplBase .cbHead .cbMenuPanel .btn span{flex:1 1 auto;text-align:right;white-space:nowrap}
 
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @supports (-webkit-touch-callout:none){
- input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{font-size:16px!important}
+ input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{font-size:var(--fs-input)!important}
 }
 @supports (height:100dvh){#chapterSummaryModal{height:100dvh!important}}
 button,[role=button],select,label{touch-action:manipulation}
@@ -13256,7 +13258,7 @@ function kindOf(b){
  if(b.getAttribute('data-cb')==='mclose'&&t==='')return 'close';
  if(b.classList&&b.classList.contains('mnStarDefBtn')&&id!=='stClr')return 'star';
  if(b.classList&&b.classList.contains('mnHomeBtn'))return 'home';
- if(b.classList&&b.classList.contains('cplListNewIcon')&&t===''){var lb=(b.getAttribute('aria-label')||b.title||'');return /پروژه/.test(lb)?'folderPlus':/محاسبه/.test(lb)?'calc':'plus'}
+ if(b.classList&&b.classList.contains('cplListNewIcon')&&t===''){var lb=(b.getAttribute('aria-label')||b.title||'');return /محاسبه/.test(lb)?'calc':'plus'}
  if(BYID[id])return BYID[id];
  var cb=b.getAttribute('data-cb');if(cb==='home')return 'home';if(cb==='search')return 'search';
  if(t==='✕'||t==='×'||t==='✖'||t==='✗')return 'close';
@@ -13524,4 +13526,25 @@ html body #mnChapIntro#mnChapIntro#mnChapIntro.mnChapIntroBtn,html body #stChapI
 /* صفحهٔ اول داده‌های پایه: آیکون و متن راست‌چین */
 html body #cplBase .cbMenu button{flex-direction:row!important;justify-content:flex-start!important;text-align:right!important;direction:rtl!important}
 html body #cplBase .cbMenu button b{text-align:right!important;flex:0 1 auto!important}
+</style>
+
+<style id="chapAttachAndPickFix">
+/* ۱) «مقدمه فصل» مثل «ورود دستی آیتم» به کادر شمارهٔ فصل بچسبد (بدون فاصله) */
+html body #stEditor#stEditor#stEditor#stEditor .mnChapWrap>select,
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnChapWrap>select{border-start-end-radius:0!important;border-end-end-radius:0!important}
+html body #stEditor#stEditor#stEditor#stEditor .mnChapWrap>select+.mnChapIntroBtn,
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnChapWrap>select+.mnChapIntroBtn{margin-inline-start:-4px!important;border-start-start-radius:0!important;border-end-start-radius:0!important}
+/* ۲) در نیم‌صفحه، دکمهٔ جستجو (و بقیهٔ دکمه‌های ردیف آیتم) روی هم نیفتند */
+html body #stEditor#stEditor#stEditor#stEditor .mnPick>.mnPickSrch,
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick>.mnPickSrch{min-width:44px!important}
+/* ۳) ترتیب دکمه‌های کنار هر ردیف ریزمتره (از چپ): حذف ✕ ، افزودن ＋ ، توضیحات */
+html body #stItems#stItems#stItems .mnRow .mnRowBtns,
+html body #mnItems#mnItems#mnItems .mnRow .mnRowBtns{flex-direction:row!important;justify-content:flex-start!important}
+/* ۴) مقیاس استاندارد فونت (ویندوز: متن اصلی ۱۵، موبایل: ۱۶ تا iOS روی فیلدها زوم نکند)
+   متن اصلی ۱۴–۱۶ | جدول و ریزاطلاعات ۱۳–۱۴ | ورودی‌ها ۱۴–۱۶ | دکمه‌ها ۱۴–۱۵ | عنوان بخش ۱۸–۲۲ | عنوان صفحه ۲۲–۲۸ | راهنما ۱۲–۱۳ */
+:root{--fs-body:15px;--fs-input:15px;--fs-btn:14px;--fs-table:14px;--fs-small:13px;--fs-h2:20px;--fs-h1:24px;
+ --fs-xs:13px;--fs-sm:14px;--fs-md:15px;--fs-xl:24px}
+@media (max-width:720px){
+ :root{--fs-body:16px;--fs-input:16px;--fs-btn:15px;--fs-table:14px;--fs-h2:18px;--fs-h1:22px;--fs-md:16px;--fs-xl:22px}
+}
 </style>
