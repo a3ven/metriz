@@ -7730,11 +7730,12 @@ setInterval(bindExports,500);
       return '@page'+nm+'{'+body.replace(/margin\s*:\s*[^;}]+/,'margin:0 '+sd)+(/margin/.test(body)?'':';margin:0 '+sd)+'}';
     });
     if(!/@page/.test(h))m='10mm';
-    var css='<style>.__pgw{width:100%!important;border:0!important;border-collapse:collapse!important;margin:0!important;font:inherit!important}.__pgw>thead>tr>td,.__pgw>tfoot>tr>td{border:0!important;padding:0!important;height:'+m+'!important;background:none!important}.__pgw>tbody>tr{page-break-inside:auto!important;break-inside:auto!important}.__pgw>tbody>tr>td{border:0!important;background:none!important;padding:0!important;text-align:start!important;vertical-align:top!important;font:inherit!important;color:inherit!important}.__pgw>tbody>tr>td>.v75ReportBar{margin-top:10px}</style>';
+    var sig='';h=h.replace(/<div class="cplSig"[^>]*>(?:<div[^>]*>[^<]*<\/div>)+<\/div>/,function(x){sig=x;return ''});
+    var css='<style>.__pgw{width:100%!important;border:0!important;border-collapse:collapse!important;margin:0!important;font:inherit!important}.__pgw>thead>tr>td,.__pgw>tfoot>tr>td{border:0!important;padding:0!important;height:'+m+'!important;background:none!important}.__pgw>tbody>tr{page-break-inside:auto!important;break-inside:auto!important}.__pgw>tbody>tr>td{border:0!important;background:none!important;padding:0!important;text-align:start!important;vertical-align:top!important;font:inherit!important;color:inherit!important}.__pgw>tbody>tr>td>.v75ReportBar{margin-top:10px}.__pgw>tfoot>tr>td{vertical-align:top!important}.__pgw>tfoot .cplSig{margin:2mm 0 0!important}</style>';
     h=h.replace(/<\/head>/i,css+'</head>');
     var land=/@page\s*\{[^}]*landscape/.test(h)?'1':'';
     h=h.replace(/onclick="window\.print\(\)"/g,'onclick="__dlPdf(this)"');
-    h=h.replace(/<body([^>]*)>/i,'<body$1 data-m="'+parseFloat(m)+'" data-land="'+land+'"><table class="__pgw"><thead><tr><td></td></tr></thead><tfoot><tr><td></td></tr></tfoot><tbody><tr><td>');
+    h=h.replace(/<body([^>]*)>/i,'<body$1 data-m="'+parseFloat(m)+'" data-land="'+land+'"><table class="__pgw"><thead><tr><td></td></tr></thead><tfoot><tr><td>'+sig+'</td></tr></tfoot><tbody><tr><td>');
     var scr='</td></tr></tbody></table><script>window.__dlPdf='+dlPdfImpl.toString()+';<\/script></body>';h=h.replace(/<\/body>/i,function(){return scr});
     return h;
   }
@@ -7766,19 +7767,22 @@ setInterval(bindExports,500);
         await new Promise(function(r){setTimeout(r,250)});
         var top0=cap.getBoundingClientRect().top,H=Math.ceil(cap.getBoundingClientRect().height);
         var bottomRes=hasSig?24:mm,pageH=Math.floor((PH-mm-bottomRes)*px);
+        var secs=[];Array.prototype.forEach.call(cap.querySelectorAll('.rptWrap'),function(t){var th=t.tHead,td=th&&th.querySelector('td');if(!td)return;var r=t.getBoundingClientRect();secs.push({top:Math.round(r.top-top0),bot:Math.round(r.bottom-top0),hh:Math.ceil(th.getBoundingClientRect().height),el:td,cv:null})});
+        function secAt(y){for(var q=0;q<secs.length;q++)if(y>=secs[q].top-2&&y<secs[q].bot-2)return secs[q];return null}
         var cands=[],forced=[];
         Array.prototype.forEach.call(cap.querySelectorAll('tr'),function(r){cands.push(Math.round(r.getBoundingClientRect().bottom-top0))});
         Array.prototype.forEach.call(cap.children,function(c){cands.push(Math.round(c.getBoundingClientRect().bottom-top0))});
         Array.prototype.forEach.call(cap.querySelectorAll('.pgBrk'),function(c){var t=Math.round(c.getBoundingClientRect().top-top0);if(t>5)forced.push(t)});
         var pages=[],y0=0;
         while(y0<H-2){
-          var lim=y0+pageH,cut=null,i;
+          var sc=secAt(y0),hh=(sc&&y0>sc.top+sc.hh+5)?sc.hh:0;
+          var lim=y0+pageH-hh,cut=null,i;
           for(i=0;i<forced.length;i++)if(forced[i]>y0+5&&forced[i]<=lim){cut=forced[i];break}
           if(cut===null){
             if(H<=lim)cut=H;
             else{var best=0;cands.forEach(function(c){if(c>y0+30&&c<=lim&&c>best)best=c});cut=best||lim}
           }
-          pages.push([y0,cut]);y0=cut;
+          pages.push([y0,cut,hh?sc:null]);y0=cut;
         }
         var S=Math.min(2,Math.sqrt(14e6/(W*Math.max(H,1)))),single=S>=1.3,big=null;
         if(!single)S=1.8;
@@ -7796,7 +7800,12 @@ setInterval(bindExports,500);
           if(single){c=d.createElement('canvas');c.width=big.width;c.height=Math.max(1,Math.round((z-a)*S));var cx=c.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,c.width,c.height);cx.drawImage(big,0,-Math.round(a*S))}
           else c=await window.html2canvas(cap,opt({x:0,y:a,width:W,height:z-a}));
           if(k>0)pdf.addPage();
-          pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',mm,mm,cw,(z-a)/px);
+          var hs=pages[k][2],hmm=0;
+          if(hs){
+            if(!hs.cv){var hg=d.createElement('div');hg.style.cssText='width:'+W+'px;background:#fff;position:absolute;left:0;top:0;direction:rtl';hg.innerHTML=hs.el.innerHTML;b.appendChild(hg);hs.cv=await window.html2canvas(hg,opt({scale:2}));hg.remove()}
+            hmm=hs.hh/px;pdf.addImage(hs.cv.toDataURL('image/png'),'PNG',mm,mm,cw,hmm);
+          }
+          pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',mm,mm+hmm,cw,(z-a)/px);
           if(sigUrl)pdf.addImage(sigUrl,'PNG',mm,PH-14-sigMm,cw,sigMm);
         }
         var name=(d.title||'report').replace(/[\\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim()||'report';
@@ -8804,7 +8813,7 @@ setInterval(bindExports,500);
     var h=hdrInfo(),lt=String((window.__mainProjectSettings||{}).listType||(cur&&cur.items&&cur.items[0]&&cur.items[0].discipline)||'').trim()||'---';
     return '<style>.mnHdr{width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.mnHdr td{border:1px solid #000;padding:1px 6px;font-size:13px;vertical-align:middle;text-align:center;line-height:1.35}.mnHdr .g{background:#e2efda}.mnHdr .tt{font-size:17px;font-weight:900}.mnHdr .lb{font-size:12px;font-weight:700}.mnHdr .pn{font-size:15px;font-weight:800}.mnHdr .sb{text-align:center;font-weight:700;font-size:13px;padding:2px 8px}.mnHdr .lv{font-weight:700}.mnHdr .rt{text-align:center}</style>'+
     '<table class="mnHdr"><colgroup><col style="width:34%"><col style="width:36%"><col style="width:30%"></colgroup><tbody>'+
-    '<tr><td class="rt"><span class="lb">کارفرما:</span> <b>'+esc(h.employer)+'</b></td><td class="tt">برگ ریزمتره</td><td><span class="lb">صفحه:</span> <b>'+faDig(1)+'</b></td></tr>'+
+    '<tr><td class="rt"><span class="lb">کارفرما:</span> <b>'+esc(h.employer)+'</b></td><td class="tt">برگ ریزمتره</td><td><span class="lb">صفحه:</span> <b>&nbsp;</b></td></tr>'+
     '<tr><td class="rt"><span class="lb">مشاور:</span> <b>'+esc(h.consultant)+'</b></td><td><span class="lb">فهرست بهای :</span> <b>'+esc(lt)+'</b></td><td><span class="lb">شماره:</span> <b>'+esc(h.no)+'</b></td></tr>'+
     '<tr><td class="rt"><span class="lb">پیمانکار:</span> <b>'+esc(h.contractor)+'</b></td><td><span class="lb">شماره قرارداد:</span> <b>'+esc(h.cno)+'</b> &nbsp; <span class="lb">مورخ:</span> <b>'+esc(h.cdate)+'</b></td><td><span class="lb">تاریخ:</span> <b>'+esc(h.date)+'</b></td></tr></tbody></table>';
   }
@@ -8849,6 +8858,7 @@ setInterval(bindExports,500);
   }
 
   /* ---------- PDF (پنجره چاپ/ذخیره به‌صورت PDF) ---------- */
+  function mnPgWrap(hdr,inner){return '<style>.rptWrap{width:100%;table-layout:fixed;border-collapse:collapse;margin:0!important}.rptWrap>thead{display:table-header-group}.rptWrap>thead>tr>td,.rptWrap>tbody>tr>td{border:0!important;background:none!important;padding:0!important;text-align:right;vertical-align:top}.rptWrap>thead>tr,.rptWrap>tbody>tr{page-break-inside:auto!important;break-inside:auto!important}</style><table class="rptWrap"><thead><tr><td>'+hdr+'</td></tr></thead><tbody><tr><td>'+inner+'</td></tr></tbody></table>'}
   function pdfDoc(title,body,noHdr){
     return '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>'+esc(title)+'</title><style>@font-face{font-family:BNazaninRpt;src:url("'+location.href.substring(0,location.href.lastIndexOf('/')+1)+'BNazanin.ttf") format("truetype")}@page{size:A4;margin:12mm}html,body,table,th,td,button{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif}body{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif;color:#111;background:#fff;margin:0;padding:14px;padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));font-size:14px}h1{font-size:18px;margin:0 0 4px}.prj{font-size:28px;font-weight:900;margin:0 0 8px;color:#000;border-bottom:3px solid #000;padding-bottom:5px;line-height:1.5}.pgBrk{page-break-before:always;break-before:page}.pgL{page:land}@page land{size:A4 landscape;margin:12mm}.meta{color:#444;margin-bottom:12px}table{width:100%;border-collapse:collapse;margin-bottom:14px}tr{page-break-inside:avoid}th,td{border:1px solid #777;padding:4px 6px;text-align:center;vertical-align:middle}th{background:#e6ebf5}td.r{text-align:right;line-height:1.7}.band td{background:#f0f0f0;font-weight:700;text-align:right;line-height:1.7}.tot td{font-weight:700;background:#f0f0f0}.v75ReportBar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;position:relative;z-index:2}.v75ReportBar button{padding:9px 20px;font-size:14px;font-family:inherit;border-radius:7px;border:none;cursor:pointer}.v75ReportBar .v75Dl{background:#2e7d32;color:#fff}.v75ReportBar .v75Cl{background:#b71c1c;color:#fff}@media print{.v75ReportBar{display:none}body{padding:0!important}}</style></head><body><div class="v75ReportBar noPrint"><button type="button" class="v75Dl" onclick="window.print()">دانلود گزارش</button><button type="button" class="v75Cl" onclick="window.close()">بستن گزارش</button></div>'+(noHdr?'':prjHtml()+'<h1>'+esc(title)+'</h1><div class="meta">'+esc(metaLine()).replace(/ {3,}/g,' — ')+'</div>')+body+(window.__cplSig?window.__cplSig():'')+'</body></html>';
   }
@@ -8862,20 +8872,20 @@ setInterval(bindExports,500);
   }
   function pdfMin(){
     if(needItems())return;
-    var body=minHdrHtml()+sortedItems().map(function(it){
+    var body=mnPgWrap(minHdrHtml(),sortedItems().map(function(it){
       return '<table><thead><tr class="band"><td colspan="8">'+esc(itemTitle(it))+(it.unit?' &nbsp;(واحد: '+esc(it.unit)+')':'')+'</td></tr><tr><th style="width:6%">ردیف</th><th>تعداد</th><th>طول</th><th>عرض</th><th>ارتفاع</th><th>وزن</th><th>حاصل ضرب</th><th style="width:28%">ملاحظات</th></tr></thead><tbody>'+
         it.rows.map(function(r,ri){
           return '<tr><td>'+fmt(ri+1)+'</td>'+FIELDS.map(function(f){var v=num(r[f[0]]);return '<td>'+(v===null?'':fmt(v))+'</td>'}).join('')+'<td>'+fmt(rowProduct(r))+'</td><td class="r">'+esc(r.d||'')+'</td></tr>';
         }).join('')+
         '<tr class="tot"><td colspan="6">جمع نهایی</td><td>'+fmt(itemTotal(it))+'</td><td>'+esc(it.unit||'')+'</td></tr></tbody></table>';
-    }).join('');
+    }).join(''));
     if(window.__mnPdfCap){window.__mnPdfCap.push([docTitle(TITLE_MIN),body]);return}
     openPdf(pdfDoc(docTitle(TITLE_MIN),body,true));
   }
   function pdfCover(){
     if(needItems())return;
-    var body=coverHdrHtml()+'<table><thead><tr><th style="width:12%">نوع فهرست</th><th style="width:14%">شماره آیتم</th><th>شرح ردیف</th><th style="width:14%">مقدار</th><th style="width:12%">واحد</th></tr></thead><tbody>'+
-      sortedItems().map(function(it){return '<tr><td>'+esc(it.discipline||'')+'</td><td>'+esc(it.code)+'</td><td class="r">'+esc(it.desc)+'</td><td>'+fmt(itemTotal(it))+'</td><td>'+esc(it.unit||'')+'</td></tr>'}).join('')+'</tbody></table>';
+    var body=mnPgWrap(coverHdrHtml(),'<table><thead><tr><th style="width:12%">نوع فهرست</th><th style="width:14%">شماره آیتم</th><th>شرح ردیف</th><th style="width:14%">مقدار</th><th style="width:12%">واحد</th></tr></thead><tbody>'+
+      sortedItems().map(function(it){return '<tr><td>'+esc(it.discipline||'')+'</td><td>'+esc(it.code)+'</td><td class="r">'+esc(it.desc)+'</td><td>'+fmt(itemTotal(it))+'</td><td>'+esc(it.unit||'')+'</td></tr>'}).join('')+'</tbody></table>');
     if(window.__mnPdfCap){window.__mnPdfCap.push([docTitle(TITLE_COV),body]);return}
     openPdf(pdfDoc(docTitle(TITLE_COV),body,true));
   }
@@ -10684,7 +10694,7 @@ window.__cplSig=function(){
       '</tbody></table>';
   }
   /* هدر داخل thead است تا مرورگر آن را بالای تک‌تک صفحه‌های چاپی تکرار کند */
-  function stPgWrap(title,inner,disc){stDiscOv=disc||null;var hh;try{hh=stHdrHtml(title)}finally{stDiscOv=null}return '<table class="pgW"><thead><tr><td>'+hh+'</td></tr></thead><tbody><tr><td>'+inner+'</td></tr></tbody></table>'}
+  function stPgWrap(title,inner,disc){stDiscOv=disc||null;var hh;try{hh=stHdrHtml(title)}finally{stDiscOv=null}return '<table class="pgW rptWrap"><thead><tr><td>'+hh+'</td></tr></thead><tbody><tr><td>'+inner+'</td></tr></tbody></table>'}
 
 
   /* ---------- Excel (xlsx واقعی، بدون کتابخانه) ---------- */
@@ -12266,7 +12276,7 @@ window.__cplSig=function(){
         '<tr class="tot"><td>جمع نهایی</td><td>'+fmt(itemTotal(it))+(it.unit?' '+esc(it.unit):'')+'</td></tr></tbody></table>';
     }).join('');
   }
-  function pdfMin(){if(needItems())return;openPdf(pdfDoc(docTitle(TITLE_MIN),minBody()))}
+  function pdfMin(){if(needItems())return;var t=docTitle(TITLE_MIN);openPdf(pdfDoc(t,'<style>.rptWrap{width:100%;table-layout:fixed;border-collapse:collapse;margin:0!important}.rptWrap>thead{display:table-header-group}.rptWrap>thead>tr>td,.rptWrap>tbody>tr>td{border:0!important;background:none!important;padding:0!important;text-align:right;vertical-align:top}.rptWrap>thead>tr,.rptWrap>tbody>tr{page-break-inside:auto!important;break-inside:auto!important}</style><table class="rptWrap"><thead><tr><td>'+prjHtml()+'<h1>'+esc(t)+'</h1><div class="meta">'+esc(metaLine()).replace(/ {3,}/g,' — ')+'</div></td></tr></thead><tbody><tr><td>'+minBody()+'</td></tr></tbody></table>',true))}
   function pdfAll(){
     if(needItems())return;
     var stages=[];
@@ -15287,3 +15297,62 @@ html body .mnMenuPanel #closeStarred{width:100%!important;min-width:0!important;
 .cplVerRow.isNone .cplVerAct .btn{border-style:dashed}
 @media (max-width:520px){.cplVerRow{flex-direction:row!important;align-items:center!important}.cplVerAct{justify-content:flex-end}}
 </style>
+<script id="home-hierarchy-nav">
+(function(){
+  /* دکمهٔ «صفحه اصلی» در هدر صفحه‌ها: مرحله → ریزمتره همان بخش → لیست → صفحهٔ اول همان زیرمجموعه (صورت‌جلسه/صورت‌وضعیت/قیمت جدید/هزینه‌درآمد) */
+  function $(id){return document.getElementById(id)}
+  var PARTS=[
+    {key:'mn',first:'mnEditor',back:'mnBackList',steps:['mnCover'],list:'mnListModal',lclose:'mnListClose',view:'minutes'},
+    {key:'st',first:'stEditor',back:'stBackList',steps:['stCover','stTrM','stCoefM','stQuoteM'],list:'stListModal',lclose:'stListClose',view:'statements'},
+    {key:'adj',first:'stAdjM',steps:[],list:'stAdjL',lclose:'stalX',view:'statements'},
+    {key:'ci',first:'ciEditor',back:'ciBackList',steps:['ciCover','ciCoefM','ciQuoteM'],list:'ciListModal',lclose:'ciListClose',view:'compare'},
+    {key:'ex',first:'exEditor',steps:[],list:'exListModal',lclose:'exListClose',view:'expense'},
+    {key:'pr',first:'analysisModal',steps:['analysisPage'],list:'starredModal',lclose:'closeStarred',view:'price'}
+  ];
+  var MAP={};
+  PARTS.forEach(function(p){MAP[p.first]=[p,'first'];p.steps.forEach(function(s){MAP[s]=[p,'step']});MAP[p.list]=[p,'list']});
+  MAP.mnWfModal=[null,'wf'];
+  function closeMenus(){document.querySelectorAll('.mnMenuPanel.open').forEach(function(m){m.classList.remove('open')})}
+  function setView(v){
+    var h=$('cplHome');if(!h)return;
+    if(!h.classList.contains('show')&&typeof window.cplOpenHome==='function')window.cplOpenHome();
+    setTimeout(function(){h.setAttribute('data-view',v||'');h.scrollTop=0},0);
+  }
+  function clickOrRemove(el,sel){var c=sel&&el.querySelector(sel);if(c)c.click();else if(el.classList.contains('mnOverlay'))el.remove()}
+  function go(p,level,ov){
+    if(level==='wf'){clickOrRemove(ov,'#mnWfClose,#mnWfAllClose');return}
+    if(level==='step'){
+      if(p.key==='pr'){var bk=$('backFromAnalysisPage');if(bk){bk.click();return}}
+      p.steps.forEach(function(id){var el=$(id);if(el)el.remove()});
+      return;
+    }
+    if(level==='first'){
+      if(p.key==='pr'){
+        var from=window.__cplStarFrom,c=$('closeAnalysis');
+        if(c)c.click();
+        if(from&&$(from)){window.__cplStarFrom=null;return}
+        setTimeout(function(){if(typeof openStarred==='function')openStarred()},60);
+        return;
+      }
+      if(p.back&&$(p.back)){$(p.back).click();return}
+      if(p.key==='adj'){var x=$('stadX');if(x)x.click();setTimeout(function(){var l=$('cplAdjList');if(l)l.click()},0);return}
+      if(p.key==='ex'){var cl=$('exClose');if(cl){window.__cplAfterClose=function(){var l=$('cplExpList');if(l)l.click()};cl.click()}return}
+      return;
+    }
+    /* لیست: بستن لیست → صفحهٔ اول همان زیرمجموعه (یا صفحه‌ای که لیست از آن باز شده) */
+    var from2=window.__cplStarFrom;
+    clickOrRemove(ov,'#'+p.lclose);
+    if(p.key==='pr'&&from2&&$(from2)){window.__cplStarFrom=null;return}
+    setView(p.view);
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('button.mnHomeBtn'):null;
+    if(!b||b.id==='stTrHome')return;
+    var ov=b.closest('.mnOverlay,#analysisModal,#analysisPage,#starredModal'),hit=ov&&MAP[ov.id];
+    if(!hit)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    closeMenus();
+    go(hit[0],hit[1],ov);
+  },true);
+})();
+</script>
