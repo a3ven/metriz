@@ -84,7 +84,7 @@ function isUnlimitedAdmin(u){return String(u?.role||'').toLowerCase()==='admin' 
 async function userFrom(request,env){
   const sid=getSession(request); if(!sid) return null;
   const h=await sha256(sid);
-  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>?`).bind(h,Date.now()).first();
+  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
   return row||null;
 }
 async function api(request,env,url){
@@ -114,6 +114,7 @@ async function api(request,env,url){
       }
       if(!u) return json({error:'کد کاربری یا رمز عبور اشتباه است.'},401);
       if(Number(u.active)===0) return json({error:'این کاربر غیرفعال شده است.'},403);
+      const pass=await hashPassword(password,u.password_salt); if(pass!==u.password_hash) return json({error:'کد کاربری یا رمز عبور اشتباه است.'},401);
       if(!isUnlimitedAdmin(u) && deviceId){
         let ids=[]; try{ids=JSON.parse(u.device_ids||'[]')}catch{}
         if(!ids.length && u.device_id) ids=[u.device_id];
@@ -121,13 +122,12 @@ async function api(request,env,url){
         if(!ids.includes(deviceId)) ids.push(deviceId);
         await env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,last_login=? WHERE id=?').bind(ids[0]||null,JSON.stringify(ids),Date.now(),u.id).run();
       } else await env.DB.prepare('UPDATE users SET last_login=? WHERE id=?').bind(Date.now(),u.id).run();
-      const pass=await hashPassword(password,u.password_salt); if(pass!==u.password_hash) return json({error:'کد کاربری یا رمز عبور اشتباه است.'},401);
       const sid=rand(32), sh=await sha256(sid);
       await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(sh,u.id,Date.now()+2592000000).run();
       return json({ok:true,code:u.code,name:u.name,role:u.role||'user'},200,{'Set-Cookie':cookie('sid',sid)});
     }
     const user=await userFrom(request,env);
-    if(url.pathname==='/api/me' && request.method==='GET'){ const full=await env.DB.prepare('SELECT id,code,name,role,active,last_login FROM users WHERE id=?').bind(user.id).first(); return full?json({ok:true,user:full}):json({ok:false},401); }
+    if(url.pathname==='/api/me' && request.method==='GET'){ if(!user) return json({ok:false,error:'ابتدا وارد حساب کاربری شوید.'},401); const full=await env.DB.prepare('SELECT id,code,name,role,active,last_login FROM users WHERE id=?').bind(user.id).first(); return full?json({ok:true,user:full}):json({ok:false},401); }
     if(url.pathname==='/api/logout' && request.method==='POST'){
       const sid=getSession(request); let deviceId=''; try{const body=await request.json(); deviceId=deviceFrom(body)}catch{}
       if(sid){
