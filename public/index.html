@@ -2177,7 +2177,7 @@ html body #mnEditor .mnPick>.mnSortField>.mnAddBtn,html body #stEditor .mnPick>.
 }
 html:not([data-theme="light"]){background:#000!important}
 html:not([data-theme="light"]) body{background:#000!important}
-html body .brandFa,html body .brandFa .brandYz{-webkit-text-stroke:0!important;paint-order:normal!important;text-rendering:auto;font-synthesis:none!important;font-weight:400!important}
+html body .brandFa,html body .brandFa .brandYz{-webkit-text-stroke:.02em currentColor!important;paint-order:normal!important;text-rendering:auto;font-synthesis:none!important;font-weight:400!important}
 html body #mnEditor .mnPick,html body #stEditor .mnPick{grid-template-columns:1fr 1.9fr .9fr auto!important}
 html body #mnEditor .mnPick>.mnPickFree,html body #stEditor .mnPick>.mnPickFree{order:1!important;grid-column:auto!important}
 html body #mnEditor .mnPick>.mnSortField,html body #stEditor .mnPick>.mnSortField{order:4!important;grid-column:auto!important}
@@ -2248,7 +2248,7 @@ html body input[type="checkbox"]:indeterminate::after{width:9px;height:0;border-
 html body #stEditor #stNo{width:88px!important;text-align:center}
 html body #stEditor #stWd{width:120px!important;text-align:center}
 html body .mnField input[type="checkbox"],html body .mnRow4 .mnField input[type="checkbox"],html body .mnStick .mnRow4 .mnField input[type="checkbox"],html body .mnPick .mnField input[type="checkbox"],html body #stEditor .mnRow4.mnRow3 .mnField input[type="checkbox"],html body #stEditor .mnRow4.mnRow3 .mnField .stAllChk input[type="checkbox"],html body #stEditor .stAllChk input[type="checkbox"]{width:18px!important;height:18px!important;min-width:18px!important;min-height:18px!important;max-width:18px!important;max-height:18px!important;flex:0 0 18px!important;padding:0!important;margin:0!important}
-html body #cplHome .cplHomeHead h1.brandFa,html body #cplHome .cplMainView .cplHomeHead h1.brandFa{font-weight:400!important;font-synthesis:none!important;-webkit-text-stroke:0!important;paint-order:normal!important}
+html body #cplHome .cplHomeHead h1.brandFa,html body #cplHome .cplMainView .cplHomeHead h1.brandFa{font-weight:400!important;font-synthesis:none!important;-webkit-text-stroke:.02em currentColor!important;paint-order:normal!important}
 html body .mnHead>b,html body .mnHead>b *,html body .mnHeadTitle b,html body #stfTitle,html body #cifTitle,html body #exTitle,html body #analysisTitle,html body #chapterIntroTitle,html body .adjustmentHead>div>b,html body .summaryHead>div>b,html body .analysisHead>div>b,html body .adjustmentResultTitle>div,html body #cplHome .cplHomeHead h1:not(.brandFa),html body #cplHome .cplMainView .cplHomeHead h1:not(.brandFa),html body #cplBase .cbHead b,html body #cplBase .cbHead h1,html body #cplBase .cbHead h2,html body .chapterTitle,html body #historyTitle,html body #cplTitle,html body #setupTitle,html body .setupTitleRow h2,html body #newChoiceModal h2,html body .cplAskBox h3,html body .supportPopup .supportBox h3,html body #adminDrawer .adminPanel h3,html body .scHead b,html body .impHead b,html body .coefEditorHead>b{zoom:1.12}
 html body .mnHead>b *{zoom:1}
 html body #stEditor .mnRow4.mnRow3>.stRowTools{display:flex;align-items:center;gap:6px;flex:0 0 auto!important;margin-inline-start:auto;align-self:flex-end}
@@ -2360,13 +2360,14 @@ html body #mnEditor .mnRow4 .mnChapWrap{padding:0;margin:0}
   }catch(e){}
 })();
 </script>
-
+<style>
 #mnWfModal{z-index:30000!important}
 .mnVerSel{height:44px;min-width:92px;max-width:110px;border-radius:10px;background:var(--c8);color:var(--c2);border:1px solid var(--c5);font:inherit;font-size:15px;padding:0 6px;box-sizing:border-box}
 </style>
 
 <meta name="meter-input-fix" content="V81: preserve focus while typing quantity/decimals">
 
+<style>
 #mnWfModal{z-index:30000!important}
 .mnVerSel{height:44px;min-width:92px;max-width:110px;border-radius:10px;background:var(--c8);color:var(--c2);border:1px solid var(--c5);font:inherit;font-size:15px;padding:0 6px;box-sizing:border-box}
 </style>
@@ -2565,7 +2566,7 @@ html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!impo
 </div>
 <div id="projectSetup" aria-hidden="true">
   <div class="projectSetupPanel">
-    <div class="setupTitleRow"><h2 id="setupTitle">ورودی جدید / تعریف پروژه</h2><button type="button" class="btn" id="closeProjectSetup" aria-label="بستن" title="بستن">✕</button></div>
+    <div class="setupTitleRow"><h2 id="setupTitle">تعریف پروژه</h2><button type="button" class="btn" id="closeProjectSetup" aria-label="بستن" title="بستن">✕</button></div>
     <div class="projectSetupGrid">
       <label class="wide">نام پروژه<input id="setupProjectName" placeholder="مثلاً پروژه ساختمان مسکونی" autocomplete="off"></label>
       <div class="wide contractToggleRow"><button type="button" class="btn" id="contractToggleBtn" aria-expanded="false" aria-controls="contractBox">＋ اطلاعات قرارداد</button></div>
@@ -2577,7 +2578,7 @@ html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!impo
         <label>تاریخ قرارداد<input id="setupContractDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱"></label>
       </div>
       <label>سال فهرست بها<select id="setupListYear"></select></label>
-      <div class="setupListsBox" id="setupListsBox"><span class="setupListsLbl">فهرست‌بهای این پروژه</span><button type="button" class="setupListsToggle" id="setupListsToggle" aria-haspopup="true" aria-expanded="false"><span id="setupListsSummary">انتخاب فهرست‌ها</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="setupListsPanel" id="setupListsPanel" hidden><div class="setupListsHead"><span class="setupListsBtns"><button type="button" class="btn" id="setupListsAll">همه</button><button type="button" class="btn" id="setupListsNone">هیچ</button></span><span class="muted">بعد از باز شدن پروژه فقط فهرست‌های تیک‌خورده در دسترس‌اند.</span></div><div class="setupListsGrid" id="setupListsChecks"></div></div></div>
+      <div class="setupListsBox" id="setupListsBox"><span class="setupListsLbl">فهارس بهای پروژه</span><button type="button" class="setupListsToggle" id="setupListsToggle" aria-haspopup="true" aria-expanded="false"><span id="setupListsSummary">انتخاب فهرست‌ها</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="setupListsPanel" id="setupListsPanel" hidden><div class="setupListsHead"><span class="setupListsBtns"><button type="button" class="btn" id="setupListsAll">همه</button><button type="button" class="btn" id="setupListsNone">هیچ</button><button type="button" class="btn" id="setupListsSearchBtn" aria-label="جستجو" title="جستجو در فهارس بها"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button></span><input type="search" id="setupListsSearch" class="setupListsSearch" placeholder="جستجوی فهرست‌بها…" autocomplete="off" hidden><span class="muted">بعد از باز شدن پروژه فقط فهرست‌های تیک‌خورده در دسترس‌اند.</span></div><div class="setupListsGrid" id="setupListsChecks"></div></div></div>
       <select id="setupListType" style="display:none" aria-hidden="true" tabindex="-1"><option>ابنیه</option><option>مکانیک</option><option>برق</option></select>
       <label>سال مبنا<select id="setupBaseYear"></select></label>
       <label>دوره مبنا<select id="setupBasePeriod"></select></label>
@@ -2614,7 +2615,7 @@ html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!impo
 html body #projectSetup .projectSetupGrid select,html body #projectSetup .projectSetupGrid input:not([type=file]):not([type=checkbox]),html body #projectSetup .setupListsToggle{box-sizing:border-box!important;height:var(--ctl-h,44px)!important;min-height:var(--ctl-h,44px)!important;max-height:var(--ctl-h,44px)!important;padding:0 10px!important;border-radius:var(--r-md,12px)!important;font-size:var(--fs-input)!important;line-height:1.4;margin:0}
 html body #projectSetup .setupListsToggle{width:100%;background:var(--c4);color:var(--surfaceText);border:1px solid var(--c5)}
 html body #projectSetup .setupListsToggle span{flex:1 1 auto;text-align:start}
-#projectSetup .setupListsPanel{position:absolute;z-index:30;top:100%;inset-inline-start:0;margin-top:4px;width:max(100%,300px);max-width:min(420px,88vw);max-height:300px;overflow:auto;display:grid;gap:8px;padding:10px;border:1px solid var(--c5);border-radius:12px;background:var(--c35);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+#projectSetup .setupListsPanel{position:absolute;z-index:30;top:100%;inset-inline-end:0;margin-top:4px;width:max(100%,320px);max-width:min(420px,calc(100vw - 48px));max-height:300px;overflow:auto;display:grid;gap:8px;padding:10px;border:1px solid var(--c5);border-radius:12px;background:var(--c35);box-shadow:0 12px 32px rgba(0,0,0,.4)}
 #projectSetup .setupListsPanel[hidden]{display:none}
 #projectSetup .setupListsHead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 #projectSetup .setupListsHead .muted{font-size:12px;flex:1 1 100%;order:3}
@@ -2627,6 +2628,8 @@ html body #projectSetup .setupListsToggle span{flex:1 1 auto;text-align:start}
 #projectSetup .plChk small{opacity:.7;white-space:nowrap;font-size:11px}
 #projectSetup .plChk.on{border-width:2px;padding:6px 8px}
 #projectSetup .plChk.off{opacity:.5;cursor:not-allowed}
+#projectSetup .plChk[hidden]{display:none!important}
+#projectSetup .setupListsSearch{width:100%;box-sizing:border-box}
 </style>
 <script id="price-lists-registry">
 /* فهرست‌بهای قابل انتخاب در هر پروژه.
@@ -2648,13 +2651,30 @@ const L98=[
  ['37','شبکه جمع آوری و انتقال فاضلاب'],
  ['83','پست‌های انتقال و فوق توزیع نیروی برق'],
  ['88','خطوط هوایی انتقال و فوق توزیع نیروی برق'],
- ['84','خطوط زمینی انتقال و فوق توزیع نیروی برق']
+ ['84','خطوط زمینی انتقال و فوق توزیع نیروی برق'],
+ ['33','چاه'],
+ ['39','ساخت و ترمیم قنات'],
+ ['35','سد سازی'],
+ ['38','انتقال و توزیع آب روستایی'],
+ ['42','آبخیزداری و منابع طبیعی'],
+ ['23','نگهداری خط و ابنیه خطوط راه آهن'],
+ ['29','ترمیم و بازسازی نوار حفاری در معابر شهری'],
+ ['43','بهره برداری آب شرب'],
+ ['16','مرمت بناهای تاریخی'],
+ ['26','کلان راه سازی'],
+ ['85','توزیع نیروی برق'],
+ ['30','تجهیزات آب و فاضلاب'],
+ ['36','بهره برداری از شبکه جمع آوری فاضلاب'],
+ ['102','پسماند'],
+ ['92','حفاری اکتشافی'],
+ ['101','فضای سبز']
 ].map(r=>({code:r[0],name:r[1],key:r[2]||r[1]}));
 const CATALOG={};['1397','1398','1399','1400','1401','1402','1403','1404'].forEach(y=>{CATALOG[y]=L98});
 const DEFAULT=BASE.map(n=>({code:'',name:n,key:n}));
 const ALL=BASE.slice();L98.forEach(d=>{if(!ALL.includes(d.key))ALL.push(d.key)});
 window.__ALL_DISCS=ALL;                       /* آرایهٔ مشترک همهٔ ماژول‌ها (DISCS) */
 window.PRICE_LIST_EXTRA_FILES=['./data/pricelist-1398-v1.json'].concat(['1397','1399','1400','1401','1402','1403','1404'].map(y=>'./data/pricelist-'+y+'-lists-v1.json'));
+window.PRICE_LIST_EXTRA_FILES=window.PRICE_LIST_EXTRA_FILES.concat(['1397','1398','1399','1400','1401','1402','1403','1404'].map(y=>'./data/pricelist-'+y+'-lists2-v1.json'));
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const faD=s=>String(s).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
@@ -2763,11 +2783,15 @@ window.plRenderSetupLists=function(selected){
   if(!chosen.length){const f=defs.find(d=>has(d.key));if(f)chosen=[f.key]}
   box.innerHTML=defs.map(d=>{
     const n=ready?window.plCount(y,d.key):-1,on=chosen.includes(d.key),off=ready&&n===0&&!on;
-    const meta=[d.code?'کد '+faD(d.code):'',off?'بدون داده':(n>0?faD(n)+' ردیف':'')].filter(Boolean).join(' · ');
-    return '<label class="plChk'+(on?' on':'')+(off?' off':'')+'"><input type="checkbox" value="'+esc(d.key)+'"'+(on?' checked':'')+(off?' disabled':'')+'><span class="plName">'+esc(d.name)+'</span><small>'+esc(meta)+'</small></label>';
+    return '<label class="plChk'+(on?' on':'')+(off?' off':'')+'"><input type="checkbox" value="'+esc(d.key)+'"'+(on?' checked':'')+(off?' disabled':'')+'><span class="plName">'+esc(d.name)+'</span></label>';
   }).join('');
-  syncHidden();
+  syncHidden();applyListFilter();
 };
+function plNorm(t){return String(t||'').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[\u200c\u200f\s]+/g,' ').trim().toLowerCase()}
+function applyListFilter(){
+  const box=$('setupListsChecks'),q=plNorm(($('setupListsSearch')||{}).value);if(!box)return;
+  box.querySelectorAll('.plChk').forEach(l=>{const n=plNorm((l.querySelector('.plName')||{}).textContent);l.hidden=!!q&&n.indexOf(q)<0});
+}
 function updSummary(){
   const el=$('setupListsSummary');if(!el)return;
   const y=($('setupListYear')&&$('setupListYear').value)||'';
@@ -2780,8 +2804,13 @@ function wire(){
   const box=$('setupListsChecks');
   if(box&&!box.__pl){box.__pl=1;box.addEventListener('change',e=>{const l=e.target.closest&&e.target.closest('.plChk');if(l)l.classList.toggle('on',e.target.checked);syncHidden()})}
   const all=$('setupListsAll'),none=$('setupListsNone');
-  if(all&&!all.__pl){all.__pl=1;all.addEventListener('click',()=>{box.querySelectorAll('input[type=checkbox]:not(:disabled)').forEach(i=>{i.checked=true;i.closest('.plChk').classList.add('on')});syncHidden()})}
-  if(none&&!none.__pl){none.__pl=1;none.addEventListener('click',()=>{box.querySelectorAll('input[type=checkbox]').forEach(i=>{i.checked=false;i.closest('.plChk').classList.remove('on')});syncHidden()})}
+  if(all&&!all.__pl){all.__pl=1;all.addEventListener('click',()=>{box.querySelectorAll('.plChk:not([hidden]) input[type=checkbox]:not(:disabled)').forEach(i=>{i.checked=true;i.closest('.plChk').classList.add('on')});syncHidden()})}
+  if(none&&!none.__pl){none.__pl=1;none.addEventListener('click',()=>{box.querySelectorAll('.plChk:not([hidden]) input[type=checkbox]').forEach(i=>{i.checked=false;i.closest('.plChk').classList.remove('on')});syncHidden()})}
+  const sb=$('setupListsSearchBtn'),si=$('setupListsSearch');
+  if(sb&&si&&!sb.__pl){sb.__pl=1;
+    sb.addEventListener('click',()=>{si.hidden=!si.hidden;if(si.hidden){si.value='';applyListFilter()}else si.focus()});
+    si.addEventListener('input',applyListFilter);
+  }
   const tg=$('setupListsToggle'),pn=$('setupListsPanel');
   if(tg&&pn&&!tg.__pl){tg.__pl=1;
     const close=()=>{pn.hidden=true;tg.setAttribute('aria-expanded','false')};
@@ -2813,7 +2842,7 @@ const CHAPTER_TITLES={
     "13":"عایق کاری رطوبتی","14":"عایق کاری حرارتی","15":"کارهای آزبست سیمان","16":"کارهای فولادی سبک","17":"کارهای آلومینیومی",
     "18":"اندودکاری و بندکشی","19":"کارهای چوبی","20":"کاشی و سرامیک کاری","21":"فرش کف با موزاییک","22":"کارهای سنگی با سنگ پلاک",
     "23":"کارهای پلاستیکی و پلیمری","24":"برش و نصب شیشه","25":"رنگ آمیزی","26":"زیراساس و اساس","27":"آسفالت","28":"حمل و نقل",
-    "29":"کارهای دستمزدی","41":"مصالح پایکار"
+    "29":"کارهای دستمزدی","41":"مصالح پایکار","99":"تجهیز و برچیدن کارگاه"
   },
   "برق":{
     "8":"کابلشوها","9":"کابلهای فشارمتوسط","16":"وسایل فشار متوسط تابلویی","20":"وسایل شبکه",
@@ -2839,7 +2868,7 @@ const CHAPTER_TITLES={
     "4":"لوله های پلی اتیلن","5":"لوله های آزبست سیمان","6":"لوله های مسی","7":"شیرها","8":"قطعه انبساط (Expansion Joint)","9":"لرزه گیر (Flexible Connection)","11":"صافی",
     "12.1":"دیگ حرارتی آب گرم","12.2":"دیگ های حرارتی آبگرم (گروه 2)","13":"دیگ بخار","14":"مشعل-دستگاههای گرم کننده تابشی","15":"دستگاههای کنترل و اندازه گیری",
     "16":"آب گرم کن","17":"رادیاتور","18":"آب سردکن","19":"کانال هوا، دریچه هوا و دودکش","20":"هواکش","21":"فن کویل، یونیت هیتر","22":"کولرآبی","23":"کولرگازی",
-    "24":"الکتروپمپ","25":"عایق","27":"دستگاههای مبرد","28":"برجهای خنک کننده","29":"لوازم بهداشتی، شیرهای بهداشتی","30":"وسایل آتش نشانی","31":"لوازم آشپزخانه","32":"سختی گیر","33":"مخازن و مبدلها","34":"بستها و تکیه گاهها","35":"کارهای دستمزدی","41":"مصالح پایکار"
+    "24":"الکتروپمپ","25":"عایق","27":"دستگاههای مبرد","28":"برجهای خنک کننده","29":"لوازم بهداشتی، شیرهای بهداشتی","30":"وسایل آتش نشانی","31":"لوازم آشپزخانه","32":"سختی گیر","33":"مخازن و مبدلها","34":"بستها و تکیه گاهها","35":"کارهای دستمزدی","41":"مصالح پایکار","99":"تجهیز و برچیدن کارگاه"
   }
 };
 function chapterKey(c){return String(c??'').trim().replace(/^0+(?=\d)/,'')||String(c??'');}
@@ -4507,7 +4536,7 @@ window.exportRowsData=exportRowsData;
     if(window.plRenderSetupLists){const s1=settings||{};window.plRenderSetupLists(Array.isArray(s1.lists)?s1.lists:(edit&&getMainSettings().name?'ALL':null))}
     {const ly=$('setupListYear');if(ly){const lock=!!edit&&!!((typeof currentProjectId!=='undefined'&&currentProjectId)||window.__mainProjectId);ly.disabled=lock;ly.title=lock?'سال فهرست بها بعد از ایجاد پروژه قابل تغییر نیست':''}}
     window.fillContractFields&&window.fillContractFields(edit?((settings&&settings.listYear)?settings:fixedProjectSettings()).contract:null);
-    if($('setupTitle'))$('setupTitle').textContent=edit?'ویرایش اطلاعات پروژه':'ورودی جدید / تعریف پروژه';
+    if($('setupTitle'))$('setupTitle').textContent=edit?'ویرایش اطلاعات پروژه':'تعریف پروژه';
     if($('startProject')){const sb=$('startProject'),row=document.querySelector('#projectSetup .setupTitleRow'),cb=$('closeProjectSetup'),act=document.querySelector('#projectSetup .projectSetupActions');
       if(edit&&row&&cb){sb.classList.add('setupSaveIcon');sb.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>';sb.title='ذخیره تغییرات';sb.setAttribute('aria-label','ذخیره تغییرات');if(sb.parentNode!==row)row.insertBefore(sb,cb);}
       else{sb.classList.remove('setupSaveIcon');sb.textContent='شروع پروژه';sb.title='';sb.removeAttribute('aria-label');if(act&&sb.parentNode!==act)act.insertBefore(sb,act.firstChild);}}
@@ -7632,10 +7661,11 @@ setInterval(bindExports,500);
   function hideModal(id){var m=document.getElementById(id);if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true');}}
   function currentDisc(){try{if(typeof currentDiscipline==='function')return currentDiscipline();}catch(e){}var el=document.getElementById('discipline');return el?el.value:'ابنیه';}
   function baseChapterNum(ch){var s=String(ch==null?'':ch).split('.')[0];return s.replace(/^0+(?=\d)/,'')||s;}
-  function catKey(d){return d==='برق'?'electrical':(d==='مکانیک'?'mechanical':'buildings');}
+  function catKey(d){return d==='برق'?'electrical':(d==='مکانیک'?'mechanical':(d==='ابنیه'?'buildings':''));}
   function openChapterIntro(o){
     var yEl=document.getElementById('year'),cEl=document.getElementById('chapter'),disc=(o&&o.disc)||currentDisc();
     var year=(o&&o.year)||(yEl?yEl.value:''),ch=(o&&o.ch!=null)?o.ch:(cEl?cEl.value:'');
+    if(!catKey(disc)){alert('برای این فهرست هنوز مقدمهٔ فصل ثبت نشده است.');return}
     var num=baseChapterNum(ch), body=document.getElementById('chapterIntroBody'),titleEl=document.getElementById('chapterIntroTitle'),metaEl=document.getElementById('chapterIntroMeta');
     if(metaEl)metaEl.textContent=disc+' — سال '+year+(ch?(' — فصل '+ch):'');
     if(titleEl)titleEl.textContent='مقدمه فصل'+(ch?(' — فصل '+ch):'');
