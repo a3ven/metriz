@@ -2420,6 +2420,22 @@ html:root:root:root:root body #projectBar .projectBtns .glPill{order:1!important
 #mnWfModal{z-index:30000!important}
 .mnVerSel{height:44px;min-width:92px;max-width:110px;border-radius:10px;background:var(--c8);color:var(--c2);border:1px solid var(--c5);font:inherit;font-size:15px;padding:0 6px;box-sizing:border-box}
 </style>
+<style id="cplSubviewAlign">
+/* صورت‌جلسه / هزینه-درآمد / قیمت جدید: ارتفاع محتوای گرید برابر صفحه صورت‌وضعیت و تعدیل می‌شود تا کادر انتخاب پروژه از همان ارتفاع شروع شود */
+html body #cplHome .cplMinutesView .cplGrid::after,
+html body #cplHome .cplCmpView .cplGrid::after,
+html body #cplHome .cplPriceView .cplGrid::after{content:"";grid-column:1/-1;height:150px;visibility:hidden;pointer-events:none}
+</style>
+<style id="listFontBump">
+/* فونت بخش لیست‌ها کمی بزرگ‌تر (فقط اندازه متن) */
+html body .mnListItem>div:first-child>b{font-size:calc(var(--fs-body) + 2px)!important}
+html body .mnListItem .mnMuted{font-size:14px!important}
+html body .projectItem b{font-size:calc(var(--fs-body) + 2px)!important}
+html body .projectItem small{font-size:calc(var(--fs-xs) + 1px)!important}
+html body .starredItem .desc{font-size:calc(var(--fs-body) + 2px)!important}
+html:root:root:root:root body .card.list#meterCard .listCode{font-size:16px!important}
+html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!important}
+</style>
 </head><body>
 
 <div id="authGate">
