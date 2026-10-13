@@ -45,6 +45,11 @@ async function hashPassword(password,salt){
 }
 function cookie(name,value,maxAge=2592000){return `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;}
 function getSession(request){return (request.headers.get('Cookie')||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('sid='))?.slice(4)||'';}
+function fromB64u(str){str=String(str).replace(/-/g,'+').replace(/_/g,'/');while(str.length%4)str+='=';const bin=atob(str);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
+/* رمز قابل‌مشاهده برای مدیر: رمزنگاری‌شده با AES-GCM و کلید محرمانه‌ی PASSWORD_VIEW_KEY (Secret در Cloudflare). اگر کلید تنظیم نشده باشد، چیزی ذخیره نمی‌شود. */
+async function viewKey(env){const k=String(env.PASSWORD_VIEW_KEY||'');if(!k)return null;const raw=await crypto.subtle.digest('SHA-256',enc.encode(k));return crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt','decrypt']);}
+async function encPassword(env,password){const key=await viewKey(env);if(!key)return null;const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,enc.encode(password)));return b64u(iv)+'.'+b64u(ct);}
+async function decPassword(env,value){try{if(!value)return '';const key=await viewKey(env);if(!key)return '';const [i,c]=String(value).split('.');const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64u(i)},key,fromB64u(c));return new TextDecoder().decode(pt);}catch{return '';}}
 let schemaReady=null;
 let projectAnalysisSchemaReady=null;
 async function ensureProjectAnalysisSchema(env){
@@ -67,7 +72,8 @@ async function ensureLicenseSchema(env){
       `ALTER TABLE users ADD COLUMN device_id TEXT`,
       `ALTER TABLE users ADD COLUMN last_login INTEGER`,
       `ALTER TABLE users ADD COLUMN max_devices INTEGER DEFAULT 1`,
-      `ALTER TABLE users ADD COLUMN device_ids TEXT DEFAULT '[]'`
+      `ALTER TABLE users ADD COLUMN device_ids TEXT DEFAULT '[]'`,
+      `ALTER TABLE users ADD COLUMN password_enc TEXT`
     ];
     const have=new Set(((await env.DB.prepare(`SELECT name FROM pragma_table_info('users')`).all()).results||[]).map(x=>x.name));
     for(const sql of alters){const col=sql.match(/ADD COLUMN (\w+)/)[1];if(have.has(col))continue;try{await env.DB.prepare(sql).run()}catch(e){if(!/duplicate column|already exists/i.test(e.message||'')) throw e;}}
@@ -147,10 +153,21 @@ async function api(request,env,url){
       return json({ok:true},200,{'Set-Cookie':cookie('sid','',0)});
     }
     if(!user) return json({error:'ابتدا وارد حساب کاربری شوید.'},401);
+    if(url.pathname==='/api/me/password' && request.method==='PUT'){
+      const body=await request.json(); const password=String(body.password||'');
+      if(password.length<6) return json({error:'رمز عبور باید حداقل ۶ کاراکتر باشد.'},400);
+      const salt=rand(16), pass=await hashPassword(password,salt), penc=await encPassword(env,password);
+      await env.DB.prepare('UPDATE users SET password_hash=?,password_salt=?,password_enc=? WHERE id=?').bind(pass,salt,penc,user.id).run();
+      /* نشست‌های دیگر این کاربر بسته می‌شود؛ نشست فعلی می‌ماند */
+      const cur=await sha256(getSession(request));
+      await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(user.id,cur).run();
+      return json({ok:true});
+    }
     if(url.pathname==='/api/admin/users' && request.method==='GET'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
-      const rows=await env.DB.prepare('SELECT id,code,name,role,active,device_id,device_ids,max_devices,last_login,created_at FROM users ORDER BY created_at ASC').all();
-      return json({users:rows.results||[]});
+      const rows=await env.DB.prepare('SELECT id,code,name,role,active,device_id,device_ids,max_devices,last_login,created_at,password_enc FROM users ORDER BY created_at ASC').all();
+      const users=[];for(const r of (rows.results||[])){const {password_enc,...rest}=r;users.push({...rest,password:await decPassword(env,password_enc)});}
+      return json({users});
     }
     if(url.pathname==='/api/admin/users' && request.method==='POST'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
@@ -158,10 +175,25 @@ async function api(request,env,url){
       if(password.length<6) return json({error:'رمز عبور باید حداقل ۶ کاراکتر باشد.'},400);
       let code=''; for(let i=0;i<30;i++){code='A7-'+rand(6).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8); if(!(await env.DB.prepare('SELECT id FROM users WHERE code=?').bind(code).first())) break;}
       const id=crypto.randomUUID(),salt=rand(16),pass=await hashPassword(password,salt);
-      await env.DB.prepare('INSERT INTO users(id,code,name,password_hash,password_salt,created_at,role,active,device_id,last_login) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,code,name,pass,salt,Date.now(),'user',1,null,null).run();
+      const penc=await encPassword(env,password);
+      await env.DB.prepare('INSERT INTO users(id,code,name,password_hash,password_salt,created_at,role,active,device_id,last_login,password_enc) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id,code,name,pass,salt,Date.now(),'user',1,null,null,penc).run();
       return json({ok:true,id,code,name});
     }
     const editMatch=url.pathname.match(/^\/api\/admin\/users\/([^/]+)$/);
+    if(editMatch && request.method==='DELETE'){
+      if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
+      const id=editMatch[1];
+      if(id===user.id) return json({error:'نمی‌توانید حساب خودتان را حذف کنید.'},400);
+      const target=await env.DB.prepare('SELECT id,role,name,code FROM users WHERE id=?').bind(id).first();
+      if(!target) return json({error:'کاربر پیدا نشد.'},404);
+      if(isUnlimitedAdmin(target)) return json({error:'حساب مدیر قابل حذف نیست.'},403);
+      await env.DB.batch([
+        env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(id),
+        env.DB.prepare('DELETE FROM projects WHERE user_id=?').bind(id),
+        env.DB.prepare('DELETE FROM users WHERE id=?').bind(id)
+      ]);
+      return json({ok:true});
+    }
     if(editMatch && request.method==='PUT'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
       const id=editMatch[1], target=await env.DB.prepare('SELECT id,role,name,code,max_devices FROM users WHERE id=?').bind(id).first();
@@ -172,7 +204,7 @@ async function api(request,env,url){
       if(!name) return json({error:'نام کاربر نمی‌تواند خالی باشد.'},400);
       if(password && password.length<6) return json({error:'رمز عبور باید حداقل ۶ کاراکتر باشد.'},400);
       let maxDevices=Number.isFinite(Number(b.max_devices))?Math.max(1,Math.min(9999,Math.floor(Number(b.max_devices)))):Number(target.max_devices||1);
-      if(password){const salt=rand(16),pass=await hashPassword(password,salt); await env.DB.prepare('UPDATE users SET name=?,password_hash=?,password_salt=?,max_devices=? WHERE id=?').bind(name,pass,salt,maxDevices,id).run();}
+      if(password){const salt=rand(16),pass=await hashPassword(password,salt),penc=await encPassword(env,password); await env.DB.prepare('UPDATE users SET name=?,password_hash=?,password_salt=?,max_devices=?,password_enc=? WHERE id=?').bind(name,pass,salt,maxDevices,penc,id).run();}
       else await env.DB.prepare('UPDATE users SET name=?,max_devices=? WHERE id=?').bind(name,maxDevices,id).run();
       if(name.toLowerCase()==='amir') await env.DB.prepare("UPDATE users SET role='admin',device_id=NULL,max_devices=0,device_ids='[]' WHERE id=?").bind(id).run();
       return json({ok:true,max_devices:maxDevices});

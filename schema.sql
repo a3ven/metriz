@@ -8,7 +8,10 @@ CREATE TABLE IF NOT EXISTS users (
  role TEXT NOT NULL DEFAULT 'user',
  active INTEGER NOT NULL DEFAULT 1,
  device_id TEXT,
- last_login INTEGER
+ last_login INTEGER,
+ max_devices INTEGER DEFAULT 1,
+ device_ids TEXT DEFAULT '[]',
+ password_enc TEXT
 );
 CREATE TABLE IF NOT EXISTS sessions (
  token_hash TEXT PRIMARY KEY,
