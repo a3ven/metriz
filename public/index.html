@@ -1365,7 +1365,7 @@ html:not([data-theme="light"]) :is(.card.list#meterCard .listDesc,.rdesc,.card.l
 #cplHomeMenu{display:none;position:fixed;top:calc(68px + env(safe-area-inset-top,0px));width:min(250px,86vw);padding:6px;border-radius:18px;background:var(--c4);border:1px solid var(--c5);box-shadow:0 12px 40px rgba(0,0,0,.35);z-index:3;flex-direction:column}
 #cplHomeMenu.open{display:flex}
 .cplMenuUser{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;min-height:48px;padding:0 12px;margin-bottom:4px;border-bottom:1px solid var(--c5);text-align:right;color:var(--c2)}
-.cplMenuUser b{font-size:18px;font-weight:800;line-height:1.4;text-align:right}
+.cplMenuUser b{font-size:18px;font-weight:800;line-height:1.4;text-align:right;position:relative;top:3px}
 .cplMenuUser svg{width:24px;height:24px;flex:0 0 24px}
 .cplMenuUser.clickable{cursor:pointer;border-radius:12px 12px 0 0}
 .cplMenuUser.clickable:active{background:var(--c9)}
@@ -1761,10 +1761,10 @@ html body #cplHome .cplHomeHead .who{font-size:var(--fs-body)!important}
  :root{--vh-full:100dvh}
 }
 html,body{min-height:100%}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal){padding:0!important;align-items:stretch!important;justify-content:stretch!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal)>.mnPanel{width:100%!important;max-width:none!important;min-height:100vh!important;min-height:var(--vh-full)!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left))!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal) .mnStick{top:0!important;padding-top:env(safe-area-inset-top,0px)!important;margin-left:0;margin-right:0}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal)>.mnPanel>.mnHead{top:0!important;padding-top:calc(8px + env(safe-area-inset-top,0px))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal){padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel{width:100%!important;max-width:none!important;min-height:100vh!important;min-height:var(--vh-full)!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick{top:0!important;padding-top:env(safe-area-inset-top,0px)!important;margin-left:0;margin-right:0}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{top:0!important;padding-top:calc(8px + env(safe-area-inset-top,0px))!important}
 html body .mnOverlay .mnTableWrap,html body .mnOverlay .analysisTableWrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 html body .mnOverlay .mnCovTable,html body .mnOverlay .analysisTable{width:100%}
 html body #exEditor .analysisTable{min-width:0}
@@ -1939,7 +1939,7 @@ html body #cplHomeMenu{top:calc(68px + env(safe-area-inset-top,0px))!important}
 html body #cplCostMenu{top:calc(68px + env(safe-area-inset-top,0px))!important}
 html body #stgMenu,html body .mnMenuPanel{max-height:calc(100dvh - env(safe-area-inset-top,0px) - 80px);overflow-y:auto}
 html body .adjustmentPage .adjustmentPanel,html body .summaryModal .summaryPanel,html body #chapterSummaryModal .summaryPanel{padding-top:calc(12px + env(safe-area-inset-top,0px))!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal)>.mnPanel>.mnHead{padding-top:calc(10px + env(safe-area-inset-top,0px))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{padding-top:calc(10px + env(safe-area-inset-top,0px))!important}
 html body .mnOverlay>.mnPanel>.mnHead{top:0!important}
 html body .mnListItem{flex-direction:row!important;align-items:center!important;gap:8px!important;padding:8px 10px!important;margin-top:8px!important}
 html body .mnListItem>div:first-child{flex:1 1 auto;min-width:0;line-height:1.6}
@@ -9038,7 +9038,7 @@ setInterval(bindExports,500);
   function rowHtml(ii,ri,r){
     return '<div class="mnRow'+(ri>0?' mnRowNext':'')+'" data-i="'+ii+'" data-r="'+ri+'">'+FIELDS.map(function(f){
       return '<label class="mnCell"><span>'+f[1]+'</span><input class="mnIn" aria-label="'+f[1]+'" data-f="'+f[0]+'" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(r[f[0]])+'"></label>';
-    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+'<div class="mnRowBtns">'+descBtnHtml(r)+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
+    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
   }
   function catOf(it){
     var b=it.extraOf?(findParent(it)||it):it;
@@ -9071,14 +9071,18 @@ setInterval(bindExports,500);
     itEl.querySelector('.mnSum').textContent=fmt(itemTotal(it));
     syncLinked(it);
   });
+  document.addEventListener('input',function(e){
+    var ta=e.target.closest&&e.target.closest('#mnItems .mnRemTa');if(!ta||!cur)return;
+    var rowEl=ta.closest('.mnRow'),itEl=ta.closest('.mnItem');if(!rowEl||!itEl)return;
+    var it=cur.items[+itEl.dataset.i],r=it&&it.rows[+rowEl.dataset.r];if(!r)return;
+    r.d=ta.value;dirty=true;syncLinked(it);
+  });
   document.addEventListener('click',function(e){
     var t=e.target;if(!t.closest||!cur||!t.closest('#mnItems'))return;
     var itEl=t.closest('.mnItem');if(!itEl)return;var ii=+itEl.dataset.i,it=cur.items[ii];
     var ib=t.closest('.mnInfoBtn');if(ib){var ip=itEl.querySelector('.mnInfoPanel');if(ip){var o=ip.hasAttribute('hidden');if(o)ip.removeAttribute('hidden');else ip.setAttribute('hidden','');ib.setAttribute('aria-expanded',o?'true':'false')}return}
     var tg=t.closest('.mnExtraToggle');
-    if(tg){var pn=itEl.querySelector('.mnExtras'),op=pn.hasAttribute('hidden');
-      if(op){pn.removeAttribute('hidden');openExtras[it.uid]=1}else{pn.setAttribute('hidden','');delete openExtras[it.uid]}
-      tg.setAttribute('aria-expanded',op?'true':'false');tg.querySelector('.mnTri').textContent=op?'▾':'◂';return}
+    if(tg){openExModal(ii);return}
     var ec=t.closest('.mnExCopy');if(ec){copyFromParent(it);return}
     var elk=t.closest('.mnExLink');if(elk){setLink(it,elk.checked);return}
     var ea=t.closest('.mnExAdd');if(ea){if(!ea.disabled)addExtra(it,+ea.dataset.ri);return}
@@ -9115,18 +9119,32 @@ setInterval(bindExports,500);
   }
   function toggleHtml(it){
     if(it.extraOf)return '<span class="mnExTag">اضافه‌بها</span> ';
-    var n=relatedOf(it).length,op=!!openExtras[it.uid];
-    return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">'+(op?'▾':'◂')+'</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
+    var n=relatedOf(it).length,op=!!openExtras[it.uid];if(!n)return '';
+    return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">◂</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
   }
-  function extrasHtml(it){
-    if(it.extraOf){
-      return '';
-    }
-    var rel=relatedOf(it),op=!!openExtras[it.uid];
-    return '<div class="mnExtras"'+(op?'':' hidden')+'>'+(rel.length?rel.map(function(r,ri){
+  function extrasHtml(it){return ''}
+  function exListHtml(it){
+    if(it.extraOf)return '';
+    var rel=relatedOf(it);
+    return (rel.length?rel.map(function(r,ri){
       var added=cur.items.some(function(x){return x.extraOf===it.uid&&String(x.code)===String(r.code)});
-      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+exPrice(it,r)+'</div>';
-    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>')+'</div>';
+      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+exPrice(it,r)+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+'</div>';
+    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>');
+  }
+  function openExModal(ii){
+    var it=cur.items[ii];if(!it||it.extraOf||!relatedOf(it).length)return;
+    var id='mnExDescModal';
+    var m=shell(id,'<div class="mnHead"><b>اضافه‌بهای '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn mnIco mnHomeBtn exHomeBtn" id="'+id+'Close" title="بازگشت به ریزمتره" aria-label="بستن"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
+    m.firstChild.style.width='min(560px,100%)';
+    var list=m.querySelector('.mnExList');
+    function paint(){list.innerHTML=exListHtml(it)}
+    paint();
+    function onKey(e){if(e.key==='Escape'){e.stopImmediatePropagation();e.preventDefault();close()}}
+    function close(){document.removeEventListener('keydown',onKey,true);closeShell(id)}
+    document.addEventListener('keydown',onKey,true);
+    m.addEventListener('click',function(e){if(e.target===m)close()});
+    $(id+'Close').onclick=close;m._close=close;
+    list.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.mnExAdd');if(!b||b.disabled)return;addExtra(it,+b.dataset.ri);paint()});
   }
   function addExtra(it,ri){
     var r=relatedOf(it)[ri];if(!r)return;
@@ -9151,6 +9169,7 @@ setInterval(bindExports,500);
     var rows=el.querySelectorAll('.mnRow');if(rows.length!==it.rows.length)return false;
     rows.forEach(function(re,ri){var r=it.rows[ri];
       re.querySelectorAll('.mnIn').forEach(function(inp){var v=r[inp.dataset.f];inp.value=v==null?'':v});
+      var db=re.querySelector('.mnRemark');if(db)db.outerHTML=descBtnHtml(r);
       re.querySelector('.mnProd').textContent=fmt(rowProduct(r));
     });
     el.querySelector('.mnSum').textContent=fmt(itemTotal(it));return true;
@@ -9199,10 +9218,7 @@ setInterval(bindExports,500);
 
   /* ---------- دکمه و پنجرهٔ توضیحات ردیف ---------- */
   function descBtnHtml(r){
-    var has=String(r.d||'').trim()!=='';
-    return '<button type="button" class="btn mnDescBtn'+(has?' has':'')+'" title="'+(has?esc(r.d):'ملاحظات')+'" aria-label="ملاحظات">'+
-      (has?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4z"></path><path d="M8 8.5h8M8 12h5"></path></svg><i class="mnDot"></i>'
-           :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4z"></path><path d="M12 7.5v5M9.5 10h5"></path></svg>')+'</button>';
+    return '<label class="mnCell mnRemark"><span>ملاحظات</span><textarea class="mnRemTa" rows="2" aria-label="ملاحظات" placeholder="ملاحظات…">'+esc(r.d||'')+'</textarea></label>';
   }
   function openDesc(ii,ri){
     var it=cur.items[ii],r=it&&it.rows[ri];if(!r)return;
@@ -11062,7 +11078,7 @@ window.__cplSig=function(){
   function rowHtml(ii,ri,r){
     return '<div class="mnRow'+(ri>0?' mnRowNext':'')+'" data-i="'+ii+'" data-r="'+ri+'">'+FIELDS.map(function(f){
       return '<label class="mnCell"><span>'+f[1]+'</span><input class="mnIn" data-f="'+f[0]+'" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(r[f[0]])+'"></label>';
-    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+'<div class="mnRowBtns">'+descBtnHtml(r)+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
+    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
   }
   document.addEventListener('cpl-star-updated',function(){if(cur&&$('stItems'))renderItems()});
   function renderItems(){
@@ -11081,19 +11097,23 @@ window.__cplSig=function(){
     var rowEl=inp.closest('.mnRow'),itEl=inp.closest('.mnItem');
     var it=cur.items[+itEl.dataset.i],r=it.rows[+rowEl.dataset.r];
     r[inp.dataset.f]=inp.value;dirty=true;
-    if(unquote(r)){var db0=rowEl.querySelector('.mnDescBtn');if(db0)db0.outerHTML=descBtnHtml(r);updSrc(it,itEl)}
+    if(unquote(r)){var db0=rowEl.querySelector('.mnRemark');if(db0)db0.outerHTML=descBtnHtml(r);updSrc(it,itEl)}
     rowEl.querySelector('.mnProd').textContent=fmt(rowProduct(r));
     itEl.querySelector('.mnSum').textContent=fmt(itemTotal(it));
     syncLinked(it);
+  });
+  document.addEventListener('input',function(e){
+    var ta=e.target.closest&&e.target.closest('#stItems .mnRemTa');if(!ta||!cur)return;
+    var rowEl=ta.closest('.mnRow'),itEl=ta.closest('.mnItem');if(!rowEl||!itEl)return;
+    var it=cur.items[+itEl.dataset.i],r=it&&it.rows[+rowEl.dataset.r];if(!r)return;
+    r.d=ta.value;dirty=true;syncLinked(it);
   });
   document.addEventListener('click',function(e){
     var t=e.target;if(!t.closest||!cur||!t.closest('#stItems'))return;
     var itEl=t.closest('.mnItem');if(!itEl)return;var ii=+itEl.dataset.i,it=cur.items[ii];
     var ib=t.closest('.mnInfoBtn');if(ib){var ip=itEl.querySelector('.mnInfoPanel');if(ip){var o=ip.hasAttribute('hidden');if(o)ip.removeAttribute('hidden');else ip.setAttribute('hidden','');ib.setAttribute('aria-expanded',o?'true':'false')}return}
     var tg=t.closest('.mnExtraToggle');
-    if(tg){var pn=itEl.querySelector('.mnExtras'),op=pn.hasAttribute('hidden');
-      if(op){pn.removeAttribute('hidden');openExtras[it.uid]=1}else{pn.setAttribute('hidden','');delete openExtras[it.uid]}
-      tg.setAttribute('aria-expanded',op?'true':'false');tg.querySelector('.mnTri').textContent=op?'▾':'◂';return}
+    if(tg){openExModal(ii);return}
     var ec=t.closest('.mnExCopy');if(ec){copyFromParent(it);return}
     var elk=t.closest('.mnExLink');if(elk){setLink(it,elk.checked);return}
     var ea=t.closest('.mnExAdd');if(ea){if(!ea.disabled)addExtra(it,+ea.dataset.ri);return}
@@ -11134,18 +11154,32 @@ window.__cplSig=function(){
   }
   function toggleHtml(it){
     if(it.extraOf)return '<span class="mnExTag">اضافه‌بها</span> ';
-    var n=relatedOf(it).length,op=!!openExtras[it.uid];
-    return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">'+(op?'▾':'◂')+'</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
+    var n=relatedOf(it).length,op=!!openExtras[it.uid];if(!n)return '';
+    return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">◂</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
   }
-  function extrasHtml(it){
-    if(it.extraOf){
-      return '';
-    }
-    var rel=relatedOf(it),op=!!openExtras[it.uid];
-    return '<div class="mnExtras"'+(op?'':' hidden')+'>'+(rel.length?rel.map(function(r,ri){
+  function extrasHtml(it){return ''}
+  function exListHtml(it){
+    if(it.extraOf)return '';
+    var rel=relatedOf(it);
+    return (rel.length?rel.map(function(r,ri){
       var added=cur.items.some(function(x){return x.extraOf===it.uid&&String(x.code)===String(r.code)});
-      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+exPrice(it,r)+'</div>';
-    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>')+'</div>';
+      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+exPrice(it,r)+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+'</div>';
+    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>');
+  }
+  function openExModal(ii){
+    var it=cur.items[ii];if(!it||it.extraOf||!relatedOf(it).length)return;
+    var id='stExDescModal';
+    var m=shell(id,'<div class="mnHead"><b>اضافه‌بهای '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn mnIco mnHomeBtn exHomeBtn" id="'+id+'Close" title="بازگشت به ریزمتره" aria-label="بستن"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
+    m.firstChild.style.width='min(560px,100%)';
+    var list=m.querySelector('.mnExList');
+    function paint(){list.innerHTML=exListHtml(it)}
+    paint();
+    function onKey(e){if(e.key==='Escape'){e.stopImmediatePropagation();e.preventDefault();close()}}
+    function close(){document.removeEventListener('keydown',onKey,true);closeShell(id)}
+    document.addEventListener('keydown',onKey,true);
+    m.addEventListener('click',function(e){if(e.target===m)close()});
+    $(id+'Close').onclick=close;m._close=close;
+    list.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.mnExAdd');if(!b||b.disabled)return;addExtra(it,+b.dataset.ri);paint()});
   }
   function addExtra(it,ri){
     var r=relatedOf(it)[ri];if(!r)return;
@@ -11186,7 +11220,7 @@ window.__cplSig=function(){
     var rows=el.querySelectorAll('.mnRow');if(rows.length!==it.rows.length)return false;
     rows.forEach(function(re,ri){var r=it.rows[ri];
       re.querySelectorAll('.mnIn').forEach(function(inp){var v=r[inp.dataset.f];inp.value=v==null?'':v});
-      var db=re.querySelector('.mnDescBtn');if(db)db.outerHTML=descBtnHtml(r);
+      var db=re.querySelector('.mnRemark');if(db)db.outerHTML=descBtnHtml(r);
       re.querySelector('.mnProd').textContent=fmt(rowProduct(r));
     });
     el.querySelector('.mnSum').textContent=fmt(itemTotal(it));updSrc(it,el);return true;
@@ -11235,10 +11269,7 @@ window.__cplSig=function(){
 
   /* ---------- دکمه و پنجرهٔ شرح عملیات ردیف ---------- */
   function descBtnHtml(r){
-    var has=String(r.d||'').trim()!=='';
-    return '<button type="button" class="btn mnDescBtn'+(has?' has':'')+'" title="'+(has?esc(r.d):'ملاحظات')+'" aria-label="ملاحظات">'+
-      (has?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4z"></path><path d="M8 8.5h8M8 12h5"></path></svg><i class="mnDot"></i>'
-           :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4z"></path><path d="M12 7.5v5M9.5 10h5"></path></svg>')+'</button>';
+    return '<label class="mnCell mnRemark"><span>ملاحظات</span><textarea class="mnRemTa" rows="2" aria-label="ملاحظات" placeholder="ملاحظات…">'+esc(r.d||'')+'</textarea></label>';
   }
   function openDesc(ii,ri){
     var it=cur.items[ii],r=it&&it.rows[ri];if(!r)return;
@@ -12874,7 +12905,7 @@ window.__cplSig=function(){
   }
   function toggleHtml(it){
     if(it.extraOf)return '<span class="mnExTag">اضافه‌بها</span> ';
-    var n=relatedOf(it).length,op=!!openExtras[it.uid];
+    var n=relatedOf(it).length,op=!!openExtras[it.uid];if(!n)return '';
     return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">'+(op?'▾':'◂')+'</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
   }
   function extrasHtml(it){
@@ -15473,7 +15504,7 @@ html body #mnListModal .mnHead,html body #stListModal .mnHead,html body #stAdjL 
 html body #mnListModal .mnHead>.mnBtns,html body #stListModal .mnHead>.mnBtns,html body #stAdjL .mnHead>.mnBtns,html body #ciListModal .mnHead>.mnBtns,html body #exListModal .mnHead>.mnBtns,html body #starredModal .analysisHead>.stageNav{display:contents!important}
 html body #mnListModal .mnHead .mnMenuBtn,html body #stListModal .mnHead .mnMenuBtn,html body #stAdjL .mnHead .mnMenuBtn,html body #ciListModal .mnHead .mnMenuBtn,html body #exListModal .mnHead .mnMenuBtn,html body #starredModal .analysisHead .mnMenuBtn{order:-1!important;flex:0 0 38px!important}
 html body #mnListModal .mnHead>b,html body #stListModal .mnHead>b,html body #stAdjL .mnHead>b,html body #ciListModal .mnHead>b,html body #exListModal .mnHead>b,html body #starredModal .analysisHead>div:not(.stageNav){order:0!important;flex:1 1 0!important;min-width:0!important;text-align:center!important;justify-content:center!important}
-html body .mnOverlay>.mnPanel>.mnHead,html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal)>.mnPanel>.mnHead{padding-top:calc(max(env(safe-area-inset-top,0px),20px) + 16px)!important}
+html body .mnOverlay>.mnPanel>.mnHead,html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{padding-top:calc(max(env(safe-area-inset-top,0px),20px) + 16px)!important}
 html body .mnHead>.mnMenuBtn,html body .mnHead .mnBtns>.btn.mnIco,html body .mnHead .mnBtns .mnSortBtn,html body .mnHead .mnBtns>.mnCloseBtn,html body .analysisHead>.mnMenuBtn,html body .analysisHead .analysisActions>.btn.mnIco,html body .analysisHead .stageNav>.btn,html body .adjustmentHead .stageNav>.btn,html body .summaryHead .stageNav>.btn,html body .stageNav>.btn.stgMenuBtn,html body .mnHead .btn.cplListNewIcon,html body .analysisHead .btn.cplListNewIcon,html body .stageNav>.cplListNewBtn,html body #closeStarred,html body #cplHomeMenuBtn,html body #cplPriceBack,html body #projectBar .projectBtns.toolbarRows>.btn,html body #projectBar #cplMenuBtn,html body #projectBar #cplHomeQuickBtn{width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important;max-height:44px!important;flex:0 0 44px!important;padding:0!important;margin-top:0!important;margin-bottom:0!important;box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;align-self:center!important;border-radius:12px!important;line-height:1!important}
 html body .mnHead>.mnMenuBtn svg,html body .mnHead .mnBtns>.btn.mnIco svg,html body .mnHead .mnBtns .mnSortBtn svg,html body .mnHead .mnBtns>.mnCloseBtn svg,html body .analysisHead>.mnMenuBtn svg,html body .analysisHead .analysisActions>.btn.mnIco svg,html body .analysisHead .stageNav>.btn svg,html body .adjustmentHead .stageNav>.btn svg,html body .summaryHead .stageNav>.btn svg,html body .stageNav>.btn.stgMenuBtn svg,html body .mnHead .btn.cplListNewIcon svg,html body .analysisHead .btn.cplListNewIcon svg,html body .stageNav>.cplListNewBtn svg,html body #closeStarred svg,html body #cplHomeMenuBtn svg,html body #cplPriceBack svg,html body #projectBar .projectBtns.toolbarRows>.btn svg,html body #projectBar #cplMenuBtn svg,html body #projectBar #cplHomeQuickBtn svg{width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;display:block!important}
 html body .mnHead .mnBtns>.btn.mnTextBtn:not(.mnIco),html body .mnHead .mnBtns>.trApplyBtn{height:44px!important;min-height:44px!important;align-self:center!important}
@@ -15551,8 +15582,8 @@ html:root:root:root body .analysisModal .analysisHead,
 html:root:root:root body .summaryModal .summaryHead,
 html:root:root:root body #chapterSummaryModal .summaryHead,
 html:root:root:root body .adjustmentPage .adjustmentHead{top:0!important;margin-top:0!important;padding-top:var(--hdrTop)!important;box-shadow:none!important}
-html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal) .mnStick{padding-top:0!important}
-html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal) .mnStick>.mnHead{margin-top:0!important;padding-top:var(--hdrTop)!important}
+html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick{padding-top:0!important}
+html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick>.mnHead{margin-top:0!important;padding-top:var(--hdrTop)!important}
 html:root:root:root body #cplBase .cbHead{padding-top:var(--hdrTop)!important}
 html:root:root:root body #cplHomeMenuBtn,
 html:root:root:root body #cplPriceBack{top:var(--hdrTop)!important}
@@ -15668,6 +15699,46 @@ html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC) svg{width:22px!impo
 html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC):active{background:var(--glFill)!important}
 html body .glPill>button.glNav.glPh,html body .glPill>button.glNav[disabled],html body .glPill>button.glNav[data-gl-off]{opacity:.32;pointer-events:none}
 html body .glPill>button.glNav[data-gl-off]:not(#glA):not(#glB):not(#glC){display:inline-flex!important}
+/* برچسب BACK / NEXT + خط جداکننده؛ هر دو دکمه دقیقاً هم‌اندازه و کم‌عرض، فلش‌ها چسبیده به لبه‌ها */
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC){position:relative!important;direction:ltr!important;justify-content:space-between!important;gap:0!important;width:62px!important;min-width:62px!important;max-width:62px!important;flex:0 0 62px!important;padding:0 2px!important;overflow:visible!important}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC) svg{width:22px!important;height:22px!important;flex:0 0 22px!important}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC)::after{display:block!important;font-family:'BNazaninWeb','B Nazanin','B Nazanin Local',Tahoma,system-ui,sans-serif!important;font-size:17px!important;font-weight:400!important;letter-spacing:0!important;direction:rtl!important;line-height:1!important;white-space:nowrap!important;color:inherit!important;opacity:1!important;visibility:visible!important;position:relative!important;top:-.5px}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC):first-child::after{content:'قبلی'!important;margin-right:4px!important}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC):last-child::after{content:'بعدی'!important;margin-left:4px!important}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC):last-child{flex-direction:row-reverse!important}
+html body .glPill>button.glNav:not(#glA):not(#glB):not(#glC):last-child::before{content:'';position:absolute;left:-1px;top:13px;width:1px;height:16px;background:var(--glFg);opacity:.55}
+/* کادر ملاحظات داخل ردیف + پنجرهٔ اضافه‌بها + پنل اطلاعات فشرده */
+html body .mnInfoPanel{margin:4px 0 0!important;padding:3px 6px!important;border-radius:8px!important}
+html body .mnInfoChips{gap:4px 6px!important;margin-bottom:0!important}
+html body .mnItemHead .mnInfoChips .mnInfoChip,html body .mnItemHead .mnInfoChips .mnPriceTag,html body .mnItemHead .mnInfoChips .mnExtraToggle{box-sizing:border-box!important;height:24px!important;min-height:24px!important;padding:0 8px!important;font-size:13px!important;line-height:1!important;display:inline-flex!important;align-items:center!important;gap:4px!important;border-radius:6px!important}
+html body .mnItemHead .mnInfoChips .mnExtraToggle .mnTri{font-size:13px!important;min-width:0!important}
+html body .mnItemHead .mnInfoChips .mnExtraToggle .mnExCnt{font-size:13px!important}
+html body .mnExList{display:flex;flex-direction:column;gap:8px}
+html body #mnExDescModal,html body #stExDescModal{background:rgba(0,0,0,.38)!important;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);align-items:center!important;justify-content:center!important;padding:16px!important}
+html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel{width:min(560px,100%)!important;max-width:100%!important;min-height:0!important;max-height:80vh;overflow:auto;margin:0!important;border-radius:16px!important}
+html body #mnExDescModal .mnHead,html body #stExDescModal .mnHead{position:static!important;margin:0 0 8px!important;padding:0!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:10px!important}
+/* ریزمتره: کادر اضافه‌بها عریض‌تر، هر ردیف در یک خط، واحد و بها چسبیده به چپ (از چپ: واحد، بعد بها) */
+html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel{width:min(1100px,100%)!important}
+html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra{flex-wrap:nowrap!important}
+html body #mnExDescModal .mnExtra .mnExDesc,html body #stExDescModal .mnExtra .mnExDesc{flex:1 1 auto!important;min-width:0}
+html body #mnExDescModal .mnExtra>*:not(.mnExDesc),html body #stExDescModal .mnExtra>*:not(.mnExDesc){flex:0 0 auto}
+@media(max-width:700px){html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra{flex-wrap:wrap!important}}
+html body .exHomeBtn{display:inline-flex!important;align-items:center;justify-content:center;width:44px!important;min-width:44px!important;height:44px!important;padding:0!important;border-radius:14px!important}
+html body .mnRemark textarea{height:var(--ctl-h,32px)!important;min-height:var(--ctl-h,32px)!important;max-height:var(--ctl-h,32px)!important;resize:none!important;padding:4px 8px!important;line-height:1.35!important;overflow:auto}
+html body #mnEditor#mnEditor#mnEditor #mnItems .mnRow .mnIn,html body #stEditor#stEditor#stEditor #stItems .mnRow .mnIn{box-sizing:border-box!important;height:36px!important;min-height:36px!important;max-height:36px!important}
+html body #mnItems#mnItems#mnItems .mnRow,html body #stItems#stItems#stItems .mnRow{--ctl-h:36px}
+html body #mnItems#mnItems#mnItems .mnRow .mnIn,html body #stItems#stItems#stItems .mnRow .mnIn,html body #mnItems#mnItems#mnItems .mnRow .mnRes b,html body #stItems#stItems#stItems .mnRow .mnRes b,html body #mnItems#mnItems#mnItems .mnRow .mnTot b,html body #stItems#stItems#stItems .mnRow .mnTot b,html body #mnItems#mnItems#mnItems .mnRow .mnRemark textarea,html body #stItems#stItems#stItems .mnRow .mnRemark textarea{box-sizing:border-box!important;height:36px!important;min-height:36px!important;max-height:36px!important}
+html body .mnRemark{display:flex;flex-direction:column;gap:2px;min-width:0;font-size:14px;color:var(--c55)}
+html body .mnRemark textarea{box-sizing:border-box;width:100%;min-width:0;height:58px;min-height:58px;resize:vertical;direction:rtl;text-align:right;font:inherit;font-size:var(--fs-input,14px);line-height:1.6;padding:4px 8px;border-radius:8px}
+html body #mnItems .mnRow,html body #stItems .mnRow{grid-template-columns:repeat(5,minmax(0,.6fr)) minmax(0,.8fr) minmax(0,.9fr) minmax(0,2.6fr) auto;gap:5px}
+html body #mnItems .mnRow .mnRowBtns,html body #stItems .mnRow .mnRowBtns{grid-column:auto}
+html body #mnItems .mnRow .mnRemark,html body #stItems .mnRow .mnRemark{grid-column:auto}
+@media (max-width:720px){
+ html body #mnItems .mnRow,html body #stItems .mnRow{grid-template-columns:repeat(5,minmax(0,1fr))}
+ html body #mnItems .mnRow .mnRes,html body #stItems .mnRow .mnRes{grid-column:1/3}
+ html body #mnItems .mnRow .mnTot,html body #stItems .mnRow .mnTot{grid-column:3/6}
+ html body #mnItems .mnRow .mnRemark,html body #stItems .mnRow .mnRemark{grid-column:1/-1}
+}
 /* آیکن‌های داخل متن (＋ و ★) */
 html body svg.glTxt{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.17em;margin-inline-end:.35em}
 html body svg.glCard{color:inherit}
@@ -15734,7 +15805,7 @@ function kindOf(b){
  return '';
 }
 var G_FR={'border-radius':'50%','background':'linear-gradient(180deg,var(--glFill),transparent),var(--glBg)','border':'1px solid var(--glBd)','box-shadow':'inset 0 1px 0 var(--glHi),0 2px 10px var(--glSh)','color':'var(--glFg)','padding':'0'};
-var G_NV={'border-radius':'21px','background':'transparent','border':'0','box-shadow':'none','color':'var(--glFg)','padding':'0','margin':'0','width':'50px','min-width':'50px','max-width':'50px','height':'42px','min-height':'42px','max-height':'42px','flex':'0 0 50px'};
+var G_NV={'border-radius':'21px','background':'transparent','border':'0','box-shadow':'none','color':'var(--glFg)','padding':'0 2px','margin':'0','width':'62px','min-width':'62px','max-width':'62px','height':'42px','min-height':'42px','max-height':'42px','flex':'0 0 62px'};
 function inl(b,map,sm){
  try{var st=b.style;for(var k in map)st.setProperty(k,map[k],'important');
   if(map===G_FR){var z=sm?'36px':'44px';st.setProperty('width',z,'important');st.setProperty('min-width',z,'important');st.setProperty('max-width',z,'important');st.setProperty('height',z,'important');st.setProperty('min-height',z,'important');st.setProperty('max-height',z,'important');st.setProperty('flex','0 0 '+z,'important')}}catch(e){}
