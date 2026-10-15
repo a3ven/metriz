@@ -1761,10 +1761,10 @@ html body #cplHome .cplHomeHead .who{font-size:var(--fs-body)!important}
  :root{--vh-full:100dvh}
 }
 html,body{min-height:100%}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal){padding:0!important;align-items:stretch!important;justify-content:stretch!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel{width:100%!important;max-width:none!important;min-height:100vh!important;min-height:var(--vh-full)!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left))!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick{top:0!important;padding-top:env(safe-area-inset-top,0px)!important;margin-left:0;margin-right:0}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{top:0!important;padding-top:calc(8px + env(safe-area-inset-top,0px))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal){padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal)>.mnPanel{width:100%!important;max-width:none!important;min-height:100vh!important;min-height:var(--vh-full)!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal) .mnStick{top:0!important;padding-top:env(safe-area-inset-top,0px)!important;margin-left:0;margin-right:0}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal)>.mnPanel>.mnHead{top:0!important;padding-top:calc(8px + env(safe-area-inset-top,0px))!important}
 html body .mnOverlay .mnTableWrap,html body .mnOverlay .analysisTableWrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 html body .mnOverlay .mnCovTable,html body .mnOverlay .analysisTable{width:100%}
 html body #exEditor .analysisTable{min-width:0}
@@ -1939,7 +1939,7 @@ html body #cplHomeMenu{top:calc(68px + env(safe-area-inset-top,0px))!important}
 html body #cplCostMenu{top:calc(68px + env(safe-area-inset-top,0px))!important}
 html body #stgMenu,html body .mnMenuPanel{max-height:calc(100dvh - env(safe-area-inset-top,0px) - 80px);overflow-y:auto}
 html body .adjustmentPage .adjustmentPanel,html body .summaryModal .summaryPanel,html body #chapterSummaryModal .summaryPanel{padding-top:calc(12px + env(safe-area-inset-top,0px))!important}
-html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{padding-top:calc(10px + env(safe-area-inset-top,0px))!important}
+html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal)>.mnPanel>.mnHead{padding-top:calc(10px + env(safe-area-inset-top,0px))!important}
 html body .mnOverlay>.mnPanel>.mnHead{top:0!important}
 html body .mnListItem{flex-direction:row!important;align-items:center!important;gap:8px!important;padding:8px 10px!important;margin-top:8px!important}
 html body .mnListItem>div:first-child{flex:1 1 auto;min-width:0;line-height:1.6}
@@ -7846,6 +7846,7 @@ window.cplAddStarItems=async function(list){
   if(n){await persist(arr);setItems(arr);apply();try{refreshView(null)}catch(e){}}
   return n;
 };
+window.cplEditStarItem=function(id,code){var en=toEn(String(code||'')).replace(/\D/g,'');var c=items.find(function(x){return String(x.id)===String(id)})||items.find(function(x){return String(x.code)===en});if(c){openModal(c);return true}openModal(null);setTimeout(function(){var e=$('cplCode');if(e&&en){e.value=en;e.dispatchEvent(new Event('input',{bubbles:true}))}},80);return false};
 window.cplDefineStarItem=function(cb){openModal(null);if($('cplItemModal')&&$('cplItemModal').classList.contains('show'))window.__cplStarCb=(typeof cb==='function')?cb:null;};
 window.cplDeleteItem=async function(id){await removeItem(id);renderStarred();};
 window.cplBtns=function(it){
@@ -8993,6 +8994,22 @@ setInterval(bindExports,500);
       return '<option value="'+esc(x.id)+'">'+esc(code+' — '+(ds.length>90?ds.slice(0,90)+'…':ds))+'</option>';
     }).join(''):'<option value="">— آیتمی پیدا نشد —</option>';
   }
+  /* آیتم خارج از فهرست‌بها و قیمت جدید: هشدار + شروع افزودن قیمت جدید */
+  function nfBtn(it){return '<button type="button" class="btn mnNfBtn" title="آیتم در فهرست بها و قیمت جدید ها موجود نیست" aria-label="آیتم در فهرست بها و قیمت جدید ها موجود نیست"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 5.4 4.6 18.2h14.8z" fill="#c9212a" stroke="#c9212a" stroke-width="3" stroke-linejoin="round"/><path d="M12 9.3v5.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.2" fill="#fff"/></svg></button>'}
+  function nfOpen(it){
+    if(typeof window.__cplNotFound!=='function')return;
+    if(it.pending&&!it.free){window.__cplNotFound({mode:'pending',text:it.code,itemId:it.id,disc:it.discipline});return}
+    window.__cplNotFound({text:it.desc,disc:it.discipline,edId:'mnEditor',onAdded:function(t){
+      if(cur.items.indexOf(it)<0)return;
+      var f=DATA.find(function(d){return String(d.id)===String(t.id)})||t;
+      it.id=t.id;it.code=(typeof displayItemCode==='function')?displayItemCode(f):t.code;it.desc=t.desc||it.desc;it.unit=t.unit||'';it.discipline=t.discipline||it.discipline;it.chapter=String(t.code||'').slice(0,2)||it.chapter;
+      delete it.free;dirty=true;renderItems();
+    },onCancel:function(){
+      var i=cur.items.indexOf(it);if(i<0)return;
+      if(hasData(it)&&!confirm('اطلاعات واردشده‌ی این آیتم هم حذف می‌شود. ادامه؟'))return;
+      cur.items.splice(i,1);dirty=true;renderItems();
+    }});
+  }
   function addFreeItem(){
     var inp=$('mnFree');if(!inp||!cur)return;
     var t=String(inp.value||'').replace(/\s+/g,' ').trim();if(!t)return;
@@ -9004,14 +9021,15 @@ setInterval(bindExports,500);
     var hits=pool.filter(function(x){var a=nc(x.code),b=nc(typeof displayItemCode==='function'?displayItemCode(x):x.code);return a&&(a===c1||a===c2||b===c1||b===c2)});
     if(!hits.length){var d1=nt(t);hits=pool.filter(function(x){return nt(x.desc)===d1})}
     hits.sort(function(a,b){return (a.discipline===disc?0:1)-(b.discipline===disc?0:1)});
-    var x=hits[0],obj;
+    var x=hits[0],obj,nfObj=null;
     if(x)obj={uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]};
-    else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('mnChap').value||'',free:true,rows:[newRow()]};say('\u062f\u0631 \u0641\u0647\u0631\u0633\u062a \u06cc\u0627 \u0642\u06cc\u0645\u062a \u062c\u062f\u06cc\u062f \u067e\u06cc\u062f\u0627 \u0646\u0634\u062f\u061b \u0628\u0647\u200c\u0635\u0648\u0631\u062a \u0622\u06cc\u062a\u0645 \u062f\u0644\u062e\u0648\u0627\u0647 \u0627\u0636\u0627\u0641\u0647 \u0634\u062f.')}
+    else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('mnChap').value||'',free:true,rows:[newRow()]};nfObj=obj}
     if(cur.sortMode==='code')cur.items.push(obj);else cur.items.unshift(obj);
     inp.value='';dirty=true;
     if(catF!=='all'&&catOf(obj)!==catF){catF='all';var ff=$('mnFilt');if(ff)ff.value='all'}
     renderItems();
     var el=document.querySelector('#mnItems .mnItem[data-i="'+cur.items.indexOf(obj)+'"]');if(el)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    if(nfObj)nfOpen(nfObj);
   }
   function addItem(){
     var id=$('mnItem').value;if(!id){say('ابتدا یک آیتم انتخاب کن.');return}
@@ -9025,20 +9043,21 @@ setInterval(bindExports,500);
     var x;
     if(it.extraOf){
       var p=findParent(it),m=String(it.id).match(/#rel(\d+)$/),d=p&&DATA.find(function(y){return String(y.id)===String(p.id)}),r=d&&m&&(d.related||[])[+m[1]];
-      return r?Math.round(relatedUnitCost(r,priceVal(d),1)):0;
+      return r?Math.round(relatedUnitCost(r,priceVal(d),typeof fxVal==='function'?fxVal(it):1)):0;
     }
     x=DATA.find(function(d){return String(d.id)===String(it.id)});
     return x?Math.round(priceVal(x)):0;
   }
   function priceTag(v){return '<span class="mnPriceTag">بهای آیتم: <b>'+fmt(v)+'</b> ریال</span>'}
   function infoBtn(it){return '<button type="button" class="btn mnInfoBtn" aria-expanded="'+(openExtras[it.uid]&&!it.extraOf?'true':'false')+'" title="مشخصات آیتم" aria-label="مشخصات آیتم"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="6.8" r="1.7" fill="currentColor"/><rect x="10.8" y="10" width="2.4" height="8" rx="1.1" fill="currentColor"/></svg></button>'}
-  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(window.plDisp(it.discipline))+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div></div>'}
+  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+'<span class="mnInfoChip">دفترچه: <b>'+esc(window.plDisp(it.discipline))+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+fnChip(it)+'</div></div>'}
+  function fnChip(it){var rd=relDef(it);return (rd&&String(rd.r.function||'').trim())?'<span class="mnInfoChip">فرمول تابع: <b><bdi dir="ltr">'+esc(rd.r.function)+'</bdi></b></span>':''}
   function exPrice(it,r){var d=DATA.find(function(y){return String(y.id)===String(it.id)})||DATA.find(function(y){return String(y.year)===String(cur&&cur.year)&&y.discipline===it.discipline&&String(y.code)===String(it.code)}),v=0;try{v=d?Math.round(relatedUnitCost(r,priceVal(d),1)):0}catch(e){}return '<span class="mnExPrice">قیمت: <b>'+fmt(v)+'</b> ریال</span>'}
-  function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==0)return n>1?'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>':'';return '<div class="mnTot"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
+  function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==n-1)return n>1?(ri===0?'<div class="mnTot mnTotHead"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b>&nbsp;</b></div>':'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>'):'';return '<div class="mnTot'+(n>1?' mnTotLast':'')+'"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
   function rowHtml(ii,ri,r){
     return '<div class="mnRow'+(ri>0?' mnRowNext':'')+'" data-i="'+ii+'" data-r="'+ri+'">'+FIELDS.map(function(f){
       return '<label class="mnCell"><span>'+f[1]+'</span><input class="mnIn" aria-label="'+f[1]+'" data-f="'+f[0]+'" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(r[f[0]])+'"></label>';
-    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
+    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+(ri===cur.items[ii].rows.length-1?'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>':'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>')+'</div></div>';
   }
   function catOf(it){
     var b=it.extraOf?(findParent(it)||it):it;
@@ -9057,7 +9076,7 @@ setInterval(bindExports,500);
     if(!cur.items.length){box.innerHTML='<div class="mnEmpty">هنوز آیتمی اضافه نشده است. نوع فهرست، فصل و آیتم را انتخاب کن و «افزودن آیتم» بزن.</div>';return}
     if(!viewIdx().length){box.innerHTML='<div class="mnEmpty">آیتمی با این فیلتر پیدا نشد.</div>';return}
     box.innerHTML=viewIdx().map(function(ii){var it=cur.items[ii];
-      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div><div class="mnChipRow">'+(it.extraOf?toggleHtml(it):'')+infoBtn(it)+'<b class="mnCode mnCodeBox">'+esc(it.code)+'</b>'+'<span class="mnDescInline">'+esc(it.desc)+'</span>'+'</div>'+infoPanel(it,itemPrice(it))+(it.extraOf?'<div class="mnDescRow"><div class="mnExOpts"><button type="button" class="btn mnExCopy">نقل از آیتم اصلی</button><label class="mnLink"><input type="checkbox" class="mnExLink"'+(it.linked?' checked':'')+'> وابسته به آیتم اصلی</label></div></div>':'')+'</div><div class="mnHeadSide"><div class="mnHeadTop">'+'<button type="button" class="btn danger mnItemDel" title="حذف آیتم" aria-label="حذف آیتم">✕</button></div></div></div>'+extrasHtml(it)+
+      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div><div class="mnChipRow">'+(it.extraOf?toggleHtml(it):'')+infoBtn(it)+'<b class="mnCode mnCodeBox">'+esc(it.code)+'</b>'+((it.free||it.pending)?nfBtn(it):'')+'<span class="mnDescInline">'+esc(it.desc)+'</span>'+(it.extraOf?'<label class="mnLink mnLinkBox'+(it.linked?' on':'')+'" title="وابسته به آیتم اصلی"><input type="checkbox" class="mnExLink"'+(it.linked?' checked':'')+'><span>وابسته به آیتم اصلی</span></label>':'')+'</div>'+infoPanel(it,itemPrice(it))+fxRow(it)+'</div><div class="mnHeadSide"><div class="mnHeadTop">'+exPlusBtn(it)+'<button type="button" class="btn danger mnItemDel" title="حذف آیتم" aria-label="حذف آیتم">✕</button></div></div></div>'+extrasHtml(it)+
         it.rows.map(function(r,ri){return rowHtml(ii,ri,r)}).join('')+
         '</div>';
     }).join('');
@@ -9081,7 +9100,8 @@ setInterval(bindExports,500);
     var t=e.target;if(!t.closest||!cur||!t.closest('#mnItems'))return;
     var itEl=t.closest('.mnItem');if(!itEl)return;var ii=+itEl.dataset.i,it=cur.items[ii];
     var ib=t.closest('.mnInfoBtn');if(ib){var ip=itEl.querySelector('.mnInfoPanel');if(ip){var o=ip.hasAttribute('hidden');if(o)ip.removeAttribute('hidden');else ip.setAttribute('hidden','');ib.setAttribute('aria-expanded',o?'true':'false')}return}
-    var tg=t.closest('.mnExtraToggle');
+    var nfb=t.closest('.mnNfBtn');if(nfb){nfOpen(it);return}
+    var tg=t.closest('.mnExtraToggle,.mnExPlusBtn');
     if(tg){openExModal(ii);return}
     var ec=t.closest('.mnExCopy');if(ec){copyFromParent(it);return}
     var elk=t.closest('.mnExLink');if(elk){setLink(it,elk.checked);return}
@@ -9123,18 +9143,19 @@ setInterval(bindExports,500);
     return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">◂</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
   }
   function extrasHtml(it){return ''}
+  function exPlusBtn(it){if(it.extraOf||!relatedOf(it).length)return '';return '<button type="button" class="btn mnExPlusBtn" title="اضافه‌بهای این آیتم" aria-label="آیتم مرتبط">آیتم مرتبط</button>'}
   function exListHtml(it){
     if(it.extraOf)return '';
     var rel=relatedOf(it);
     return (rel.length?rel.map(function(r,ri){
       var added=cur.items.some(function(x){return x.extraOf===it.uid&&String(x.code)===String(r.code)});
-      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+exPrice(it,r)+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+'</div>';
+      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+exPrice(it,r)+'<span class="mnExDesc">'+esc(r.desc)+(String(r.function||'').trim()?' <span class="mnFxBox">تابع مربوطه: <bdi dir="ltr">'+esc(r.function)+'</bdi></span>':'')+'</span></div>';
     }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>');
   }
   function openExModal(ii){
     var it=cur.items[ii];if(!it||it.extraOf||!relatedOf(it).length)return;
     var id='mnExDescModal';
-    var m=shell(id,'<div class="mnHead"><b>اضافه‌بهای '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn mnIco mnHomeBtn exHomeBtn" id="'+id+'Close" title="بازگشت به ریزمتره" aria-label="بستن"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
+    var m=shell(id,'<div class="mnHead"><b>کدهای مرتبط به آیتم '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn danger exCloseBtn" id="'+id+'Close" title="بستن" aria-label="بستن">✕</button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
     m.firstChild.style.width='min(560px,100%)';
     var list=m.querySelector('.mnExList');
     function paint(){list.innerHTML=exListHtml(it)}
@@ -9154,6 +9175,31 @@ setInterval(bindExports,500);
     cur.items.splice(idx,0,{uid:uid(),id:String(it.id)+'#rel'+ri,code:r.code,desc:r.desc||'',unit:r.unit||it.unit||'',discipline:it.discipline,chapter:it.chapter,extraOf:it.uid,rows:[newRow()]});
     dirty=true;openExtras[it.uid]=1;renderItems();say('اضافه‌بها به صورت‌مجلس افزوده شد');
   }
+  /* تابع اضافه‌بها: کادر مقدار (x) */
+  function relDef(it){
+    if(!it||!it.extraOf)return null;
+    var p=findParent(it),m=String(it.id).match(/#rel(\d+)$/);
+    var d=p&&DATA.find(function(x){return String(x.id)===String(p.id)});
+    var r=d&&m&&(d.related||[])[+m[1]];
+    return r?{r:r,d:d}:null;
+  }
+  function fxVal(it){var v=num(it.fx);return v===null?1:v}
+  function fxRow(it){
+    var rd=relDef(it);if(!rd||!hasX(rd.r.function))return '';
+    return '<div class="mnFx mnFxRow">'+
+      '<label class="mnFxLab">مقدار ورودی (x):<input class="mnFxInput" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(it.fx==null?'1':it.fx)+'" placeholder="مثلاً 3.5"></label>'+
+      '<span class="mnFxRes">اثر تابع: <b class="mnFxK">'+fmt(relEffect(rd.r,fxVal(it)))+'</b> — بهای واحد: <b class="mnFxP">'+fmt(itemPrice(it))+'</b> ریال</span></div>';
+  }
+  document.addEventListener('input',function(e){
+    var inp=e.target.closest&&e.target.closest('#mnItems .mnFxInput');if(!inp||!cur)return;
+    var el=inp.closest('.mnItem'),it=cur.items[+el.dataset.i];if(!it)return;
+    it.fx=inp.value;delete it.price;dirty=true;
+    var rd=relDef(it);if(!rd)return;
+    var k=el.querySelector('.mnFxK'),pp=el.querySelector('.mnFxP'),tg=el.querySelector('.mnPriceTag b');
+    if(k)k.textContent=fmt(relEffect(rd.r,fxVal(it)));
+    if(pp)pp.textContent=fmt(itemPrice(it));
+    if(tg)tg.textContent=fmt(itemPrice(it));
+  });
   function itemTitle(it){return (it.extraOf?'اضافه‌بها — ':'')+it.code+' — '+it.desc}
   function clone(x){return JSON.parse(JSON.stringify(x))}
   function findParent(it){return cur.items.find(function(x){return x.uid===it.extraOf})}
@@ -10681,7 +10727,7 @@ window.__cplSig=function(){
         '<div class="mnWide mnRow4 mnRow3">'+
           '<label class="mnField stNoWrapLbl">شماره صورت‌وضعیت<input id="stNo" class="stRowNo" autocomplete="off" inputmode="numeric" placeholder="شماره" title="شماره صورت‌وضعیت" aria-label="شماره صورت‌وضعیت"></label>'+
           '<label class="mnField stNoWrapLbl">تاریخ صورت‌وضعیت<input id="stWd" class="stRowWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ صورت‌وضعیت" aria-label="تاریخ صورت‌وضعیت"></label>'+
-          '<label class="mnField"><span class="mnYrHead">نوع فهرست <span class="mnYrLbl" id="stYrLbl"></span></span><input id="stYear" type="hidden"><span class="stDiscWrap"><label class="stAllChk" title="نمایش ریزمتره همهٔ انواع فهرست"><input type="checkbox" id="stAll"><span>همه</span></label><select id="stDisc">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></span></label>'+
+          '<label class="mnField"><span class="mnYrHead">نوع فهرست <span class="mnYrLbl" id="stYrLbl"></span></span><input id="stYear" type="hidden"><span class="stDiscWrap"><select id="stDisc"><option value="__all" selected>همه</option>'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></span></label>'+
           '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="stChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="stChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button></span></label>'+
           '<div class="stRowTools"><button type="button" class="btn mnSortBtn" data-sel="stSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="stFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button><button type="button" class="btn stTrBtn" id="stTr" title="محاسبات حمل" aria-label="محاسبات حمل">'+ICO_TRUCK+'</button><button type="button" class="btn stTrBtn" id="stCoefIco" title="ضرایب" aria-label="ضرایب"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></button></div>'+
         '</div>'+
@@ -10698,10 +10744,9 @@ window.__cplSig=function(){
     $('stWd').addEventListener('input',function(){cur.workDate=toEn(this.value).trim();dirty=true;wdNote()});
     $('stWd').addEventListener('blur',function(){var d=parseWd(this.value);if(d){this.value=cur.workDate=d.s;wdNote()}});
     $('stNo').value=cur.no||'';$('stNo').addEventListener('input',function(){cur.no=this.value;cur.name=autoName(cur.no);dirty=true;var h=$('stHdT');if(h)h.textContent=docTitle('صورت‌وضعیت')+' — '+TITLE_MIN});
-    $('stDisc').addEventListener('change',function(){fillChapters();renderItems()});
-    $('stAll').addEventListener('change',function(){renderItems()});
+    $('stDisc').addEventListener('change',function(){if(this.value!=='__all')lastDisc=this.value;fillChapters();renderItems()});
     $('stChap').addEventListener('change',fillItems);
-    $('stChapIntro').addEventListener('click',function(e){e.preventDefault();if(window.openChapterIntroFor)window.openChapterIntroFor($('stYear').value,$('stDisc').value,$('stChap').value)});
+    $('stChapIntro').addEventListener('click',function(e){e.preventDefault();if(window.openChapterIntroFor)window.openChapterIntroFor($('stYear').value,curDisc(),$('stChap').value)});
     $('stFilter').addEventListener('input',fillItems);
     $('stAdd').addEventListener('click',addItem);
     $('stTr').addEventListener('click',function(e){e.preventDefault();openTransport()});
@@ -10829,7 +10874,7 @@ window.__cplSig=function(){
     return map;
   }
   async function impRun(file){
-    var parsed=impParse(await impReadAny(file),$('stDisc')?$('stDisc').value:'ابنیه');
+    var parsed=impParse(await impReadAny(file),$('stDisc')?curDisc():'ابنیه');
     if(!parsed.rows.length)return {err:'در فایل ردیفی با شماره آیتم معتبر پیدا نشد. از «ریزمتره نمونه» الگو بگیر.'};
     var y=String(cur.year||projectYear()),idx=impFind(y),groups=[],gm={};
     parsed.rows.forEach(function(o){var k=o.disc+'|'+impStrip(o.code),g=gm[k];if(!g){g=gm[k]={disc:o.disc,code:o.code,rows:[]};groups.push(g)}g.rows.push({n:o.n,l:o.l,w:o.w,h:o.h,wt:o.wt,d:o.d})});
@@ -11019,14 +11064,17 @@ window.__cplSig=function(){
     else if(ch==='discard')fin();
     else window.__cplAfterClose=null;
   }
+  var lastDisc='';
+  function isAllDisc(){var e=$('stDisc');return !!e&&e.value==='__all'}
+  function curDisc(){var e=$('stDisc');if(!e)return '';if(e.value!=='__all')return e.value;var ok=lastDisc&&Array.prototype.some.call(e.options,function(o){return o.value===lastDisc});if(ok)return lastDisc;var f=Array.prototype.filter.call(e.options,function(o){return o.value!=='__all'})[0];return f?f.value:''}
   function yearItems(){
-    var y=String(cur.year||projectYear()),d=$('stDisc').value;
+    var y=String(cur.year||projectYear()),d=curDisc();
     return DATA.filter(function(x){return (String(x.year)===y||x.custom)&&x.discipline===d});
   }
   function fillChapters(){
     var arr=yearItems(),set={};arr.forEach(function(x){set[x.chapter]=1});
     var chs=Object.keys(set).sort(function(a,b){return parseFloat(a)-parseFloat(b)||String(a).localeCompare(String(b))});
-    var sel=$('stChap'),d=$('stDisc').value;
+    var sel=$('stChap'),d=curDisc();
     sel.innerHTML=chs.length?chs.map(function(c){var lbl=typeof chapterLabel==='function'?chapterLabel(d,c):('فصل '+c),txt=String(lbl).replace(/^فصل\s*/,'').replace(/\d/g,function(x){return FA[x]});return '<option value="'+esc(c)+'" title="'+esc(txt)+'">'+esc(txt)+'</option>'}).join(''):'<option value="">— فصلی برای این نوع فهرست/سال نیست —</option>';
     fillItems();
   }
@@ -11041,10 +11089,26 @@ window.__cplSig=function(){
       return '<option value="'+esc(x.id)+'">'+esc(code+' — '+(ds.length>90?ds.slice(0,90)+'…':ds))+'</option>';
     }).join(''):'<option value="">— آیتمی پیدا نشد —</option>';
   }
+  /* آیتم خارج از فهرست‌بها و قیمت جدید: هشدار + شروع افزودن قیمت جدید */
+  function nfBtn(it){return '<button type="button" class="btn mnNfBtn" title="آیتم در فهرست بها و قیمت جدید ها موجود نیست" aria-label="آیتم در فهرست بها و قیمت جدید ها موجود نیست"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 5.4 4.6 18.2h14.8z" fill="#c9212a" stroke="#c9212a" stroke-width="3" stroke-linejoin="round"/><path d="M12 9.3v5.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.2" fill="#fff"/></svg></button>'}
+  function nfOpen(it){
+    if(typeof window.__cplNotFound!=='function')return;
+    if(it.pending&&!it.free){window.__cplNotFound({mode:'pending',text:it.code,itemId:it.id,disc:it.discipline});return}
+    window.__cplNotFound({text:it.desc,disc:it.discipline,edId:'stEditor',onAdded:function(t){
+      if(cur.items.indexOf(it)<0)return;
+      var f=DATA.find(function(d){return String(d.id)===String(t.id)})||t;
+      it.id=t.id;it.code=(typeof displayItemCode==='function')?displayItemCode(f):t.code;it.desc=t.desc||it.desc;it.unit=t.unit||'';it.discipline=t.discipline||it.discipline;it.chapter=String(t.code||'').slice(0,2)||it.chapter;
+      delete it.free;dirty=true;renderItems();
+    },onCancel:function(){
+      var i=cur.items.indexOf(it);if(i<0)return;
+      if(hasData(it)&&!confirm('اطلاعات واردشده‌ی این آیتم هم حذف می‌شود. ادامه؟'))return;
+      cur.items.splice(i,1);dirty=true;renderItems();
+    }});
+  }
   function addFreeItem(){
     var inp=$('stFree');if(!inp||!cur)return;
     var t=String(inp.value||'').replace(/\s+/g,' ').trim();if(!t)return;
-    var disc=$('stDisc').value,y=String(cur.year||projectYear());
+    var disc=curDisc(),y=String(cur.year||projectYear());
     function nc(v){return toEn(String(v==null?'':v)).toLowerCase().replace(/[\s\-_.\/\\*]+/g,'')}
     function nt(v){return toEn(String(v==null?'':v)).replace(/[\u200c\u200e\u200f]/g,' ').replace(/\u064a/g,'\u06cc').replace(/\u0643/g,'\u06a9').replace(/\s+/g,' ').trim().toLowerCase()}
     var c1=nc(t),c2=nc(t.split(/\s+[\u2014\u2013-]\s+/)[0]);
@@ -11052,15 +11116,16 @@ window.__cplSig=function(){
     var hits=pool.filter(function(x){var a=nc(x.code),b=nc(typeof displayItemCode==='function'?displayItemCode(x):x.code);return a&&(a===c1||a===c2||b===c1||b===c2)});
     if(!hits.length){var d1=nt(t);hits=pool.filter(function(x){return nt(x.desc)===d1})}
     hits.sort(function(a,b){return (a.discipline===disc?0:1)-(b.discipline===disc?0:1)});
-    var x=hits[0],obj;
+    var x=hits[0],obj,nfObj=null;
     if(x)obj={uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]};
-    else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('stChap').value||'',free:true,rows:[newRow()]};say('\u062f\u0631 \u0641\u0647\u0631\u0633\u062a \u06cc\u0627 \u0642\u06cc\u0645\u062a \u062c\u062f\u06cc\u062f \u067e\u06cc\u062f\u0627 \u0646\u0634\u062f\u061b \u0628\u0647\u200c\u0635\u0648\u0631\u062a \u0622\u06cc\u062a\u0645 \u062f\u0644\u062e\u0648\u0627\u0647 \u0627\u0636\u0627\u0641\u0647 \u0634\u062f.')}
+    else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('stChap').value||'',free:true,rows:[newRow()]};nfObj=obj}
     if(cur.sortMode==='code')cur.items.push(obj);else cur.items.unshift(obj);
     inp.value='';dirty=true;
     if(catF!=='all'&&catOf(obj)!==catF){catF='all';var ff=$('stFilt');if(ff)ff.value='all'}
-    if(obj.discipline!==$('stDisc').value&&!($('stAll')&&$('stAll').checked)){$('stDisc').value=obj.discipline;fillChapters()}
+    if(!isAllDisc()&&obj.discipline!==$('stDisc').value){$('stDisc').value=obj.discipline;lastDisc=obj.discipline;fillChapters()}
     renderItems();
     var el=document.querySelector('#stItems .mnItem[data-i="'+cur.items.indexOf(obj)+'"]');if(el)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    if(nfObj)nfOpen(nfObj);
   }
   function addItem(){
     var id=$('stItem').value;if(!id){say('ابتدا یک آیتم انتخاب کن.');return}
@@ -11072,22 +11137,23 @@ window.__cplSig=function(){
 
   function priceTag(v){return '<span class="mnPriceTag">بهای آیتم: <b>'+fmt(v)+'</b> ریال</span>'}
   function infoBtn(it){return '<button type="button" class="btn mnInfoBtn" aria-expanded="'+(openExtras[it.uid]&&!it.extraOf?'true':'false')+'" title="مشخصات آیتم" aria-label="مشخصات آیتم"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="6.8" r="1.7" fill="currentColor"/><rect x="10.8" y="10" width="2.4" height="8" rx="1.1" fill="currentColor"/></svg></button>'}
-  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+(it.extraOf?'':toggleHtml(it))+'<span class="mnInfoChip">دفترچه: <b>'+esc(window.plDisp(it.discipline))+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+'</div></div>'}
+  function infoPanel(it,p){return '<div class="mnInfoPanel"'+(openExtras[it.uid]&&!it.extraOf?'':' hidden')+'><div class="mnInfoChips">'+'<span class="mnInfoChip">دفترچه: <b>'+esc(window.plDisp(it.discipline))+'</b></span>'+priceTag(p)+(it.unit?'<span class="mnInfoChip">واحد: <b>'+esc(it.unit)+'</b></span>':'')+fnChip(it)+'</div></div>'}
+  function fnChip(it){var rd=relDef(it);return (rd&&String(rd.r.function||'').trim())?'<span class="mnInfoChip">فرمول تابع: <b><bdi dir="ltr">'+esc(rd.r.function)+'</bdi></b></span>':''}
   function exPrice(it,r){var d=DATA.find(function(y){return String(y.id)===String(it.id)})||DATA.find(function(y){return String(y.year)===String(cur&&cur.year)&&y.discipline===it.discipline&&String(y.code)===String(it.code)}),v=0;try{v=d?Math.round(relatedUnitCost(r,priceVal(d),1)):0}catch(e){}return '<span class="mnExPrice">قیمت: <b>'+fmt(v)+'</b> ریال</span>'}
-  function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==0)return n>1?'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>':'';return '<div class="mnTot"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
+  function totBox(ii,ri){var its=cur.items[ii],n=its.rows.length;if(ri!==n-1)return n>1?(ri===0?'<div class="mnTot mnTotHead"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b>&nbsp;</b></div>':'<div class="mnTot mnTotEmpty" aria-hidden="true"><span>&nbsp;</span><b>&nbsp;</b></div>'):'';return '<div class="mnTot'+(n>1?' mnTotLast':'')+'"><span>جمع کلی'+(its.unit?' ('+esc(its.unit)+')':'')+'</span><b class="mnSum">'+fmt(itemTotal(its))+'</b></div>'}
   function rowHtml(ii,ri,r){
     return '<div class="mnRow'+(ri>0?' mnRowNext':'')+'" data-i="'+ii+'" data-r="'+ri+'">'+FIELDS.map(function(f){
       return '<label class="mnCell"><span>'+f[1]+'</span><input class="mnIn" data-f="'+f[0]+'" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(r[f[0]])+'"></label>';
-    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>'+'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>'+'</div></div>';
+    }).join('')+'<div class="mnRes"><span>جمع جزئی</span><b class="mnProd">'+fmt(rowProduct(r))+'</b></div>'+totBox(ii,ri)+descBtnHtml(r)+'<div class="mnRowBtns">'+(ri===cur.items[ii].rows.length-1?'<button type="button" class="btn mnRowAdd" title="افزودن ردیف" aria-label="افزودن ردیف">＋</button>':'<button type="button" class="btn danger mnRowDel" title="حذف ردیف">✕</button>')+'</div></div>';
   }
   document.addEventListener('cpl-star-updated',function(){if(cur&&$('stItems'))renderItems()});
   function renderItems(){
     var box=$('stItems');if(!box)return;
     if(window.__cplSyncStarFields&&cur&&cur.items)window.__cplSyncStarFields(cur.items);
     if(!cur.items.length){box.innerHTML='<div class="mnEmpty">هنوز آیتمی اضافه نشده است. نوع فهرست، فصل و آیتم را انتخاب کن و «افزودن آیتم» بزن.</div>';return}
-    if(!viewIdx().length){box.innerHTML='<div class="mnEmpty">'+(catF!=='all'?'آیتمی با این فیلتر پیدا نشد.':'در نوع فهرست «'+esc($('stDisc').value)+'» هنوز آیتمی اضافه نشده است.')+'</div>';return}
+    if(!viewIdx().length){box.innerHTML='<div class="mnEmpty">'+(catF!=='all'?'آیتمی با این فیلتر پیدا نشد.':'در نوع فهرست «'+(isAllDisc()?'همه':esc($('stDisc').value))+'» هنوز آیتمی اضافه نشده است.')+'</div>';return}
     box.innerHTML=viewIdx().map(function(ii){var it=cur.items[ii];
-      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div><div class="mnChipRow">'+(it.extraOf?toggleHtml(it):'')+infoBtn(it)+'<b class="mnCode mnCodeBox">'+esc(it.code)+'</b>'+'<span class="mnDescInline">'+esc(it.desc)+'</span>'+(it.src?' <span class="mnMuted mnHeadSep">—</span> <span class="mnMuted mnHeadSrc">نقل از '+esc(String(it.src).replace(/^نقل از\s*/,''))+'</span>':'')+paykHtml(it)+'</div>'+infoPanel(it,unitPrice(it))+(it.extraOf?'<div class="mnDescRow"><div class="mnExOpts"><button type="button" class="btn mnExCopy">نقل از آیتم اصلی</button><label class="mnLink"><input type="checkbox" class="mnExLink"'+(it.linked?' checked':'')+'> وابسته به آیتم اصلی</label></div></div>':'')+'</div><div class="mnHeadSide"><div class="mnHeadTop">'+'<button type="button" class="btn danger mnItemDel" title="حذف آیتم" aria-label="حذف آیتم">✕</button></div></div></div>'+extrasHtml(it)+
+      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div><div class="mnChipRow">'+(it.extraOf?toggleHtml(it):'')+infoBtn(it)+'<b class="mnCode mnCodeBox">'+esc(it.code)+'</b>'+'<span class="mnDescInline">'+esc(it.desc)+'</span>'+(it.src?' <span class="mnMuted mnHeadSep">—</span> <span class="mnMuted mnHeadSrc">نقل از '+esc(String(it.src).replace(/^نقل از\s*/,''))+'</span>':'')+exPlusBtn(it)+(it.extraOf?'<label class="mnLink mnLinkBox'+(it.linked?' on':'')+'" title="وابسته به آیتم اصلی"><input type="checkbox" class="mnExLink"'+(it.linked?' checked':'')+'><span>وابسته به آیتم اصلی</span></label>':'')+((it.free||it.pending)?nfBtn(it):'')+paykHtml(it)+'</div>'+infoPanel(it,unitPrice(it))+fxRow(it)+'</div><div class="mnHeadSide"><div class="mnHeadTop">'+'<button type="button" class="btn danger mnItemDel" title="حذف آیتم" aria-label="حذف آیتم">✕</button></div></div></div>'+extrasHtml(it)+
         it.rows.map(function(r,ri){return rowHtml(ii,ri,r)}).join('')+
         '</div>';
     }).join('');
@@ -11112,7 +11178,8 @@ window.__cplSig=function(){
     var t=e.target;if(!t.closest||!cur||!t.closest('#stItems'))return;
     var itEl=t.closest('.mnItem');if(!itEl)return;var ii=+itEl.dataset.i,it=cur.items[ii];
     var ib=t.closest('.mnInfoBtn');if(ib){var ip=itEl.querySelector('.mnInfoPanel');if(ip){var o=ip.hasAttribute('hidden');if(o)ip.removeAttribute('hidden');else ip.setAttribute('hidden','');ib.setAttribute('aria-expanded',o?'true':'false')}return}
-    var tg=t.closest('.mnExtraToggle');
+    var nfb=t.closest('.mnNfBtn');if(nfb){nfOpen(it);return}
+    var tg=t.closest('.mnExtraToggle,.mnExPlusBtn');
     if(tg){openExModal(ii);return}
     var ec=t.closest('.mnExCopy');if(ec){copyFromParent(it);return}
     var elk=t.closest('.mnExLink');if(elk){setLink(it,elk.checked);return}
@@ -11158,18 +11225,19 @@ window.__cplSig=function(){
     return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">◂</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
   }
   function extrasHtml(it){return ''}
+  function exPlusBtn(it){if(it.extraOf||!relatedOf(it).length)return '';return '<button type="button" class="btn mnExPlusBtn" title="اضافه‌بهای این آیتم" aria-label="آیتم مرتبط">آیتم مرتبط</button>'}
   function exListHtml(it){
     if(it.extraOf)return '';
     var rel=relatedOf(it);
     return (rel.length?rel.map(function(r,ri){
       var added=cur.items.some(function(x){return x.extraOf===it.uid&&String(x.code)===String(r.code)});
-      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+'</span>'+exPrice(it,r)+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+'</div>';
+      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+exPrice(it,r)+'<span class="mnExDesc">'+esc(r.desc)+(String(r.function||'').trim()?' <span class="mnFxBox">تابع مربوطه: <bdi dir="ltr">'+esc(r.function)+'</bdi></span>':'')+'</span></div>';
     }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>');
   }
   function openExModal(ii){
     var it=cur.items[ii];if(!it||it.extraOf||!relatedOf(it).length)return;
     var id='stExDescModal';
-    var m=shell(id,'<div class="mnHead"><b>اضافه‌بهای '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn mnIco mnHomeBtn exHomeBtn" id="'+id+'Close" title="بازگشت به ریزمتره" aria-label="بستن"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
+    var m=shell(id,'<div class="mnHead"><b>کدهای مرتبط به آیتم '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn danger exCloseBtn" id="'+id+'Close" title="بستن" aria-label="بستن">✕</button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
     m.firstChild.style.width='min(560px,100%)';
     var list=m.querySelector('.mnExList');
     function paint(){list.innerHTML=exListHtml(it)}
@@ -11189,6 +11257,31 @@ window.__cplSig=function(){
     cur.items.splice(idx,0,{uid:uid(),id:String(it.id)+'#rel'+ri,code:r.code,desc:r.desc||'',unit:r.unit||it.unit||'',discipline:it.discipline,chapter:it.chapter,extraOf:it.uid,rows:[newRow()]});
     dirty=true;openExtras[it.uid]=1;renderItems();say('اضافه‌بها به صورت‌وضعیت افزوده شد');
   }
+  /* تابع اضافه‌بها: کادر مقدار (x) */
+  function relDef(it){
+    if(!it||!it.extraOf)return null;
+    var p=findParent(it),m=String(it.id).match(/#rel(\d+)$/);
+    var d=p&&DATA.find(function(x){return String(x.id)===String(p.id)});
+    var r=d&&m&&(d.related||[])[+m[1]];
+    return r?{r:r,d:d}:null;
+  }
+  function fxVal(it){var v=num(it.fx);return v===null?1:v}
+  function fxRow(it){
+    var rd=relDef(it);if(!rd||!hasX(rd.r.function))return '';
+    return '<div class="mnFx mnFxRow">'+
+      '<label class="mnFxLab">مقدار ورودی (x):<input class="mnFxInput" inputmode="decimal" autocomplete="off" dir="ltr" value="'+esc(it.fx==null?'1':it.fx)+'" placeholder="مثلاً 3.5"></label>'+
+      '<span class="mnFxRes">اثر تابع: <b class="mnFxK">'+fmt(relEffect(rd.r,fxVal(it)))+'</b> — بهای واحد: <b class="mnFxP">'+fmt(unitPrice(it))+'</b> ریال</span></div>';
+  }
+  document.addEventListener('input',function(e){
+    var inp=e.target.closest&&e.target.closest('#stItems .mnFxInput');if(!inp||!cur)return;
+    var el=inp.closest('.mnItem'),it=cur.items[+el.dataset.i];if(!it)return;
+    it.fx=inp.value;delete it.price;dirty=true;
+    var rd=relDef(it);if(!rd)return;
+    var k=el.querySelector('.mnFxK'),pp=el.querySelector('.mnFxP'),tg=el.querySelector('.mnPriceTag b');
+    if(k)k.textContent=fmt(relEffect(rd.r,fxVal(it)));
+    if(pp)pp.textContent=fmt(unitPrice(it));
+    if(tg)tg.textContent=fmt(unitPrice(it));
+  });
   function itemTitle(it){return (it.extraOf?'اضافه‌بها — ':'')+it.code+' — '+it.desc+(it.payk?' (پایکار)':'')}
   function findParent(it){return cur.items.find(function(x){return x.uid===it.extraOf})}
   function hasData(it){return it.rows.some(function(r){return FIELDS.some(function(f){return num(r[f[0]])!==null})||String(r.d||'').trim()!==''})}
@@ -11525,7 +11618,7 @@ window.__cplSig=function(){
     var y=String((cur&&cur.year)||'');
     return DATA.find(function(d){return String(d.year)===y&&d.discipline===it.discipline&&String(d.code)===String(it.code)})||null}
   function autoPrice(it){
-    if(it.extraOf){var p=findParent(it),m=String(it.id).match(/#rel(\d+)$/),d=p&&dataOf(p),r=d&&m&&(d.related||[])[+m[1]];return r?relatedUnitCost(r,priceVal(d),1):0}
+    if(it.extraOf){var p=findParent(it),m=String(it.id).match(/#rel(\d+)$/),d=p&&dataOf(p),r=d&&m&&(d.related||[])[+m[1]];return r?relatedUnitCost(r,priceVal(d),fxVal(it)):0}
     var x=dataOf(it);return x?priceVal(x):0}
   document.addEventListener('app-data-ready',function(){if(cur&&$('stItems'))renderItems()});
   function unitPrice(it){var v=num(it.price);return Math.round(v===null?autoPrice(it):v)}
@@ -11862,7 +11955,7 @@ window.__cplSig=function(){
   function amountWC(it){return Math.round(amount(it)*prodCf(it))}
   function codeSorted(){var o=cur.sortMode;cur.sortMode='code';try{return sortedItems()}finally{cur.sortMode=o}}
   function bookSorted(){return codeSorted().map(function(x,i){return [x,i]}).sort(function(p,q){return DISCS.indexOf(p[0].discipline)-DISCS.indexOf(q[0].discipline)||p[1]-q[1]}).map(function(p){return p[0]})}
-  function viewIdx(){var all=$('stAll')&&$('stAll').checked,d=$('stDisc')&&$('stDisc').value;return sortedIdx().filter(function(i){return (all||!d||cur.items[i].discipline===d)&&(catF==='all'||catOf(cur.items[i])===catF)})}
+  function viewIdx(){var all=isAllDisc(),d=$('stDisc')&&$('stDisc').value;return sortedIdx().filter(function(i){return (all||!d||cur.items[i].discipline===d)&&(catF==='all'||catOf(cur.items[i])===catF)})}
   var ICO_HOME='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>';
   function chapGroups(){var m={},o=[];sortedItems().forEach(function(it){var ec=effCh(it),k=it.discipline+'|'+p2(ec);if(!m[k]){m[k]={d:it.discipline,c:ec,net:0,wc:0};o.push(m[k])}m[k].net+=amount(it);m[k].wc+=amountWC(it)});
     o.forEach(function(g){g.cf=g.net?g.wc/g.net:totCoef(g.d,g.c)});
@@ -12843,7 +12936,7 @@ window.__cplSig=function(){
     if(!cur.items.length){box.innerHTML='<div class="mnEmpty">هنوز آیتمی اضافه نشده است. نوع فهرست، فصل و آیتم را انتخاب کن و «افزودن آیتم» بزن.</div>';return}
     if(!viewIdx().length){box.innerHTML='<div class="mnEmpty">در نوع فهرست «'+esc($('ciDisc').value)+'» هنوز آیتمی اضافه نشده است.</div>';return}
     box.innerHTML=viewIdx().map(function(ii){var it=cur.items[ii];
-      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div class="mnHeadMain">'+toggleHtml(it)+'<b class="mnCode">'+esc(it.code)+'</b> <span class="mnExTag stBook">'+esc(window.plDisp(it.discipline))+'</span>'+(it.unit?' <span class="mnMuted">'+esc(it.unit)+'</span>':'')+(it.extraOf?(fxInline(it)||headPrice(it)):headPrice(it))+'</div><div class="mnHeadSide">'+'<div class="mnTotal">جمع نهایی ردیف: <b class="mnSum">'+fmt(itemTotal(it))+'</b></div>'+'<button type="button" class="btn danger mnItemDel">حذف آیتم</button></div></div>'+extrasHtml(it)+
+      return '<div class="mnItem'+(it.extraOf?' mnIsExtra':'')+(it.pending?' mnPending':'')+'" data-i="'+ii+'"><div class="mnItemHead"><div class="mnHeadMain">'+(it.extraOf?toggleHtml(it):'')+'<b class="mnCode">'+esc(it.code)+'</b> <span class="mnExTag stBook">'+esc(window.plDisp(it.discipline))+'</span>'+(it.unit?' <span class="mnMuted">'+esc(it.unit)+'</span>':'')+(it.extraOf?(fxInline(it)||headPrice(it)):headPrice(it))+'</div><div class="mnHeadSide">'+'<div class="mnTotal">جمع نهایی ردیف: <b class="mnSum">'+fmt(itemTotal(it))+'</b></div>'+(it.extraOf?'':toggleHtml(it))+'<button type="button" class="btn danger mnItemDel" title="حذف آیتم" aria-label="حذف آیتم">✕</button></div></div>'+extrasHtml(it)+
         lineHtml(ii,it)+
         it.rows.slice(1).map(function(r,k){return rowHtml(ii,k+1,r)}).join('')+
         '</div>';
@@ -12862,10 +12955,8 @@ window.__cplSig=function(){
     var t=e.target;if(!t.closest||!cur||!t.closest('#ciItems'))return;
     var itEl=t.closest('.mnItem');if(!itEl)return;var ii=+itEl.dataset.i,it=cur.items[ii];
     var ld=t.closest('.mnLineDesc');if(ld){ld.classList.toggle('open');return}
-    var tg=t.closest('.mnExtraToggle');
-    if(tg){var pn=itEl.querySelector('.mnExtras'),op=pn.hasAttribute('hidden');
-      if(op){pn.removeAttribute('hidden');openExtras[it.uid]=1}else{pn.setAttribute('hidden','');delete openExtras[it.uid]}
-      tg.setAttribute('aria-expanded',op?'true':'false');tg.querySelector('.mnTri').textContent=op?'▾':'◂';return}
+    var tg=t.closest('.mnExtraToggle,.mnExPlusBtn');
+    if(tg){openExModal(ii);return}
     var ft=t.closest('.mnFxToggle');
     if(ft){var fn=ft.parentElement.querySelector('.mnFxFn'),fo=fn.hasAttribute('hidden');
       if(fo){fn.removeAttribute('hidden');openFx[it.uid]=1}else{fn.setAttribute('hidden','');delete openFx[it.uid]}
@@ -12906,17 +12997,32 @@ window.__cplSig=function(){
   function toggleHtml(it){
     if(it.extraOf)return '<span class="mnExTag">اضافه‌بها</span> ';
     var n=relatedOf(it).length,op=!!openExtras[it.uid];if(!n)return '';
-    return '<button type="button" class="mnExtraToggle" aria-expanded="'+(op?'true':'false')+'" title="اضافه‌بهای این آیتم"><span class="mnTri">'+(op?'▾':'◂')+'</span><span class="mnExCnt">'+fmt(n)+' اضافه‌بها</span></button>';
+    return '<button type="button" class="btn mnExtraToggle mnExPlusBtn" aria-expanded="'+(op?'true':'false')+'" title="آیتم مرتبط">آیتم مرتبط</button>';
   }
-  function extrasHtml(it){
-    if(it.extraOf){
-      return '';
-    }
-    var rel=relatedOf(it),op=!!openExtras[it.uid];
-    return '<div class="mnExtras"'+(op?'':' hidden')+'>'+(rel.length?rel.map(function(r,ri){
+  function exPrice(it,r){var d=DATA.find(function(y){return String(y.id)===String(it.id)})||DATA.find(function(y){return String(y.year)===String(cur&&cur.year)&&y.discipline===it.discipline&&String(y.code)===String(it.code)}),v=0;try{v=d?Math.round(relatedUnitCost(r,priceVal(d),1)):0}catch(e){}return '<span class="mnExPrice">قیمت: <b>'+fmt(v)+'</b> ریال</span>'}
+  function extrasHtml(it){return ''}
+  function exListHtml(it){
+    if(it.extraOf)return '';
+    var rel=relatedOf(it);
+    return (rel.length?rel.map(function(r,ri){
       var added=cur.items.some(function(x){return x.extraOf===it.uid&&String(x.code)===String(r.code)});
-      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span><span class="mnExDesc">'+esc(r.desc)+(r.variable?' <span class="mnMuted">('+esc(r.variable)+')</span>':'')+(hasX(r.function)?' <span class="mnMuted">— تابع: <bdi dir="ltr">'+esc(r.function)+'</bdi></span>':'')+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+'</div>';
-    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>')+'</div>';
+      return '<div class="mnExtra">'+'<button type="button" class="btn mnExAdd mnExPlus'+(added?' done':'')+'" data-ri="'+ri+'" title="افزودن اضافه‌بها" aria-label="افزودن اضافه‌بها"'+(added?' disabled':'')+'>'+(added?'✓':'＋')+'</button>'+'<span class="mnExCode">'+esc(r.code)+'</span>'+(r.unit?'<span class="mnExUnit">'+esc(r.unit)+'</span>':'')+exPrice(it,r)+'<span class="mnExDesc">'+esc(r.desc)+(String(r.function||'').trim()?' <span class="mnFxBox">تابع مربوطه: <bdi dir="ltr">'+esc(r.function)+'</bdi></span>':'')+'</span></div>';
+    }).join(''):'<div class="mnMuted">اضافه‌بهایی برای این آیتم ثبت نشده است.</div>');
+  }
+  function openExModal(ii){
+    var it=cur.items[ii];if(!it||it.extraOf||!relatedOf(it).length)return;
+    var id='ciExDescModal';
+    var m=shell(id,'<div class="mnHead"><b>کدهای مرتبط به آیتم '+esc(it.code)+'</b><div class="mnBtns"><button type="button" class="btn danger exCloseBtn" id="'+id+'Close" title="بستن" aria-label="بستن">✕</button></div></div><div class="mnMuted" style="margin-bottom:8px">'+esc(itemTitle(it))+'</div><div class="mnExList"></div>');
+    m.firstChild.style.width='min(560px,100%)';
+    var list=m.querySelector('.mnExList');
+    function paint(){list.innerHTML=exListHtml(it)}
+    paint();
+    function onKey(e){if(e.key==='Escape'){e.stopImmediatePropagation();e.preventDefault();close()}}
+    function close(){document.removeEventListener('keydown',onKey,true);closeShell(id)}
+    document.addEventListener('keydown',onKey,true);
+    m.addEventListener('click',function(e){if(e.target===m)close()});
+    $(id+'Close').onclick=close;m._close=close;
+    list.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.mnExAdd');if(!b||b.disabled)return;addExtra(it,+b.dataset.ri);paint()});
   }
   function addExtra(it,ri){
     var r=relatedOf(it)[ri];if(!r)return;
@@ -14923,6 +15029,74 @@ window.__cplSig=function(){
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('mnStarChooser')){e.stopPropagation();close()}},true);
 })();
 </script>
+<script id="cpl-notfound">
+(function(){
+  function close(){var d=document.getElementById('cplNfDlg');if(d)d.remove()}
+  window.__cplNotFound=function(o){
+    close();o=o||{};
+    var en0=String(o.text||'').replace(/[۰-۹]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(c)}).replace(/[٠-٩]/g,function(c){return '٠١٢٣٤٥٦٧٨٩'.indexOf(c)}).replace(/\s+/g,'');
+    var isCode=/^\d{3,10}$/.test(en0)&&en0.slice(0,2)!=='00';
+    var d=document.createElement('div');d.id='cplNfDlg';
+    d.innerHTML='<div class="nfPanel" role="dialog" aria-modal="true"><div class="nfIco"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.2" r=".6" fill="currentColor"/></svg></div>'
+      +'<b class="nfTitle">'+(o.mode==='pending'?'قیمت و مشخصات این آیتم هنوز ثبت نشده است':'آیتم در فهرست بها و قیمت جدید ها موجود نیست')+'</b>'
+      +(o.text?'<div class="nfTxt"></div>':'')
+      +(o.mode==='pending'?'<div class="nfBtns"><button type="button" class="btn nfAdd" id="nfEditPrice">ویرایش قیمت جدید</button><button type="button" class="btn nfClose" id="nfClose">بستن</button></div></div>':'<div class="nfBtns"><button type="button" class="btn nfAdd" id="nfAdd">اضافه کردن به قیمت جدیدها</button>'+(isCode?'<button type="button" class="btn nfAdd" id="nfOnly">فقط شماره آیتم اضافه شود</button><div class="nfNote">آیتم بعدا از لیست آیتم های ستاره دار قابل ویرایش می باشد.</div>':'')+'<button type="button" class="btn nfClose" id="nfClose">انصراف از ورود آیتم</button></div></div>');
+    document.body.appendChild(d);
+    var tx=d.querySelector('.nfTxt');if(tx)tx.textContent=o.text;
+    d.addEventListener('click',function(e){if(e.target===d)close()});
+    document.getElementById('nfClose').onclick=function(){close();if(o.mode!=='pending'&&o.onCancel)o.onCancel()};
+    var ep=document.getElementById('nfEditPrice');if(ep)ep.onclick=function(){close();if(typeof window.cplEditStarItem==='function')window.cplEditStarItem(o.itemId,o.text)};
+    var only=document.getElementById('nfOnly');
+    if(only)only.onclick=async function(){
+      only.disabled=true;
+      try{
+        if(typeof window.cplAddStarItems!=='function')throw new Error('no-fn');
+        await window.cplAddStarItems([{code:en0,discipline:o.disc}]);
+        var f=(window.DATA||DATA).find(function(x){return String(x.code)===en0&&x.discipline===o.disc&&x.custom})||DATA.find(function(x){return String(x.code)===en0&&x.discipline===o.disc});
+        if(!f)throw new Error('nf');
+        close();if(o.onAdded)o.onAdded({id:f.id,code:f.code,desc:f.desc||'',unit:f.unit||'',discipline:f.discipline});
+      }catch(e){console.error(e);only.disabled=false;alert((e&&e.message&&e.message!=='nf'&&e.message!=='no-fn')?e.message:'افزودن آیتم انجام نشد. اتصال یا پروژه را بررسی کن.')}
+    };
+    var addb=document.getElementById('nfAdd');if(addb)addb.onclick=function(){
+      close();
+      if(typeof window.cplDefineStarItem!=='function')return;
+      window.__cplStarFrom=o.edId||null;
+      window.cplDefineStarItem(function(t){try{o.onAdded&&o.onAdded(t)}catch(e){console.error(e)}});
+      setTimeout(function(){
+        var t=String(o.text||'').trim(),en=t.replace(/[۰-۹]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(c)}).replace(/[٠-٩]/g,function(c){return '٠١٢٣٤٥٦٧٨٩'.indexOf(c)}).replace(/\s+/g,'');
+        var code=document.getElementById('cplCode'),desc=document.getElementById('cplDesc'),disc=document.getElementById('cplDisc');
+        function fire(el){['input','change'].forEach(function(n){el.dispatchEvent(new Event(n,{bubbles:true}))})}
+        if(disc&&o.disc){disc.value=o.disc;fire(disc)}
+        if(/^\d{3,10}$/.test(en)){if(code){code.value=en;fire(code)}}
+        else if(desc&&t){desc.value=t;fire(desc)}
+      },120);
+    };
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('cplNfDlg')){e.stopPropagation();close()}},true);
+})();
+</script>
+<style>
+#cplNfDlg{position:fixed;inset:0;z-index:31000;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl}
+#cplNfDlg .nfPanel{width:min(420px,100%);box-sizing:border-box;background:var(--c35);color:var(--c2);border:1px solid var(--c37);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+#cplNfDlg .nfIco{color:#e5484d;display:flex}
+#cplNfDlg .nfTitle{font-size:21px;line-height:1.7}
+#cplNfDlg .nfTxt{font-size:16px;color:var(--c55);max-width:100%;overflow-wrap:anywhere}
+#cplNfDlg .nfBtns{display:flex;flex-direction:column;gap:8px;width:100%}
+#cplNfDlg .nfBtns .btn{height:60px;width:100%;box-sizing:border-box;font-size:24px;font-weight:700}
+#cplNfDlg .nfNote{font-size:15px;color:var(--c55);line-height:1.7;margin-top:-4px}
+html body .mnChipRow>.mnNfBtn{order:2}
+html body .mnNfBtn svg{width:20px;height:20px;display:block}
+html body #stItems .mnChipRow>.mnNfBtn,html body #mnItems .mnChipRow>.mnNfBtn,html body #ciItems .mnNfBtn{box-sizing:border-box!important;width:36px!important;min-width:36px!important;height:36px!important;min-height:36px!important;padding:0!important;border-radius:50%!important;background:#e5484d!important;border:1px solid #e5484d!important;color:#000!important;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;flex:0 0 36px}
+html body .mnItem.mnPending>.mnItemHead{background:transparent!important;border:0!important;border-radius:0!important}
+/* آیکن خطر: دایره هم‌رنگ و هم‌اندازهٔ دکمهٔ ✕ (۳۶px) + مثلث قرمز با علامت تعجب سفید */
+html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnNfBtn,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnNfBtn,html body #ciEditor#ciEditor #ciItems .mnNfBtn{background:linear-gradient(180deg,var(--glFill),transparent),var(--glBg)!important;border:1px solid var(--glBd)!important;box-shadow:inset 0 1px 0 var(--glHi),0 2px 10px var(--glSh)!important;color:var(--glFg)!important}
+html body #stEditor#stEditor#stEditor #stItems .mnNfBtn svg,html body #mnEditor#mnEditor#mnEditor #mnItems .mnNfBtn svg,html body #ciEditor#ciEditor #ciItems .mnNfBtn svg{width:28px;height:28px}
+/* صورت‌وضعیت (دسکتاپ): دکمهٔ خطر هم‌ترتیب پایکار باشد تا سمت راستِ پایکار بنشیند، نه بین پایکار و ✕ */
+html body #stItems .mnChipRow>.mnNfBtn{order:0}
+
+html body .mnItem.mnPending .mnCode{color:inherit!important;border-color:var(--c2)!important}
+@media(max-width:720px){html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnNfBtn{order:4!important;flex:0 0 auto}html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnNfBtn{order:2!important;flex:0 0 auto}}
+</style>
 <script>/*date-mask*/(function(){
 var FAD='۰۱۲۳۴۵۶۷۸۹',ARD='٠١٢٣٤٥٦٧٨٩';
 function en(x){return String(x==null?'':x).replace(/[۰-۹]/g,function(d){return FAD.indexOf(d)}).replace(/[٠-٩]/g,function(d){return ARD.indexOf(d)})}
@@ -15504,7 +15678,7 @@ html body #mnListModal .mnHead,html body #stListModal .mnHead,html body #stAdjL 
 html body #mnListModal .mnHead>.mnBtns,html body #stListModal .mnHead>.mnBtns,html body #stAdjL .mnHead>.mnBtns,html body #ciListModal .mnHead>.mnBtns,html body #exListModal .mnHead>.mnBtns,html body #starredModal .analysisHead>.stageNav{display:contents!important}
 html body #mnListModal .mnHead .mnMenuBtn,html body #stListModal .mnHead .mnMenuBtn,html body #stAdjL .mnHead .mnMenuBtn,html body #ciListModal .mnHead .mnMenuBtn,html body #exListModal .mnHead .mnMenuBtn,html body #starredModal .analysisHead .mnMenuBtn{order:-1!important;flex:0 0 38px!important}
 html body #mnListModal .mnHead>b,html body #stListModal .mnHead>b,html body #stAdjL .mnHead>b,html body #ciListModal .mnHead>b,html body #exListModal .mnHead>b,html body #starredModal .analysisHead>div:not(.stageNav){order:0!important;flex:1 1 0!important;min-width:0!important;text-align:center!important;justify-content:center!important}
-html body .mnOverlay>.mnPanel>.mnHead,html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal)>.mnPanel>.mnHead{padding-top:calc(max(env(safe-area-inset-top,0px),20px) + 16px)!important}
+html body .mnOverlay>.mnPanel>.mnHead,html body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal)>.mnPanel>.mnHead{padding-top:calc(max(env(safe-area-inset-top,0px),20px) + 16px)!important}
 html body .mnHead>.mnMenuBtn,html body .mnHead .mnBtns>.btn.mnIco,html body .mnHead .mnBtns .mnSortBtn,html body .mnHead .mnBtns>.mnCloseBtn,html body .analysisHead>.mnMenuBtn,html body .analysisHead .analysisActions>.btn.mnIco,html body .analysisHead .stageNav>.btn,html body .adjustmentHead .stageNav>.btn,html body .summaryHead .stageNav>.btn,html body .stageNav>.btn.stgMenuBtn,html body .mnHead .btn.cplListNewIcon,html body .analysisHead .btn.cplListNewIcon,html body .stageNav>.cplListNewBtn,html body #closeStarred,html body #cplHomeMenuBtn,html body #cplPriceBack,html body #projectBar .projectBtns.toolbarRows>.btn,html body #projectBar #cplMenuBtn,html body #projectBar #cplHomeQuickBtn{width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important;max-height:44px!important;flex:0 0 44px!important;padding:0!important;margin-top:0!important;margin-bottom:0!important;box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;align-self:center!important;border-radius:12px!important;line-height:1!important}
 html body .mnHead>.mnMenuBtn svg,html body .mnHead .mnBtns>.btn.mnIco svg,html body .mnHead .mnBtns .mnSortBtn svg,html body .mnHead .mnBtns>.mnCloseBtn svg,html body .analysisHead>.mnMenuBtn svg,html body .analysisHead .analysisActions>.btn.mnIco svg,html body .analysisHead .stageNav>.btn svg,html body .adjustmentHead .stageNav>.btn svg,html body .summaryHead .stageNav>.btn svg,html body .stageNav>.btn.stgMenuBtn svg,html body .mnHead .btn.cplListNewIcon svg,html body .analysisHead .btn.cplListNewIcon svg,html body .stageNav>.cplListNewBtn svg,html body #closeStarred svg,html body #cplHomeMenuBtn svg,html body #cplPriceBack svg,html body #projectBar .projectBtns.toolbarRows>.btn svg,html body #projectBar #cplMenuBtn svg,html body #projectBar #cplHomeQuickBtn svg{width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;display:block!important}
 html body .mnHead .mnBtns>.btn.mnTextBtn:not(.mnIco),html body .mnHead .mnBtns>.trApplyBtn{height:44px!important;min-height:44px!important;align-self:center!important}
@@ -15582,8 +15756,8 @@ html:root:root:root body .analysisModal .analysisHead,
 html:root:root:root body .summaryModal .summaryHead,
 html:root:root:root body #chapterSummaryModal .summaryHead,
 html:root:root:root body .adjustmentPage .adjustmentHead{top:0!important;margin-top:0!important;padding-top:var(--hdrTop)!important;box-shadow:none!important}
-html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick{padding-top:0!important}
-html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal) .mnStick>.mnHead{margin-top:0!important;padding-top:var(--hdrTop)!important}
+html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal) .mnStick{padding-top:0!important}
+html:root:root:root body .mnOverlay:not(#stNewM):not(#ciDescModal):not(#stDescModal):not(#mnDescModal):not(#mnExDescModal):not(#stExDescModal):not(#ciExDescModal) .mnStick>.mnHead{margin-top:0!important;padding-top:var(--hdrTop)!important}
 html:root:root:root body #cplBase .cbHead{padding-top:var(--hdrTop)!important}
 html:root:root:root body #cplHomeMenuBtn,
 html:root:root:root body #cplPriceBack{top:var(--hdrTop)!important}
@@ -15714,15 +15888,70 @@ html body .mnItemHead .mnInfoChips .mnInfoChip,html body .mnItemHead .mnInfoChip
 html body .mnItemHead .mnInfoChips .mnExtraToggle .mnTri{font-size:13px!important;min-width:0!important}
 html body .mnItemHead .mnInfoChips .mnExtraToggle .mnExCnt{font-size:13px!important}
 html body .mnExList{display:flex;flex-direction:column;gap:8px}
-html body #mnExDescModal,html body #stExDescModal{background:rgba(0,0,0,.38)!important;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);align-items:center!important;justify-content:center!important;padding:16px!important}
-html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel{width:min(560px,100%)!important;max-width:100%!important;min-height:0!important;max-height:80vh;overflow:auto;margin:0!important;border-radius:16px!important}
-html body #mnExDescModal .mnHead,html body #stExDescModal .mnHead{position:static!important;margin:0 0 8px!important;padding:0!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:10px!important}
-/* ریزمتره: کادر اضافه‌بها عریض‌تر، هر ردیف در یک خط، واحد و بها چسبیده به چپ (از چپ: واحد، بعد بها) */
-html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel{width:min(1100px,100%)!important}
-html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra{flex-wrap:nowrap!important}
-html body #mnExDescModal .mnExtra .mnExDesc,html body #stExDescModal .mnExtra .mnExDesc{flex:1 1 auto!important;min-width:0}
-html body #mnExDescModal .mnExtra>*:not(.mnExDesc),html body #stExDescModal .mnExtra>*:not(.mnExDesc){flex:0 0 auto}
-@media(max-width:700px){html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra{flex-wrap:wrap!important}}
+html body #mnExDescModal,html body #stExDescModal,html body #ciExDescModal{background:rgba(0,0,0,.38)!important;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);align-items:center!important;justify-content:center!important;padding:16px!important}
+html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel,html body #ciExDescModal>.mnPanel{width:min(560px,100%)!important;max-width:100%!important;min-height:0!important;max-height:80vh;overflow:auto;margin:0!important;border-radius:16px!important}
+html body #mnExDescModal .mnHead,html body #stExDescModal .mnHead,html body #ciExDescModal .mnHead{position:static!important;margin:0 0 8px!important;padding:0!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:10px!important}
+/* ریزمتره: کادر اضافه‌بها — ردیف: پلاس، شماره (کادردار)، واحد، بها، شرح؛ در موبایل شرح می‌آید پایین */
+html body #mnExDescModal>.mnPanel,html body #stExDescModal>.mnPanel,html body #ciExDescModal>.mnPanel{width:min(1100px,100%)!important}
+html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra,html body #ciExDescModal .mnExtra{flex-wrap:wrap!important;gap:8px!important;align-items:center}
+html body #mnExDescModal .mnExtra>*:not(.mnExDesc),html body #stExDescModal .mnExtra>*:not(.mnExDesc),html body #ciExDescModal .mnExtra>*:not(.mnExDesc){flex:0 0 auto}
+html body #mnExDescModal .mnExtra .mnExCode,html body #stExDescModal .mnExtra .mnExCode,html body #ciExDescModal .mnExtra .mnExCode{box-sizing:border-box;display:inline-flex;align-items:center;height:30px;padding:0 10px;border:1px solid var(--c5);border-radius:8px;font-size:14px;line-height:1}
+html body #mnExDescModal .mnExtra .mnExDesc,html body #stExDescModal .mnExtra .mnExDesc,html body #ciExDescModal .mnExtra .mnExDesc{flex:1 1 260px!important;min-width:0}
+/* دکمهٔ پلاس اضافه‌بها کنار i */
+html body #mnItems .mnExPlusBtn,html body #stItems .mnExPlusBtn,html body #ciItems .mnExPlusBtn{box-sizing:border-box!important;flex:0 0 auto;width:auto!important;min-width:0!important;height:32px!important;min-height:32px!important;padding:0 10px!important;font-size:14px!important;white-space:nowrap;line-height:1!important;border-radius:8px!important;display:inline-flex!important;align-items:center;justify-content:center;line-height:0;color:var(--c2)!important;border:1px solid var(--c5)!important;background:var(--c8)!important;cursor:pointer;margin:0}
+html body #mnItems .mnExPlusBtn:hover,html body #stItems .mnExPlusBtn:hover,html body #ciItems .mnExPlusBtn:hover{border-color:var(--c2)!important;background:var(--c9)!important}
+html body .mnExPlusBtn svg{display:block;margin:0}
+html body #mnItems .mnHeadTop,html body #stItems .mnHeadTop{display:flex;align-items:center;gap:8px}
+html body #mnItems .mnChipRow,html body #stItems .mnChipRow{align-items:center}
+html body #ciItems .mnItemDel{width:32px!important;min-width:32px!important;padding:0!important;font-size:16px!important;line-height:1!important}
+html body #ciItems .mnHeadSide .mnExPlusBtn{margin:0}
+@media(max-width:720px){html body #stEditor #stItems .mnExPlusBtn,html body #mnEditor #mnItems .mnExPlusBtn{height:40px!important;min-height:40px!important}}
+/* بستن پنجرهٔ اضافه‌بها */
+html body .exCloseBtn{box-sizing:border-box;width:34px;min-width:34px;height:34px;min-height:34px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;border-radius:9px}
+/* اضافه‌بها: ✕ سمت چپ کادر (ریزمتره صورت‌مجلس/صورت‌وضعیت/هزینه-درآمد) */
+html body #mnExDescModal .mnHead>b,html body #stExDescModal .mnHead>b,html body #ciExDescModal .mnHead>b{order:1!important;margin:0!important;flex:1 1 auto!important;min-width:0!important}
+html body #mnExDescModal .mnHead>.mnBtns,html body #stExDescModal .mnHead>.mnBtns,html body #ciExDescModal .mnHead>.mnBtns{order:2!important;margin:0!important;margin-inline-start:auto!important;flex:0 0 auto}
+/* اضافه‌بها: خط محو بین آیتم‌ها */
+html body #mnExDescModal .mnExtra,html body #stExDescModal .mnExtra,html body #ciExDescModal .mnExtra{padding:10px 0!important;border-bottom:1px solid var(--c5);border-bottom-color:color-mix(in srgb,var(--c5) 90%,transparent)}
+html body #mnExDescModal .mnExtra:first-child,html body #stExDescModal .mnExtra:first-child,html body #ciExDescModal .mnExtra:first-child{padding-top:2px!important}
+html body #mnExDescModal .mnExtra:last-child,html body #stExDescModal .mnExtra:last-child,html body #ciExDescModal .mnExtra:last-child{border-bottom:0;padding-bottom:2px!important}
+/* عنوان کادر اضافه‌بها: راست‌چین، کادردار، هم‌قد دکمه ✕ */
+html body #mnExDescModal .mnHead>b,html body #stExDescModal .mnHead>b,html body #ciExDescModal .mnHead>b{box-sizing:border-box!important;height:auto!important;align-self:stretch!important;min-height:34px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:right!important;direction:rtl;padding:0 12px!important;border:1px solid var(--c5)!important;border-radius:9px!important;font-size:15px!important;line-height:1!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:720px){html body #mnExDescModal .mnHead>b,html body #stExDescModal .mnHead>b,html body #ciExDescModal .mnHead>b{font-size:17px!important}}
+/* آیتم مرتبط: تابع مربوطه و وابسته به آیتم اصلی */
+html body .mnFxBox{display:inline-flex;align-items:center;gap:6px;box-sizing:border-box;padding:3px 10px;border:1px solid var(--c5);border-radius:8px;font-size:14px;color:var(--c2)}
+html body .mnChipRow>.mnLinkBox{box-sizing:border-box;height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 10px;border:1px solid var(--c5);border-radius:8px;background:var(--c8);color:var(--c2);font-size:14px;line-height:1;white-space:nowrap;cursor:pointer;margin:0}
+html body .mnChipRow>.mnLinkBox.on{border-color:var(--c2);font-weight:700;background:var(--c9)}
+html body .mnChipRow>.mnLinkBox input{width:18px!important;height:18px!important;min-width:18px;margin:0;cursor:pointer;accent-color:var(--c2)}
+@media(max-width:720px){html body #stEditor #stItems .mnChipRow>.mnLinkBox,html body #mnEditor #mnItems .mnChipRow>.mnLinkBox{height:40px}}
+/* ترتیب هدر آیتم مرتبط: از چپ ✕ - پایکار - وابسته به آیتم اصلی؛ ردیف x فشرده */
+@media (max-width:720px){
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnLinkBox{order:3!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPayk,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnPaykInfo{order:4!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>.mnHeadSide{order:5!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnDescInline{order:6!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSep,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnHeadSrc{order:7!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnInfoPanel{order:8!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnItemHead>div:first-child>.mnFxRow{order:9!important;flex:1 1 100%!important;width:100%!important}
+  html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnLinkBox{height:40px!important;min-height:40px!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnLinkBox{order:3!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPayk,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnPaykInfo{order:4!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>.mnHeadSide{order:5!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnDescInline{order:6!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSep,html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnHeadSrc{order:7!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnInfoPanel{order:8!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnItemHead>div:first-child>.mnFxRow{order:9!important;flex:1 1 100%!important;width:100%!important}
+  html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnLinkBox{height:40px!important;min-height:40px!important}
+}
+html body #stItems .mnFxRow,html body #mnItems .mnFxRow{display:flex!important;flex-wrap:nowrap!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start;gap:6px!important;margin:0!important;padding:2px 0!important;border:0!important;min-width:0;overflow:hidden}
+html body #stItems .mnFxRow .mnFxLab,html body #mnItems .mnFxRow .mnFxLab{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;font-size:12px!important;color:var(--c2)!important;white-space:nowrap;margin:0}
+html body #stItems .mnFxRow .mnFxInput,html body #mnItems .mnFxRow .mnFxInput{width:44px!important;min-width:0!important;height:26px!important;min-height:26px!important;padding:0 4px!important;font-size:12px!important;line-height:1!important;margin:0;border-radius:6px}
+html body #stItems .mnFxRow .mnFxRes,html body #mnItems .mnFxRow .mnFxRes{align-self:center!important;display:inline-flex;align-items:center;font-size:11px!important;line-height:1!important;white-space:nowrap;color:var(--c55)}
+html body #stItems .mnFxRow .mnFxRes b,html body #mnItems .mnFxRow .mnFxRes b{font-size:11px!important}
+html body #mnStarChooser .scHead b{font-size:22px!important}
+html body #mnStarChooser .scCard{min-height:68px!important;font-size:19px!important;gap:14px!important}
+html body #mnStarChooser .scCard b{font-size:19px!important;font-weight:700}
+html body #mnStarChooser .scX svg,html body #mnStarChooser .scCard svg{width:30px!important;height:30px!important;flex:0 0 30px!important}
 html body .exHomeBtn{display:inline-flex!important;align-items:center;justify-content:center;width:44px!important;min-width:44px!important;height:44px!important;padding:0!important;border-radius:14px!important}
 html body .mnRemark textarea{height:var(--ctl-h,32px)!important;min-height:var(--ctl-h,32px)!important;max-height:var(--ctl-h,32px)!important;resize:none!important;padding:4px 8px!important;line-height:1.35!important;overflow:auto}
 html body #mnEditor#mnEditor#mnEditor #mnItems .mnRow .mnIn,html body #stEditor#stEditor#stEditor #stItems .mnRow .mnIn{box-sizing:border-box!important;height:36px!important;min-height:36px!important;max-height:36px!important}
@@ -16455,3 +16684,65 @@ html body #mnEditor#mnEditor#mnEditor#mnEditor .mnItemWrap>.mnFreeIn:not([hidden
 html body #stEditor#stEditor#stEditor#stEditor .mnItemWrap:has(>.mnFreeIn:not([hidden])){gap:8px!important}
 html body #mnEditor#mnEditor#mnEditor#mnEditor .mnItemWrap:has(>.mnFreeIn:not([hidden])){gap:8px!important}
 </style>
+<style id="v-fix-search-total">
+html body .mnTotHead>b,html body .mnTot.mnTotEmpty>b{visibility:hidden!important;background:none!important;border-color:transparent!important}
+html body .mnTotLast>b{gap:2px;overflow:hidden}
+@media (min-width:641px){
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden])),html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden])){display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:6px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnPickItem,html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnPickItem{order:1!important;flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden])) .mnAddBtn,html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden])) .mnAddBtn{order:2!important;flex:0 0 44px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap,html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap{order:3!important;flex:0 1 300px!important;width:auto!important;min-width:140px!important;max-width:300px!important;flex-direction:row-reverse!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap .mnSrchIn:not([hidden]),html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap .mnSrchIn:not([hidden]){flex:1 1 0!important;width:auto!important;min-width:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap .mnSrchBtn,html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden]))>.mnSrchWrap .mnSrchBtn{flex:0 0 44px!important;width:44px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden])) .mnStarDefBtn:not(#stClr),html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden])) .mnStarDefBtn:not(#stClr){order:4!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor .mnPick:has(.mnSrchIn:not([hidden])) #stClr,html body #stEditor#stEditor#stEditor#stEditor .mnPick:has(.mnSrchIn:not([hidden])) #stClr{order:5!important}
+}
+</style>
+<script id="v-mn-keynav">
+(function(){
+  function cells(root){return [].slice.call(root.querySelectorAll('.mnRow')).map(function(r){return [].slice.call(r.querySelectorAll('.mnCell input.mnIn')).filter(function(i){return i.offsetParent})}).filter(function(a){return a.length})}
+  function go(i){if(!i)return;i.focus();try{i.select()}catch(e){}}
+  document.addEventListener('keydown',function(e){
+    var t=e.target;if(!t||!t.classList||!t.classList.contains('mnIn'))return;
+    var root=t.closest('#mnItems,#stItems');if(!root||!t.closest('.mnCell'))return;
+    var k=e.key;if(['Enter','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].indexOf(k)<0)return;
+    if(e.isComposing||e.ctrlKey||e.altKey||e.metaKey||e.shiftKey)return;
+    var g=cells(root),r=-1,c=-1;
+    for(var a=0;a<g.length;a++){var b=g[a].indexOf(t);if(b>=0){r=a;c=b;break}}
+    if(r<0)return;
+    var n=null;
+    /* RTL: ترتیب DOM = از راست به چپ؛ چپ = سلول بعدی، راست = قبلی */
+    if(k==='Enter'||k==='ArrowLeft'){n=g[r][c+1]||(g[r+1]&&g[r+1][0]);if(!n&&k==='ArrowLeft')n=null}
+    else if(k==='ArrowRight'){n=g[r][c-1]||(g[r-1]&&g[r-1][g[r-1].length-1])}
+    else if(k==='ArrowDown'){n=g[r+1]&&(g[r+1][c]||g[r+1][g[r+1].length-1])}
+    else if(k==='ArrowUp'){n=g[r-1]&&(g[r-1][c]||g[r-1][g[r-1].length-1])}
+    e.preventDefault();e.stopPropagation();
+    if(k==='Enter'&&!(g[r][c+1])){
+      var rw=t.closest('.mnRow'),all=rw.parentNode.querySelectorAll('.mnRow'),ad=rw.querySelector('.mnRowAdd');
+      if(ad&&all[all.length-1]===rw){
+        var itm=rw.closest('.mnItem'),idx=itm?itm.getAttribute('data-i'):null;
+        ad.click();
+        setTimeout(function(){var it2=idx!==null?root.querySelector('.mnItem[data-i="'+idx+'"]'):null;if(!it2)return;var rs=it2.querySelectorAll('.mnRow'),lr=rs[rs.length-1],f=lr&&lr.querySelector('.mnCell input.mnIn');if(f)go(f)},30);
+        return;
+      }
+    }
+    if(n)go(n);else if(k==='Enter')try{t.blur()}catch(x){}
+  },true);
+  document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('mnIn')&&t.closest('#mnItems,#stItems'))try{t.select()}catch(x){}});
+})();
+</script>
+<style id="v-fix-rowbtns">
+html body #mnItems#mnItems#mnItems#mnItems .mnRow .mnRowBtns,html body #stItems#stItems#stItems#stItems .mnRow .mnRowBtns{min-width:0!important;justify-self:end!important;justify-content:flex-end!important;margin-inline-start:auto!important}
+</style>
+<script id="v-mn-tabnav">
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Tab'||e.shiftKey||e.ctrlKey||e.altKey||e.metaKey||e.isComposing)return;
+  var t=e.target;if(!t||!t.classList||!t.classList.contains('mnIn')||!t.closest('.mnCell'))return;
+  var root=t.closest('#mnItems,#stItems');if(!root)return;
+  var it=t.closest('.mnItem');if(!it)return;
+  var items=[].slice.call(root.querySelectorAll('.mnItem')),i=items.indexOf(it),nx=items[i+1];
+  if(!nx)return;
+  var f=nx.querySelector('.mnRow .mnCell input.mnIn');if(!f)return;
+  e.preventDefault();e.stopPropagation();f.focus();try{f.select()}catch(x){}
+},true);
+</script>
