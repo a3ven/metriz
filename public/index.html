@@ -576,7 +576,7 @@ html body .mnSrchWrap .mnSrchIn[hidden]{display:none!important}
 #projectSetup .contractBox{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;border:1px solid var(--c5);border-radius:12px;background:var(--c8)}
 #projectSetup .contractBox[hidden]{display:none}
 #projectSetup .contractBox label{min-width:0}
-#projectSetup .contractBox input{width:100%;box-sizing:border-box;min-width:0}
+#projectSetup .contractBox input,#projectSetup .contractBox select{width:100%;box-sizing:border-box;min-width:0}
 #projectSetup .contractToggleRow .btn{width:100%}
 .projectSetupPanel{width:min(620px,96vw);background:var(--c35);border:1px solid var(--c37);border-radius:20px;padding:20px;box-shadow:0 25px 80px rgba(0,0,0,.55)}
 .projectSetupPanel h2{margin:0 0 6px}
@@ -2484,8 +2484,103 @@ html body .starredItem .desc{font-size:calc(var(--fs-body) + 2px)!important}
 html:root:root:root:root body .card.list#meterCard .listCode{font-size:16px!important}
 html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!important}
 </style>
-<style id="projYearFix">html body #projectList .projectItem small.projYear:empty::before{content:"\200b"}</style></head><body>
+<style id="projYearFix">html body #projectList .projectItem small.projYear:empty::before{content:"\200b"}</style><style id="fix-code-remark">
+/* شماره آیتم: کادر کاملاً گرد، هم‌قد دکمه‌های کنارش، هم‌رنگ بقیه */
+html body #mnItems#mnItems .mnChipRow>.mnCode.mnCodeBox,html body #stItems#stItems .mnChipRow>.mnCode.mnCodeBox{height:36px!important;min-height:36px!important;border-radius:999px!important;border:1px solid var(--sqBd,rgba(255,255,255,.08))!important;padding:0 16px!important}
+@media (max-width:720px){html body #mnEditor#mnEditor#mnEditor #mnItems .mnChipRow>.mnCode.mnCodeBox,html body #stEditor#stEditor#stEditor #stItems .mnChipRow>.mnCode.mnCodeBox,html body #mnItems#mnItems .mnChipRow>.mnCode.mnCodeBox,html body #stItems#stItems .mnChipRow>.mnCode.mnCodeBox{height:40px!important;min-height:40px!important}}
+/* ملاحظات: متن وسط‌چین عمودی */
+html body #mnItems#mnItems#mnItems .mnRow .mnRemark textarea,html body #stItems#stItems#stItems .mnRow .mnRemark textarea{padding:7px 14px!important;line-height:20px!important;box-sizing:border-box!important}
+</style>
+</head><body>
+<script id="v-coef-round4-core">
+/* ضرایب پروژه (طبقات، منطقه، بالاسری، پیشنهادی کل، ضرایب فصل): همیشه تا ۴ رقم اعشار گرد می‌شوند، در کل پروژه */
+(function(){
+  var st=null;
+  function r4(v){var n=Number(v);return isFinite(n)?Math.round(n*1e4)/1e4:v}
+  function norm(o){
+    if(!o||typeof o!=='object')return o;
+    ['floorCoef','regionCoef','overheadCoef','projectCoef'].forEach(function(k){if(o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=='')o[k]=r4(o[k])});
+    var m=o.chapterCoefficients;
+    if(m&&typeof m==='object')Object.keys(m).forEach(function(k){if(m[k]!==null&&m[k]!==''&&typeof m[k]!=='object')m[k]=r4(m[k])});
+    return o;
+  }
+  try{Object.defineProperty(window,'__mainProjectSettings',{configurable:true,get:function(){return st},set:function(v){st=norm(v)}})}catch(e){}
+})();
+</script>
 
+<style id="ui-match-v2">
+/* ۱) دکمه و کادر بخشنامه ۷۶۵۷۴ (صورت‌وضعیت) هم‌شکل بقیه دکمه‌ها */
+html body #stCover[id] .stModeBar #stfC76{font-size:var(--fs-btn)!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 16px!important;border-radius:18px!important}
+html body #stCover[id] .c76Sec{border-radius:var(--sqR2,24px)!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important;box-shadow:none!important;padding:8px 14px!important;gap:10px!important}
+html body #stCover[id] .stModeBar label.c76ChkLbl,html body #stCover[id] .c76Sec .c76ModeLbl{font-size:var(--fs-btn)!important;font-weight:700!important}
+html body #stCover[id] .c76Sec .c76ModeLbl select{height:38px!important;min-height:38px!important;border-radius:var(--sqR3,22px)!important;font-size:var(--fs-input)!important}
+/* ۲) تعدیل صورت‌وضعیت: عرض کادر فعلی/قبلی بیشتر، تاریخ/سال/دوره کمتر */
+html body #stAdjM[id] .stadTop{grid-template-columns:minmax(0,2.3fr) minmax(0,1fr) minmax(0,.8fr) minmax(0,1fr)!important}
+html body #stAdjM[id] .stadTop .stadW2{grid-column:3 / -1}
+html body #stAdjM[id] .stadTop .stadPair select{font-size:var(--fs-input)!important;text-overflow:clip}
+html body #stAdjM[id] .stadTop .stadPair select.stadVer{flex:0 0 78px;width:78px!important}
+@media (max-width:640px){
+ html body #stAdjM[id] .stadTop{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html body #stAdjM[id] .stadTop .stadW2{grid-column:1 / -1}
+ html body #stAdjM[id] .stadTop .mnField:has(.stadPair){grid-column:1 / -1}
+}
+/* ۳) قیمت جدید: «کپی آنالیز» و «افزودن ردیف» هم‌اندازه و هم‌شکل */
+html body .analysisCopyRow #analysisCopyBtn,html body .analysisSectionTitle .analysisAddRow{height:var(--ctl-h)!important;min-height:var(--ctl-h)!important;padding:4px 16px!important;border-radius:18px!important;font-size:var(--fs-btn)!important;font-weight:800!important;line-height:1.3!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;background:var(--btnPrimaryBg)!important;color:var(--btnPrimaryText)!important;border:1px solid var(--btnPrimaryBg)!important}
+/* ۴) جدول‌ها: اسکرول فقط وقتی لازم است (حذف سرریز ۲ پیکسلی ناشی از margin:-1px / width:calc(100% + 2px)) */
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap) :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable){margin:0!important;width:100%!important;max-width:100%!important;border:0!important}
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap) :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) :is(th,td):first-child{border-inline-start-width:0!important}
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap) :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) :is(th,td):last-child{border-inline-end-width:0!important}
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap) :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) thead tr:first-child :is(th,td){border-top-width:0!important}
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap) :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) tbody:last-child tr:last-child :is(th,td){border-bottom-width:0!important}
+/* ۵) ریزمتره هزینه-درآمد: دکمه مقدمه فصل متنی و چسبیده به کادر فصل، مثل ریزمتره‌های دیگر */
+html body #ciEditor#ciEditor#ciEditor#ciEditor .mnChapWrap{gap:0!important}
+html body #ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro.mnChapIntroBtn{box-sizing:border-box!important;width:auto!important;min-width:0!important;max-width:none!important;flex:0 0 auto!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0 14px!important;white-space:nowrap;display:inline-flex!important;align-items:center;justify-content:center;font-size:var(--fs-btn)!important;font-weight:700!important;color:var(--glFg,var(--c2))!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important;border-radius:22px 0 0 22px!important;box-shadow:none!important}
+html body #ciEditor#ciEditor#ciEditor#ciEditor .mnChapWrap>select{border-top-left-radius:0!important;border-bottom-left-radius:0!important;border-top-right-radius:var(--sqR3,22px)!important;border-bottom-right-radius:var(--sqR3,22px)!important}
+html body #ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro.mnChapIntroBtn{margin-inline-start:-1px!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;border-top-left-radius:22px!important;border-bottom-left-radius:22px!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"])){gap:0!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"]))>select{border-top-left-radius:0!important;border-bottom-left-radius:0!important;border-top-right-radius:var(--sqR3,22px)!important;border-bottom-right-radius:var(--sqR3,22px)!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"]))>.mnFreeTxt{margin:0 0 0 0!important;margin-inline-start:-1px!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;border-top-left-radius:22px!important;border-bottom-left-radius:22px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"])){gap:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"]))>select{border-top-left-radius:0!important;border-bottom-left-radius:0!important;border-top-right-radius:var(--sqR3,22px)!important;border-bottom-right-radius:var(--sqR3,22px)!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnItemWrap:not(:has(>.mnFreeTxt[aria-expanded="true"]))>.mnFreeTxt{margin:0 0 0 0!important;margin-inline-start:-1px!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;border-top-left-radius:22px!important;border-bottom-left-radius:22px!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnChapWrap{gap:0!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnChapWrap>select{border-top-left-radius:0!important;border-bottom-left-radius:0!important;border-top-right-radius:var(--sqR3,22px)!important;border-bottom-right-radius:var(--sqR3,22px)!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor .mnChapWrap>.mnChapIntroBtn{margin:0!important;margin-inline-start:-1px!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;border-top-left-radius:22px!important;border-bottom-left-radius:22px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnChapWrap>select+.mnChapIntroBtn{margin-inline-start:-9px!important;border-top-right-radius:0!important;border-bottom-right-radius:0!important;border-top-left-radius:22px!important;border-bottom-left-radius:22px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnChapWrap>select:has(+.mnChapIntroBtn){border-top-left-radius:0!important;border-bottom-left-radius:0!important}
+html body #stChapIntro#stChapIntro#stChapIntro#stChapIntro#stChapIntro.mnChapIntroBtn,html body #mnChapIntro#mnChapIntro#mnChapIntro#mnChapIntro#mnChapIntro.mnChapIntroBtn{background:var(--sqBg,var(--c8))!important;color:var(--glFg,var(--c2))!important;border:1px solid var(--sqBd,var(--c5))!important;box-shadow:none!important}
+/* ۷) برگه مالی: دکمه مثلث باز/بسته‌کردن شرح آیتم، هم‌شکل دکمه‌های گرد پروژه */
+html body .mnClampWrap{gap:10px!important;align-items:center!important}
+html body .mnClampWrap .mnClampBtn{flex:0 0 34px!important;width:34px!important;height:34px!important;min-width:34px!important;border-radius:50%!important;background:var(--glBg,var(--c8))!important;border:1px solid var(--glBd,var(--c5))!important;color:var(--glFg,var(--c2))!important;box-shadow:none!important;transition:transform .12s ease,background .12s ease;-webkit-tap-highlight-color:transparent}
+html body .mnClampWrap .mnClampBtn:active{transform:scale(.92)}
+html body .mnClampWrap .mnClampBtn svg{width:16px!important;height:16px!important;transition:transform .2s ease}
+html body .mnClampWrap.open .mnClampBtn{background:var(--sqBg,var(--c9))!important}
+/* ۸) پنجره «صورت‌وضعیت جدید»: گردی گوشه‌ها مثل بقیه پروژه و فونت بزرگ‌تر */
+html body #stNewM#stNewM#stNewM .mnPanel{border-radius:var(--sqR2,24px)!important;padding:18px 18px 18px!important}
+html body #stNewM#stNewM#stNewM .mnPanel>.mnHead>b{font-size:20px!important;font-weight:800!important}
+html body #stNewM#stNewM#stNewM .stnBody{gap:12px!important}
+html body #stNewM#stNewM#stNewM .stnOpt{border-radius:var(--sqR3,22px)!important;padding:16px 18px!important;gap:14px!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important}
+html body #stNewM#stNewM#stNewM .stnOpt.on{border-color:var(--c2)!important}
+html body #stNewM#stNewM#stNewM .stnOpt input[type=radio]{width:24px!important;height:24px!important;min-width:24px!important;flex:0 0 24px!important}
+html body #stNewM#stNewM#stNewM .stnOptTxt b{font-size:18px!important;font-weight:800!important}
+html body #stNewM#stNewM#stNewM .stnOptTxt small{font-size:15px!important;line-height:1.7!important}
+html body #stNewM#stNewM#stNewM .mnField{font-size:17px!important}
+html body #stNewM#stNewM#stNewM .mnField select{font-size:17px!important;min-height:48px!important}
+html body #stNewM#stNewM#stNewM .stnActions{display:flex!important;gap:10px!important;margin-top:16px!important}
+html body #stNewM#stNewM#stNewM .stnActions .btn{flex:1 1 0!important;min-height:50px!important;height:50px!important;padding:0 22px!important;border-radius:18px!important;font-size:18px!important;font-weight:800!important}
+html body #stNewM#stNewM#stNewM .mnCloseBtn{width:44px!important;height:44px!important;min-width:44px!important;border-radius:50%!important;font-size:20px!important}
+/* ۶) کادر دور شماره آیتم در کارت آیتم، مثل کادر کد در بقیه ریزمتره‌ها */
+html body .mnItem .mnHeadMain>.mnCode{display:inline-flex!important;align-items:center;box-sizing:border-box;height:36px;padding:0 16px!important;border-radius:999px!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important}
+</style>
+<style id="auth-btn-match">
+/* دکمه‌های صفحه ورود: هم‌شکل با کارت‌ها و دکمه‌های صفحه اول پروژه (گردی، ارتفاع، حاشیه، فونت) */
+html body #authGate .authBtns{display:flex!important;margin-top:10px!important;gap:0!important}
+html body #authGate .authBtns .btn{flex:1 1 auto;width:100%;min-height:var(--ctl-h)!important;height:var(--ctl-h)!important;padding:4px 10px!important;border-radius:14px!important;background:var(--c8)!important;color:var(--c2)!important;border:1px solid var(--c5)!important;box-shadow:none!important;font-family:inherit;font-size:var(--fs-btn,16px)!important;font-weight:800!important;line-height:1.3!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;transition:transform .12s ease,background .12s ease,border-color .12s ease;-webkit-tap-highlight-color:transparent}
+html body #authGate .authBtns .btn.primary{background:var(--btnPrimaryBg)!important;color:var(--btnPrimaryText)!important;border-color:var(--btnPrimaryBg)!important}
+html body #authGate .authBtns .btn:active{transform:scale(.97);background:var(--c9)!important}
+html body #authGate .authBtns .btn.primary:active{background:var(--btnPrimaryBg)!important;opacity:.9}
+@media (hover:hover){html body #authGate .authBtns .btn:not(.primary):hover{border-color:var(--c6)!important}}
+</style>
 <div id="authGate">
   <div class="authBox">
     <div class="brandEn" dir="ltr" role="img" aria-label="METRIZ"><span class="mzs"><svg class="m77" viewBox="0 3.7 78 68.3" aria-hidden="true" focusable="false"><path d="M0.00 5.09A1.70 1.70 0 0 1 3.06 4.06L37.66 50.05A1.70 1.70 0 0 1 38.00 51.07L38.00 66.92A1.70 1.70 0 0 1 34.94 67.94L16.06 42.86A1.70 1.70 0 0 0 13.00 43.88L13.00 70.30A1.70 1.70 0 0 1 11.30 72.00L1.70 72.00A1.70 1.70 0 0 1 0.00 70.30Z"/><path d="M0.00 5.09A1.70 1.70 0 0 1 3.06 4.06L37.66 50.05A1.70 1.70 0 0 1 38.00 51.07L38.00 66.92A1.70 1.70 0 0 1 34.94 67.94L16.06 42.86A1.70 1.70 0 0 0 13.00 43.88L13.00 70.30A1.70 1.70 0 0 1 11.30 72.00L1.70 72.00A1.70 1.70 0 0 1 0.00 70.30Z" transform="translate(78 0) scale(-1 1)"/></svg><svg class="e77" viewBox="0 0 43.9 71.6" aria-hidden="true" focusable="false"><path d="M43.80 65.00L43.75 64.95L43.75 64.80L43.70 64.75L43.65 64.50L43.30 63.75L43.20 63.60L42.35 62.75L42.30 62.75L41.90 62.40L40.90 61.90L40.80 61.90L40.30 61.70L40.10 61.70L40.05 61.65L39.05 61.60L39.00 61.55L32.45 61.55L32.40 61.60L23.20 61.60L23.15 61.65L20.25 61.65L20.20 61.70L19.85 61.70L19.40 61.90L19.00 62.30L18.90 62.45L18.90 62.55L18.80 62.70L18.80 62.85L18.75 62.90L18.75 70.15L18.80 70.20L18.80 70.35L18.90 70.50L18.90 70.60L19.40 71.15L19.85 71.35L20.20 71.35L20.25 71.40L39.35 71.40L39.40 71.35L39.75 71.35L39.80 71.30L40.30 71.25L40.35 71.20L40.90 71.05L42.10 70.45L42.85 69.75L42.85 69.70L43.20 69.35L43.40 68.95L43.50 68.85L43.75 68.20L43.80 67.75L43.85 67.70L43.85 65.30L43.80 65.25ZM18.75 1.25L18.75 8.50L18.80 8.55L18.80 8.70L18.90 8.85L18.90 8.95L19.00 9.10L19.40 9.50L19.85 9.70L20.20 9.70L20.25 9.75L23.15 9.75L23.20 9.80L32.40 9.80L32.45 9.85L39.35 9.85L39.40 9.80L39.75 9.80L39.80 9.75L40.30 9.70L40.35 9.65L40.90 9.50L41.90 9.00L42.30 8.65L42.35 8.65L43.20 7.80L43.30 7.65L43.40 7.40L43.55 7.20L43.55 7.10L43.65 6.95L43.65 6.85L43.75 6.65L43.75 6.50L43.80 6.45L43.80 6.15L43.85 6.10L43.85 3.75L43.80 3.70L43.80 3.40L43.75 3.35L43.70 3.05L43.30 2.20L43.20 2.05L42.35 1.20L42.30 1.20L41.90 0.85L40.90 0.35L40.80 0.35L40.30 0.15L39.80 0.10L39.75 0.05L39.40 0.05L39.35 0.00L20.25 0.00L20.20 0.05L19.85 0.05L19.40 0.25L18.90 0.80L18.90 0.90L18.80 1.05L18.80 1.20ZM4.65 0.00L4.60 0.05L4.25 0.05L4.20 0.10L3.65 0.15L3.60 0.20L2.90 0.40L2.10 0.80L1.60 1.15L0.70 2.00L0.30 2.65L0.30 2.75L0.10 3.15L0.10 3.30L0.00 3.55L0.00 67.85L0.05 67.90L0.10 68.25L0.25 68.55L0.25 68.65L0.65 69.35L1.60 70.30L1.80 70.45L2.90 71.00L3.00 71.00L3.65 71.25L4.20 71.30L4.25 71.35L4.60 71.35L4.65 71.40L10.90 71.40L10.95 71.35L11.30 71.35L11.75 71.15L12.25 70.60L12.25 70.50L12.35 70.35L12.35 70.20L12.40 70.15L12.40 40.75L12.45 40.70L39.00 40.70L39.05 40.65L39.95 40.60L40.15 40.50L40.30 40.50L40.35 40.45L40.90 40.30L41.90 39.80L42.35 39.40L42.40 39.40L42.85 38.95L42.85 38.90L43.30 38.40L43.65 37.65L43.65 37.55L43.75 37.35L43.75 37.20L43.80 37.15L43.80 36.90L43.85 36.85L43.85 34.50L43.80 34.45L43.75 33.95L43.40 33.10L43.20 32.80L42.40 31.95L42.00 31.65L41.20 31.20L41.10 31.20L40.30 30.90L39.80 30.85L39.75 30.80L39.40 30.80L39.35 30.75L12.45 30.75L12.40 30.70L12.40 1.25L12.35 1.20L12.35 1.05L12.15 0.65L11.75 0.25L11.30 0.05L10.95 0.05L10.90 0.00Z"/></svg><svg class="t77" viewBox="0 0 58 72" aria-hidden="true" focusable="false"><polygon points="0,0 28.25,0 26,72 18.7,72 20.55,13 0,13"/><polygon points="0,0 28.25,0 26,72 18.7,72 20.55,13 0,13" transform="translate(58 0) scale(-1 1)"/></svg><svg class="r77" viewBox="0 0 45.05 71.6" aria-hidden="true" focusable="false"><path d="M19.75 0.05L19.30 0.25L18.85 0.70L18.75 0.85L18.75 0.95L18.65 1.10L18.65 1.25L18.60 1.30L18.60 8.45L18.65 8.50L18.65 8.65L18.75 8.80L18.75 8.90L19.30 9.50L19.75 9.70L20.10 9.70L20.15 9.75L23.50 9.75L23.55 9.80L24.65 9.85L24.70 9.90L24.95 9.90L25.00 9.95L25.25 9.95L25.30 10.00L25.75 10.05L25.80 10.10L26.10 10.15L26.45 10.30L26.60 10.30L26.95 10.45L27.10 10.45L27.35 10.60L27.45 10.60L27.70 10.75L27.80 10.75L28.15 10.95L28.25 10.95L28.85 11.25L29.60 11.75L30.40 12.45L30.45 12.45L30.95 12.95L31.50 13.70L32.10 14.90L32.10 15.05L32.25 15.45L32.30 16.05L32.35 16.10L32.35 16.80L32.40 16.85L32.40 17.25L32.45 17.30L32.50 18.65L32.55 18.70L32.55 19.60L32.50 19.65L32.45 21.45L32.40 21.50L32.35 24.85L32.30 24.90L32.30 25.20L32.25 25.25L32.20 25.70L32.15 25.75L32.10 26.05L32.00 26.20L32.00 26.30L31.50 27.25L30.95 28.00L30.15 28.80L29.95 28.90L29.40 29.35L29.10 29.50L28.85 29.70L28.00 30.10L27.90 30.20L26.25 30.80L26.05 30.80L26.00 30.85L25.80 30.85L25.75 30.90L25.55 30.90L25.50 30.95L25.30 30.95L25.25 31.00L25.00 31.00L24.95 31.05L24.70 31.05L24.65 31.10L23.55 31.15L23.50 31.20L20.15 31.20L20.10 31.25L19.75 31.25L19.30 31.45L18.75 32.05L18.75 32.15L18.65 32.30L18.65 32.45L18.60 32.50L18.60 41.55L18.65 41.60L18.65 41.75L19.10 42.65L19.10 42.75L19.55 43.60L19.55 43.70L20.00 44.55L20.00 44.65L20.45 45.50L20.45 45.60L20.90 46.45L20.90 46.55L21.35 47.40L21.35 47.50L21.80 48.35L21.80 48.45L22.25 49.30L22.25 49.40L22.70 50.25L22.70 50.35L23.15 51.20L23.15 51.30L23.60 52.15L23.60 52.25L24.05 53.10L24.05 53.20L25.00 55.10L25.00 55.20L25.45 56.05L25.45 56.15L25.90 57.00L25.90 57.10L26.35 57.95L26.35 58.05L26.80 58.90L26.80 59.00L27.25 59.85L27.25 59.95L27.70 60.80L27.70 60.90L28.15 61.75L28.15 61.85L28.60 62.70L28.60 62.80L29.05 63.65L29.05 63.75L29.50 64.60L29.50 64.70L29.95 65.55L29.95 65.65L30.40 66.50L30.40 66.60L30.85 67.45L30.85 67.55L31.30 68.40L31.30 68.50L31.85 69.50L32.95 70.65L33.25 70.85L34.05 71.25L34.15 71.25L34.65 71.45L34.90 71.45L34.95 71.50L35.30 71.50L35.35 71.55L37.25 71.55L37.30 71.50L37.95 71.45L38.35 71.30L38.50 71.30L38.55 71.25L38.90 71.20L39.10 71.10L39.65 71.00L39.85 70.90L40.20 70.85L40.25 70.80L40.80 70.65L41.65 70.20L41.85 70.05L42.95 68.95L43.30 68.30L43.30 68.20L43.45 67.90L43.50 67.55L43.55 67.50L43.55 66.55L43.50 66.50L43.45 66.10L43.40 66.05L43.35 65.80L43.25 65.65L43.25 65.55L42.95 65.00L42.95 64.90L42.45 63.95L42.45 63.85L42.00 63.00L42.00 62.90L41.55 62.05L41.55 61.95L40.60 60.05L40.60 59.95L40.15 59.10L40.15 59.00L39.70 58.15L39.70 58.05L38.75 56.15L38.75 56.05L38.30 55.20L38.30 55.10L37.85 54.25L37.85 54.15L36.90 52.25L36.90 52.15L36.45 51.30L36.45 51.20L36.00 50.35L36.00 50.25L35.05 48.35L35.05 48.25L34.60 47.40L34.60 47.30L34.15 46.45L34.15 46.35L33.70 45.50L33.70 45.40L33.20 44.45L33.20 44.35L32.75 43.50L32.75 43.40L32.30 42.55L32.30 42.45L31.85 41.60L31.85 41.50L31.35 40.55L31.35 40.45L31.05 39.85L31.10 39.80L31.40 39.75L31.45 39.70L31.70 39.65L31.85 39.55L32.40 39.40L32.55 39.30L32.95 39.20L34.95 38.25L35.05 38.15L35.40 38.00L35.50 37.90L35.75 37.80L35.85 37.70L36.10 37.60L36.45 37.35L36.95 37.10L38.15 36.25L38.65 35.80L39.45 35.20L40.00 34.65L40.05 34.65L41.55 33.10L41.55 33.05L41.80 32.80L41.80 32.75L42.00 32.55L42.60 31.75L42.85 31.30L42.95 31.20L43.00 31.05L43.35 30.55L43.40 30.40L43.50 30.30L43.75 29.80L43.75 29.70L43.95 29.35L43.95 29.25L44.25 28.60L44.25 28.50L44.50 27.85L44.65 27.10L44.70 27.05L44.70 26.85L44.75 26.80L44.75 26.60L44.80 26.55L44.80 26.25L44.85 26.20L44.85 25.75L44.90 25.70L44.95 23.75L45.00 23.70L45.00 17.45L44.95 17.40L44.95 16.30L44.90 16.25L44.90 15.45L44.85 15.40L44.85 14.85L44.80 14.80L44.80 14.50L44.75 14.45L44.75 14.20L44.70 14.15L44.65 13.70L44.60 13.65L44.50 13.10L44.40 12.90L44.40 12.75L44.35 12.70L44.25 12.30L44.15 12.15L44.15 12.05L44.05 11.90L44.05 11.80L43.95 11.65L43.95 11.55L43.80 11.30L43.80 11.20L43.30 10.20L42.40 8.85L41.75 8.10L41.35 7.55L40.15 6.35L40.10 6.35L39.55 5.80L39.50 5.80L38.90 5.25L37.35 4.15L37.20 4.10L36.35 3.55L35.90 3.35L35.80 3.25L34.60 2.65L34.50 2.65L33.55 2.15L33.30 2.10L33.15 2.00L32.45 1.80L31.80 1.50L31.70 1.50L30.90 1.20L30.75 1.20L30.55 1.10L30.40 1.10L30.20 1.00L29.65 0.90L29.45 0.80L29.30 0.80L29.25 0.75L29.10 0.75L29.05 0.70L28.90 0.70L28.65 0.60L28.35 0.60L28.30 0.55L27.75 0.50L27.70 0.45L27.50 0.45L27.45 0.40L27.25 0.40L27.20 0.35L27.00 0.35L26.95 0.30L26.70 0.30L26.65 0.25L25.80 0.20L25.75 0.15L25.35 0.15L25.30 0.10L24.85 0.10L24.80 0.05L24.20 0.05L24.15 0.00L20.15 0.00L20.10 0.05ZM4.50 0.00L4.45 0.05L3.75 0.10L3.70 0.15L3.45 0.15L3.40 0.20L3.10 0.25L2.85 0.40L2.50 0.50L1.60 1.00L0.60 2.00L0.25 2.65L0.25 2.75L0.15 2.90L0.15 3.00L0.05 3.20L0.05 3.35L0.00 3.40L0.00 67.95L0.05 68.00L0.10 68.35L0.25 68.65L0.25 68.75L0.45 69.15L0.70 69.50L1.50 70.30L2.10 70.70L2.50 70.90L2.60 70.90L2.75 71.00L2.85 71.00L3.05 71.10L3.20 71.10L3.55 71.25L4.05 71.30L4.10 71.35L4.45 71.35L4.50 71.40L7.90 71.40L7.95 71.35L8.30 71.35L8.35 71.30L8.85 71.25L8.90 71.20L9.75 70.95L10.45 70.60L10.60 70.45L10.90 70.30L11.60 69.60L12.00 69.05L12.00 68.95L12.30 68.35L12.35 67.85L12.40 67.80L12.40 1.25L12.35 1.20L12.35 1.05L12.25 0.90L12.25 0.80L12.15 0.65L11.75 0.25L11.30 0.05L10.95 0.05L10.90 0.00Z"/></svg><svg class="i77" viewBox="0 0 12.7 71.6" aria-hidden="true" focusable="false"><path d="M4.15 0.00L4.10 0.05L3.75 0.05L3.70 0.10L3.15 0.15L3.10 0.20L2.70 0.30L2.25 0.55L2.15 0.55L1.85 0.70L1.45 1.00L0.70 1.75L0.35 2.25L0.25 2.45L0.25 2.55L0.15 2.70L0.15 2.85L0.10 2.90L0.10 3.05L0.00 3.30L0.00 68.35L0.05 68.40L0.15 68.95L0.25 69.10L0.35 69.45L0.70 69.95L1.45 70.70L1.85 71.00L2.15 71.15L2.25 71.15L2.70 71.40L2.80 71.40L3.15 71.55L3.40 71.55L3.45 71.60L3.70 71.60L3.75 71.65L4.10 71.65L4.15 71.70L8.40 71.70L8.45 71.65L8.80 71.65L8.85 71.60L9.15 71.60L9.20 71.55L9.65 71.50L9.70 71.45L9.95 71.40L10.40 71.15L10.50 71.15L11.00 70.85L11.95 69.95L12.30 69.45L12.30 69.35L12.50 68.95L12.50 68.80L12.60 68.55L12.60 68.35L12.65 68.30L12.65 3.30L12.60 3.25L12.60 3.10L12.55 3.05L12.55 2.90L12.50 2.85L12.50 2.70L12.40 2.55L12.40 2.45L11.95 1.75L11.25 1.05L11.20 1.05L10.80 0.70L10.50 0.55L10.40 0.55L9.95 0.30L9.85 0.30L9.65 0.20L9.50 0.20L9.45 0.15L8.85 0.10L8.80 0.05L8.45 0.05L8.40 0.00Z"/></svg></span><svg class="z77" viewBox="0 0 90.26 100" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M89.10 0.31L88.32 0.00L66.51 0.00L65.58 0.39L64.95 1.01L64.49 2.02L64.25 2.88L64.10 3.12L63.86 3.97L63.71 4.21L63.47 5.06L63.32 5.30L63.08 6.15L62.93 6.39L62.69 7.24L62.54 7.48L62.31 8.33L62.15 8.57L61.92 9.42L61.76 9.66L61.53 10.51L61.37 10.75L61.14 11.60L60.98 11.84L60.75 12.69L60.59 12.93L60.36 13.79L60.20 14.02L59.97 14.88L59.81 15.11L56.46 24.69L56.00 25.78L55.76 26.64L55.61 26.87L55.37 27.73L55.22 27.96L54.98 28.82L54.83 29.05L54.60 29.91L54.44 30.14L54.21 31.00L54.05 31.23L53.82 32.09L53.66 32.32L53.43 33.18L53.27 33.41L53.04 34.27L52.88 34.50L52.65 35.36L52.49 35.59L52.26 36.45L52.10 36.68L51.87 37.54L51.71 37.77L51.48 38.63L51.32 38.86L51.09 39.72L50.93 39.95L50.70 40.81L50.55 41.04L50.31 41.90L50.16 42.13L49.92 42.99L49.77 43.22L49.53 44.08L49.38 44.31L49.14 45.17L48.99 45.40L48.75 46.26L48.60 46.50L48.36 47.35L47.43 49.77L47.12 50.86L46.96 51.09L46.73 51.95L46.57 52.18L46.34 53.04L46.18 53.27L45.95 54.13L45.79 54.36L45.56 55.22L45.40 55.45L45.17 56.31L45.02 56.54L44.78 57.40L44.63 57.63L44.39 58.49L44.24 58.72L44.00 59.58L43.85 59.81L43.61 60.67L43.46 60.90L43.22 61.76L43.07 61.99L42.83 62.85L42.68 63.08L42.45 63.94L42.29 64.17L42.06 65.03L41.90 65.26L41.67 66.12L41.51 66.36L38.16 75.93L37.31 78.12L36.21 81.39L35.75 82.48L35.51 83.33L35.36 83.57L35.12 84.42L34.97 84.66L34.74 85.51L34.58 85.75L34.35 86.60L34.19 86.84L33.96 87.69L33.80 87.93L33.57 88.79L33.41 89.02L33.18 89.88L33.02 90.11L32.79 90.97L32.63 91.20L32.40 92.06L32.24 92.29L32.01 93.15L30.69 96.73L30.61 97.51L30.69 97.59L30.69 98.05L30.92 98.60L31.62 99.38L32.55 99.77L88.32 99.77L89.10 99.45L89.88 98.68L90.19 97.90L90.19 1.87L89.88 1.09ZM83.64 16.90L84.19 17.21L84.58 17.60L84.89 18.15L84.97 18.93L85.05 19.00L85.05 83.64L84.81 84.74L84.03 85.59L83.18 85.90L59.50 85.90L58.64 85.59L57.87 84.74L57.71 84.27L57.71 83.26L58.41 81.46L58.64 80.61L58.80 80.37L59.03 79.52L59.19 79.28L59.42 78.43L59.58 78.19L59.81 77.34L59.97 77.10L60.20 76.25L60.36 76.01L60.59 75.16L60.75 74.92L60.98 74.07L61.14 73.83L61.37 72.98L61.53 72.74L61.76 71.88L61.92 71.65L62.15 70.79L62.31 70.56L62.54 69.70L62.69 69.47L62.93 68.61L63.08 68.38L63.32 67.52L63.47 67.29L63.71 66.43L63.86 66.20L64.10 65.34L64.25 65.11L64.49 64.25L64.64 64.02L64.88 63.16L65.03 62.93L65.26 62.07L65.42 61.84L65.65 60.98L65.81 60.75L66.04 59.89L66.20 59.66L66.43 58.80L66.59 58.57L66.82 57.71L66.98 57.48L67.21 56.62L67.37 56.39L67.60 55.53L67.76 55.30L67.99 54.44L68.15 54.21L68.38 53.35L68.54 53.12L68.77 52.26L68.93 52.02L69.16 51.17L69.31 50.93L69.55 50.08L69.70 49.84L69.94 48.99L70.09 48.75L70.33 47.90L70.48 47.66L70.72 46.81L70.87 46.57L71.11 45.72L71.26 45.48L71.50 44.63L71.65 44.39L71.88 43.54L72.04 43.30L72.27 42.45L72.43 42.21L72.66 41.36L72.82 41.12L73.05 40.26L73.21 40.03L73.44 39.17L73.60 38.94L73.83 38.08L73.99 37.85L74.22 36.99L74.38 36.76L74.61 35.90L74.77 35.67L75.00 34.81L75.16 34.58L75.39 33.72L75.55 33.49L75.78 32.63L75.93 32.40L76.17 31.54L76.32 31.31L76.56 30.45L76.71 30.22L76.95 29.36L77.10 29.13L77.34 28.27L77.49 28.04L77.73 27.18L77.88 26.95L78.12 26.09L78.27 25.86L78.50 25.00L78.66 24.77L78.89 23.91L79.75 21.73L80.84 18.46L81.15 17.76L82.01 16.98L82.48 16.82ZM57.24 0.16L56.78 0.00L1.87 0.00L1.09 0.31L0.31 1.09L0.00 1.87L0.00 11.99L0.16 12.46L0.55 13.08L1.40 13.71L1.87 13.86L29.44 13.86L29.52 13.94L30.06 13.94L30.84 14.33L31.23 14.72L31.62 15.50L31.62 16.43L31.23 17.60L31.07 17.83L28.89 24.14L28.43 25.23L28.19 26.09L28.04 26.32L27.80 27.18L27.65 27.41L27.41 28.27L27.26 28.50L27.02 29.36L26.87 29.60L26.64 30.45L26.48 30.69L26.25 31.54L26.09 31.78L25.86 32.63L25.70 32.87L25.47 33.72L25.31 33.96L25.08 34.81L24.92 35.05L24.69 35.90L24.53 36.14L24.30 36.99L24.14 37.23L23.91 38.08L23.75 38.32L23.52 39.17L23.36 39.41L23.13 40.26L22.98 40.50L22.74 41.36L22.59 41.59L22.35 42.45L22.20 42.68L21.96 43.54L21.81 43.77L21.57 44.63L21.42 44.86L21.18 45.72L21.03 45.95L20.79 46.81L20.64 47.04L20.40 47.90L20.25 48.13L20.02 48.99L19.86 49.22L19.63 50.08L19.47 50.31L19.24 51.17L19.08 51.40L18.85 52.26L18.69 52.49L18.46 53.35L18.30 53.58L17.29 56.62L16.82 57.71L16.59 58.57L16.43 58.80L16.20 59.66L16.04 59.89L15.81 60.75L15.65 60.98L15.42 61.84L15.26 62.07L15.03 62.93L14.88 63.16L14.64 64.02L14.49 64.25L14.25 65.11L14.10 65.34L13.86 66.20L13.71 66.43L13.47 67.29L13.32 67.52L13.08 68.38L12.93 68.61L12.69 69.47L12.54 69.70L12.31 70.56L12.15 70.79L11.92 71.65L11.76 71.88L11.53 72.74L11.37 72.98L11.14 73.83L10.98 74.07L10.75 74.92L10.59 75.16L10.36 76.01L10.20 76.25L9.97 77.10L9.81 77.34L9.58 78.19L9.42 78.43L9.19 79.28L9.03 79.52L8.80 80.37L8.64 80.61L8.41 81.46L8.26 81.70L8.02 82.55L7.87 82.79L7.63 83.64L7.48 83.88L7.24 84.74L7.09 84.97L6.85 85.83L6.70 86.06L6.46 86.92L6.31 87.15L6.07 88.01L5.92 88.24L5.69 89.10L5.53 89.33L5.30 90.19L5.14 90.42L4.91 91.28L4.75 91.51L4.52 92.37L4.36 92.60L4.13 93.46L3.97 93.69L2.80 97.04L2.88 98.29L3.19 98.91L3.97 99.61L4.52 99.84L4.98 99.84L5.06 99.92L22.43 99.92L22.51 99.84L22.90 99.84L23.60 99.53L24.38 98.75L25.62 95.25L25.78 95.02L26.01 94.16L26.17 93.93L26.40 93.07L26.56 92.83L26.79 91.98L26.95 91.74L27.18 90.89L27.34 90.65L27.57 89.80L27.73 89.56L27.96 88.71L28.12 88.47L28.35 87.62L28.50 87.38L28.74 86.53L28.89 86.29L29.13 85.44L29.28 85.20L29.52 84.35L29.67 84.11L29.91 83.26L30.06 83.02L30.30 82.17L30.45 81.93L30.69 81.07L30.84 80.84L31.07 79.98L31.23 79.75L31.46 78.89L31.62 78.66L31.85 77.80L32.01 77.57L32.24 76.71L32.40 76.48L32.63 75.62L32.79 75.39L33.02 74.53L33.18 74.30L33.41 73.44L33.57 73.21L33.80 72.35L33.96 72.12L34.19 71.26L34.35 71.03L34.58 70.17L34.74 69.94L34.97 69.08L35.12 68.85L35.36 67.99L35.51 67.76L35.75 66.90L35.90 66.67L36.14 65.81L36.29 65.58L36.53 64.72L36.68 64.49L36.92 63.63L37.07 63.40L37.31 62.54L37.46 62.31L37.69 61.45L37.85 61.21L38.08 60.36L38.24 60.12L38.47 59.27L38.63 59.03L38.86 58.18L39.02 57.94L39.25 57.09L39.41 56.85L39.64 56.00L39.80 55.76L40.03 54.91L40.19 54.67L40.42 53.82L40.58 53.58L40.81 52.73L40.97 52.49L41.20 51.64L41.36 51.40L41.59 50.55L41.74 50.31L41.98 49.45L42.13 49.22L42.37 48.36L42.52 48.13L42.76 47.27L42.91 47.04L43.15 46.18L43.30 45.95L43.54 45.09L43.69 44.86L43.93 44.00L44.08 43.77L44.31 42.91L44.47 42.68L44.70 41.82L44.86 41.59L45.09 40.73L45.25 40.50L45.48 39.64L45.64 39.41L45.87 38.55L46.03 38.32L46.26 37.46L46.42 37.23L46.65 36.37L46.81 36.14L47.04 35.28L47.20 35.05L47.43 34.19L47.59 33.96L47.82 33.10L47.98 32.87L48.21 32.01L48.36 31.78L48.60 30.92L48.75 30.69L48.99 29.83L49.14 29.60L49.38 28.74L49.53 28.50L49.77 27.65L49.92 27.41L50.16 26.56L50.31 26.32L50.55 25.47L50.70 25.23L50.93 24.38L51.09 24.14L51.32 23.29L51.48 23.05L51.71 22.20L51.87 21.96L52.10 21.11L52.26 20.87L52.49 20.02L52.65 19.78L52.88 18.93L53.04 18.69L53.27 17.83L53.43 17.60L53.66 16.74L53.82 16.51L54.05 15.65L54.21 15.42L54.44 14.56L54.60 14.33L54.83 13.47L54.98 13.24L55.22 12.38L55.37 12.15L55.61 11.29L55.76 11.06L56.00 10.20L56.15 9.97L56.39 9.11L56.54 8.88L56.78 8.02L56.93 7.79L57.17 6.93L57.32 6.70L57.55 5.84L57.71 5.61L57.94 4.75L58.10 4.52L58.33 3.66L58.49 3.43L58.64 2.88L58.64 1.87L58.49 1.40L58.10 0.78Z"/></svg></div>
@@ -2532,7 +2627,7 @@ html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!impo
     var nm=n?String(n.textContent||'').trim():'';if(!nm)return null;
     var d=document.createElement('div');d.className='cplMenuUser';
     d.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>';
-    var b=document.createElement('b');b.textContent=nm;d.appendChild(b);
+    var b=document.createElement('b');b.textContent=nm;if(/[A-Za-z]/.test(nm))d.classList.add('latin');d.appendChild(b);
     if(!window.DEMO_MODE&&typeof window.openProfileEdit==='function'){
       d.classList.add('clickable');d.setAttribute('role','button');d.tabIndex=0;d.title='ویرایش پروفایل';d.setAttribute('aria-label','ویرایش پروفایل');
       var go=function(e){e.stopPropagation();['cplHomeMenu','cplCostMenu'].forEach(function(i){var m=document.getElementById(i);if(m)m.classList.remove('open')});window.openProfileEdit()};
@@ -2851,11 +2946,12 @@ html:root:root:root:root body .card.list#meterCard .listDesc{font-size:16px!impo
       <label class="wide">نام پروژه<input id="setupProjectName" placeholder="مثلاً پروژه ساختمان مسکونی" autocomplete="off"></label>
       <div class="wide contractToggleRow"><button type="button" class="btn" id="contractToggleBtn" aria-expanded="false" aria-controls="contractBox">＋ اطلاعات قرارداد</button></div>
       <div class="wide contractBox" id="contractBox" hidden>
-        <label>کارفرما<input id="setupEmployer" placeholder="نام کارفرما" autocomplete="off"></label>
         <label>پیمانکار<input id="setupContractor" placeholder="نام پیمانکار" autocomplete="off"></label>
         <label>مشاور<input id="setupConsultant" placeholder="نام مشاور" autocomplete="off"></label>
-        <label>شماره قرارداد<input id="setupContractNo" dir="ltr" placeholder="شماره قرارداد" autocomplete="off"></label>
+        <label>کارفرما<input id="setupEmployer" placeholder="نام کارفرما" autocomplete="off"></label>
+        <label>شماره قرارداد<input id="setupContractNo" placeholder="شماره قرارداد" autocomplete="off" style="text-align:right"></label>
         <label>تاریخ قرارداد<input id="setupContractDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱"></label>
+        <label><span class="cdTitle">مدت قرارداد <span id="setupContractDurationLbl">(ماه)</span></span><input id="setupContractDuration" type="text" inputmode="numeric" maxlength="4" dir="ltr" autocomplete="off" placeholder="۱۲" style="text-align:right"></label>
       </div>
       <label>سال فهرست بها<select id="setupListYear"></select></label>
       <div class="setupListsBox" id="setupListsBox"><span class="setupListsLbl">فهارس بهای پروژه</span><button type="button" class="setupListsToggle" id="setupListsToggle" aria-haspopup="true" aria-expanded="false"><span id="setupListsSummary">انتخاب فهرست‌ها</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="setupListsPanel" id="setupListsPanel" hidden><div class="setupListsHead"><span class="setupListsBtns"><button type="button" class="btn" id="setupListsAll">همه</button><button type="button" class="btn" id="setupListsNone">هیچ</button><button type="button" class="btn" id="setupListsSearchBtn" aria-label="جستجو" title="جستجو در فهارس بها"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button></span><input type="search" id="setupListsSearch" class="setupListsSearch" placeholder="جستجوی فهرست‌بها…" autocomplete="off" hidden><span class="muted">بعد از باز شدن پروژه فقط فهرست‌های تیک‌خورده در دسترس‌اند.</span></div><div class="setupListsGrid" id="setupListsChecks"></div></div></div>
@@ -3212,15 +3308,15 @@ window.startAppDataLoad=function(){
     self.onmessage=async function(msg){
       try{
         const [rp,ra]=await Promise.all([
-          fetch(msg.data.priceUrl,{cache:'no-store'}),
-          fetch(msg.data.adjustUrl,{cache:'no-store'})
+          fetch(msg.data.priceUrl,{cache:'no-store',credentials:'same-origin'}),
+          fetch(msg.data.adjustUrl,{cache:'no-store',credentials:'same-origin'})
         ]);
         if(!rp.ok)throw new Error('price data '+rp.status);
         if(!ra.ok)throw new Error('adjustment data '+ra.status);
         const [d,adj]=await Promise.all([rp.json(),ra.json()]);
         let extra=[];
         try{
-          const rs=await Promise.all((msg.data.extraUrls||[]).map(function(u){return fetch(u,{cache:'no-store'}).then(function(r){return r.ok?r.json():[]}).catch(function(){return []})}));
+          const rs=await Promise.all((msg.data.extraUrls||[]).map(function(u){return fetch(u,{cache:'no-store',credentials:'same-origin'}).then(function(r){return r.ok?r.json():[]}).catch(function(){return []})}));
           rs.forEach(function(a){if(Array.isArray(a))extra=extra.concat(a)});
         }catch(e){}
         self.postMessage({ok:true,d:d,adj:adj,extra:extra});
@@ -3256,6 +3352,7 @@ window.startAppDataLoad=function(){
         __rebuildByYear();
         window.__DATA_READY=true;
         window.__DATA_LOADING=false;
+        try{sessionStorage.removeItem('__dataAuth401')}catch(e){}
         document.dispatchEvent(new Event('app-data-ready'));
         try{if(typeof fillChapters==='function')fillChapters()}catch(e){}
         try{if(typeof sEl!=='undefined'&&sEl&&sEl.value&&sEl.value.trim()&&typeof search==='function')search(sEl.value)}catch(e){}
@@ -3275,9 +3372,9 @@ window.startAppDataLoad=function(){
       // fallback برای مرورگرهای بدون Worker/Blob
       try{
         Promise.all([
-          fetch('./data/pricelist-v160.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('price data '+r.status);return r.json()}),
-          fetch('./data/adjustment-index-v158.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('adjustment data '+r.status);return r.json()}),
-          Promise.all((window.PRICE_LIST_EXTRA_FILES||[]).map(u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[])))
+          fetch('./data/pricelist-v160.json',{cache:'no-store',credentials:'same-origin'}).then(r=>{if(!r.ok)throw new Error('price data '+r.status);return r.json()}),
+          fetch('./data/adjustment-index-v158.json',{cache:'no-store',credentials:'same-origin'}).then(r=>{if(!r.ok)throw new Error('adjustment data '+r.status);return r.json()}),
+          Promise.all((window.PRICE_LIST_EXTRA_FILES||[]).map(u=>fetch(u,{cache:'no-store',credentials:'same-origin'}).then(r=>r.ok?r.json():[]).catch(()=>[])))
         ]).then(([d,adj,ex])=>{
           DATA=window.__demoFilterData(d.concat(...(ex||[])));ADJUSTMENT_INDEX_DATA=adjMergeOverlay(adj);window.__DATA_READY=true;window.__DATA_LOADING=false;
           __rebuildByYear();document.dispatchEvent(new Event('app-data-ready'));
@@ -3291,6 +3388,7 @@ window.startAppDataLoad=function(){
     window.__DATA_LOADING=false;
     window.__DATA_LOAD_ERROR=true;
     console.error('price data load failed',err);
+    try{if(/\b(401|403)\b/.test(String(err&&err.message||err))&&!sessionStorage.getItem('__dataAuth401')){sessionStorage.setItem('__dataAuth401','1');location.reload();return}}catch(e){}
     try{if(typeof itemsEl!=='undefined'&&itemsEl)itemsEl.innerHTML='<div class="empty">بارگذاری اطلاعات قیمت ناموفق بود. اتصال اینترنت را بررسی و صفحه را دوباره بارگذاری کنید.</div>'}catch(e){}
     throw err;
   });
@@ -3430,7 +3528,7 @@ function analysisLoadFor(item){
   if(window.__ANALYSIS_CACHE[key])return Promise.resolve(window.__ANALYSIS_CACHE[key]);
   if(window.__ANALYSIS_PROMISES[key])return window.__ANALYSIS_PROMISES[key];
   const [y,d]=key.split('|');
-  window.__ANALYSIS_PROMISES[key]=fetch('./data/analysis-'+y+'-'+d+'-v196.json',{cache:'no-store'})
+  window.__ANALYSIS_PROMISES[key]=fetch('./data/analysis-'+y+'-'+d+'-v196.json',{cache:'no-store',credentials:'same-origin'})
     .then(r=>{if(!r.ok)throw new Error('analysis data '+r.status);return r.json()})
     .then(data=>{window.__ANALYSIS_CACHE[key]=data||{};return window.__ANALYSIS_CACHE[key]})
     .catch(err=>{delete window.__ANALYSIS_PROMISES[key];throw err});
@@ -3729,10 +3827,10 @@ function analysisPageRows(onlyId){
     const chapterCoef=Number.isFinite(state.chapterCoef)&&state.chapterCoef>0?state.chapterCoef:(Number(raw)||1),region=Number.isFinite(state.region)&&state.region>0?state.region:(Number(s.regionCoef??1)||1),floor=Number.isFinite(state.floor)&&state.floor>0?state.floor:(Number(s.floorCoef??1)||1),overhead=Number.isFinite(state.overhead)&&state.overhead>0?state.overhead:(Number(s.overheadCoef??1)||1);
     // شاخص فقط از رکورد دقیق همان فصل + سال + دوره + رشته خوانده می‌شود؛ هیچ fallback بین فصل‌ها نداریم.
     const chSub=adjCh(lt,ch2,item.code),baseIndex=getAdjIndex(chSub,state.baseYear,state.basePeriod,lt),workIndex=getAdjIndex(chSub,state.workYear,state.workPeriod,lt);
-    const totalCoef=chapterCoef*region*floor*overhead;
+    const totalCoef=Math.round(chapterCoef*1e4)/1e4*(Math.round(region*1e4)/1e4)*(Math.round(floor*1e4)/1e4)*(Math.round(overhead*1e4)/1e4);
     const indexFactor=(Number.isFinite(baseIndex)&&baseIndex!==0&&Number.isFinite(workIndex))?(0.05+0.95*(workIndex/baseIndex)):NaN;
     const newPrice=Number.isFinite(indexFactor)&&indexFactor!==0?price/(indexFactor*totalCoef):NaN;
-    return {item,price,state,ys,index:baseIndex,workIndex,chapterCoef,region,floor,overhead,totalCoef,indexFactor,newPrice};
+    return {item,price,state,ys,index:baseIndex,workIndex,chapterCoef:Math.round(chapterCoef*1e4)/1e4,region:Math.round(region*1e4)/1e4,floor:Math.round(floor*1e4)/1e4,overhead:Math.round(overhead*1e4)/1e4,totalCoef,indexFactor,newPrice};
   });
 }
 function renderAnalysisPage(onlyId){
@@ -3755,7 +3853,7 @@ function renderAnalysisPage(onlyId){
       '</div><div class="analysisPageWrap"><table class="analysisPageTable"><thead><tr><th>کد فهرست</th><th>شرح کار</th><th>فصل</th><th>قیمت روز / جمع آنالیز</th><th>ضریب فصل</th><th>ضریب منطقه</th><th>ضریب طبقات</th><th>ضریب بالاسری</th><th>شاخص مبنا</th><th>شاخص کارکرد</th><th>قیمت جدید</th></tr></thead><tbody><tr><td class="analysisStarCode">'+esc(displayItemCode(r.item))+'</td><td>'+esc(r.item.desc||'')+'</td><td>'+esc(chapterLabel(r.item.discipline,r.item.chapter))+'</td><td>'+analysisMoney(r.price)+' ریال</td><td>'+analysisDecimal(r.chapterCoef)+'</td><td>'+analysisDecimal(r.region)+'</td><td>'+analysisDecimal(r.floor)+'</td><td>'+analysisDecimal(r.overhead)+'</td><td>'+ (Number.isFinite(r.index)?fmtN(r.index):'—')+'</td><td>'+ (Number.isFinite(r.workIndex)?fmtN(r.workIndex):'—')+'</td><td><b>'+ (Number.isFinite(r.newPrice)?analysisMoney(r.newPrice)+' ریال':'—')+'</b></td></tr></tbody></table></div></section>';
   }).join('')+ '<div class="analysisGrand analysisPageTotal">جمع قیمت جدید: '+analysisMoney(rows.reduce((s,r)=>s+(Number.isFinite(r.newPrice)?r.newPrice:0),0))+' ریال</div>';
 }
-function analysisPlainNum(n){const v=Number(n);return Number.isFinite(v)?String(Math.round(v*1e8)/1e8):''}
+function analysisPlainNum(n){const v=Number(n);return Number.isFinite(v)?String(Math.round(v*1e4)/1e4):''}
 function analysisPageReadState(sec){
   const num=sel=>{const v=parseNum(sec.querySelector(sel)?.value,NaN);return Number.isFinite(v)&&v>0?v:null};
   return {baseYear:sec.querySelector('.apiBaseYear')?.value||'',basePeriod:sec.querySelector('.apiBasePeriod')?.value||'',workYear:sec.querySelector('.apiWorkYear')?.value||'',workPeriod:sec.querySelector('.apiWorkPeriod')?.value||'',chapterCoef:num('.apiChapterCoef'),region:num('.apiRegionCoef'),floor:num('.apiFloorCoef'),overhead:num('.apiOverheadCoef')};
@@ -4067,7 +4165,7 @@ function recalcRel(r,m){
   r.cost=relatedUnitCost(r,parseNum(m.base,0),r.effect);
   return r
 }
-function projectMultiplierForChapter(ch,discipline){const s=(window.__mainProjectSettings||{});const a=Number(s.floorCoef??1)||1,b=Number(s.regionCoef??1)||1,c=Number(s.overheadCoef??1)||1;const map=s.chapterCoefficients||window.__chapterCoefficients||{};const k=String(ch).padStart(2,'0');const hasDisc=String(discipline||'').trim()!=='';const lt=normalizeDiscipline(discipline||s.listType||'ابنیه').toLowerCase();const key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:(hasDisc?1:(map[k]??map[String(Number(ch))]??1));const v=Number(raw);return a*b*c*(Number.isFinite(v)?v:1)}
+function projectMultiplierForChapter(ch,discipline){const s=(window.__mainProjectSettings||{});const R=function(x){return Math.round(x*1e4)/1e4};const a=R(Number(s.floorCoef??1)||1),b=R(Number(s.regionCoef??1)||1),c=R(Number(s.overheadCoef??1)||1);const map=s.chapterCoefficients||window.__chapterCoefficients||{};const k=String(ch).padStart(2,'0');const hasDisc=String(discipline||'').trim()!=='';const lt=normalizeDiscipline(discipline||s.listType||'ابنیه').toLowerCase();const key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:(hasDisc?1:(map[k]??map[String(Number(ch))]??1));const v=Number(raw);return a*b*c*(Number.isFinite(v)?R(v):1)}
 function addItem(id){const it=DATA.find(x=>x.id===id);if(!it)return;const c=projectMultiplierForChapter(it.chapter,it.discipline);meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[]});save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();renderMeter();}
 function addRelatedItem(id,ri){const it=DATA.find(x=>x.id===id),r=it?.related?.[Number(ri)];if(!it||!r)return;const existing=meter.find(m=>m.year===it.year&&m.discipline===it.discipline&&m.code===it.code);const effect=1;const rel={code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||'',effect,qty:1,qtyOverride:false,cost:relatedUnitCost(r,it.price,effect)};if(existing){existing.rels=existing.rels||[];if(!existing.rels.some(x=>x.code===r.code&&x.desc===r.desc))existing.rels.push(rel)}else {const c=projectMultiplierForChapter(it.chapter,it.discipline);meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[rel]});}save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();showMeterList();renderMeter();}
 document.addEventListener('click',e=>{const desc=e.target.closest('.itemCompactDesc,.itemHead > .desc');if(desc){e.preventDefault();e.stopPropagation();desc.classList.toggle('expanded');return}const head=e.target.closest('.itemHead');if(head&&!e.target.closest('button,input,label'))head.closest('.item').classList.toggle('open');const add=e.target.closest('.addItem');if(add){e.preventDefault();addItem(add.dataset.id);return}const addRel=e.target.closest('.addRelated');if(addRel){e.preventDefault();addRelatedItem(addRel.dataset.id,addRel.dataset.ri);return}const rem=e.target.closest('.remove');if(rem){e.preventDefault();meter.splice(Number(rem.dataset.i),1);save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave()}});
@@ -4792,11 +4890,21 @@ window.exportRowsData=exportRowsData;
     const bp=$('setupBasePeriod');if(bp){const cur=(window.__setupWant&&window.__setupWant.basePeriod)||bp.value||(window.__mainProjectSettings||{}).basePeriod||'';const y=by?.value||'';const rows=ADJUSTMENT_INDEX_DATA.filter(r=>String(r[1])===String(y));const quarters=[...new Set(rows.map(r=>String(r[2])).filter(p=>['1','2','3','4'].includes(p)))].sort((a,b)=>Number(a)-Number(b));const monthly=[...new Set(rows.map(r=>String(r[2])).filter(p=>ADJ_MONTHS.includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));const vals=[...quarters,...monthly];if(monthly.length)vals.push('AVG');bp.innerHTML=vals.map(v=>'<option value="'+escP(v)+'">'+escP(adjPeriodLabel(v,y,null,window.__mainProjectSettings?.listType||'ابنیه')||v)+'</option>').join('');if(cur&&vals.includes(cur))bp.value=cur;else if(vals.length)bp.value=vals[0];}
     const lyv=ly?.value||'';const byv=by?.value||'';if(lyv&&$('year'))$('year').value=lyv;if(byv&&$('adjBaseYear'))$('adjBaseYear').value=byv;if(byv&&typeof fillAdjustmentPeriods==='function')fillAdjustmentPeriods('adjBasePeriod',byv,bp?.value||'1');
   }
-  const CONTRACT_IDS={employer:'setupEmployer',contractor:'setupContractor',consultant:'setupConsultant',no:'setupContractNo',date:'setupContractDate'};
+  const CONTRACT_IDS={employer:'setupEmployer',contractor:'setupContractor',consultant:'setupConsultant',no:'setupContractNo',date:'setupContractDate',duration:'setupContractDuration'};
   window.readContractFields=function(){const c={};Object.keys(CONTRACT_IDS).forEach(k=>{c[k]=String($(CONTRACT_IDS[k])?.value||'').trim()});return c};
   window.fillContractFields=function(c){c=c||{};Object.keys(CONTRACT_IDS).forEach(k=>{const e=$(CONTRACT_IDS[k]);if(e)e.value=c[k]||''});
     const box=$('contractBox'),b=$('contractToggleBtn');if(box&&b){const has=Object.values(c).some(v=>String(v||'').trim());box.hidden=!has;b.setAttribute('aria-expanded',has?'true':'false');b.textContent=(has?'− ':'＋ ')+'اطلاعات قرارداد'}};
   document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('#contractToggleBtn');if(!b)return;const box=$('contractBox');if(!box)return;box.hidden=!box.hidden;b.setAttribute('aria-expanded',box.hidden?'false':'true');b.textContent=(box.hidden?'＋ ':'− ')+'اطلاعات قرارداد'});
+  (function(){const FA='۰۱۲۳۴۵۶۷۸۹',fa=n=>String(n).replace(/\d/g,d=>FA[d]);
+    function lbl(){const e=$('setupContractDuration'),l=$('setupContractDurationLbl');if(!e||!l)return;
+      let v=String(e.value||'').replace(/[۰-۹]/g,d=>FA.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\D/g,'');
+      if(e.value!==v)e.value=v;const n=parseInt(v,10);
+      if(!n){l.textContent='(ماه)';return}
+      const y=Math.floor(n/12),m=n%12,p=[];if(y)p.push(fa(y)+' سال');if(m)p.push(fa(m)+' ماه');
+      l.textContent='('+p.join(' و ')+')'}
+    document.addEventListener('input',function(e){if(e.target&&e.target.id==='setupContractDuration')lbl()});
+    const f0=window.fillContractFields;window.fillContractFields=function(c){const r=f0.apply(this,arguments);lbl();return r};
+  })();
   function escP(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
   function fixedProjectSettings(){
     const m=getMainSettings();
@@ -5078,7 +5186,7 @@ window.exportRowsData=exportRowsData;
       }
       window.__mainProjectId=parentProjectId;
       projectType='calculation';mainProjectId=parentProjectId;
-      alert('محاسبه «'+name+'» ذخیره شد.');
+      window.cplSaveToast('محاسبه «'+name+'» ذخیره شد.');
       await loadHistory('calculations');renderHeader();
     }catch(e){alert(e.message||'ذخیره محاسبه انجام نشد.')}
   }
@@ -5143,6 +5251,7 @@ window.exportRowsData=exportRowsData;
       return null;
     }
   }
+  window.cplSaveToast=function(t){var el=document.getElementById('cplToast');if(!el){alert(t);return}el.textContent=t;el.classList.add('show');clearTimeout(window.cplSaveToast.t);window.cplSaveToast.t=setTimeout(function(){el.classList.remove('show')},2000)};
   async function saveMainProject(){
     if(projectType==='calculation'){
       if(!mainProjectId){alert('پروژه اصلی پیدا نشد.');return}
@@ -5164,8 +5273,7 @@ window.exportRowsData=exportRowsData;
           alert(calcErr.message||'محاسبه ذخیره نشد.');
           return;
         }
-        if(calcSaved) alert('پروژه و محاسبه ذخیره شد.');
-        else alert('تغییرات پروژه ذخیره شد.');
+        window.cplSaveToast('پروژه ذخیره شد.');
       }catch(e){alert(e.message||'ذخیره پروژه انجام نشد.')}
       return;
     }
@@ -5179,7 +5287,7 @@ window.exportRowsData=exportRowsData;
       // ذخیره از صفحه اصلی باید محاسبه را هم ذخیره کند.
       const calc=await saveCurrentCalculationForMain(currentProjectId,s);
       if(calc){ mainProjectId=currentProjectId; parentProjectId=currentProjectId; calculationName=calc.name; }
-      alert(calc?'پروژه و محاسبه ذخیره شد.':'پروژه ذخیره شد.');
+      window.cplSaveToast('پروژه ذخیره شد.');
     }catch(e){alert(e.message||'ذخیره پروژه انجام نشد.')}
   }
   async function openProjectV26(id){
@@ -5489,11 +5597,11 @@ window.exportRowsData=exportRowsData;
       }
       editor.style.display='block';
       editor.innerHTML='<div class="coefEditorHead"><b>ضرایب پیشنهادی پروژه</b><span class="coefHeadBtns">'+(loadedRows.length?'<button type="button" class="btn primary coefIconBtn" id="chapterCoefApplyBtn" title="ذخیره تغییرات" aria-label="ذخیره تغییرات"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z\"/><path d=\"M17 21v-8H7v8\"/><path d=\"M7 3v5h8\"/></svg></button>':'')+'<button type="button" class="btn coefIconBtn" id="chapterCoefCloseBtn" title="بستن" aria-label="بستن">✕</button></span></div>'+
-        (loadedRows.length?'<div class="coefEditorScroll"><table><thead><tr><th>نوع فهرست</th><th>شماره فصل</th><th>ضریب پیشنهادی</th></tr></thead><tbody>'+loadedRows.map((r,i)=>'<tr><td>'+safeEsc(r.list)+'</td><td>'+safeEsc(r.chapter)+'</td><td><input data-coef-row="'+i+'" type="text" inputmode="decimal" value="'+safeEsc(r.coef)+'"></td></tr>').join('')+'</tbody></table></div>':'<div class="historyEmpty">هیچ ضریبی برای نمایش وجود ندارد.</div>');
+        (loadedRows.length?'<div class="coefEditorScroll"><table><thead><tr><th>نوع فهرست</th><th>شماره فصل</th><th>ضریب پیشنهادی</th></tr></thead><tbody>'+loadedRows.map((r,i)=>'<tr><td>'+safeEsc(r.list)+'</td><td>'+safeEsc(r.chapter)+'</td><td><input data-coef-row="'+i+'" type="text" inputmode="decimal" value="'+safeEsc(Math.round(Number(r.coef)*1e4)/1e4)+'"></td></tr>').join('')+'</tbody></table></div>':'<div class="historyEmpty">هیچ ضریبی برای نمایش وجود ندارد.</div>');
       $('chapterCoefCloseBtn')?.addEventListener('click',()=>{editor.style.display='none'});
       $('chapterCoefApplyBtn')?.addEventListener('click',async()=>{
         const map={}; let invalid=0;
-        editor.querySelectorAll('[data-coef-row]').forEach(inp=>{const i=Number(inp.dataset.coefRow),n=toNum(inp.value);if(loadedRows[i]&&n!==null){loadedRows[i].coef=n;map[loadedRows[i].key]=n}else invalid++});
+        editor.querySelectorAll('[data-coef-row]').forEach(inp=>{let i=Number(inp.dataset.coefRow),n=toNum(inp.value);if(loadedRows[i]&&n!==null){n=Math.round(n*1e4)/1e4;loadedRows[i].coef=n;map[loadedRows[i].key]=n}else invalid++});
         if(invalid){alert('یکی از ضرایب واردشده معتبر نیست.');return}
         btn.disabled=true;
         try{
@@ -5521,7 +5629,7 @@ window.exportRowsData=exportRowsData;
           const list=normalizeDiscipline(String(r[0]||currentSettings().listType||'ابنیه').trim()||currentSettings().listType||'ابنیه');
           const ch=chapterKey(r[1]); if(!ch)continue;
           const n=toNum(r[2]); if(n===null)continue;
-          loadedRows.push({list,listKey:normKey(list),chapter:ch,chapterKey:ch,coef:n,key:rowKey(list,ch)});
+          loadedRows.push({list,listKey:normKey(list),chapter:ch,chapterKey:ch,coef:Math.round(n*1e4)/1e4,key:rowKey(list,ch)});
         }
         const dedup={};loadedRows.forEach(r=>dedup[r.key]=r);loadedRows=Object.values(dedup);
         if(loadedRows.length&&typeof meter!=='undefined'&&Array.isArray(meter)){
@@ -11034,7 +11142,6 @@ window.__cplSig=function(){
       +'<div class="impRow"><label class="btn primary impBtn" for="stEstFile">'+S+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>آپلود برآورد اکسل</span></label>'
       +'<button type="button" class="btn impBtn" id="stEstSample">'+S+'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5 12 17l2.5-2.5"/></svg><span>برآورد نمونه</span></button></div>'
       +'<input type="file" id="stEstFile" accept=".xlsx,.xlsm" hidden>'
-      +'<div class="impNote">ستون‌ها به‌ترتیب: ۱ دفترچه (ابنیه / مکانیک / برق)، ۲ آیتم (شماره)، ۳ مقدار برآورد، ۴ بهای واحد، ۵ واحد، ۶ شرح آیتم. برای آیتم‌های فهرستی، ستون‌های ۴ تا ۶ فقط با دیتابیس نرم‌افزار مقایسه می‌شوند (چیزی تغییر نمی‌کند و ردیف مغایر قرمز می‌شود)؛ برای آیتم‌های ستاره‌دار اگر مقدار داشتند ثبت می‌شوند و اگر خالی بودند خالی می‌مانند. مقدار هر آیتم در ستون «برآورد» برگهٔ مالی، بین واحد و مقدار، نمایش داده می‌شود؛ فقط برای آیتم‌هایی که در برگهٔ مالی هستند. با هر بار ورود، برآوردهای قبلی این صورت‌وضعیت جایگزین می‌شود.</div>'
       +'<div class="impMsg" id="stEstMsg" role="status"></div></div>';
     document.body.appendChild(c);
     function close(){c.remove()}
@@ -11746,10 +11853,11 @@ window.__cplSig=function(){
   function openC76(){
     if(!cur)return;
     shell('stC76','<div class="mnHead"><b>بخشنامه ۷۶۵۷۴</b><div class="mnBtns">'+C76_SAVE('stc76')+
+      '<button type="button" class="btn mnIco" id="stC76Back" title="مرحله قبل" aria-label="مرحله قبل"></button>'+
       '<button type="button" class="btn mnTextBtn" id="stC76Imp" title="ورود برآورد از اکسل — مقدار برآورد آیتم‌های برگهٔ مالی" aria-label="ورود برآورد">'+C76_SV+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود برآورد</span></button>'+
       
       '<button type="button" class="btn mnTextBtn" id="stC76Info" title="توضیحات بخشنامه 76574" aria-label="توضیحات بخشنامه 76574">'+C76_SV+'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>توضیحات بخشنامه 76574</span></button>'+iconBtns('stc76',false)+'</div></div><div id="stC76Body"></div>');
-    $('stc76Save').onclick=save;$('stC76Imp').onclick=openEst;$('stC76Info').onclick=openC76Info;
+    $('stC76Back').onclick=function(){closeShell('stC76')};$('stc76Save').onclick=save;$('stC76Imp').onclick=openEst;$('stC76Info').onclick=openC76Info;
     $('stc76Xls').onclick=c76Xls;$('stc76Pdf').onclick=c76Pdf;
     c76Refresh();
   }
@@ -11799,11 +11907,7 @@ window.__cplSig=function(){
   var C76_EST_OPEN=false;
   function c76ImpHtml(){
     var S='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
-    return '<div class="c76ImpBar"><button type="button" class="btn mnTextBtn" id="stEstToggle" aria-expanded="'+(C76_EST_OPEN?'true':'false')+'">'+S+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود برآورد از اکسل</span></button>'+(cur&&cur.est&&Object.keys(cur.est).length?'<button type="button" class="btn danger mnTextBtn" id="stEstClr" title="پاک کردن کل برآورد" aria-label="پاک کردن کل برآورد"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg><span>پاک کردن برآورد</span></button>':'')+'</div>'+
-      '<div class="c76ImpPanel" id="stEstPanel"'+(C76_EST_OPEN?'':' hidden')+'><div class="impRow"><label class="btn primary impBtn" for="stEstFile2">'+S+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>آپلود برآورد اکسل</span></label>'+
-      '<button type="button" class="btn impBtn" id="stEstSample2">'+S+'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5 12 17l2.5-2.5"/></svg><span>برآورد نمونه</span></button></div>'+
-      '<input type="file" id="stEstFile2" accept=".xlsx,.xlsm" hidden>'+
-      '<div class="'+C76_EST_MSG.c+'" id="stEstMsg2" role="status">'+C76_EST_MSG.h+'</div></div>';
+    return '<div class="c76ImpBar"><button type="button" class="btn mnTextBtn" id="stEstToggle" aria-expanded="'+(C76_EST_OPEN?'true':'false')+'">'+S+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود برآورد از اکسل</span></button>'+(cur&&cur.est&&Object.keys(cur.est).length?'<button type="button" class="btn danger mnTextBtn" id="stEstClr" title="پاک کردن کل برآورد" aria-label="پاک کردن کل برآورد"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg><span>پاک کردن برآورد</span></button>':'')+'</div>';
   }
   document.addEventListener('change',async function(e){
     var t=e.target;if(!cur||!t||t.id!=='stEstFile2')return;
@@ -11826,7 +11930,7 @@ window.__cplSig=function(){
   document.addEventListener('click',function(e){var t=e.target;if(!cur||!t||!t.closest)return;
     if(t.closest('#stEstSample2')){estSample();return}
     var tg=t.closest('#stEstToggle');
-    if(tg){C76_EST_OPEN=!C76_EST_OPEN;var pn=$('stEstPanel');if(pn)pn.hidden=!C76_EST_OPEN;tg.setAttribute('aria-expanded',C76_EST_OPEN?'true':'false')}
+    if(tg){openEst();return}
   });
   function c76YearItems(d){var y=String(cur.year||projectYear());try{return DATA.filter(function(x){return (String(x.year)===y||x.custom)&&x.discipline===d})}catch(_){return []}}
   function c76FillCh(keep){
@@ -11865,8 +11969,8 @@ window.__cplSig=function(){
   function c76EstChanged(){dirty=true;c76Reset();c76Refresh()}
   function openC76Est(){
     if(!cur)return;C76_EST_MSG={c:'impMsg',h:''};C76_EST_OPEN=false;
-    shell('stC76Est','<div class="mnHead"><b>برآوردهای واردشده</b><div class="mnBtns">'+C76_SAVE('stc76e')+iconBtns('stc76e',false)+'</div></div><div id="stC76EstBody"></div>');
-    $('stc76eSave').onclick=save;
+    shell('stC76Est','<div class="mnHead"><b>برآوردهای واردشده</b><div class="mnBtns">'+C76_SAVE('stc76e')+'<button type="button" class="btn mnIco" id="stC76EstBack" title="مرحله قبل" aria-label="مرحله قبل"></button>'+iconBtns('stc76e',false)+'</div></div><div id="stC76EstBody"></div>');
+    $('stC76EstBack').onclick=function(){closeShell('stC76Est')};$('stc76eSave').onclick=save;
     $('stc76eXls').onclick=function(){var sp=c76EstSpec();dlBlob(buildXlsxMulti([specSheet(sp)]),fileName('برآوردهای واردشده','xlsx'))};
     $('stc76ePdf').onclick=function(){var sp=c76EstSpec();var h=pdfDoc(docTitle('برآوردهای واردشده صورت‌وضعیت'),tblHtml(sp,true));h=h.replace('size:A4','size:A4 landscape');openPdf(h)};
     c76EstRefresh();
@@ -11947,7 +12051,7 @@ window.__cplSig=function(){
   function paykHtml(it){
     var on=!!it.payk,info='',sel=on?paykChSel(it):'';
     if(on){var bs=paykBase(it),f=paykFactor(it);
-      info='<span class="mnPaykInfo" title="'+esc('ضریب پایکار: '+(bs===null?'برای این فصل ضریبی در جدول پیوست ۱ نیست؛ فقط ۰٫۷ اعمال شد':'ضریب جدول فصل '+fm(bs)+' × ۰٫۷')+' — ضریب طبقات اعمال نمی‌شود؛ ضریب فصل، منطقه و بالاسری اعمال می‌شود')+'">'+(bs===null?'':fm(bs)+' × ')+fm(PAYK_F)+' = <b>'+fm(f)+'</b></span>';}
+      info='<span class="mnPaykInfo" title="'+esc('ضریب پایکار: '+(bs===null?'برای این فصل ضریبی در جدول پیوست ۱ نیست؛ فقط ۰٫۷ اعمال شد':'ضریب جدول فصل '+fm(bs)+' × ۰٫۷')+' — ضریب طبقات اعمال نمی‌شود؛ ضریب فصل، منطقه و بالاسری اعمال می‌شود')+'">'+(bs===null?'':fm(bs)+' × ')+fm(PAYK_F)+'</span>';}
     return '<label class="mnPayk'+(on?' on':'')+'" title="مصالح پایکار: ضرایب پیوست ۱ فهرست‌بها اعمال شود و ضریب طبقات نخورد"><input type="checkbox" class="mnPaykChk"'+(on?' checked':'')+'><span>پایکار</span></label>'+sel+info;
   }
   function setPayk(it,on){if(on)it.payk=1;else delete it.payk;dirty=true;renderItems()}
@@ -11986,7 +12090,7 @@ window.__cplSig=function(){
     function tot(x){return vis.reduce(function(a,c){return a+x.v[c[0]]},0)}
     var c76r=c76Get().ch;function estC(x){var r=c76r[x.d+'|'+p2(x.c)];return r&&r.E!=null?r.E:''}
     return {t:'جمع فصول',band:1,head:[['نوع مبالغ',wc?'با ضرایب':'خالص']],
-      cols:['نوع فهرست','فصل','مبلغ برآورد فصل'].concat(vis.map(function(c){return c[1]}),['جمع فصل']),
+      cols:['نوع فهرست','فصل','مبلغ برآورد فصل'].concat(vis.map(function(c){return c[1]}),['جمع فصل (ریال)']),
       w:[12,44,20].concat(vis.map(function(){return 18}),[18]),
       rows:o.map(function(x){return [x.d,chapterLabel(x.d,x.c),estC(x)].concat(vis.map(function(c){return x.v[c[0]]}),[tot(x)])}),
       foot:['جمع کل','',sum(o,function(x){var e=estC(x);return e===''?0:e})].concat(vis.map(function(c){return sum(o,function(x){return x.v[c[0]]})}),[sum(o,tot)])};
@@ -12003,14 +12107,14 @@ window.__cplSig=function(){
     var eqCol=2+vis.length,c76o=c76Get().order,c76r=c76Get().ch;
     function estD(d){var t=0,any=false;c76o.forEach(function(k){var r=c76r[k];if(r.d===d&&r.E!=null){t+=r.E;any=true}});return any?t:''}
     return {t:'جمع انواع فهرست',head:[['نوع مبالغ',wc?'با ضرایب':'خالص']],eqCol:eqCol,
-      cols:['نوع فهرست','مبلغ برآورد فصول'].concat(vis.map(function(c){return c[1]}),['مبلغ تجهیز','مبلغ دفترچه']),
+      cols:['نوع فهرست','مبلغ برآورد فصول'].concat(vis.map(function(c){return c[1]}),['مبلغ تجهیز','مبلغ دفترچه (ریال)']),
       w:[14,20].concat(vis.map(function(){return 18}),[18,20]),
       rows:o.map(function(x){return [x.d,estD(x.d)].concat(vis.map(function(c){return x.v[c[0]]}),[equipOf(x.d),tot(x)])}),
       foot:['جمع کل',sum(o,function(x){var e=estD(x.d);return e===''?0:e})].concat(vis.map(function(c){return sum(o,function(x){return x.v[c[0]]})}),[sum(o,function(x){return equipOf(x.d)}),sum(o,tot)])};
   }
   function specN(s){
     if(s===0){var it=bookSorted();
-      return {t:'برگه مالی',land:1,band:1,items:it,cols:['نوع فهرست','شماره آیتم','شرح','واحد','برآورد','مقدار','بهای واحد','مبلغ','ضریب فصل','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب','مبلغ با ضرایب'],w:[10,14,44,8,10,10,14,16,9,9,9,9,9,18],inp:{6:'price',8:'ch',9:'floor',10:'region',11:'overhead',12:'other'},
+      return {t:'برگه مالی',land:1,band:1,items:it,cols:['نوع فهرست','شماره آیتم','شرح','واحد','برآورد','مقدار','بهای واحد','مبلغ','ضریب فصل','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب','مبلغ با ضرایب (ریال)'],w:[10,14,44,8,10,10,14,16,9,9,9,9,9,18],inp:{6:'price',8:'ch',9:'floor',10:'region',11:'overhead',12:'other'},
         rows:it.map(function(x){var eq=estOf(x);return [x.discipline,x.code,String(x.desc||'')+(x.payk?' (پایکار)':''),x.unit||'',eq==null?'':eq,itemTotal(x),unitPrice(x),amount(x),Math.round(cfOf(x,'ch')*1e8)/1e8,cfOf(x,'floor'),cfOf(x,'region'),cfOf(x,'overhead'),cfOf(x,'other'),amountWC(x)]}),
         foot:['جمع کل','','','','','','',sum(it,amount),'','','','','',sum(it,amountWC)]}}
     if(s===1){return chapSpec()}
@@ -12070,7 +12174,7 @@ window.__cplSig=function(){
       if(!pdf&&!sm&&String(sp.cols[ci]||'').indexOf('شرح')===0&&String(v).length>40)return '<td class="r mnCovDesc stItemDesc"><div class="mnClampWrap"><div class="mnClamp">'+esc(v)+'</div><button type="button" class="mnClampBtn" aria-label="نمایش کامل شرح" aria-expanded="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 5.5v13a.9.9 0 0 1-1.4.75l-9-6.5a.9.9 0 0 1 0-1.5l9-6.5a.9.9 0 0 1 1.4.75z"/></svg></button></div></td>';
       return '<td class="r'+(sm?' mnCovSm':' mnCovDesc')+(String(sp.cols[ci]||'').indexOf('شرح')===0?' stItemDesc':'')+'">'+esc(v)+'</td>'}
     var body=sp.rows.map(function(r,ri){
-      var band='';if(sp.band&&r[0]!==lb){lb=r[0];band='<tr class="band"><td colspan="'+nc+'" style="text-align:right;font-weight:700;background:#dfe6f3;color:#000">نوع فهرست '+esc(lb)+'</td></tr>'}
+      var band='';if(sp.band&&r[0]!==lb){lb=r[0];band='<tr class="band"><td colspan="'+nc+'" style="text-align:right;font-weight:700;'+(pdf?'background:#dfe6f3;color:#000':'background:rgba(127,127,127,.22)!important;color:inherit')+'">نوع فهرست '+esc(lb)+'</td></tr>'}
       return band+'<tr>'+r.map(function(v,ci){
       if(!pdf&&sp.eqCol===ci)return '<td><input class="stEqIn" data-eq="'+esc(r[0])+'" style="min-width:110px" dir="ltr" inputmode="decimal" autocomplete="off" placeholder="0" value="'+esc(v?grpNum(String(v)):'')+'"></td>';
       if(!pdf&&sp.inp&&sp.inp[ci])return '<td><input class="stIn" data-u="'+cur.items.indexOf(sp.items[ri])+'" data-k="'+sp.inp[ci]+'" style="min-width:'+(sp.inp[ci]==='price'?90:56)+'px" dir="ltr" inputmode="decimal" value="'+esc(sp.inp[ci]==='price'?grpNum(String(v)):String(v))+'"></td>';
@@ -12559,7 +12663,7 @@ window.__cplSig=function(){
     else head.push(['سال دوره کار',toEn(a.workY)],['دوره کار',adjPeriodLabel(a.workP,a.workY,null,null)],['ضریب',String(KK)],['تاریخ',toEn(a.workDate||st.workDate||'')]);
     if(eqNote)head.push(['دفترچه تعدیل تجهیز',eqSel]);
     var extra=[];
-    return {t:'تعدیل',miss:miss,land:1,band:1,cols:['نوع فهرست','فصل','نسبت روز','مبلغ با ضرایب (کل)','مبلغ دوره','شاخص مبنا','دوره و سال','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل دوره','مبلغ تعدیل (کل)'],w:[10,8,11,18,16,11,18,13,11,18,18],rows:rows,
+    return {t:'تعدیل',miss:miss,land:1,band:1,cols:['نوع فهرست','فصل','نسبت روز','مبلغ با ضرایب (کل)','مبلغ دوره','شاخص مبنا','دوره و سال','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل دوره','مبلغ تعدیل (کل) (ریال)'],w:[10,8,11,18,16,11,18,13,11,18,18],rows:rows,
       head:head,extra:extra,
       foot:['جمع کل','','',sum(rows,function(r){return r[3]}),sum(rows,function(r){return r[4]}),'','','','',sum(rows,function(r){return r[9]}),sum(rows,function(r){return r[10]})]};
   }
@@ -12837,7 +12941,7 @@ window.__cplSig=function(){
           '<label class="mnField stNoWrapLbl">نام<input id="ciNo" autocomplete="off" placeholder="نام" title="نام هزینه-درآمد" aria-label="نام هزینه-درآمد"></label>'+
           '<label class="mnField stNoWrapLbl">تاریخ دوره کارکرد<input id="ciWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ دوره کارکرد" aria-label="تاریخ دوره کارکرد"></label>'+
           '<label class="mnField">نوع فهرست<select id="ciDisc">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label>'+
-          '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="ciChap"></select><button type="button" class="btn mnChapIntroBtn" id="ciChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>'+'</button></span></label>'+
+          '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="ciChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="ciChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">مقدمه فصل</button></span></label>'+
         '</div>'+
         '<div class="mnMuted mnWide" id="ciWdNote"></div>'+
         '<div class="mnWide mnPick">'+
@@ -13364,7 +13468,7 @@ window.__cplSig=function(){
   function sum(a,f){return a.reduce(function(s,x){return s+f(x)},0)}
   function specN(s){
     if(s===0){var it=bookSorted();
-      return {t:'برگه مالی',land:1,band:1,items:it,cols:['نوع فهرست','شماره آیتم','شرح','واحد','مقدار','بهای واحد','مبلغ','ضریب فصل','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب','مبلغ با ضرایب'],w:[10,14,44,8,10,14,16,9,9,9,9,9,18],inp:{5:'price',7:'ch',8:'floor',9:'region',10:'overhead',11:'other'},
+      return {t:'برگه مالی',land:1,band:1,items:it,cols:['نوع فهرست','شماره آیتم','شرح','واحد','مقدار','بهای واحد','مبلغ','ضریب فصل','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب','مبلغ با ضرایب (ریال)'],w:[10,14,44,8,10,14,16,9,9,9,9,9,18],inp:{5:'price',7:'ch',8:'floor',9:'region',10:'overhead',11:'other'},
         rows:it.map(function(x){return [x.discipline,x.code,String(x.desc||''),x.unit||'',itemTotal(x),unitPrice(x),amount(x),cfOf(x,'ch'),cfOf(x,'floor'),cfOf(x,'region'),cfOf(x,'overhead'),cfOf(x,'other'),amountWC(x)]}),
         foot:['جمع کل','','','','','',sum(it,amount),'','','','','',sum(it,amountWC)]}}
     if(s===1){var g=chapGroups();return {t:'فصول با ضرایب',band:1,cols:['نوع فهرست','فصل','جمع خالص','ضریب مؤثر فصل','جمع با ضرایب'],w:[12,44,18,14,18],rows:g.map(function(x){return [x.d,chapterLabel(x.d,x.c),x.net,x.cf,x.wc]}),foot:['جمع کل','',sum(g,function(x){return x.net}),'',sum(g,function(x){return x.wc})]}}
@@ -13407,7 +13511,7 @@ window.__cplSig=function(){
       if(!pdf&&!sm&&String(sp.cols[ci]||'').indexOf('شرح')===0&&String(v).length>40)return '<td class="r mnCovDesc"><div class="mnClampWrap"><div class="mnClamp">'+esc(v)+'</div><button type="button" class="mnClampBtn" aria-label="نمایش کامل شرح" aria-expanded="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 5.5v13a.9.9 0 0 1-1.4.75l-9-6.5a.9.9 0 0 1 0-1.5l9-6.5a.9.9 0 0 1 1.4.75z"/></svg></button></div></td>';
       return '<td class="r'+(sm?' mnCovSm':' mnCovDesc')+'">'+esc(v)+'</td>'}
     var body=sp.rows.map(function(r,ri){
-      var band='';if(sp.band&&r[0]!==lb){lb=r[0];band='<tr class="band"><td colspan="'+nc+'" style="text-align:right;font-weight:700;background:#dfe6f3;color:#000">نوع فهرست '+esc(lb)+'</td></tr>'}
+      var band='';if(sp.band&&r[0]!==lb){lb=r[0];band='<tr class="band"><td colspan="'+nc+'" style="text-align:right;font-weight:700;'+(pdf?'background:#dfe6f3;color:#000':'background:rgba(127,127,127,.22)!important;color:inherit')+'">نوع فهرست '+esc(lb)+'</td></tr>'}
       return band+'<tr>'+r.map(function(v,ci){
       if(!pdf&&sp.inp&&sp.inp[ci])return '<td><input class="stIn" data-u="'+cur.items.indexOf(sp.items[ri])+'" data-k="'+sp.inp[ci]+'" style="min-width:'+(sp.inp[ci]==='price'?90:56)+'px" dir="ltr" inputmode="decimal" value="'+esc(sp.inp[ci]==='price'?String(v).replace(/\B(?=(\d{3})+(?!\d))/g,','):String(v))+'"></td>';
       return cell(v,ci)}).join('')+'</tr>'}).join('');
@@ -13588,12 +13692,12 @@ window.__cplSig=function(){
     if(s===2)its.forEach(function(x){var q=adjIdxIt(x,amountWC(x)),k=adjKeyIt(x);cm[k]=(cm[k]||0)+q.adj});
     if(s===2){
       var rows=adjGroups().map(function(g){var q=adjIdx(g.d,g.c,g.wc),ad=cm[g.k]||0;if(!q.ok)miss++;return [g.d,chapterLabel(g.d,g.c)+(g.tOf?' — بخش حمل (مترمکعب‌کیلومتر) ردیف‌های فصل '+g.tOf:''),g.wc,q.ib,q.iw,q.r,ad,g.wc+ad]});
-      return {t:'تعدیل فصول',land:1,band:1,cols:['نوع فهرست','فصل','مبلغ با ضرایب','شاخص مبنا','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل','مبلغ پس از تعدیل'],w:[10,40,18,11,13,11,18,18],rows:rows,extra:adjNotes(miss),
+      return {t:'تعدیل فصول',land:1,band:1,cols:['نوع فهرست','فصل','مبلغ با ضرایب (ریال)','شاخص مبنا','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل','مبلغ پس از تعدیل'],w:[10,40,18,11,13,11,18,18],rows:rows,extra:adjNotes(miss),
         foot:['جمع کل','',sum(rows,cn(2)),'','','',sum(rows,cn(6)),sum(rows,cn(7))]};
     }
     if(s===3){
       var r3=its.map(function(x){var w=amountWC(x),q=adjIdxIt(x,w);if(!q.ok)miss++;return [x.discipline,x.code,String(x.desc||'')+(trSplit(x)?' [تعدیل با شاخص فصل حمل]':''),x.unit||'',w,q.ib,q.iw,q.r,q.adj,w+q.adj]});
-      return {t:'تعدیل آیتم‌ها',land:1,band:1,cols:['نوع فهرست','شماره آیتم','شرح','واحد','مبلغ با ضرایب','شاخص مبنا','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل','مبلغ پس از تعدیل'],w:[10,14,44,8,18,11,13,11,18,18],rows:r3,extra:adjNotes(miss),
+      return {t:'تعدیل آیتم‌ها',land:1,band:1,cols:['نوع فهرست','شماره آیتم','شرح','واحد','مبلغ با ضرایب (ریال)','شاخص مبنا','شاخص دوره کار','ضریب تعدیل','مبلغ تعدیل','مبلغ پس از تعدیل'],w:[10,14,44,8,18,11,13,11,18,18],rows:r3,extra:adjNotes(miss),
         foot:['جمع کل','','','',sum(r3,cn(4)),'','','',sum(r3,cn(8)),sum(r3,cn(9))]};
     }
     var bm={};its.forEach(function(x){var w=amountWC(x),q=adjIdxIt(x,w);if(!q.ok)miss++;var b=bm[x.discipline]||(bm[x.discipline]=[x.discipline,0,0,0]);b[1]+=w;b[2]+=q.adj;b[3]+=w+q.adj});
@@ -13986,7 +14090,7 @@ window.__cplSig=function(){
 </script>
 <script id="v212-header-menu">
 (function(){
-  var NAV={mnNext:1,stNext:1,stfNext:1,stfBack:1,mnCovBack:1,stcoOk:1,ciNext:1,cifNext:1,cifBack:1,cicoOk:1,exNext:1,exBack:1},CLOSE={mnClose:1,stClose:1,stadX:1,ciClose:1,exClose:1,mnWfClose:1,mnWfAllClose:1,stfHome:1,cifHome:1};
+  var NAV={mnNext:1,stNext:1,stfNext:1,stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,stcoOk:1,ciNext:1,cifNext:1,cifBack:1,cicoOk:1,exNext:1,exBack:1},CLOSE={mnClose:1,stClose:1,stadX:1,ciClose:1,exClose:1,mnWfClose:1,mnWfAllClose:1,stfHome:1,cifHome:1};
   var SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
   var ICO_MENU=SV+'<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
   var ICO_HOME=SV+'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>';
@@ -15390,7 +15494,7 @@ document.addEventListener('mousedown',function(e){
   var ICO_BACK=SV+'<path d="M4 12h16M14 6l6 6-6 6"/></svg>';
   var ICO_FWD=SV+'<path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
   var ICO_OK=SV+'<path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  var BACK={stfBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
+  var BACK={stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
   function isBack(b){return BACK[b.id]||/BackList$/.test(b.id||'')}
   function isFwd(b){return (/(Next|Ok)$/.test(b.id||'')||b.id==='analysisNext')&&!isBack(b)}
   function mk(src,ico,title,inv){
@@ -16001,7 +16105,7 @@ var BYID={cplHomeMenuBtn:'dots',cplMenuBtn:'dots',cplHomeQuickBtn:'home',cplPric
  newProject:'plus',newCalculation:'calc',openProjects:'clock',openCalculations:'clock',
  mnAdd:'plus',cplAddItemBtn:'plus',starredItemsBtn:'star',stAdd:'plus',ciAdd:'plus',stcoAdd:'plus',cicoAdd:'plus',closeProjects:'close',closeAdmin:'close'};
 var NEXTIDS={nextStage:1,goAdjustment:1,goAdjustmentResult:1,goComparison:1,goComparisonResult:1,analysisNext:1,mnNext:1,stNext:1,ciNext:1,stfNext:1,cifNext:1,exNext:1};
-var BACKIDS={backFromSummary:1,backFromAdjustment:1,backFromAdjustmentResult:1,backFromComparison:1,backFromComparisonResult:1,backFromAnalysisPage:1,mnCovBack:1,stfBack:1,cifBack:1,exBack:1};
+var BACKIDS={stC76Back:1,stC76EstBack:1,backFromSummary:1,backFromAdjustment:1,backFromAdjustmentResult:1,backFromComparison:1,backFromComparisonResult:1,backFromAnalysisPage:1,mnCovBack:1,stfBack:1,cifBack:1,exBack:1};
 var SMALL=/\b(mnItemDel|mnInfoBtn|mnListIco|projIco|mnDescBtn|mnRowDel|analysisDeleteRow|starredAnalysisBtn|mnRowAdd)\b/;
 var FRAME=/\b(mnInfoBtn|cbActBtn|mnStarDefBtn|mnSrchBtn|stTrBtn|exportIconBtn|projectIconBtn|mnIco|mnSortBtn|mnChapIntroBtn|mnListIco|projIco|mnDescBtn|finalSaveIcon|analysisSaveIcon|coefIconBtn|setupSaveIcon|clearIconBtn|mnAddBtn|analysisPageSave)\b/;
 function txt(b){return (b.textContent||'').replace(/\s+/g,' ').trim()}
@@ -16189,7 +16293,7 @@ window.__glassScan=scan;
 (function(){
   /* سوایپ از لبهٔ چپ به راست = بازگشت در همهٔ صفحه‌ها و پنجره‌ها (مثل iOS) */
   var EDGE=26, MIN_DX=60, MAX_DY=70;
-  var BACK=/^(stfBack|mnCovBack|cifBack|exBack|backFrom[A-Za-z]*|[a-z]+BackList|cplPriceBack|historyBackProjects)$/;
+  var BACK=/^(stfBack|stC76Back|stC76EstBack|mnCovBack|cifBack|exBack|backFrom[A-Za-z]*|[a-z]+BackList|cplPriceBack|historyBackProjects)$/;
   var CLOSE=/^(close[A-Za-z]*|[A-Za-z]+Close|[A-Za-z]+ListClose|cplCancel|stnCancel)$/;
   var SKIP=/^(supportCloseBtn|cplHome[A-Za-z]*)$/;
   function shown(el){
@@ -16244,6 +16348,23 @@ window.__glassScan=scan;
     });
     return c[0].b;
   }
+  window.__cplGoBack=function(){var b=pick();if(b){b.click();return true}return false};
+  var NEXT=/^(mnNext|stNext|stfNext|ciNext|cifNext|exNext|nextStage|goAdjustment|goAdjustmentResult|goComparison|goComparisonResult|analysisNext)$/;
+  window.__cplGoNext=function(){
+    var btns=document.querySelectorAll('button[id],button.stageProxyBtn'),c=[];
+    for(var i=0;i<btns.length;i++){
+      var b=btns[i],isN=NEXT.test(b.id||'')||(b.classList.contains('stageProxyBtn')&&/مرحله بعد/.test(b.textContent||''));
+      if(!isN||!shown(b)||!onTop(b))continue;
+      var o=overlayOf(b);c.push({b:b,o:o,z:zOf(o)});
+    }
+    if(!c.length)return false;
+    c.sort(function(x,y){
+      if(x.z!==y.z)return y.z-x.z;
+      if(x.o!==y.o){return (x.o.compareDocumentPosition(y.o)&Node.DOCUMENT_POSITION_FOLLOWING)?1:-1}
+      return 0;
+    });
+    c[0].b.click();return true;
+  };
   /* نوار نامرئی لبه: فقط وقتی مقدمهٔ فصل (iframe) باز است تا لمس‌ها از iframe رد شوند */
   var strip=document.createElement('div');
   strip.style.cssText='position:fixed;left:0;top:0;bottom:0;width:'+EDGE+'px;z-index:2147483000;display:none;background:transparent;touch-action:pan-y';
@@ -16669,7 +16790,7 @@ function __r4cRaw(v){var t=String(v==null?'':v).trim().replace(/[۰-۹]/g,functi
 function __r4c(v){var n=__r4cRaw(v);return n===null?1:Math.round(n*1e4)/1e4}
 document.addEventListener('change',function(e){
   var t=e.target;if(!t||!t.tagName||t.tagName!=='INPUT')return;
-  if(!(/^setup(Floor|Region|Overhead|Project)Coef$/.test(t.id||'')||(t.classList&&(t.classList.contains('stCg')||t.classList.contains('stCc')))))return;
+  if(!(/^setup(Floor|Region|Overhead|Project)Coef$/.test(t.id||'')||(t.classList&&(t.classList.contains('stCg')||t.classList.contains('stCc')||t.classList.contains('apiCoef')||t.hasAttribute('data-coef-row')))))return;
   var n=__r4cRaw(t.value);if(n===null)return;var r=Math.round(n*1e4)/1e4;
   if(String(r)!==String(t.value).trim()){t.value=String(r);t.dispatchEvent(new Event('input',{bubbles:true}))}
 },true);
@@ -16745,4 +16866,141 @@ document.addEventListener('keydown',function(e){
   var f=nx.querySelector('.mnRow .mnCell input.mnIn');if(!f)return;
   e.preventDefault();e.stopPropagation();f.focus();try{f.select()}catch(x){}
 },true);
+</script>
+<style id="v-squircle-design">
+/* طراحی یکپارچه: کادرهای گرد، تخت و تک‌رنگ (بدون شیشه/بلور) — دکمه‌ها دست‌نخورده */
+:root{--sqBg:var(--glBg,#1a1a1d);--sqBd:var(--glBd,rgba(255,255,255,.08));--sqIn:#26262a;--sqR1:28px;--sqR2:24px;--sqR3:22px}
+html[data-theme="light"]{--sqIn:#e3e3e8}
+html body .top,html body #projectBar{background:var(--c1)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* کارت‌ها و بلوک‌ها */
+html body :is(.card,.item,.mnItem,.projectCurrentInfo,.cplCard,.cplBaseCard,.adjustmentCard,.cbCard,.mnInfoPanel,.contractBox,.projectCoeffBox,.comparisonPriceBox,.supportBox,.authBox){
+ background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR2)!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* پنجره‌ها، منوها و دیالوگ‌ها */
+html body :is(.mnMenuPanel,.cbMenuPanel,.mnSortMenu,.nfPanel,.scPanel,.pmPanel,.cplAskBox,.cplMsgBox,.cplPanel,.projectPanel,.projectSetupPanel,.newChoicePanel,.setupListsPanel,.summaryPanel,.adjustmentPanel,.analysisPanel,.analysisPagePanel,.meterCoefPanel,.relCoefPanel,.impPanel,.c76ImpPanel,.exCmpBox,.trDdPanel,.adminPanel,#cplHomeMenu,#cplCostMenu,#stgMenu){
+ background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR1)!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html body :is(.mnSortMenuItem){border-radius:var(--sqR3)!important}
+html body #cplToast{border-radius:var(--sqR3)!important;box-shadow:none!important}
+html body :is(#cplNfDlg,#cplAskOv,.cplAskOv,#mnStarChooser,#mnExDescModal,#stExDescModal,#ciExDescModal){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* فیلدها */
+html body :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=hidden]):not([type=color]),select,textarea){
+ background-color:var(--sqBg)!important;background-image:none;border:1px solid var(--sqBd)!important;border-radius:var(--sqR3)!important;box-shadow:none!important}
+html body select{background-image:none}
+html body textarea{border-radius:20px!important}
+html body :is(.card,.item,.mnItem,.projectCurrentInfo,.cplCard,.cplBaseCard,.cbCard,.mnInfoPanel,.nfPanel,.scPanel,.pmPanel,.cplAskBox,.cplPanel,.projectPanel,.projectSetupPanel,.newChoicePanel,.setupListsPanel) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=hidden]):not([type=color]),select,textarea){background-color:var(--sqIn)!important}
+html body .mnIn{border-radius:16px!important}
+html body .mnChapWrap>select,html body .mnItemWrap>select{border-radius:0!important;border-top-right-radius:var(--sqR3)!important;border-bottom-right-radius:var(--sqR3)!important}
+/* بج‌ها و جمع‌ها */
+html body :is(.mnProd,.mnSum,.mnTot>b,.mnCodeBox){border-radius:16px!important}
+html body :is(.mnProd,.mnSum){background:var(--sqIn)!important;border:1px solid var(--sqBd)!important}
+html body :is(#meterToggle,.listHead){border-radius:var(--sqR3)!important}
+</style>
+<style id="v-squircle-design2">
+/* دکمه‌های متنی هم‌سبک: مقدمه فصل، ورود دستی آیتم، آنالیز، پایکار، شماره آیتم */
+html body .mnChapIntroBtn,html body .mnFreeTxt,html body .mnItemWrap .mnFreeTxt,html body .mnChapWrap .mnChapIntroBtn{
+ background:var(--sqBg)!important;color:var(--glFg,var(--c2))!important;border:1px solid var(--sqBd)!important;box-shadow:none!important;
+ border-radius:22px 0 0 22px!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html body .analysisOpenBtn{background:var(--sqBg)!important;color:var(--glFg,var(--c2))!important;border:1px solid var(--sqBd)!important;border-radius:18px!important;box-shadow:none!important;padding-inline:16px!important}
+html body .mnCodeBox{background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;border-radius:16px!important}
+html body .mnPayk{display:inline-flex;align-items:center;gap:6px;background:var(--sqBg)!important;color:var(--glFg,var(--c2))!important;border:1px solid var(--sqBd)!important;border-radius:18px!important;padding:6px 12px!important;box-shadow:none!important}
+html body .mnPayk.on{border-color:var(--c2)!important}
+html body :is(.mnInfoChip,.mnPriceTag,.mnExtraToggle,.badge,.pill){border-radius:999px!important}
+/* جدول‌ها */
+html body :is(.mnTableWrap,.v53-table-wrap,.cbTblWrap,.analysisTableWrap,.analysisPageWrap){border:1px solid var(--sqBd)!important;border-radius:var(--sqR2)!important;overflow:auto!important;background:var(--sqBg)!important;box-shadow:none!important}
+html body :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable){border-radius:0!important;margin:-1px!important;width:calc(100% + 2px)!important;max-width:none!important;background:transparent!important}
+html body :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) :is(th,td){border-color:var(--sqBd)!important}
+html body :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) th{background:var(--sqIn)!important}
+html body :is(.mnCovTable,.v53-table,.cbTbl,.analysisTable,.analysisPageTable,.adjTable) td{background:transparent!important}
+html body :is(.v53-grand,.v53-book-summary,.v215-book-summary,.adjustmentResultRow,.cbRelBox){background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR2)!important;box-shadow:none!important}
+</style>
+<style id="metriz-menu-width-chap-join">
+/* عرض منوها = عرض منوی صفحه «داده‌های پایه» (۲۳۰px) */
+html body #cplHomeMenu,html body #cplCostMenu,html body #stgMenu{width:min(230px,86vw)!important}
+html body .mnMenuPanel{min-width:230px!important;padding:6px!important}
+/* آیتم‌های فهرست‌بها - آنالیز بها: کادر انتخاب فصل مثل ریزمتره به «مقدمه فصل» بچسبد و گوشهٔ چپش گرد نباشد */
+html body #cplBase #cbC{border-top-left-radius:0!important;border-bottom-left-radius:0!important}
+html body #cplBase #cbC+#cbChapIntro{margin-inline-start:-4px!important}
+/* نام کاربر در منو: وسط‌چین ارتفاعی با آیکون */
+html body .cplMenuUser{align-items:center!important}
+html body .cplMenuUser svg{display:block!important;align-self:center!important}
+html body .cplMenuUser b{line-height:24px!important;top:3px!important;display:block}
+html body .cplMenuUser.latin b{top:4.5px!important}
+/* دکمهٔ داده‌های پایه: داخل خالی هم‌رنگ پس‌زمینهٔ اصلی + کادر دور */
+html body #cplHome .cplCard.cplBaseCard{background:var(--c1)!important;border:1px solid var(--c5)!important}
+html body #cplHome .cplCard.cplBaseCard:active{background:var(--c8)!important}
+</style>
+<style id="ui-match-v3">
+/* بخشنامه ۷۶۵۷۴ و برآوردهای واردشده: دکمه‌ها هم‌شکل بقیه (مثل دکمهٔ «بخشنامه 76574» در صورت‌وضعیت) */
+html body :is(#stC76 .mnSortBar,#stC76Est .c76ImpBar) .btn{font-size:var(--fs-btn)!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 16px!important;border-radius:18px!important;box-sizing:border-box!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px!important;white-space:nowrap}
+html body #stC76 .c76ApplyLbl{font-size:var(--fs-btn)!important;font-weight:700!important}
+html body :is(#stC76,#stC76Est) .mnHomeBtn{display:none!important}
+html[data-theme="light"]{--mnLiteBtn:color-mix(in srgb,var(--sqBg,#fff) 40%,#fff)}
+:root{--mnLiteBtn:#26262a}
+/* ریزمتره: «مقدمه فصل» و «ورودی مستقیم آیتم» هم‌رنگ، روشن‌تر و با فونت بزرگ‌تر */
+html body :is(#mnEditor,#stEditor,#ciEditor) :is(.mnFreeTxt,.mnChapIntroBtn),
+html body #mnChapIntro#mnChapIntro#mnChapIntro#mnChapIntro#mnChapIntro#mnChapIntro.mnChapIntroBtn,
+html body #stChapIntro#stChapIntro#stChapIntro#stChapIntro#stChapIntro#stChapIntro.mnChapIntroBtn,
+html body #ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro.mnChapIntroBtn{background:#3a3a3f!important;color:#fff!important;font-size:17px!important}
+/* بخشنامه ۷۶۵۷۴ */
+html body :is(#stC76 .mnSortBar,#stC76Est .c76ImpBar) .btn{font-size:18px!important;height:42px!important;min-height:42px!important}
+html body #stC76 .c76ApplyLbl{font-size:19px!important}
+html body #stCover[id] .stModeBar #stfC76{font-size:20px!important;height:46px!important;min-height:46px!important;padding:0 20px!important}
+html body #stCover[id] .stModeBar label.c76ChkLbl,html body #stCover[id] .c76Sec .c76ModeLbl{font-size:20px!important}
+html body #stCover[id] .stModeBar label.c76ChkLbl input{width:24px!important;height:24px!important}
+html body #stCover[id] .c76Sec .c76ModeLbl select{font-size:19px!important;height:46px!important;min-height:46px!important;width:170px!important}
+/* برآوردهای واردشده: فونت بزرگ‌تر */
+html body #stC76Est .mnCovTable :is(th,td,input,button){font-size:17px!important}
+html body #stC76Est tr.c76ErrDetail>td{font-size:16px!important}
+html body #stC76Est .c76AddRow .mnField{font-size:16px!important}
+html body #stC76Est .c76AddRow :is(select,input){font-size:17px!important;height:46px!important;min-height:46px!important;max-height:46px!important}
+html body #stC76Est .c76AddRow .mnAddBtn{width:46px!important;min-width:46px!important;height:46px!important;min-height:46px!important;max-height:46px!important;font-size:24px!important}
+html body #stC76Est :is(.mnMuted,.impMsg){font-size:17px!important}
+/* ریزمتره آنالیز قیمت جدید و روکش آنالیز: کادرها هم‌سبک کل پروژه */
+html body :is(.analysisSection,.analysisItemFields,.analysisPageItemControls,.analysisCopyBar,.analysisGrand){background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR2)!important;box-shadow:none!important}
+html body .analysisSection{overflow:hidden!important}
+html body .analysisSectionTitle{background:var(--sqIn)!important;border-bottom:1px solid var(--sqBd)!important}
+html body .analysisSection :is(.analysisTableWrap,.analysisPageWrap){border:0!important;border-radius:0!important;background:transparent!important}
+html body :is(.analysisItemFields,.analysisPageItemControls,.analysisCopyBar) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background-color:var(--sqIn)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR3)!important}
+html body .analysisItemFields textarea{border-radius:20px!important}
+html body .analysisHead{background:var(--sqBg)!important;border-bottom:1px solid var(--sqBd)!important}
+html body .analysisTotalRow td,html body .analysisPageTotal{background:var(--sqIn)!important}
+html body .analysisSection .analysisInput{background-color:var(--sqIn)!important;border-radius:var(--sqR3)!important}
+html:not([data-theme="light"]) body :is(#mnEditor,#stEditor,#ciEditor) :is(.mnFreeTxt,.mnChapIntroBtn,.mnFreeTxt *,.mnChapIntroBtn *){color:#fff!important;-webkit-text-fill-color:#fff!important;opacity:1!important;text-shadow:none!important}
+/* هزینه جدید / لیست هزینه‌ها (آنالیز هزینه و مقایسه هزینه با درآمد)، کادر نتیجه، دیالوگ تغییرات ذخیره‌نشده: هم‌سبک پروژه */
+html body :is(#exEditor .exTopBar .btn,#ciCover .ciExBtn,.cplAskBtns .btn){border-radius:18px!important;box-shadow:none!important;font-size:var(--fs-btn)!important;font-weight:700!important;height:42px!important;min-height:42px!important;transform:none!important}
+html body :is(#exEditor .exTopBar .btn,#ciCover .ciExBtn):not(.primary){background:var(--sqBg)!important;border:1px solid var(--sqBd)!important;color:var(--glFg,var(--c2))!important}
+html body #ciCover .ciExBtn{padding:0 18px!important;height:46px!important;min-height:46px!important}
+html body #exEditor .adjustmentResultTable{background:var(--sqIn)!important;border:1px solid var(--sqBd)!important;border-radius:var(--sqR2)!important;overflow:hidden!important;margin-top:4px!important}
+html body #exEditor .adjustmentResultRow>div{border-bottom-color:var(--sqBd)!important}
+html body #exEditor .adjustmentResultTitle>div{font-weight:800}
+html body #exEditor .exCmpBox .exStat{padding-bottom:2px}
+html body .cplAskBox{padding:20px!important}
+html body .cplAskBox h3{font-weight:800!important}
+</style>
+<script id="browser-back-js">
+(function(){
+  /* دکمهٔ بازگشت ویندوز/مرورگر/موس = همان «مرحله قبل / بستن» داخل برنامه.
+     چند ورودی تاریخچه بعد از اولین کلیک/لمس کاربر ساخته می‌شود (مرورگر ورودی‌های بدون تعامل کاربر را رد می‌کند)،
+     تا چند بار بازگشت پشت‌سرهم هم از برنامه بیرون نیندازد. روی صفحهٔ اصلی با دو بار زدن پشت‌سرهم خارج می‌شود. */
+  var N=40,armed=false,last=0,pos=0;
+  function fill(from){for(var i=from;i<=N;i++)history.pushState({cpl:i},'');pos=N}
+  function arm(){
+    if(armed)return;armed=true;
+    try{history.replaceState({cpl:0},'');fill(1)}catch(e){armed=false;return}
+    ['pointerdown','keydown','touchstart'].forEach(function(ev){document.removeEventListener(ev,arm,true)});
+  }
+  ['pointerdown','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,arm,true)});
+  function toast(t){var el=document.getElementById('cplToast');if(el){el.textContent=t;el.classList.add('show');setTimeout(function(){el.classList.remove('show')},2000)}}
+  window.addEventListener('popstate',function(e){
+    if(!armed)return;
+    var k=(e.state&&typeof e.state.cpl==='number')?e.state.cpl:0;
+    if(k>pos){pos=k;try{window.__cplGoNext&&window.__cplGoNext()}catch(x){}return}
+    pos=k;
+    var ok=false;try{ok=window.__cplGoBack&&window.__cplGoBack()}catch(x){}
+    if(ok){if(k<=5)fill(k+1);return}
+    var now=Date.now();
+    if(now-last<2500){armed=false;history.go(-(k+1));return}
+    last=now;toast('برای خروج، دوباره بزنید');
+    if(k<=5)fill(k+1);
+  });
+})();
 </script>
