@@ -18,15 +18,44 @@ function secure(res, isHtml) {
 }
 
 /* ===== دسترسی به /data/ =====
-   فایل‌های قیمت و آنالیز فقط برای کاربر واردشده سرو می‌شوند.
-   کاربر دمو (کوکی cplDemo=1) نسخه‌ی کوچک‌شده را از /demo-data/ می‌گیرد (tools/make-demo-data.py).
-   فقط manifest های PWA عمومی‌اند (مرورگر آن‌ها را بدون کوکی می‌خواند). */
+   فقط فایل‌های فهرست‌شده در DATA_RULES قابل دریافت‌اند (فایل‌های کامل pricelist-*.json هیچ‌وقت سرو نمی‌شوند).
+   کاربر واردشده: تکه‌های «سال × دفترچه» با سقف روزانه/هفتگی (تعداد فایل‌های متفاوت).
+   کاربر دمو (کوکی cplDemo=1): نسخه‌ی کوچک‌شده از /demo-data/ (ساخته‌شده با tools/make-data.py).
+   فقط manifest های PWA عمومی‌اند. */
 const PUBLIC_DATA_RE = /^\/data\/manifest(?:-light)?\.json$/;
+const DATA_RULES = {
+  index: /^\/data\/shard-index\.json$/,
+  adj: /^\/data\/adjustment-index-v\d+\.json$/,
+  shard: /^\/data\/(shard-\d{4}-\d{2,3}\.json)$/,
+  analysis: /^\/data\/(analysis-\d{4}-[a-z]+-v\d+\.json)$/,
+  pdf: /^\/data\/chapter-intro-[A-Za-z0-9_.-]*-chapter_(\d{2})\.pdf$/
+};
+const DAY_MS = 86400000;
+const DEFAULT_DAY_LIMIT = 40, DEFAULT_WEEK_LIMIT = 100;
 function safeDecode(p) { try { return decodeURIComponent(p); } catch { return p; } }
 function isDataPath(pathname) {
   const n = safeDecode(pathname).replace(/\/{2,}/g, '/').toLowerCase();
   return n === '/data' || n.startsWith('/data/');
 }
+
+/* ---- سقف دریافت: تعداد تکه‌های «متفاوت» در روز و در ۷ روز ---- */
+async function quotaCheck(env, user, name) {
+  if (isUnlimitedAdmin(user)) return null;
+  const day = Math.floor(Date.now() / DAY_MS);
+  const dayLimit = Number(env.SHARD_DAY_LIMIT) || DEFAULT_DAY_LIMIT, weekLimit = Number(env.SHARD_WEEK_LIMIT) || DEFAULT_WEEK_LIMIT;
+  const have = await env.DB.prepare('SELECT 1 AS x FROM data_access WHERE user_id=? AND day=? AND shard=?').bind(user.id, day, name).first();
+  if (have) return null; /* همین تکه امروز قبلاً گرفته شده: دوباره شمرده نمی‌شود */
+  const d = await env.DB.prepare('SELECT COUNT(*) AS n FROM data_access WHERE user_id=? AND day=?').bind(user.id, day).first();
+  if (Number(d?.n || 0) >= dayLimit) return 'سقف دریافت داده‌ی امروز تمام شد. فردا دوباره امتحان کنید یا با مدیر تماس بگیرید.';
+  const inWeek = await env.DB.prepare('SELECT 1 AS x FROM data_access WHERE user_id=? AND day>? AND shard=? LIMIT 1').bind(user.id, day - 7, name).first();
+  if (!inWeek) {
+    const w = await env.DB.prepare('SELECT COUNT(DISTINCT shard) AS n FROM data_access WHERE user_id=? AND day>?').bind(user.id, day - 7).first();
+    if (Number(w?.n || 0) >= weekLimit) return 'سقف دریافت داده‌ی این هفته تمام شد. با مدیر تماس بگیرید.';
+  }
+  await env.DB.prepare('INSERT OR IGNORE INTO data_access(user_id,day,shard) VALUES(?,?,?)').bind(user.id, day, name).run();
+  return null;
+}
+
 async function dataGate(request, env, url) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
   const p = url.pathname;
@@ -35,25 +64,36 @@ async function dataGate(request, env, url) {
     const h = new Headers(r.headers); h.set('Cache-Control', 'no-cache, must-revalidate, max-age=0');
     return new Response(r.body, { status: r.status, statusText: r.statusText, headers: h });
   }
-  const priv = (r) => {
+  const priv = (r, extra) => {
     const h = new Headers(r.headers);
     h.set('Cache-Control', 'private, no-cache'); h.set('Vary', 'Cookie');
     return new Response(r.body, { status: r.status, statusText: r.statusText, headers: h });
   };
+  const notFound = () => json({ error: 'پیدا نشد.' }, 404, { 'Cache-Control': 'no-store' });
   let user = null;
   try { user = await userFrom(request, env); } catch { user = null; }
   if (user) {
-    if (!/^\/data\/[A-Za-z0-9._-]+$/.test(p)) return json({ error: 'پیدا نشد.' }, 404, { 'Cache-Control': 'no-store' });
-    return priv(await env.ASSETS.fetch(request));
+    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.pdf.test(p)) {
+      const r = await env.ASSETS.fetch(request);
+      return r.ok ? priv(r) : notFound();
+    }
+    const m = p.match(DATA_RULES.shard) || p.match(DATA_RULES.analysis);
+    if (m) {
+      const r = await env.ASSETS.fetch(request);
+      if (!r.ok) return notFound();
+      const deny = await quotaCheck(env, user, m[1]);
+      if (deny) return json({ error: deny }, 429, { 'Cache-Control': 'no-store', 'Vary': 'Cookie' });
+      return priv(r);
+    }
+    return notFound();
   }
   const demo = /(?:^|;\s*)cplDemo=1(?:;|$)/.test(request.headers.get('Cookie') || '');
   if (demo) {
-    const m = p.match(/^\/data\/([A-Za-z0-9._-]+\.json)$/);
-    if (m) {
-      const r = await env.ASSETS.fetch(new Request(new URL('/demo-data/' + m[1], url), request));
+    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.shard.test(p) || DATA_RULES.analysis.test(p)) {
+      const r = await env.ASSETS.fetch(new Request(new URL('/demo-data/' + p.slice('/data/'.length), url), request));
       if (r.ok) return priv(r);
     }
-    const pm = p.match(/^\/data\/chapter-intro-[A-Za-z0-9_.-]*-chapter_(\d{2})\.pdf$/);
+    const pm = p.match(DATA_RULES.pdf);
     if (pm && Number(pm[1]) >= 1 && Number(pm[1]) <= 7) {
       const r = await env.ASSETS.fetch(request);
       if (r.ok) return priv(r);
@@ -141,6 +181,7 @@ async function ensureLicenseSchema(env){
     const sHave=new Set(((await env.DB.prepare(`SELECT name FROM pragma_table_info('sessions')`).all()).results||[]).map(x=>x.name));
     if(!sHave.has('device_id')){try{await env.DB.prepare(`ALTER TABLE sessions ADD COLUMN device_id TEXT`).run();}catch(e){if(!/duplicate column|already exists/i.test(e.message||'')) throw e;}}
     await env.DB.prepare(`CREATE TABLE IF NOT EXISTS login_attempts(k TEXT PRIMARY KEY, n INTEGER NOT NULL, reset_at INTEGER NOT NULL)`).run();
+    await env.DB.prepare(`CREATE TABLE IF NOT EXISTS data_access(user_id TEXT NOT NULL, day INTEGER NOT NULL, shard TEXT NOT NULL, PRIMARY KEY(user_id,day,shard))`).run();
     /* رمزهای قابل‌بازیابی قدیمی (password_enc) برای همیشه پاک می‌شوند */
     await env.DB.prepare(`UPDATE users SET password_enc=NULL WHERE password_enc IS NOT NULL`).run();
     const admin=await env.DB.prepare(`SELECT id FROM users WHERE role='admin' LIMIT 1`).first();
@@ -156,7 +197,7 @@ function isUnlimitedAdmin(u){return String(u?.role||'').toLowerCase()==='admin' 
 async function userFrom(request,env){
   const sid=getSession(request); if(!sid) return null;
   const h=await sha256(sid);
-  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
+  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
   return row||null;
 }
 const RL_WINDOW=900000; /* ۱۵ دقیقه */
@@ -218,6 +259,7 @@ async function api(request,env,url){
       await env.DB.prepare('DELETE FROM login_attempts WHERE k=?').bind(rlKeys[0][0]).run();
       await env.DB.prepare('DELETE FROM sessions WHERE expires_at<?').bind(Date.now()).run();
       await env.DB.prepare('DELETE FROM login_attempts WHERE reset_at<?').bind(Date.now()).run();
+      await env.DB.prepare('DELETE FROM data_access WHERE day<?').bind(Math.floor(Date.now()/DAY_MS)-30).run();
       const sid=rand(32), sh=await sha256(sid);
       await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at,device_id) VALUES(?,?,?,?)').bind(sh,u.id,Date.now()+2592000000,unlimited?null:deviceId).run();
       return json({ok:true,code:u.code,name:u.name,role:u.role||'user'},200,{'Set-Cookie':cookie('sid',sid)});
@@ -252,6 +294,12 @@ async function api(request,env,url){
       const cur=await sha256(getSession(request));
       await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(user.id,cur).run();
       return json({ok:true});
+    }
+    if(url.pathname==='/api/admin/usage' && request.method==='GET'){
+      if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
+      const day=Math.floor(Date.now()/DAY_MS);
+      const rows=await env.DB.prepare('SELECT u.name AS name,u.code AS code,(SELECT COUNT(*) FROM data_access a WHERE a.user_id=u.id AND a.day=?) AS today,(SELECT COUNT(DISTINCT a.shard) FROM data_access a WHERE a.user_id=u.id AND a.day>?) AS week FROM users u ORDER BY week DESC').bind(day,day-7).all();
+      return json({limits:{day:Number(env.SHARD_DAY_LIMIT)||DEFAULT_DAY_LIMIT,week:Number(env.SHARD_WEEK_LIMIT)||DEFAULT_WEEK_LIMIT},users:rows.results||[]});
     }
     if(url.pathname==='/api/admin/users' && request.method==='GET'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
