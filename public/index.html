@@ -2595,7 +2595,7 @@ html body #authGate .authBtns .btn.primary:active{background:var(--btnPrimaryBg)
     <div id="authLogin" style="display:none">
       <input id="loginCode" class="box" placeholder="کد یکتا یا نام کاربری" autocomplete="username">
       <input id="loginPass" class="box" type="password" placeholder="رمز عبور" autocomplete="current-password">
-      <div class="loginRememberRow" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;"><label class="rememberLogin" style="margin:0"><input id="rememberLogin" type="checkbox"> ورود روی این دستگاه ذخیره شود</label></div>
+      <div class="loginRememberRow" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;"><label class="rememberLogin" style="margin:0"><input id="rememberLogin" type="checkbox"> کد کاربری روی این دستگاه ذخیره شود</label></div>
       <div class="authBtns"><button class="btn primary" id="loginBtn">ورود</button></div>
       <div class="authBtns"><button type="button" class="btn" id="demoLoginBtn">ورود آزمایشی (بدون نیاز به حساب کاربری)</button></div>
       <div class="authBtns"><button type="button" class="btn" id="signupInfoBtn" aria-expanded="false" aria-controls="loginSupportBox">ثبت نام</button></div>
@@ -2684,7 +2684,7 @@ html body #authGate .authBtns .btn.primary:active{background:var(--btnPrimaryBg)
       var fk=x.year+'|'+d;(fullCh[fk]=fullCh[fk]||{})[x.chapter]=1;
       if(!chOk(x.chapter))continue;
       var gk=fk+'|'+x.chapter,n=cnt[gk]||0;cnt[gk]=n+1;window.__demoFull[gk]=n+1;
-      if((n*pct)%100<pct)out.push(x);
+      out.push(x); /* نمونه‌گیری ۳۰٪ از قبل در public/demo-data انجام شده */
     }
     return out;
   };
@@ -2770,6 +2770,7 @@ html body #authGate .authBtns .btn.primary:active{background:var(--btnPrimaryBg)
     if(started)return;started=true;
     try{
       window.DEMO_MODE=true;
+      try{document.cookie='cplDemo=1; Path=/; Secure; SameSite=Lax'}catch(_){} /* به سرور می‌گوید داده‌ی دمو بدهد */
       var seed=[];try{var t=window.localStorage.getItem('cplTheme');if(t)seed.push(['cplTheme',t])}catch(_){}
       var ms=memStorage(seed);
       try{Object.defineProperty(window,'localStorage',{value:ms,configurable:true,writable:true})}catch(_){}
@@ -5857,13 +5858,15 @@ window.exportRowsData=exportRowsData;
 })();
 </script>
 <script id="v34-final-script">
+try{sessionStorage.removeItem('constructionRefreshLoginV152')}catch(e){}
+
 (function(){
 const KEY='constructionRememberLoginV34';
-function getSaved(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
-function fill(){const x=getSaved(),c=document.getElementById('loginCode'),p=document.getElementById('loginPass'),r=document.getElementById('rememberLogin');if(x&&c&&p){c.value=x.code||'';p.value=x.password||'';if(r)r.checked=true}}
-const b=document.getElementById('loginBtn');if(b)b.onclick=async function(e){e.preventDefault();try{authMsg('در حال ورود...');const code=document.getElementById('loginCode').value.trim(),password=document.getElementById('loginPass').value,rem=!!document.getElementById('rememberLogin')?.checked;const d=await api('/api/login',{method:'POST',body:JSON.stringify({code,password,deviceId:typeof deviceId==='function'?deviceId():undefined})});if(rem)localStorage.setItem(KEY,JSON.stringify({code,password}));else localStorage.removeItem(KEY);await afterLogin(d)}catch(err){authMsg(err.message)}};
+function getSaved(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&x.password){delete x.password;localStorage.setItem(KEY,JSON.stringify(x))}return x}catch{return null}}
+function fill(){const x=getSaved(),c=document.getElementById('loginCode'),p=document.getElementById('loginPass'),r=document.getElementById('rememberLogin');if(x&&c&&p){c.value=x.code||'';p.value='';if(r)r.checked=true}}
+const b=document.getElementById('loginBtn');if(b)b.onclick=async function(e){e.preventDefault();try{authMsg('در حال ورود...');const code=document.getElementById('loginCode').value.trim(),password=document.getElementById('loginPass').value,rem=!!document.getElementById('rememberLogin')?.checked;const d=await api('/api/login',{method:'POST',body:JSON.stringify({code,password,deviceId:typeof deviceId==='function'?deviceId():undefined})});if(rem)localStorage.setItem(KEY,JSON.stringify({code}));else localStorage.removeItem(KEY);await afterLogin(d)}catch(err){authMsg(err.message)}};
 fill();
-setTimeout(async()=>{try{if(currentUser)return;const x=getSaved();if(!x?.code||!x?.password)return;const d=await api('/api/login',{method:'POST',body:JSON.stringify({code:x.code,password:x.password,deviceId:typeof deviceId==='function'?deviceId():undefined})});await afterLogin(d)}catch{localStorage.removeItem(KEY)}},800);
+/* ورود خودکار با رمز ذخیره‌شده حذف شد: رمز دیگر در مرورگر نگه داشته نمی‌شود. نشست با کوکی امن سمت سرور حفظ می‌شود. */
 // capture handlers: these work even if older listeners exist.
 function v35HandleAddRelated(e){
   const ar=e.target&&e.target.closest?e.target.closest('.addRelated'):null;
@@ -6020,7 +6023,7 @@ document.addEventListener('click',function(e){if(typeof addOnce==='function'&&ad
       if(typeof authMsg==='function')authMsg('در حال ورود...');
       const d=await api('/api/login',{method:'POST',body:JSON.stringify({code,password,deviceId:did()})});
       const rem=!!$('rememberLogin')?.checked;
-      if(rem)localStorage.setItem('constructionRememberLoginV34',JSON.stringify({code,password}));else localStorage.removeItem('constructionRememberLoginV34');
+      if(rem)localStorage.setItem('constructionRememberLoginV34',JSON.stringify({code}));else localStorage.removeItem('constructionRememberLoginV34');
       if(typeof window.afterLogin!=='function') throw new Error('سامانه ورود آماده نشده است.');
       await window.afterLogin(d);
       return false;
@@ -7506,7 +7509,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     try{
       const code=($('loginCode')?.value||'').trim();
       const password=$('loginPass')?.value||'';
-      if(code&&password) sessionStorage.setItem(SESSION_KEY,JSON.stringify({code,password}));
+      try{sessionStorage.removeItem(SESSION_KEY)}catch{} /* رمز دیگر ذخیره نمی‌شود */
     }catch{}
   }
   function clear(){try{sessionStorage.removeItem(SESSION_KEY)}catch{}}
@@ -7599,7 +7602,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const KEY='constructionRefreshLoginV152';
   const $=id=>document.getElementById(id);
   function readSaved(){try{return JSON.parse(sessionStorage.getItem(KEY)||'null')}catch{return null}}
-  function saveForm(){try{const c=($('loginCode')?.value||'').trim(),p=$('loginPass')?.value||'';if(c&&p)sessionStorage.setItem(KEY,JSON.stringify({code:c,password:p}));}catch{}}
+  function saveForm(){try{const c=($('loginCode')?.value||'').trim(),p=$('loginPass')?.value||'';try{sessionStorage.removeItem(KEY)}catch{} /* رمز دیگر ذخیره نمی‌شود */}catch{}}
   function clearSaved(){try{sessionStorage.removeItem(KEY)}catch{}}
   function did(){try{let x=localStorage.getItem('constructionDeviceId');if(!x){x=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));localStorage.setItem('constructionDeviceId',x)}return x}catch{return undefined}}
   async function finish(data){
