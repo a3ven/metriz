@@ -130,6 +130,9 @@ async function staticRoute(request, env, url) {
   const h = new Headers(res.headers);
   if (url.pathname === '/sw.js') {
     h.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+  } else if (/\.(?:ttf|woff2?)$/i.test(url.pathname)) {
+    // فونت‌ها: کش یک‌هفته‌ای تا با هر رفرش (مخصوصاً نت کند) دوباره اعتبارسنجی نشوند و فونت دیر نیاید. اگر فایل فونت عوض شد، نامش را هم عوض کنید.
+    h.set('Cache-Control', 'public, max-age=604800');
   } else if (/^\/(?:Icon\/)?(manifest[^/]*\.json|browserconfig\.xml|favicon\.ico|apple-touch-icon[^/]*\.png|hh-[^/]+\.(png|ico))$/.test(url.pathname)) {
     // App icons / manifest: always revalidate so a replaced icon is never stuck in an old cache.
     h.set('Cache-Control', 'no-cache, must-revalidate, max-age=0');
