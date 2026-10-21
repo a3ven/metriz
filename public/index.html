@@ -2934,6 +2934,127 @@ html body #authGate .authSwitch{font-size:16px}
   if(btn)btn.addEventListener('click',function(e){e.preventDefault();startDemo(e)});
 })();
 </script>
+<script id="subscription-ui">
+/* اشتراک: تاریخ شمسی (تبدیل شمسی↔میلادی)، نمایش اشتراک به کاربر و هشدار یک هفته‌ی آخر */
+(function(){
+  var FA='۰۱۲۳۴۵۶۷۸۹',AR='٠١٢٣٤٥٦٧٨٩',TZ='Asia/Tehran';
+  function lat(x){return String(x==null?'':x).replace(/[۰-۹]/g,function(c){return FA.indexOf(c)}).replace(/[٠-٩]/g,function(c){return AR.indexOf(c)})}
+  function div(a,b){return ~~(a/b)} function mod(a,b){return a-~~(a/b)*b}
+  function jalCal(jy){var br=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178],bl=br.length,gy=jy+621,leapJ=-14,jp=br[0],jm,jump,leap,leapG,march,n,i;
+    for(i=1;i<bl;i++){jm=br[i];jump=jm-jp;if(jy<jm)break;leapJ=leapJ+div(jump,33)*8+div(mod(jump,33),4);jp=jm}
+    n=jy-jp;leapJ=leapJ+div(n,33)*8+div(mod(n,33)+3,4);if(mod(jump,33)===4&&jump-n===4)leapJ+=1;
+    leapG=div(gy,4)-div((div(gy,100)+1)*3,4)-150;march=20+leapJ-leapG;if(jump-n<6)n=n-jump+div(jump+4,33)*33;
+    leap=mod(mod(n+1,33)-1,4);if(leap===-1)leap=4;return {leap:leap,gy:gy,march:march}}
+  function g2d(gy,gm,gd){var d=div((gy+div(gm-8,6)+100100)*1461,4)+div(153*mod(gm+9,12)+2,5)+gd-34840408;return d-div(div(gy+100100+div(gm-8,6),100)*3,4)+752}
+  function d2g(jdn){var j=4*jdn+139361631;j=j+div(div(4*jdn+183187720,146097)*3,4)*4-3908;var i=div(mod(j,1461),4)*5+308,gd=div(mod(i,153),5)+1,gm=mod(div(i,153),12)+1,gy=div(j,1461)-100100+div(8-gm,6);return {gy:gy,gm:gm,gd:gd}}
+  function j2d(jy,jm,jd){var r=jalCal(jy);return g2d(r.gy,3,r.march)+(jm-1)*31-div(jm,7)*(jm-7)+jd-1}
+  function d2j(jdn){var g=d2g(jdn),jy=g.gy-621,r=jalCal(jy),f=g2d(g.gy,3,r.march),jd,jm,k=jdn-f;
+    if(k>=0){if(k<=185){return {jy:jy,jm:1+div(k,31),jd:mod(k,31)+1}}k-=186}else{jy-=1;k+=179;if(r.leap===1)k+=1}
+    return {jy:jy,jm:7+div(k,30),jd:mod(k,30)+1}}
+  function p2(n){return (n<10?'0':'')+n}
+  /* ورودی شمسی مثل ۱۴۰۵/۰۸/۲۰ → {iso:'2026-11-11'}؛ خالی → {empty:true}؛ نامعتبر → null */
+  function jalaliToIso(str){
+    str=lat(str).trim();if(!str)return {empty:true};
+    if(/^\d{8}$/.test(str))str=str.slice(0,4)+'/'+str.slice(4,6)+'/'+str.slice(6);
+    var m=/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/.exec(str);if(!m)return null;
+    var jy=+m[1],jm=+m[2],jd=+m[3];if(jy<1300||jy>1600||jm<1||jm>12||jd<1||jd>31)return null;
+    var g=d2g(j2d(jy,jm,jd)),b=d2j(g2d(g.gy,g.gm,g.gd));
+    if(b.jy!==jy||b.jm!==jm||b.jd!==jd)return null; /* مثلاً ۳۰ اسفند در سال کبیسه‌نبودن */
+    return {iso:g.gy+'-'+p2(g.gm)+'-'+p2(g.gd)};
+  }
+  /* timestamp → ۱۴۰۵/۰۸/۲۰ (ارقام لاتین، برای فیلد ورودی) */
+  function jFmt(ts){try{var o={};new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).formatToParts(new Date(Number(ts))).forEach(function(x){o[x.type]=x.value});return o.year+'/'+o.month+'/'+o.day}catch(e){return ''}}
+  /* timestamp → تاریخ شمسی با ارقام فارسی (برای نمایش) */
+  function jFa(ts){try{return new Date(Number(ts)).toLocaleDateString('fa-IR',{timeZone:TZ})}catch(e){return ''}}
+  window.__jal={toIso:jalaliToIso,fmt:jFmt,fa:jFa};
+  /* فیلدهای تاریخ پنل مدیر: فقط رقم تایپ شود (کیبورد عددی موبایل)، اسلش‌ها خودکار گذاشته می‌شود: 14050607 → 1405/06/07 */
+  document.addEventListener('input',function(e){
+    var t=e.target;if(!t||!t.matches||!t.matches('#adminUserStart,#adminEditStart,#adminEditExpiry'))return;
+    var d=lat(t.value).replace(/\D/g,'').slice(0,8),o=d.slice(0,4);
+    if(d.length>4)o+='/'+d.slice(4,6);if(d.length>6)o+='/'+d.slice(6);
+    if(o!==t.value)t.value=o;
+  });
+
+  /* ---- نمایش اشتراک به کاربر ---- */
+  function subText(sub){
+    if(!sub)return {t:'',warn:false};
+    if(sub.unlimited)return {t:'اشتراک: نامحدود',warn:false};
+    if(sub.expired)return {t:'اشتراک: در تاریخ '+jFa(sub.last_day)+' به پایان رسید (فقط مشاهده و گزارش‌گیری)',warn:true,bad:true};
+    var d=Number(sub.days_left||0);
+    var t='اشتراک: تا '+jFa(sub.last_day)+(d>0?' ('+d.toLocaleString('fa-IR')+' روز مانده)':' (تمام شده)');
+    return {t:t,warn:!!sub.warn};
+  }
+  function renderSub(){
+    var s=subText(window.__sub);
+    ['subInfoLine','pmSub'].forEach(function(id){var el=document.getElementById(id);if(!el)return;el.textContent=s.t;el.style.display=s.t?'':'none';el.style.color=s.bad?'#ff5a52':(s.warn?'#e0a100':'');el.style.fontWeight=s.warn?'700':''});
+  }
+  window.__renderSub=renderSub;
+
+  /* ---- هشدار یک هفته‌ی آخر (روزی یک‌بار) ---- */
+  var wm=null;
+  function showModal(title,text,bad){
+    if(!wm){
+      var st=document.createElement('style');
+      st.textContent='#subWarnModal{position:fixed;inset:0;z-index:2147483200;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;direction:rtl}#subWarnModal.show{display:flex}#subWarnModal .swPanel{width:min(380px,100%);background:var(--c4,#1c1c1e);color:var(--c2,#fff);border:1px solid var(--c5,#333);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;text-align:right}#subWarnModal h3{margin:0;font-size:18px}#subWarnModal p{margin:0;line-height:1.9;font-size:15px}#subWarnModal .swMail{font-size:13px;text-align:center}#subToast{position:fixed;left:12px;right:12px;bottom:18px;z-index:2147483300;margin:0 auto;max-width:420px;background:var(--c4,#1c1c1e);color:var(--c2,#fff);border:1px solid #ff5a52;border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.9;text-align:center;white-space:pre-line;display:none;direction:rtl}#subToast.show{display:block}';
+      document.head.appendChild(st);
+      wm=document.createElement('div');wm.id='subWarnModal';wm.setAttribute('aria-hidden','true');
+      wm.innerHTML='<div class="swPanel" role="dialog" aria-modal="true"><h3 id="swTitle"></h3><p id="swText"></p><div class="swMail muted">ایمیل پشتیبانی : <bdi dir="ltr" style="direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:Arial,Helvetica,sans-serif">Siadati7@gmail.com</bdi></div><button type="button" class="btn primary" id="swOk">متوجه شدم</button></div>';
+      document.body.appendChild(wm);
+      var close=function(){wm.classList.remove('show');wm.setAttribute('aria-hidden','true')};
+      document.getElementById('swOk').addEventListener('click',close);
+      wm.addEventListener('click',function(e){if(e.target===wm)close()});
+    }
+    var h=document.getElementById('swTitle');h.textContent=title;h.style.color=bad?'#ff5a52':'#e0a100';
+    document.getElementById('swText').textContent=text;
+    wm.classList.add('show');wm.setAttribute('aria-hidden','false');
+  }
+  function warnModal(sub){
+    var d=Number(sub.days_left||0);
+    showModal('هشدار پایان اشتراک','اشتراک شما تا تاریخ '+jFa(sub.last_day)+' ('+(d===1?'فقط ۱ روز':d.toLocaleString('fa-IR')+' روز')+' دیگر) معتبر است و بعد از آن فقط امکان مشاهده و گزارش‌گیری خواهید داشت. برای تمدید اشتراک با مدیر تماس بگیرید.',false);
+  }
+  function expiredModal(sub){
+    showModal('اشتراک شما تمام شده است','اشتراک شما در تاریخ '+jFa(sub.last_day)+' به پایان رسیده است. فقط می‌توانید پروژه‌ها را ببینید و گزارش بگیرید؛ ایجاد، ویرایش و ذخیره‌ی تغییرات و بخش داده‌های پایه بسته است. برای تمدید با مدیر تماس بگیرید.',true);
+  }
+  /* پیام کوتاه وقتی سرور یک عمل را به‌خاطر پایان اشتراک رد می‌کند */
+  var tt=null,lastToast=0;
+  function toast(msg){
+    var now=Date.now();if(now-lastToast<6000)return;lastToast=now;
+    var el=document.getElementById('subToast');
+    if(!el){el=document.createElement('div');el.id='subToast';document.body.appendChild(el)}
+    if(!wm)showModal('','',true),wm.classList.remove('show'); /* فقط برای ساخت استایل‌ها */
+    el.textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},7000);
+  }
+  var _fetch=window.fetch;
+  if(_fetch)window.fetch=function(input,init){
+    return _fetch.apply(this,arguments).then(function(r){
+      try{
+        var url=typeof input==='string'?input:(input&&input.url)||'';
+        if(r.status===403&&(url.indexOf('/api/')===0||url.indexOf('/data/')===0)&&url.indexOf('/api/login')!==0){
+          r.clone().json().then(function(j){if(j&&j.expired&&j.error)toast(j.error)}).catch(function(){});
+        }
+      }catch(e){}
+      return r;
+    });
+  };
+  window.__setSub=function(sub){
+    window.__sub=sub||null;
+    try{renderSub()}catch(e){}
+    try{
+      if(sub&&sub.expired&&!window.DEMO_MODE){
+        window.__subExpired=true;
+        if(!sessionStorage.getItem('subExpShown')){sessionStorage.setItem('subExpShown','1');setTimeout(function(){expiredModal(sub)},600)}
+        return;
+      }
+      window.__subExpired=false;
+      if(!sub||sub.unlimited||!sub.warn||window.DEMO_MODE)return;
+      var key='subWarnDay:'+((window.currentUser&&window.currentUser.code)||''),today=jFmt(Date.now());
+      if(localStorage.getItem(key)===today)return;
+      localStorage.setItem(key,today);
+      setTimeout(function(){warnModal(sub)},600);
+    }catch(e){}
+  };
+})();
+</script>
 <script id="user-profile">
 /* ویرایش پروفایل: کاربر با زدن روی نامش در منو می‌تواند رمز عبور خود را عوض کند */
 (function(){
@@ -2945,7 +3066,7 @@ html body #authGate .authSwitch{font-size:16px}
     st.textContent='#profileModal{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;direction:rtl}#profileModal.show{display:flex}#profileModal .pmPanel{width:min(380px,100%);background:var(--c4,#1c1c1e);color:var(--c2,#fff);border:1px solid var(--c5,#333);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}#profileModal h3{margin:0;font-size:18px}#profileModal .pmName{font-size:16px;font-weight:700}#profileModal .pmMsg{min-height:18px;font-size:13px}#profileModal .pmAct{display:flex;gap:8px}#profileModal .pmAct .btn{flex:1}';
     document.head.appendChild(st);
     m=document.createElement('div');m.id='profileModal';m.setAttribute('aria-hidden','true');
-    m.innerHTML='<div class="pmPanel" role="dialog" aria-modal="true"><h3>ویرایش پروفایل</h3><div class="pmName" id="pmName"></div>'+
+    m.innerHTML='<div class="pmPanel" role="dialog" aria-modal="true"><h3>ویرایش پروفایل</h3><div class="pmName" id="pmName"></div><div class="pmSub" id="pmSub" style="display:none;font-size:13px"></div>'+
       '<input id="pmPass" class="box" type="password" autocomplete="new-password" placeholder="رمز عبور جدید، حداقل ۶ کاراکتر">'+
       '<input id="pmPass2" class="box" type="password" autocomplete="new-password" placeholder="تکرار رمز عبور جدید">'+
       '<div class="pmMsg" id="pmMsg" role="alert"></div>'+
@@ -2975,6 +3096,7 @@ html body #authGate .authSwitch{font-size:16px}
     build();
     var n=$('accountName');$('pmName').textContent=n?n.textContent:'';
     $('pmPass').value='';$('pmPass2').value='';$('pmMsg').textContent='';$('pmMsg').style.color='';
+    try{window.__renderSub&&window.__renderSub()}catch(e){}
     m.classList.add('show');m.setAttribute('aria-hidden','false');
     setTimeout(function(){$('pmPass').focus()},50);
   };
@@ -3048,14 +3170,29 @@ html body #authGate .authSwitch{font-size:16px}
     <div style="display:flex;gap:8px;align-items:stretch"><button type="button" class="btn primary cplListNewBtn cplListNewIcon" id="historyNewBtn" title="پروژه جدید" aria-label="پروژه جدید"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="btn" id="closeProjects" title="بستن" aria-label="بستن">✕</button></div>
   </div>
   <div id="projectList" style="margin-top:10px"></div>
+  <div id="subInfoLine" class="muted" style="display:none;margin-top:14px;text-align:center;font-size:13px;line-height:1.8"></div>
   <div class="muted" style="margin-top:14px;text-align:center;font-size:12px;line-height:1.8">ایمیل پشتیبانی : <bdi dir="ltr" style="direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:Arial,Helvetica,sans-serif;font-variant-numeric:normal">Siadati7@gmail.com</bdi></div>
  </div>
 </div>
 <div id="adminDrawer" aria-hidden="true">
  <div class="adminPanel">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><h3 style="margin:0">پنل مدیریت کاربران</h3><div class="muted">ساخت کاربر، ویرایش نام و رمز، تعیین تعداد دستگاه مجاز و آزاد کردن دستگاه‌ها</div></div><button class="btn" id="closeAdmin" title="بستن" aria-label="بستن">✕</button></div>
-  <div class="adminForm"><input id="adminUserName" class="box" placeholder="نام کاربر"><input id="adminUserPass" class="box" type="password" placeholder="رمز حداقل ۶ کاراکتر"><button class="btn primary" id="adminCreateUser">ساخت کاربر</button></div>
+  <div class="adminMenuBtns" id="adminMenuBtns"><button class="btn primary" id="adminCreateOpen" type="button">ساخت کاربر</button><button class="btn" id="adminListOpen" type="button">لیست کاربران</button></div>
+  <div id="adminCreatePanel" class="adminEditPanel" style="display:none">
+    <div class="adminEditTitle"><b>ساخت کاربر جدید</b><button class="btn" id="adminCreateX" type="button" aria-label="بستن">✕</button></div>
+    <input id="adminUserName" class="box" placeholder="نام کاربر">
+    <input id="adminUserPass" class="box" type="password" placeholder="رمز حداقل ۶ کاراکتر">
+    <div class="adminEditGrid">
+      <label>تاریخ شروع اشتراک (خالی = امروز)<input id="adminUserStart" class="box" type="text" inputmode="numeric" dir="ltr" autocomplete="off" placeholder="1405/08/30"></label>
+      <label>مدت اشتراک (ماه) — خالی = نامحدود<input id="adminUserMonths" class="box" type="number" min="1" max="240" step="1" inputmode="numeric" placeholder="مثلاً ۶ یا ۱۲"></label>
+    </div>
+    <details class="adminPermBox" id="adminCreatePerm"><summary>دسترسی بخش‌ها</summary><div class="adminPermList"><label><input type="checkbox" data-perm="st" checked><span>صورت‌وضعیت و تعدیل</span></label><label><input type="checkbox" data-perm="mn" checked><span>صورت‌مجلس</span></label><label><input type="checkbox" data-perm="price" checked><span>قیمت جدید</span></label><label><input type="checkbox" data-perm="cmp" checked><span>هزینه و درآمد</span></label><label><input type="checkbox" data-perm="base" checked><span>داده‌های پایه</span></label></div></details>
+    <label class="adminEditNotesL">توضیحات<textarea id="adminUserNotes" class="box" rows="3" maxlength="2000" placeholder="توضیحات (اختیاری)"></textarea></label>
+    <div class="adminEditActions"><button class="btn primary" id="adminCreateUser" type="button">ذخیره</button><button class="btn" id="adminCreateCancel" type="button">بستن</button></div>
+  </div>
   <div id="adminMsg" class="projectSetupError"></div>
+  <div id="adminListWrap" style="display:none">
+  <div class="adminEditTitle adminListTitle"><b>لیست کاربران</b><button class="btn" id="adminListX" type="button" aria-label="بستن">✕</button></div>
   <div id="adminEditPanel" class="adminEditPanel" style="display:none">
     <div class="adminEditTitle"><b>ویرایش کاربر</b><button class="btn" id="adminEditClose" type="button">✕</button></div>
     <input id="adminEditName" class="box" placeholder="نام کاربر">
@@ -3063,11 +3200,25 @@ html body #authGate .authSwitch{font-size:16px}
     <div class="adminEditGrid">
       <label>تعداد دستگاه مجاز<input id="adminEditMaxDevices" class="box" type="number" min="1" max="9999" step="1"></label>
       <label>دستگاه‌های متصل<input id="adminEditConnected" class="box" type="text" readonly></label>
+      <label>تاریخ شروع اشتراک<input id="adminEditStart" class="box" type="text" inputmode="numeric" dir="ltr" autocomplete="off" placeholder="1405/08/30"></label>
+      <label>تاریخ پایان اشتراک (خالی = نامحدود)<input id="adminEditExpiry" class="box" type="text" inputmode="numeric" dir="ltr" autocomplete="off" placeholder="نامحدود"></label>
+      <label>تمدید اشتراک (ماه)<input id="adminEditMonths" class="box" type="number" min="1" max="240" step="1" inputmode="numeric" placeholder="مثلاً ۶ یا ۱۲"></label>
     </div>
-    <div class="adminEditActions"><button class="btn primary" id="adminEditSave" type="button">ذخیره تغییرات</button><button class="btn" id="adminEditFreeDevices" type="button">آزاد کردن دستگاه‌ها</button></div>
+    <details class="adminPermBox" id="adminPermBox"><summary>دسترسی بخش‌ها</summary>
+      <div class="adminPermList">
+        <label><input type="checkbox" data-perm="st"><span>صورت‌وضعیت و تعدیل</span></label>
+        <label><input type="checkbox" data-perm="mn"><span>صورت‌مجلس</span></label>
+        <label><input type="checkbox" data-perm="price"><span>قیمت جدید</span></label>
+        <label><input type="checkbox" data-perm="cmp"><span>هزینه و درآمد</span></label>
+        <label><input type="checkbox" data-perm="base"><span>داده‌های پایه</span></label>
+      </div>
+    </details>
+    <label class="adminEditNotesL">توضیحات<textarea id="adminEditNotes" class="box" rows="3" maxlength="2000" placeholder="توضیحات درباره‌ی این کاربر (فقط مدیر می‌بیند)"></textarea></label>
+    <div class="adminEditActions"><button class="btn primary" id="adminEditSave" type="button">ذخیره تغییرات</button><button class="btn" id="adminEditFreeDevices" type="button">آزاد کردن دستگاه‌ها</button><button class="btn" id="adminEditClearExpiry" type="button">نامحدود کردن اشتراک</button></div>
     <input id="adminEditId" type="hidden">
   </div>
   <div id="adminUsers"></div>
+  </div>
  </div>
 </div>
 <div id="newChoiceModal" aria-hidden="true">
@@ -3577,7 +3728,12 @@ window.startAppDataLoad=function(){
   window.__DATA_LOADING=true;
   window.__DATA_LOAD_PROMISE=(async function(){
     const opt={cache:'no-store',credentials:'same-origin'};
+    if(window.__DATA_EXPIRED)throw Object.assign(new Error('expired'),{expired:true,status:403});
     const rs=await Promise.all([fetch('./data/shard-index.json',opt),fetch('./data/adjustment-index-v158.json',opt)]);
+    if(rs[0].status===403||rs[1].status===403){
+      let j=null;try{j=await (rs[0].status===403?rs[0]:rs[1]).clone().json()}catch(_){}
+      if(j&&j.expired){window.__DATA_EXPIRED=true;window.__DATA_EXPIRED_MSG=j.error||'اشتراک شما به پایان رسیده است و بخش داده‌های پایه بسته است.';throw Object.assign(new Error('expired'),{expired:true,status:403});}
+    }
     if(!rs[0].ok)throw new Error('data index '+rs[0].status);
     if(!rs[1].ok)throw new Error('adjustment data '+rs[1].status);
     const idx=await rs[0].json(),adj=await rs[1].json();
@@ -3605,8 +3761,9 @@ window.startAppDataLoad=function(){
   })().catch(function(err){
     window.__DATA_LOADING=false;
     window.__DATA_LOAD_ERROR=true;
+    if(err&&err.expired){window.__DATA_LOAD_PROMISE=null;try{document.dispatchEvent(new Event('app-data-expired'))}catch(e){}return false;}
     console.error('price data load failed',err);
-    try{if(/\b(401|403)\b/.test(String(err&&err.message||err))&&!sessionStorage.getItem('__dataAuth401')){sessionStorage.setItem('__dataAuth401','1');location.reload();return}}catch(e){}
+    try{if(/\b(401)\b/.test(String(err&&err.message||err))&&!sessionStorage.getItem('__dataAuth401')){sessionStorage.setItem('__dataAuth401','1');location.reload();return}}catch(e){}
     try{if(typeof itemsEl!=='undefined'&&itemsEl)itemsEl.innerHTML='<div class="empty">'+(err&&err.status===429?String(err.message):'بارگذاری اطلاعات قیمت ناموفق بود. اتصال اینترنت را بررسی و صفحه را دوباره بارگذاری کنید.')+'</div>'}catch(e){}
     throw err;
   });
@@ -5781,18 +5938,38 @@ window.exportRowsData=exportRowsData;
     $('adminEditId').value=u.id; $('adminEditName').value=u.name||''; $('adminEditPass').value=u.password||u.plain_password||u.pass||'';
     $('adminEditMaxDevices').value=u.role==='admin'?1:Number(u.max_devices||1);
     $('adminEditConnected').value=u.role==='admin'?'نامحدود':String(ids.length);
-    $('adminEditMaxDevices').disabled=u.role==='admin';
+    $('adminEditMaxDevices').disabled=u.role==='admin'; if($('adminEditNotes'))$('adminEditNotes').value=u.notes||'';
+    {const pb=$('adminPermBox');if(pb){pb.style.display=u.role==='admin'?'none':'';pb.open=false;const pa=Array.isArray(u.perms)?u.perms:null;pb.querySelectorAll('[data-perm]').forEach(c=>{c.checked=!pa||pa.includes(c.dataset.perm)})}}
     $('adminEditFreeDevices').style.display=u.role==='admin'?'none':'inline-flex';
+    const jl=window.__jal; const stEl=$('adminEditStart'); if(stEl){const st=u.starts_at!=null?u.starts_at:u.created_at; stEl.value=(u.role==='admin'||st==null)?'':jl.fmt(st); stEl.dataset.init=stEl.value; stEl.disabled=u.role==='admin'}
+    const ex=$('adminEditExpiry'); if(ex){ex.value=(u.role==='admin'||u.expires_at==null)?'':jl.fmt(u.expires_at-1); ex.dataset.init=ex.value; ex.disabled=u.role==='admin'; ex.placeholder=u.role==='admin'?'نامحدود':'نامحدود — برای محدود کردن تاریخ پایان را بنویس'}
+    const mo=$('adminEditMonths'); if(mo){mo.value='';mo.disabled=u.role==='admin'}
+    const cb=$('adminEditClearExpiry'); if(cb) cb.style.display=(u.role==='admin'||u.expires_at==null)?'none':'inline-flex';
     p.style.display='block'; p.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
-  async function refreshAdmin(){try{const d=await api('/api/admin/users');adminUsersCache=d.users||[];const box=$('adminUsers');if(!box)return;box.innerHTML=adminUsersCache.map(u=>{let ids=[];try{ids=JSON.parse(u.device_ids||'[]')}catch{};const max=u.role==='admin'?0:Number(u.max_devices||1);return `<div class="adminUser"><div><b>${esc(u.name)}</b> <span class="muted">${esc(u.code)}</span><small>${u.role==='admin'?'مدیر — ':''}${u.active?'فعال':'غیرفعال'} — ${u.role==='admin'?'دستگاه نامحدود':`دستگاه ${ids.length}/${max}`}${u.last_login?' — آخرین ورود: '+new Date(u.last_login).toLocaleString('fa-IR'):''}</small></div><div class="adminBtns"><button class="btn" data-edit="${u.id}">ویرایش</button>${u.role!=='admin'?`<button class="btn" data-toggle="${u.id}" data-active="${u.active?0:1}">${u.active?'غیرفعال کردن':'فعال کردن'}</button><button class="btn" data-device="${u.id}">آزاد کردن دستگاه‌ها</button><button class="btn danger" data-deluser="${u.id}">حذف کاربر</button>`:''}</div></div>`}).join('')||'<div class="historyEmpty">کاربری وجود ندارد.</div>';box.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=async()=>{await api('/api/admin/users/'+b.dataset.toggle+'/active',{method:'PUT',body:JSON.stringify({active:b.dataset.active==='1'})});refreshAdmin()});box.querySelectorAll('[data-device]').forEach(b=>b.onclick=async()=>{if(confirm('همه دستگاه‌های این کاربر آزاد شوند؟')){await api('/api/admin/users/'+b.dataset.device+'/device',{method:'DELETE'});refreshAdmin()}});box.querySelectorAll('[data-deluser]').forEach(b=>b.onclick=async()=>{const u=adminUsersCache.find(x=>String(x.id)===String(b.dataset.deluser));if(!confirm('کاربر «'+(u?u.name:'')+'» برای همیشه حذف شود؟ این کار قابل بازگشت نیست.'))return;try{await api('/api/admin/users/'+b.dataset.deluser,{method:'DELETE'});if($('adminMsg'))$('adminMsg').textContent='کاربر حذف شد.';refreshAdmin()}catch(e){alert('حذف کاربر انجام نشد: '+(e.message||'خطا در ارتباط با سرور'));if($('adminMsg'))$('adminMsg').textContent=e.message}});box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const u=adminUsersCache.find(x=>String(x.id)===String(b.dataset.edit));if(u)showAdminEdit(u)});}catch(e){if($('adminMsg'))$('adminMsg').textContent=e.message}}
+  function subTxt(u){const jl=window.__jal;const c=u.created_at?' — ساخته‌شده: '+jl.fa(u.created_at):'';if(u.role==='admin')return c;let t=c;if(u.starts_at!=null)t+=' — شروع اشتراک: '+jl.fa(u.starts_at)+(u.starts_at>Date.now()?' (هنوز شروع نشده)':'');if(u.expires_at==null)return t+' — اشتراک: نامحدود';const d=Math.ceil((u.expires_at-Date.now())/86400000);const warn=d>0&&d<=7;const txt=' — پایان اشتراک: '+jl.fa(u.expires_at-1)+(d>0?' ('+d+' روز مانده)':' (تمام شده)');return t+(warn||d<=0?'<span style="color:'+(d<=0?'#ff5a52':'#e0a100')+';font-weight:700">'+txt+'</span>':txt)}
+  async function refreshAdmin(){try{const d=await api('/api/admin/users');adminUsersCache=d.users||[];const box=$('adminUsers');if(!box)return;box.innerHTML=adminUsersCache.map(u=>{let ids=[];try{ids=JSON.parse(u.device_ids||'[]')}catch{};const max=u.role==='admin'?0:Number(u.max_devices||1);return `<div class="adminUser"><div><b>${esc(u.name)}</b> <span class="muted">${esc(u.code)}</span><small>${u.role==='admin'?'مدیر — ':''}${u.active?'فعال':'غیرفعال'} — ${u.role==='admin'?'دستگاه نامحدود':`دستگاه ${ids.length}/${max}`}${u.last_login?' — آخرین ورود: '+new Date(u.last_login).toLocaleString('fa-IR'):''}${subTxt(u)}</small>${u.notes?`<div class="adminNote">${esc(u.notes)}</div>`:''}</div><div class="adminBtns"><button class="btn" data-edit="${u.id}">ویرایش</button>${u.role!=='admin'?`<button class="btn" data-toggle="${u.id}" data-active="${u.active?0:1}">${u.active?'غیرفعال کردن':'فعال کردن'}</button><button class="btn" data-device="${u.id}">آزاد کردن دستگاه‌ها</button><button class="btn danger" data-deluser="${u.id}">حذف کاربر</button>`:''}</div></div>`}).join('')||'<div class="historyEmpty">کاربری وجود ندارد.</div>';box.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=async()=>{await api('/api/admin/users/'+b.dataset.toggle+'/active',{method:'PUT',body:JSON.stringify({active:b.dataset.active==='1'})});refreshAdmin()});box.querySelectorAll('[data-device]').forEach(b=>b.onclick=async()=>{if(confirm('همه دستگاه‌های این کاربر آزاد شوند؟')){await api('/api/admin/users/'+b.dataset.device+'/device',{method:'DELETE'});refreshAdmin()}});box.querySelectorAll('[data-deluser]').forEach(b=>b.onclick=async()=>{const u=adminUsersCache.find(x=>String(x.id)===String(b.dataset.deluser));if(!confirm('کاربر «'+(u?u.name:'')+'» برای همیشه حذف شود؟ این کار قابل بازگشت نیست.'))return;try{await api('/api/admin/users/'+b.dataset.deluser,{method:'DELETE'});if($('adminMsg'))$('adminMsg').textContent='کاربر حذف شد.';refreshAdmin()}catch(e){alert('حذف کاربر انجام نشد: '+(e.message||'خطا در ارتباط با سرور'));if($('adminMsg'))$('adminMsg').textContent=e.message}});box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const u=adminUsersCache.find(x=>String(x.id)===String(b.dataset.edit));if(u)showAdminEdit(u)});}catch(e){if($('adminMsg'))$('adminMsg').textContent=e.message}}
   function esc(x){return String(x??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
-  function openAdmin(){ $('adminDrawer')?.classList.add('show');refreshAdmin() }
+  function openAdmin(){ $('adminDrawer')?.classList.add('show');(window.__adminView||function(){})('') }
   $('adminPanelBtn')?.addEventListener('click',openAdmin);$('closeAdmin')?.addEventListener('click',()=>$('adminDrawer')?.classList.remove('show'));
-  $('adminCreateUser')?.addEventListener('click',async()=>{const name=$('adminUserName').value.trim(),password=$('adminUserPass').value;if(!name||password.length<6){$('adminMsg').textContent='نام و رمز حداقل ۶ کاراکتر را وارد کن.';return}try{const d=await api('/api/admin/users',{method:'POST',body:JSON.stringify({name,password})});$('adminMsg').textContent='کاربر ساخته شد: '+d.code;$('adminUserName').value='';$('adminUserPass').value='';refreshAdmin()}catch(e){$('adminMsg').textContent=e.message}});
+  function adminView(v){
+    const show=(id,on)=>{const e=$(id);if(e)e.style.display=on?'':'none'};
+    show('adminMenuBtns',!v);
+    show('adminCreatePanel',v==='create');
+    show('adminListWrap',v==='list');
+    if(v!=='list'&&$('adminEditPanel'))$('adminEditPanel').style.display='none';
+    if(v==='list')refreshAdmin();
+    if(v==='create')$('adminUserName')?.focus();
+  }
+  window.__adminView=adminView;
+  $('adminCreateOpen')?.addEventListener('click',()=>adminView('create'));
+  $('adminListOpen')?.addEventListener('click',()=>adminView('list'));
+  ['adminCreateX','adminCreateCancel','adminListX'].forEach(i=>$(i)?.addEventListener('click',()=>adminView('')));
+  $('adminCreateUser')?.addEventListener('click',async()=>{const name=$('adminUserName').value.trim(),password=$('adminUserPass').value;if(!name||password.length<6){$('adminMsg').textContent='نام و رمز حداقل ۶ کاراکتر را وارد کن.';return}const sr=window.__jal.toIso($('adminUserStart')?.value||'');if(!sr){$('adminMsg').textContent='تاریخ شروع نامعتبر است؛ مثل 1405/08/30 بنویس.';return}try{const d=await api('/api/admin/users',{method:'POST',body:JSON.stringify({name,password,start:sr.iso,months:($('adminUserMonths')?.value||'').trim()||undefined,notes:($('adminUserNotes')?.value||'').trim(),perms:[...document.querySelectorAll('#adminCreatePerm [data-perm]')].filter(c=>c.checked).map(c=>c.dataset.perm)})});$('adminMsg').textContent='کاربر ساخته شد: '+d.code+(d.starts_at?' — شروع: '+window.__jal.fa(d.starts_at):'')+(d.expires_at?' — اشتراک تا '+window.__jal.fa(d.expires_at-1):' — بدون محدودیت زمانی');$('adminUserName').value='';$('adminUserPass').value='';if($('adminUserMonths'))$('adminUserMonths').value='';if($('adminUserStart'))$('adminUserStart').value='';if($('adminUserNotes'))$('adminUserNotes').value='';document.querySelectorAll('#adminCreatePerm [data-perm]').forEach(c=>c.checked=true);adminView('');$('adminMsg').textContent=($('adminMsg').textContent||'')}catch(e){$('adminMsg').textContent=e.message}});
+  $('adminEditClearExpiry')?.addEventListener('click',async()=>{const id=$('adminEditId').value;if(!id)return;if(!confirm('محدودیت زمانی این کاربر برداشته شود (اشتراک نامحدود)؟'))return;try{await api('/api/admin/users/'+id,{method:'PUT',body:JSON.stringify({clear_expiry:true})});$('adminMsg').textContent='اشتراک این کاربر نامحدود شد.';$('adminEditPanel').style.display='none';refreshAdmin()}catch(e){$('adminMsg').textContent=e.message}});
   $('adminEditClose')?.addEventListener('click',()=>$('adminEditPanel').style.display='none');
   $('adminEditFreeDevices')?.addEventListener('click',async()=>{const id=$('adminEditId').value;if(!id)return;if(confirm('همه دستگاه‌های این کاربر آزاد شوند؟')){try{await api('/api/admin/users/'+id+'/device',{method:'DELETE'});$('adminEditConnected').value='0';refreshAdmin()}catch(e){$('adminMsg').textContent=e.message}}});
-  $('adminEditSave')?.addEventListener('click',async()=>{const id=$('adminEditId').value,name=$('adminEditName').value.trim(),password=$('adminEditPass').value,max_devices=Number($('adminEditMaxDevices').value||1);if(!id||!name){$('adminMsg').textContent='نام کاربر را وارد کنید.';return}if(password&&password.length<6){$('adminMsg').textContent='رمز جدید باید حداقل ۶ کاراکتر باشد.';return}try{await api('/api/admin/users/'+id,{method:'PUT',body:JSON.stringify({name,password,max_devices})});$('adminMsg').textContent='نام کاربری، رمز و تعداد دستگاه مجاز ذخیره شد.';$('adminEditPanel').style.display='none';refreshAdmin()}catch(e){$('adminMsg').textContent=e.message}});
+  $('adminEditSave')?.addEventListener('click',async()=>{const id=$('adminEditId').value,name=$('adminEditName').value.trim(),password=$('adminEditPass').value,max_devices=Number($('adminEditMaxDevices').value||1);if(!id||!name){$('adminMsg').textContent='نام کاربر را وارد کنید.';return}if(password&&password.length<6){$('adminMsg').textContent='رمز جدید باید حداقل ۶ کاراکتر باشد.';return}const body={name,password,max_devices,notes:($('adminEditNotes')?.value||'').trim(),perms:[...document.querySelectorAll('#adminPermBox [data-perm]')].filter(c=>c.checked).map(c=>c.dataset.perm)},jl=window.__jal,stEl=$('adminEditStart'),exEl=$('adminEditExpiry'),mo=($('adminEditMonths')?.value||'').trim();if(stEl&&!stEl.disabled){const v=stEl.value.trim();if(v!==(stEl.dataset.init||'')){const r=jl.toIso(v);if(!r){$('adminMsg').textContent='تاریخ شروع نامعتبر است؛ مثل 1405/08/30 بنویس.';return}body.start=r.empty?'':r.iso}}if(exEl&&!exEl.disabled){const v=exEl.value.trim();if(v&&v!==(exEl.dataset.init||'')){const r=jl.toIso(v);if(!r||r.empty){$('adminMsg').textContent='تاریخ پایان نامعتبر است؛ مثل 1405/09/30 بنویس.';return}if(mo){$('adminMsg').textContent='یا تاریخ پایان را عوض کن یا تمدید ماهانه بزن، هر دو با هم نه.';return}body.end=r.iso}}if(mo&&!body.end)body.months=mo;try{await api('/api/admin/users/'+id,{method:'PUT',body:JSON.stringify(body)});$('adminMsg').textContent='تغییرات ذخیره شد.';$('adminEditPanel').style.display='none';refreshAdmin()}catch(e){$('adminMsg').textContent=e.message}});
   (function(){
     const fileEl=$('chapterCoefFile'), btn=$('chapterCoefEditBtn'), status=$('chapterCoefStatus'), editor=$('chapterCoefEditor');
     const safeEsc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -6314,6 +6491,8 @@ document.addEventListener('click',function(e){if(typeof addOnce==='function'&&ad
   /* بعد از ورود، همیشه تاریخچه پروژه‌ها نمایش داده شود؛ هرگز صفحه ایجاد پروژه باز نشود. */
   window.afterLogin=async function(data){
     currentUser=data.user||data;
+    try{window.__setSub&&window.__setSub(data.sub)}catch{}
+    try{window.__applyPerms&&window.__applyPerms(currentUser)}catch{}
     try{const b=document.getElementById('adminPanelBtn');const isAdmin=!!(currentUser&&String(currentUser.role||'').trim().toLowerCase()==='admin');if(b){b.classList.toggle('admin-visible',isAdmin);b.style.setProperty('display',isAdmin?'inline-flex':'none','important');b.setAttribute('aria-hidden',isAdmin?'false':'true');b.tabIndex=isAdmin?0:-1;b.disabled=!isAdmin;}}catch{}
     const gate=document.getElementById('authGate');if(gate)gate.style.display='none';
     // Heavy 18MB+ price/analysis data is intentionally loaded only after login,
@@ -7990,13 +8169,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       try{
         const r=await fetch('/api/me',{method:'GET',credentials:'same-origin',cache:'no-store'});
         if(r.ok){const d=await r.json(); if(d?.user){await finish(d);return true;}}
+        else{try{const e=await r.json(); if((e?.expired||e?.pending)&&typeof authMsg==='function')authMsg(e.error)}catch{}}
       }catch{}
       // If the cookie was lost by the browser, restore the same tab session silently.
       const saved=readSaved();
       if(!saved?.code||!saved?.password) return false;
       const r=await fetch('/api/login',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},cache:'no-store',body:JSON.stringify({code:saved.code,password:saved.password,deviceId:did()})});
       const d=await r.json().catch(()=>({}));
-      if(!r.ok) return false;
+      if(!r.ok){ if((d?.expired||d?.pending)&&typeof authMsg==='function')authMsg(d.error); return false; }
       await finish(d); return true;
     }catch(e){console.error('refresh restore',e);return false}
   }
@@ -8710,6 +8890,39 @@ setInterval(bindExports,500);
   </div>
 </div>
 <div id="cplToast"></div>
+<script id="user-perms">
+/* دسترسی بخش‌ها: بخش‌های غیرمجاز کم‌رنگ و غیرقابل‌کلیک می‌شوند (مدیر همیشه همه را دارد) */
+(function(){
+  var MAP={st:'cplGoStatement',mn:'cplGoMinutes',price:'cplGoPrice',cmp:'cplGoCmp',base:'cplGoBase'};
+  var MSG='این بخش برای حساب شما فعال نیست.';
+  function allowed(k){var p=window.__perms;return !Array.isArray(p)||p.indexOf(k)>=0}
+  function paint(){
+    Object.keys(MAP).forEach(function(k){
+      var b=document.getElementById(MAP[k]);if(!b)return;
+      var off=!allowed(k);
+      b.classList.toggle('permOff',off);
+      if(off){b.setAttribute('aria-disabled','true');b.setAttribute('tabindex','-1');b.title=MSG}
+      else{b.removeAttribute('aria-disabled');b.removeAttribute('tabindex');if(b.title===MSG)b.removeAttribute('title')}
+    });
+  }
+  window.__applyPerms=function(u){
+    var admin=u&&String(u.role||'').trim().toLowerCase()==='admin';
+    window.__perms=(!u||admin||!Array.isArray(u.perms))?null:u.perms;
+    paint();
+  };
+  window.__permAllowed=allowed;
+  /* مسدودسازی کلیک (فاز capture تا هیچ کنترل‌کننده‌ی دیگری اجرا نشود) */
+  ['click','keydown','pointerdown'].forEach(function(ev){
+    document.addEventListener(ev,function(e){
+      if(ev==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
+      var c=e.target&&e.target.closest&&e.target.closest('.cplCard.permOff');
+      if(!c)return;
+      e.preventDefault();e.stopImmediatePropagation();
+    },true);
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',paint);
+})();
+</script>
 <script id="cpl-home-js">
 (function(){
   var home=document.getElementById('cplHome'),toast=document.getElementById('cplToast'),tt;
@@ -9288,7 +9501,7 @@ setInterval(bindExports,500);
   /* ---------- ویرایشگر صورت‌مجلس ---------- */
   function openEditor(existing){
     var y=projectYear();
-    if(!window.__DATA_READY||typeof DATA==='undefined'){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
+    if(!window.__DATA_EXPIRED&&(!window.__DATA_READY||typeof DATA==='undefined')){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
     if(!existing&&window.__cplVer)window.__cplVer.mn.reset();
     cur=existing||{id:uid(),name:'',createdAt:Date.now(),year:y,items:[]};
     if(!cur.year)cur.year=y;
@@ -11257,7 +11470,7 @@ window.__cplSig=function(){
   /* ---------- ویرایشگر صورت‌وضعیت ---------- */
   function openEditor(existing,isNew){
     var y=projectYear();
-    if(!window.__DATA_READY||typeof DATA==='undefined'){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
+    if(!window.__DATA_EXPIRED&&(!window.__DATA_READY||typeof DATA==='undefined')){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
     cur=existing||{id:uid(),name:'',createdAt:Date.now(),year:y,items:[]};
     if(!cur.year)cur.year=y;if(!cur.coefs)cur.coefs=defaultCoefs();if(custList().length)syncCustToProject();
     if(String(cur.no||'').trim())cur.name=autoName(cur.no);
@@ -13374,7 +13587,7 @@ window.__cplSig=function(){
     return '<table class="mnCovTable"><thead><tr><th>ردیف</th><th>بازه‌ی تاریخ</th><th>دوره کارکرد</th><th>سال کارکرد</th><th>روز</th><th>وضعیت زمانی</th><th>نوع شاخص</th><th>ملاک شاخص</th><th>سال شاخص</th><th>وضعیت شاخص</th><th>مبلغ تعدیل دوره</th><th></th></tr></thead><tbody>'+body+'</tbody><tfoot><tr><td colspan="4">جمع روز</td><td>'+faD(tot)+'</td><td colspan="5"></td><td>'+fm(L.reduce(function(x,s){return x+(s.sum||0)},0))+'</td><td></td></tr></tfoot></table>'}
   async function openAdj(existing){
     if(window.__cplVer){window.__cplVer.st.reset();if(!existing)window.__cplVer.adj.reset()}
-    if(!window.__DATA_READY){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
+    if(!window.__DATA_READY&&!window.__DATA_EXPIRED){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
     var sts,L0;try{sts=(await readList()).list;L0=await readKey('adjustments')}catch(e){alert(e.message||'خواندن انجام نشد.');return}
     if(!sts.length){alert('ابتدا یک صورت‌وضعیت ذخیره کن.');return}
     var stsV={P:sts,C:[],E:[]};try{stsV.C=await readKey('statements__C');stsV.E=await readKey('statements__E')}catch(e){}
@@ -13640,7 +13853,7 @@ window.__cplSig=function(){
   /* ---------- ویرایشگر هزینه-درآمد ---------- */
   function openEditor(existing,isNew){
     var y=projectYear();
-    if(!window.__DATA_READY||typeof DATA==='undefined'){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
+    if(!window.__DATA_EXPIRED&&(!window.__DATA_READY||typeof DATA==='undefined')){alert('اطلاعات فهرست بها هنوز بارگذاری نشده است.');return}
     cur=existing||{id:uid(),name:'',createdAt:Date.now(),year:y,items:[]};
     if(!cur.year)cur.year=y;if(!cur.coefs)cur.coefs=defaultCoefs();
     migrateRows(cur);
@@ -15441,6 +15654,7 @@ window.__cplSig=function(){
       box.innerHTML='<div class="cbMenu"><button type="button" data-cb="items">'+ICO_ITEMS+'<b>آیتم‌های فهرست بها - آنالیز بها</b></button><button type="button" data-cb="index">'+ICO_IDX+'<b>شاخص‌های فصلی</b></button><button type="button" data-cb="ridx">'+ICO_IDX+'<b>شاخص‌های رشته‌ای</b></button><button type="button" data-cb="coef">'+ICO_CALC+'<b>ضریب تعدیل</b></button></div>';
       return;
     }
+    if(window.__DATA_EXPIRED&&!ready()){box.innerHTML='<div class="cbEmpty" style="white-space:pre-line;line-height:2"><b>اتمام اشتراک</b>\n'+(window.__DATA_EXPIRED_MSG||'اشتراک شما به پایان رسیده است و بخش داده‌های پایه بسته است.')+'</div>';return}
     if(!ready()){box.innerHTML=loadingHtml();return}
     if(ST.view==='items')renderItems(box);else if(ST.view==='ridx')renderRIdx(box);else if(ST.view==='coef')renderCoef(box);else renderIndex(box);
     try{if(window.__demoBaseNotice)window.__demoBaseNotice(box)}catch(e){}
@@ -15670,6 +15884,7 @@ window.__cplSig=function(){
     if(b){e.preventDefault();open()}
   });
   document.addEventListener('app-data-ready',function(){if(root&&root.classList.contains('show')&&ST.view!=='menu')renderBody()});
+  document.addEventListener('app-data-expired',function(){if(root&&root.classList.contains('show')&&ST.view!=='menu')renderBody()});
   window.cplOpenBaseInfo=open;
 })();
 </script>
@@ -18132,6 +18347,32 @@ html body #starredModal .starredFilters{flex-wrap:wrap}
 html body #starredModal .starredFilters label{flex:1 1 130px}
 
 html body #starredModal .starredItem :is(.starDisc,.starCh,.starPrice,.starUnit){display:inline-block;border:1.5px solid rgba(128,128,128,.6);border-radius:10px;padding:3px 12px}
+
+/* ===== پنل ویرایش کاربر: دکمه‌های پایین هم‌اندازه و مرتب مثل «ذخیره تغییرات» ===== */
+html body #adminDrawer .adminEditActions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+html body #adminDrawer .adminEditActions .btn{display:flex!important;align-items:center;justify-content:center;width:100%!important;min-height:48px!important;padding:0 14px!important;margin:0!important;text-align:center;white-space:normal;box-sizing:border-box}
+html body #adminDrawer .adminEditActions .btn[style*="display:none"],html body #adminDrawer .adminEditActions .btn[style*="display: none"]{display:none!important}
+html body #adminDrawer .adminEditNotesL{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--c17)}
+html body #adminDrawer .adminEditNotesL textarea{height:auto!important;min-height:80px;padding:10px 14px!important;resize:vertical;font:inherit;line-height:1.7}
+html body #adminDrawer .adminNote{margin-top:6px;font-size:13px;line-height:1.7;color:var(--c17);white-space:pre-wrap;word-break:break-word;opacity:.9}
+
+/* ===== دسترسی بخش‌ها ===== */
+#cplHome .cplCard.permOff{opacity:.32!important;pointer-events:none!important;filter:grayscale(1);cursor:not-allowed}
+html body #adminDrawer .adminPermBox{background:var(--glBg,#1a1a1d);border:1px solid var(--glBd,rgba(255,255,255,.08));border-radius:var(--sqR3,22px);padding:0 14px}
+html body #adminDrawer .adminPermBox summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-weight:700;list-style:none}
+html body #adminDrawer .adminPermBox summary::-webkit-details-marker{display:none}
+html body #adminDrawer .adminPermBox summary::after{content:"▾";margin-right:auto;margin-left:0;transition:transform .2s}
+html body #adminDrawer .adminPermBox[open] summary::after{transform:rotate(180deg)}
+html body #adminDrawer .adminPermList{display:grid;gap:4px;padding:0 0 10px}
+html body #adminDrawer .adminPermList label{display:flex;align-items:center;gap:12px;min-height:42px;cursor:pointer}
+html body #adminDrawer .adminPanel .adminPermList input[type="checkbox"]{appearance:none;-webkit-appearance:none;position:relative;display:inline-block!important;flex:0 0 22px!important;width:22px!important;min-width:22px!important;max-width:22px!important;height:22px!important;min-height:22px!important;max-height:22px!important;aspect-ratio:1/1;margin:0!important;padding:0!important;box-sizing:border-box!important;border-radius:7px!important;background:transparent!important;border:2px solid var(--c2)!important;cursor:pointer}
+html body #adminDrawer .adminPanel .adminPermList input[type="checkbox"]::after{content:"";position:absolute;left:50%;top:46%;width:5px;height:10px;margin:0;border:solid var(--c2);border-width:0 2.4px 2.4px 0;transform:translate(-50%,-50%) rotate(45deg) scale(0);transition:transform .12s}
+html body #adminDrawer .adminPanel .adminPermList input[type="checkbox"]:checked::after{transform:translate(-50%,-50%) rotate(45deg) scale(1)}
+html body #adminDrawer .adminPanel .adminPermList input[type="checkbox"]:checked{background:transparent!important;border-color:var(--c2)!important}
+html body #adminDrawer #adminMsg:empty{display:none}
+html body #adminDrawer .adminMenuBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 0}
+html body #adminDrawer .adminMenuBtns .btn{min-height:56px!important;font-size:16px;font-weight:700}
+html body #adminDrawer .adminListTitle{margin-top:12px}
 </style>
 <script>
 (function(){
