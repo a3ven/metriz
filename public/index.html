@@ -2474,6 +2474,17 @@ html body #cplHome .cplMinutesView .cplGrid::after,
 html body #cplHome .cplCmpView .cplGrid::after,
 html body #cplHome .cplPriceView .cplGrid::after{content:"";grid-column:1/-1;height:150px;visibility:hidden;pointer-events:none}
 </style>
+<style id="homeCardTitleBump">
+html html body #cplHome #cplPickProject b,
+html html body #cplHome #cplGoStatement b,
+html html body #cplHome #cplGoMinutes b,
+html html body #cplHome #cplGoPrice b,
+html html body #cplHome #cplGoCost b,
+html html body #cplHome #cplGoCmp b,
+html html body #cplHome #cplGoBase b,
+html html body #cplHome .cplMainView .cplGrid .cplCard>b,
+html html body #cplHome .cplMainView .cplGrid .cplCard .pickTxt>b{font-size:20px!important;line-height:1.45!important;font-weight:800!important}
+</style>
 <style id="listFontBump">
 /* فونت بخش لیست‌ها کمی بزرگ‌تر (فقط اندازه متن) */
 html body .mnListItem>div:first-child>b{font-size:calc(var(--fs-body) + 2px)!important}
@@ -2498,7 +2509,58 @@ html body #mnItems#mnItems .mnChipRow>.mnCode.mnCodeBox,html body #stItems#stIte
 /* ملاحظات: متن وسط‌چین عمودی */
 html body #mnItems#mnItems#mnItems .mnRow .mnRemark textarea,html body #stItems#stItems#stItems .mnRow .mnRemark textarea{padding:7px 14px!important;line-height:20px!important;box-sizing:border-box!important}
 </style>
-</head><body>
+<style id="mnEditorLayoutV2">
+/* صورت‌مجلس: ردیف ۱ عنوان/تاریخ/شماره؛ ردیف ۲ نوع فهرست + فصل + سورت/فیلتر/ستاره؛ ردیف ۳ آیتم + پلاس/جستجو/پاک‌کردن — ستون‌ها دقیقاً هم‌تراز */
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow3x{display:grid!important;grid-template-columns:minmax(0,1fr) 116px 132px!important;gap:8px!important;align-items:end!important;width:100%!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow3x>.mnField{width:auto!important;min-width:0!important;max-width:100%!important;grid-column:auto!important;font-size:14px!important;gap:3px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow3x>.mnField input{width:100%!important;min-width:0!important;box-sizing:border-box!important;height:44px!important;min-height:44px!important;padding-inline:6px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x,html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,2fr) 44px 44px 44px!important;gap:8px!important;align-items:end!important;width:100%!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x>.mnField{width:auto!important;min-width:0!important;max-width:100%!important;grid-column:auto!important;font-size:14px!important;gap:3px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x>.mnField:nth-child(2){grid-column:2!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x .mnField select{width:100%!important;min-width:0!important;max-width:100%!important;height:44px!important;min-height:44px!important;box-sizing:border-box!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x .mnChapWrap{display:flex!important;flex-wrap:nowrap!important;width:100%!important;min-width:0!important;align-items:stretch!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x .mnChapWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x .mnChapWrap>.mnChapIntroBtn{flex:0 0 auto!important;height:44px!important;min-height:44px!important;padding:0 12px!important;white-space:nowrap!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x>.btn{width:100%!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;margin:0!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;order:0!important;grid-column:auto!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick>.mnPickItem{grid-column:1/3!important;order:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick .mnItemWrap{display:flex!important;flex-wrap:wrap!important;width:100%!important;min-width:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;white-space:nowrap!important;padding:0 12px!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick .mnAddBtn{order:1!important;grid-column:auto!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap{order:2!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick #mnClr{order:3!important;grid-column:auto!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick #mnClr svg{width:24px;height:24px}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
+@media (max-width:640px){
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x,html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow2x>.mnField:nth-child(2){grid-column:2/4!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnPick>.mnPickItem{grid-column:1/-1!important}
+}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor #mnNo{text-align:center!important}
+html body #mnEditor#mnEditor#mnEditor#mnEditor#mnEditor#mnEditor .mnRow3x>.mnField{white-space:nowrap}
+
+@media (min-width:641px){
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick{display:grid!important;grid-template-columns:minmax(124px,.5fr) minmax(112px,.7fr) minmax(110px,.8fr) minmax(0,3fr) 44px 44px 44px 44px!important;gap:8px!important;align-items:end!important;width:100%!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField{width:auto!important;min-width:0!important;max-width:100%!important;grid-column:auto!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.stRowTools{display:contents!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .stRowTools>.btn{width:100%!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;margin:0!important;padding:0!important;grid-column:auto!important;flex:none!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick>.mnPickItem{grid-column:1/5!important;order:0!important;width:auto!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnStarDefBtn,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnAddBtn,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick>.mnSrchWrap{grid-column:auto!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick>.mnSrchWrap:has(.mnSrchIn:not([hidden])){grid-column:1/-1!important;order:-1!important}
+}
+@media (min-width:641px){
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField{display:flex!important;flex-direction:column!important;overflow:visible!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnChapWrap,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .stDiscWrap,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnItemWrap{display:flex!important;flex-wrap:nowrap!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnChapWrap>select,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .stDiscWrap>select,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnItemWrap>select{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3 .mnChapWrap>.mnChapIntroBtn,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnItemWrap>.mnFreeTxt{flex:0 0 auto!important;margin-inline-start:-1px!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick>.mnPickItem{min-width:0!important;overflow:visible!important}
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnPick .mnItemWrap:has(>.mnFreeTxt[aria-expanded="true"]){flex-wrap:wrap!important}
+}
+@media (min-width:641px){
+html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField>input,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField>.stDiscWrap,html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>.mnField>.stDiscWrap>select{width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important}
+}
+</style>
+<style id="analysisSaveThin">html body .analysisActions #analysisPageSave svg,html body .analysisActions #analysisPageSave svg *,html body .analysisActions #analysisSave svg,html body .analysisActions #analysisSave svg *{stroke-width:1.5!important}html body .analysisActions #analysisPageSave{font-weight:400!important}</style></head><body>
 <script id="v-coef-round4-core">
 /* ضرایب پروژه (طبقات، منطقه، بالاسری، پیشنهادی کل، ضرایب فصل): همیشه تا ۴ رقم اعشار گرد می‌شوند، در کل پروژه */
 (function(){
@@ -8528,6 +8590,56 @@ setInterval(bindExports,500);
 })();
 </script>
 
+<script id="pickProjOpenJs">
+(function(){
+  var CLOSED='<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/>';
+  var OPEN='<path d="M4.5 19.5h-0A2.5 2.5 0 0 1 2 17V6.5A2.5 2.5 0 0 1 4.5 4H8l2 2.5h6.5A2.5 2.5 0 0 1 19 9v1.5"/><path d="M4.5 19.5h13.2a2.5 2.5 0 0 0 2.4-1.8l1.6-5.2a1.8 1.8 0 0 0-1.7-2.3H8.6a2.5 2.5 0 0 0-2.4 1.8z"/>';
+  function imp(el,p,v){el.style.setProperty(p,v,'important')}
+  function card(c,has,full){
+    var sv=c.querySelector(':scope>svg');
+    if(sv){var want=has?'open':'closed';if(sv.getAttribute('data-pf')!==want){sv.innerHTML=has?OPEN:CLOSED;sv.setAttribute('data-pf',want)}}
+    var box=c.querySelector('.pickTxt');if(!box)return;
+    var ob=box.querySelector('b:not(.pfT)'),os=box.querySelector('small:not(.pfS)');
+    var sh=box.querySelector('.pfShow');
+    if(!has){
+      if(sh)sh.style.display='none';
+      if(ob)ob.style.removeProperty('display');
+      if(os)os.style.removeProperty('display');
+      return;
+    }
+    if(!sh){
+      sh=document.createElement('div');sh.className='pfShow';
+      sh.innerHTML='<b class="pfT"></b><small class="pfS"></small>';
+      box.appendChild(sh);
+    }
+    sh.style.display='flex';sh.style.flexDirection='column';sh.style.alignItems='center';sh.style.gap='3px';sh.style.textAlign='center';
+    var lines=full.split('\n'),title=lines[0].trim(),rest=lines.slice(1).join('\n').trim();
+    var t=sh.querySelector('.pfT'),r=sh.querySelector('.pfS');
+    if(t.textContent!==title)t.textContent=title;
+    if(r.textContent!==rest)r.textContent=rest;
+    imp(t,'font-size','20px');imp(t,'font-weight','800');imp(t,'line-height','1.5');
+    imp(r,'font-size','15px');imp(r,'opacity','.7');imp(r,'white-space','pre-line');imp(r,'line-height','1.7');
+    r.style.display=rest?'block':'none';
+    if(ob)imp(ob,'display','none');
+    if(os)imp(os,'display','none');
+  }
+  function upd(){
+    var o=document.getElementById('cplPickName');if(!o)return;
+    var t=(o.textContent||'').trim();
+    var has=!!t&&!/انتخاب نشده/.test(t);
+    document.querySelectorAll('#cplPickProject,.cplPickClone').forEach(function(c){card(c,has,t)});
+  }
+  function init(){
+    upd();
+    var o=document.getElementById('cplPickName');
+    if(o)new MutationObserver(upd).observe(o,{childList:true,characterData:true,subtree:true});
+    var g=document.getElementById('cplHome');
+    if(g)new MutationObserver(upd).observe(g,{childList:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+  setTimeout(upd,500);setTimeout(upd,1500);setTimeout(upd,3000);
+})();
+</script>
 <div id="cplHome" aria-hidden="true">
   <button type="button" id="cplHomeMenuBtn" aria-label="منو" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div id="cplHomeMenu" role="menu"></div>
@@ -8537,25 +8649,25 @@ setInterval(bindExports,500);
   <div class="cplGrid">
     <button type="button" class="cplCard pick" id="cplPickProject">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg>
-      <span class="pickTxt"><b>انتخاب پروژه</b><small id="cplPickName">پروژه‌ای انتخاب نشده</small></span></button>
+      <span class="pickTxt"><b style="font-size:20px!important;line-height:1.45!important">انتخاب پروژه</b><small id="cplPickName">پروژه‌ای انتخاب نشده</small></span></button>
     <button type="button" class="cplCard" id="cplGoStatement">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v5h5"/><path d="M8.5 12h7M8.5 15.5h7M8.5 19h4"/></svg>
-      <b>صورت وضعیت و تعدیل ها</b></button>
+      <b style="font-size:20px!important;line-height:1.45!important">صورت وضعیت و تعدیل</b></button>
     <button type="button" class="cplCard" id="cplGoMinutes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M8 2.8v3.4M16 2.8v3.4"/><path d="M8 14h3M8 17.2h6"/></svg>
-      <b>صورت مجالس</b></button>
+      <b style="font-size:20px!important;line-height:1.45!important">صورت مجلس</b></button>
     <button type="button" class="cplCard" id="cplGoPrice">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.2 13.2 20.5a2 2 0 0 1-2.8 0L3.5 13.6V3.5h10.1l6.9 6.9a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.4"/></svg>
-      <b>قیمت جدید ها</b></button>
+      <b style="font-size:20px!important;line-height:1.45!important">قیمت جدید</b></button>
     <button type="button" class="cplCard" id="cplGoCost" style="display:none" tabindex="-1" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 18.5h.01M12 18.5h4"/></svg>
-      <b>هزینه-درآمد ها</b></button>
+      <b style="font-size:20px!important;line-height:1.45!important">هزینه-درآمد</b></button>
     <button type="button" class="cplCard" id="cplGoCmp">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7 2.5 13a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0z"/></svg>
-      <b>هزینه-درآمد ها</b></button>
+      <b style="font-size:20px!important;line-height:1.45!important">هزینه-درآمد</b></button>
     <button type="button" class="cplCard pick cplBaseCard" id="cplGoBase">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V5.5"/><path d="M4.5 12v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V12"/></svg>
-      <span class="pickTxt"><b>داده‌های پایه</b><small>آنالیز بها - شاخص تعدیل</small></span></button>
+      <span class="pickTxt"><b style="font-size:20px!important;line-height:1.45!important">داده‌های پایه</b><small>آنالیز بها - شاخص تعدیل</small></span></button>
   </div>
   </div>
   <div class="cplPriceView">
@@ -9185,17 +9297,12 @@ setInterval(bindExports,500);
     var m=shell('mnEditor',
       '<div class="mnHead"><b id="mnHdT">'+esc(docTitle('صورت‌مجلس')+' — '+TITLE_MIN)+'</b><div class="mnBtns">'+iconBtns('mn',true)+'<button type="button" class="btn mnTextBtn" id="mnImport" title="ورودی از اکسل — وارد کردن ریزمتره از فایل اکسل" aria-label="ورودی از اکسل"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#fff" stroke="#bdbdbd" stroke-width=".8"></path><path d="M14 2v5h5" fill="#e6e6e6" stroke="#bdbdbd" stroke-width=".8" stroke-linejoin="round"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#1a7f4e" text-anchor="middle">XLS</text></svg><span>ورودی از اکسل</span></button><button type="button" class="btn mnTextBtn" id="mnBackList" title="بازگشت به لیست" aria-label="بازگشت به لیست">→ لیست</button><button type="button" class="btn mnTextBtn" id="mnNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="mnClose">✕</button></div></div>'+
       '<div class="mnTop">'+
-        '<label class="mnField mnWide">عنوان صورت‌مجلس<input id="mnName" autocomplete="off" placeholder="مثلاً صورت‌مجلس شماره ۱"></label>'+
-        '<div class="mnWide mnRow4 mnRowDate"><label class="mnField">تاریخ صورت‌مجلس<input id="mnDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱"></label></div>'+
-        '<div class="mnWide mnRow4">'+
-          '<label class="mnField">شماره صورت‌مجلس<input id="mnNo" autocomplete="off" inputmode="numeric" placeholder="مثلاً ۱"></label>'+
-          '<label class="mnField"><span class="mnYrHead">نوع فهرست بها <span class="mnYrLbl" id="mnYrLbl"></span></span><input id="mnYear" type="hidden"><select id="mnDisc">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label>'+
-          '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="mnChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="mnChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button><button type="button" class="btn mnSortBtn" data-sel="mnSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="mnFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button></span></label>'+
-        '</div>'+
+        '<div class="mnWide mnRow3x"><label class="mnField">عنوان صورت‌مجلس<input id="mnName" autocomplete="off" placeholder="مثلاً صورت‌مجلس شماره ۱"></label><label class="mnField">تاریخ صورت‌مجلس<input id="mnDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off"></label><label class="mnField">شماره صورت‌مجلس<input id="mnNo" autocomplete="off" inputmode="numeric" placeholder="مثلاً ۱"></label></div>'+
+        '<div class="mnWide mnRow2x"><label class="mnField"><span class="mnYrHead">نوع فهرست بها <span class="mnYrLbl" id="mnYrLbl"></span></span><input id="mnYear" type="hidden"><select id="mnDisc">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label><label class="mnField">شماره فصل<span class="mnChapWrap"><select id="mnChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="mnChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button></span></label><button type="button" class="btn mnSortBtn" data-sel="mnSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="mnFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button><button type="button" class="btn mnStarDefBtn" id="mnStarDef" title="تعریف آیتم ستاره‌دار جدید" aria-label="تعریف آیتم ستاره‌دار جدید"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button></div>'+
         '<div class="mnWide mnPick">'+
           '<div class="mnField mnPickItem"><span class="mnChapWrap mnItemWrap"><select id="mnItem" aria-label="آیتم"></select><input id="mnFree" class="mnFreeIn" hidden type="text" autocomplete="off" enterkeyhint="done" placeholder="آیتم دلخواه را وارد کنید" aria-label="ورود دستی آیتم" title="کد یا شرح آیتم را بنویس و Enter بزن؛ اگر در فهرست بها یا قیمت جدید باشد با همه مشخصاتش اضافه می‌شود"><button type="button" class="btn mnFreeOk" id="mnFreeOk" title="ثبت آیتم" aria-label="ثبت آیتم">ثبت</button><button type="button" class="btn mnFreeTxt" id="mnFreeBtn" aria-expanded="false" title="ورود دستی آیتم" aria-label="ورود دستی آیتم">ورود دستی آیتم</button></span></div>'+
           '<div class="mnField mnPickSrch mnSrchWrap"><button type="button" class="btn mnSrchBtn" aria-expanded="false" title="جستجوی آیتم" aria-label="جستجوی آیتم"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><input id="mnFilter" class="mnSrchIn" hidden autocomplete="off" placeholder="جستجوی شماره یا شرح…" aria-label="جستجوی آیتم"></div>'+
-          '<div class="mnField mnSortField mnPickBar"><button type="button" class="btn mnStarDefBtn" id="mnStarDef" title="تعریف آیتم ستاره‌دار جدید" aria-label="تعریف آیتم ستاره‌دار جدید"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button><button type="button" class="btn primary mnAddBtn" id="mnAdd" title="افزودن آیتم" aria-label="افزودن آیتم"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button><select id="mnFilt" hidden><option value="all">همه آیتم‌ها</option><option value="list">فهرست بها</option><option value="star">ستاره‌دار</option><option value="fac">فاکتوری</option><option value="pay">پایکار</option></select><select id="mnSort" hidden><option value="added">ترتیب افزودن — نزولی</option><option value="added_asc">ترتیب افزودن — صعودی</option><option value="code">شماره آیتم</option></select></div>'+
+          '<div class="mnField mnSortField mnPickBar"><button type="button" class="btn danger mnStarDefBtn" id="mnClr" title="پاک کردن کل لیست" aria-label="پاک کردن کل لیست"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button><button type="button" class="btn primary mnAddBtn" id="mnAdd" title="افزودن آیتم" aria-label="افزودن آیتم"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button><select id="mnFilt" hidden><option value="all">همه آیتم‌ها</option><option value="list">فهرست بها</option><option value="star">ستاره‌دار</option><option value="fac">فاکتوری</option><option value="pay">پایکار</option></select><select id="mnSort" hidden><option value="added">ترتیب افزودن — نزولی</option><option value="added_asc">ترتیب افزودن — صعودی</option><option value="code">شماره آیتم</option></select></div>'+
         '</div>'+
       '</div><div id="mnItems"></div>');
 
@@ -9208,6 +9315,10 @@ setInterval(bindExports,500);
     $('mnChapIntro').addEventListener('click',function(e){e.preventDefault();if(window.openChapterIntroFor)window.openChapterIntroFor($('mnYear').value,$('mnDisc').value,$('mnChap').value)});
     $('mnFilter').addEventListener('input',fillItems);
     $('mnAdd').addEventListener('click',addItem);
+    $('mnClr').addEventListener('click',function(e){e.preventDefault();
+      if(!cur.items.length){say('لیست خالی است.');return}
+      if(!confirm('کل لیست این صورت‌مجلس ('+cur.items.length+' ردیف) پاک شود؟ این کار قابل برگشت نیست.'))return;
+      cur.items=[];dirty=true;renderItems();say('لیست پاک شد.')});
     var __fr=$('mnFree');if(__fr)__fr.addEventListener('keydown',function(e){if(e.key!=='Enter'||e.isComposing||e.keyCode===229)return;e.preventDefault();addFreeItem()});
     var __sd=$('mnStarDef');if(__sd)__sd.addEventListener('click',function(e){e.preventDefault();
       if(typeof window.cplDefineStarItem!=='function'){say('تعریف آیتم ستاره‌دار در دسترس نیست.');return}
@@ -11157,7 +11268,7 @@ window.__cplSig=function(){
       '<div class="mnTop">'+
         '<div class="mnWide mnRow4 mnRow3">'+
           '<label class="mnField stNoWrapLbl">شماره صورت‌وضعیت<input id="stNo" class="stRowNo" autocomplete="off" inputmode="numeric" placeholder="شماره" title="شماره صورت‌وضعیت" aria-label="شماره صورت‌وضعیت"></label>'+
-          '<label class="mnField stNoWrapLbl">تاریخ صورت‌وضعیت<input id="stWd" class="stRowWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱" title="تاریخ صورت‌وضعیت" aria-label="تاریخ صورت‌وضعیت"></label>'+
+          '<label class="mnField stNoWrapLbl">تاریخ صورت‌وضعیت<input id="stWd" class="stRowWd" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" title="تاریخ صورت‌وضعیت" aria-label="تاریخ صورت‌وضعیت"></label>'+
           '<label class="mnField"><span class="mnYrHead">نوع فهرست بها <span class="mnYrLbl" id="stYrLbl"></span></span><input id="stYear" type="hidden"><span class="stDiscWrap"><select id="stDisc"><option value="__all" selected>همه</option>'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></span></label>'+
           '<label class="mnField">شماره فصل<span class="mnChapWrap"><select id="stChap"></select><button type="button" class="btn mnChapIntroBtn mnChapIntroTxt" id="stChapIntro" title="مقدمه فصل" aria-label="مقدمه فصل">'+'مقدمه فصل'+'</button></span></label>'+
           '<div class="stRowTools"><button type="button" class="btn mnSortBtn" data-sel="stSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><button type="button" class="btn mnSortBtn mnFiltBtn" data-sel="stFilt" title="فیلتر" aria-label="فیلتر"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></button><button type="button" class="btn stTrBtn" id="stTr" title="محاسبات حمل" aria-label="محاسبات حمل">'+ICO_TRUCK+'</button><button type="button" class="btn stTrBtn" id="stCoefIco" title="ضرایب" aria-label="ضرایب"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></button></div>'+
@@ -15948,6 +16059,7 @@ document.addEventListener('mousedown',function(e){
   function align(pre){
     var f=document.querySelector('#'+pre+'Editor .mnPick>.mnPickItem'),ci=document.getElementById(pre+'ChapIntro'),w=f&&f.querySelector('.mnItemWrap');
     if(!f||!ci||!w)return;
+    if(pre==='mn'||pre==='st'){f.parentNode.classList.remove('mnAligned');f.parentNode.style.removeProperty('column-gap');f.style.width='';return}
     var wide=window.innerWidth>640;
     if(!wide){f.style.width='';f.parentNode.classList.remove('mnAligned');var sb0=document.querySelector('#'+pre+'Editor .mnChapWrap>.mnSortBtn:not(.mnFiltBtn)');if(sb0&&pre==='mn')sb0.style.removeProperty('margin-inline-start');return}
     var pk=f.parentNode,sb=pre==='mn'?document.querySelector('#mnEditor .mnChapWrap>.mnSortBtn:not(.mnFiltBtn)'):null;
@@ -16750,7 +16862,7 @@ function kindOf(b){
  if(b.classList&&b.classList.contains('mnSrchBtn'))return 'search';
  if(b.classList&&b.classList.contains('mnRowAdd'))return 'plus';
  if(b.getAttribute('data-cb')==='mclose'&&t==='')return 'close';
- if(b.classList&&b.classList.contains('mnStarDefBtn')&&id!=='stClr')return 'star';
+ if(b.classList&&b.classList.contains('mnStarDefBtn')&&id!=='stClr'&&id!=='mnClr')return 'star';
  if(b.classList&&b.classList.contains('mnHomeBtn'))return 'home';
  if(b.classList&&b.classList.contains('cplListNewIcon')&&t===''){var lb=(b.getAttribute('aria-label')||b.title||'');return /محاسبه/.test(lb)?'calc':'plus'}
  if(BYID[id])return BYID[id];
