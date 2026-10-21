@@ -174,7 +174,8 @@ async function ensureLicenseSchema(env){
       `ALTER TABLE users ADD COLUMN last_login INTEGER`,
       `ALTER TABLE users ADD COLUMN max_devices INTEGER DEFAULT 1`,
       `ALTER TABLE users ADD COLUMN device_ids TEXT DEFAULT '[]'`,
-      `ALTER TABLE users ADD COLUMN password_enc TEXT`
+      `ALTER TABLE users ADD COLUMN password_enc TEXT`,
+      `ALTER TABLE users ADD COLUMN expires_at INTEGER`
     ];
     const have=new Set(((await env.DB.prepare(`SELECT name FROM pragma_table_info('users')`).all()).results||[]).map(x=>x.name));
     for(const sql of alters){const col=sql.match(/ADD COLUMN (\w+)/)[1];if(have.has(col))continue;try{await env.DB.prepare(sql).run()}catch(e){if(!/duplicate column|already exists/i.test(e.message||'')) throw e;}}
@@ -194,11 +195,27 @@ async function isAdmin(user,env){await ensureLicenseSchema(env); const r=await e
 function deviceFrom(body){return String(body?.deviceId||'').trim().slice(0,180)}
 function isUnlimitedAdmin(u){return String(u?.role||'').toLowerCase()==='admin' || String(u?.name||'').trim().toLowerCase()==='amir' || String(u?.code||'').trim().toLowerCase()==='amir'}
 
+/* ---- اشتراک ماهانه: expires_at (میلی‌ثانیه). خالی = بدون محدودیت. مدیر (admin) همیشه نامحدود است ---- */
+const SUB_EXPIRED_MSG='اشتراک شما به پایان رسیده است. برای تمدید با مدیر تماس بگیرید.';
+function addMonths(ts,n){const d=new Date(ts);const day=d.getUTCDate();d.setUTCMonth(d.getUTCMonth()+n);if(d.getUTCDate()<day)d.setUTCDate(0);return d.getTime()}
+function parseMonths(v){const n=Number(v);return Number.isFinite(n)&&n>=1&&n<=240?Math.floor(n):0}
+function subExpired(u){return !isUnlimitedAdmin(u)&&u&&u.expires_at!=null&&Number(u.expires_at)<=Date.now()}
+
 async function userFrom(request,env){
   const sid=getSession(request); if(!sid) return null;
+  await ensureLicenseSchema(env);
   const h=await sha256(sid);
-  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
-  return row||null;
+  const row=await env.DB.prepare(`SELECT u.id,u.code,u.name,u.role,u.expires_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
+  if(!row) return null;
+  if(subExpired(row)) return null; /* اشتراک تمام شده: دسترسی بسته */
+  return row;
+}
+/* نشست معتبر ولی اشتراک تمام‌شده؟ (برای نمایش پیام درست به‌جای «وارد شوید») */
+async function sessionSubExpired(request,env){
+  const sid=getSession(request); if(!sid) return false;
+  const h=await sha256(sid);
+  const row=await env.DB.prepare(`SELECT u.role,u.name,u.code,u.expires_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(u.active,1)<>0`).bind(h,Date.now()).first();
+  return !!row&&subExpired(row);
 }
 const RL_WINDOW=900000; /* ۱۵ دقیقه */
 async function rlCheck(env,keys){
@@ -245,6 +262,7 @@ async function api(request,env,url){
       if(!u){await hashPassword(password,'x'.repeat(16)); return bad();} /* هم‌زمان‌سازی زمان پاسخ تا وجود/عدم وجود کاربر لو نرود */
       const pass=await hashPassword(password,u.password_salt); if(pass!==u.password_hash) return bad();
       if(Number(u.active)===0) return json({error:'این کاربر غیرفعال شده است.'},403);
+      if(subExpired(u)) return json({error:SUB_EXPIRED_MSG,expired:true},403);
       const unlimited=isUnlimitedAdmin(u);
       if(!unlimited){
         if(!deviceId) return json({error:'شناسه دستگاه ارسال نشد؛ صفحه را رفرش کنید و دوباره وارد شوید.'},400);
@@ -265,7 +283,7 @@ async function api(request,env,url){
       return json({ok:true,code:u.code,name:u.name,role:u.role||'user'},200,{'Set-Cookie':cookie('sid',sid)});
     }
     const user=await userFrom(request,env);
-    if(url.pathname==='/api/me' && request.method==='GET'){ if(!user) return json({ok:false,error:'ابتدا وارد حساب کاربری شوید.'},401); const full=await env.DB.prepare('SELECT id,code,name,role,active,last_login FROM users WHERE id=?').bind(user.id).first(); return full?json({ok:true,user:full}):json({ok:false},401); }
+    if(url.pathname==='/api/me' && request.method==='GET'){ if(!user){ if(await sessionSubExpired(request,env)) return json({ok:false,expired:true,error:SUB_EXPIRED_MSG},401); return json({ok:false,error:'ابتدا وارد حساب کاربری شوید.'},401); } const full=await env.DB.prepare('SELECT id,code,name,role,active,last_login,expires_at FROM users WHERE id=?').bind(user.id).first(); return full?json({ok:true,user:full}):json({ok:false},401); }
     if(url.pathname==='/api/logout' && request.method==='POST'){
       const sid=getSession(request); let deviceId=''; try{const body=await request.json(); deviceId=deviceFrom(body)}catch{}
       if(sid){
@@ -304,7 +322,7 @@ async function api(request,env,url){
     if(url.pathname==='/api/admin/users' && request.method==='GET'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
       /* رمز کاربران دیگر قابل نمایش نیست (فقط هش ذخیره می‌شود). برای کاربر رمز تازه تعیین کن. */
-      const rows=await env.DB.prepare('SELECT id,code,name,role,active,device_id,device_ids,max_devices,last_login,created_at FROM users ORDER BY created_at ASC').all();
+      const rows=await env.DB.prepare('SELECT id,code,name,role,active,device_id,device_ids,max_devices,last_login,created_at,expires_at FROM users ORDER BY created_at ASC').all();
       return json({users:rows.results||[]});
     }
     if(url.pathname==='/api/admin/users' && request.method==='POST'){
@@ -313,8 +331,9 @@ async function api(request,env,url){
       if(password.length<6) return json({error:'رمز عبور باید حداقل ۶ کاراکتر باشد.'},400);
       let code=''; for(let i=0;i<30;i++){code='A7-'+rand(6).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8); if(!(await env.DB.prepare('SELECT id FROM users WHERE code=?').bind(code).first())) break;}
       const id=crypto.randomUUID(),salt=rand(16),pass=await hashPassword(password,salt);
-      await env.DB.prepare('INSERT INTO users(id,code,name,password_hash,password_salt,created_at,role,active,device_id,last_login) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,code,name,pass,salt,Date.now(),'user',1,null,null).run();
-      return json({ok:true,id,code,name});
+      const months=parseMonths(body.months), expiresAt=months?addMonths(Date.now(),months):null; /* ماه خالی = بدون محدودیت زمانی */
+      await env.DB.prepare('INSERT INTO users(id,code,name,password_hash,password_salt,created_at,role,active,device_id,last_login,expires_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id,code,name,pass,salt,Date.now(),'user',1,null,null,expiresAt).run();
+      return json({ok:true,id,code,name,expires_at:expiresAt});
     }
     const editMatch=url.pathname.match(/^\/api\/admin\/users\/([^/]+)$/);
     if(editMatch && request.method==='DELETE'){
@@ -333,7 +352,7 @@ async function api(request,env,url){
     }
     if(editMatch && request.method==='PUT'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
-      const id=editMatch[1], target=await env.DB.prepare('SELECT id,role,name,code,max_devices FROM users WHERE id=?').bind(id).first();
+      const id=editMatch[1], target=await env.DB.prepare('SELECT id,role,name,code,max_devices,expires_at FROM users WHERE id=?').bind(id).first();
       if(!target) return json({error:'کاربر پیدا نشد.'},404);
       const b=await request.json();
       const name=String(b.name??target.name).trim().slice(0,80);
@@ -347,7 +366,15 @@ async function api(request,env,url){
         else await env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(id).run();}
       else await env.DB.prepare('UPDATE users SET name=?,max_devices=? WHERE id=?').bind(name,maxDevices,id).run();
       if(name.toLowerCase()==='amir') await env.DB.prepare("UPDATE users SET role='admin',device_id=NULL,max_devices=0,device_ids='[]' WHERE id=?").bind(id).run();
-      return json({ok:true,max_devices:maxDevices});
+      /* اشتراک: months = تمدید (از امروز، یا از پایان اشتراک فعلی اگر هنوز تمام نشده)؛ clear_expiry = حذف محدودیت */
+      let newExp=target.expires_at;
+      if(b.clear_expiry===true) newExp=null;
+      else if(b.months!==undefined&&b.months!==null&&b.months!==''){
+        const m=parseMonths(b.months); if(!m) return json({error:'تعداد ماه باید عددی بین ۱ تا ۲۴۰ باشد.'},400);
+        const base=Math.max(Date.now(),Number(target.expires_at)||0); newExp=addMonths(base,m);
+      }
+      if(newExp!==target.expires_at) await env.DB.prepare('UPDATE users SET expires_at=? WHERE id=?').bind(newExp,id).run();
+      return json({ok:true,max_devices:maxDevices,expires_at:newExp});
     }
     const am=url.pathname.match(/^\/api\/admin\/users\/([^/]+)\/(active|device)$/);
     if(am){
