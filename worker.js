@@ -31,7 +31,7 @@ const DATA_RULES = {
   pdf: /^\/data\/chapter-intro-[A-Za-z0-9_.-]*-chapter_(\d{2})\.pdf$/
 };
 const DAY_MS = 86400000;
-const DEFAULT_DAY_LIMIT = 40, DEFAULT_WEEK_LIMIT = 100;
+const DEFAULT_DAY_LIMIT = 100, DEFAULT_WEEK_LIMIT = 300; /* آماده‌سازی آفلاین ۱۴۰۴–۱۳۹۹ سه دفترچه ≈ ۳۸ فایل می‌گیرد */
 function safeDecode(p) { try { return decodeURIComponent(p); } catch { return p; } }
 function isDataPath(pathname) {
   const n = safeDecode(pathname).replace(/\/{2,}/g, '/').toLowerCase();
@@ -128,7 +128,7 @@ async function staticRoute(request, env, url) {
   }
   const res = await env.ASSETS.fetch(request);
   const h = new Headers(res.headers);
-  if (url.pathname === '/sw.js') {
+  if (url.pathname === '/sw.js' || url.pathname === '/offline.js') {
     h.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
   } else if (/\.(?:ttf|woff2?)$/i.test(url.pathname)) {
     // فونت‌ها: کش یک‌هفته‌ای تا با هر رفرش (مخصوصاً نت کند) دوباره اعتبارسنجی نشوند و فونت دیر نیاید. اگر فایل فونت عوض شد، نامش را هم عوض کنید.
@@ -466,8 +466,12 @@ async function api(request,env,url){
     if(url.pathname==='/api/projects' && request.method==='POST'){
       const body=await request.json(); const name=String(body.name||'پروژه بدون نام').trim().slice(0,120); const data=String(body.data||'');
       if(data.length>5000000) return json({error:'حجم پروژه بیش از حد مجاز است.'},413);
-      const id=crypto.randomUUID(), now=Date.now();
-      await env.DB.prepare('INSERT INTO projects(id,user_id,name,data,created_at,updated_at) VALUES(?,?,?,?,?,?)').bind(id,user.id,name,data,now,now).run();
+      /* آفلاین: کلاینت شناسه‌ی UUID خودش را می‌سازد تا بعد از همگام‌سازی رکورد تکراری/ناسازگار نشود.
+         ارسال دوباره‌ی همان درخواست (قطع شدن وسط راه) بی‌خطر است و هرگز ردیف کاربر دیگر را تغییر نمی‌دهد. */
+      const want=String(body.id||'').toLowerCase();
+      const id=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(want)?want:crypto.randomUUID(), now=Date.now();
+      const ins=await env.DB.prepare('INSERT INTO projects(id,user_id,name,data,created_at,updated_at) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,data=excluded.data,updated_at=excluded.updated_at WHERE projects.user_id=excluded.user_id').bind(id,user.id,name,data,now,now).run();
+      if(!(ins&&ins.meta&&ins.meta.changes)) return json({error:'شناسه‌ی پروژه تکراری است.'},409);
       return json({ok:true,id,name,updated_at:now});
     }
     const pma=url.pathname.match(/^\/api\/projects\/([^/]+)\/analysis$/);
@@ -546,6 +550,12 @@ async function api(request,env,url){
         }
         const data=String(body.data||'');
         if(data.length>5000000) return json({error:'حجم پروژه بیش از حد مجاز است.'},413);
+        /* فقط برای تغییراتِ صف‌شده‌ی آفلاین: اگر پروژه بعد از آخرین نسخه‌ای که کلاینت می‌شناخت جای دیگری تغییر کرده، رونویسی نمی‌کنیم
+           (کلاینت یک «نسخه‌ی آفلاین» جدا می‌سازد). اگر محتوا دقیقاً یکی باشد (ارسال دوباره‌ی همان درخواست) موفق حساب می‌شود. */
+        if(body.baseUpdatedAt!=null && Number(own.updated_at)>Number(body.baseUpdatedAt)){
+          if(own.data===data) return json({ok:true,updated_at:own.updated_at});
+          return json({error:'پروژه در همین فاصله روی دستگاه دیگری تغییر کرده است.',conflict:true,updated_at:own.updated_at},409);
+        }
         const now=Date.now(); await env.DB.prepare('UPDATE projects SET name=?,data=?,updated_at=? WHERE id=? AND user_id=?').bind(name,data,now,id,user.id).run();
         return json({ok:true,updated_at:now});
       }
