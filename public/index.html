@@ -5698,7 +5698,7 @@ function analysisExportXlsx(item){
   const wb='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets><sheet name="آنالیز" sheetId="1" r:id="rId1"/></sheets><calcPr calcMode="auto"/></workbook>';
   const rel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
   const wrel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
-  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
+  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
   const types='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';
   const blob=makeStoredZip([{name:'[Content_Types].xml',data:types},{name:'_rels/.rels',data:rel},{name:'xl/workbook.xml',data:wb},{name:'xl/_rels/workbook.xml.rels',data:wrel},{name:'xl/worksheets/sheet1.xml',data:sh},{name:'xl/styles.xml',data:styles}]);const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='آنالیز-'+String(item.code||'item')+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 }
@@ -6154,7 +6154,7 @@ function exportPriceCoverAllXlsx(coverOnly){
     d.push([['',0],['',0],['',0],['',0],['',0],['قیمت نهایی آنالیز',5],[grand,5]]);
     sheets.push({name:sheetName('آنالیز '+displayItemCode(item)),xml:build(d,[9,52,18,14,18,13,20].concat(anyN?[40]:[]),['A1:G1'],'portrait')});
   });
-  const styles=H+'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="3"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border><border><left style="medium"><color indexed="64"/></left><right style="medium"><color indexed="64"/></right><top style="medium"><color indexed="64"/></top><bottom style="medium"><color indexed="64"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="10"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="2" applyBorder="1" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
+  const styles=H+'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="3"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border><border><left style="medium"><color rgb="FF000000"/></left><right style="medium"><color rgb="FF000000"/></right><top style="medium"><color rgb="FF000000"/></top><bottom style="medium"><color rgb="FF000000"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="10"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="2" applyBorder="1" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
   const wb=H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+sheets.map((x,i)=>'<sheet name="'+esc(x.name)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>').join('')+'</sheets><calcPr calcMode="auto"/></workbook>';
   const wrel=H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map((x,i)=>'<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>').join('')+'<Relationship Id="rId'+(sheets.length+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
   const rel=H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
@@ -6539,7 +6539,7 @@ yEl.addEventListener('change',()=>{if(window.plRefreshDiscSelect)window.plRefres
       const wb='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets><sheet name="مقایسه" sheetId="1" r:id="rId1"/>'+(hasAnalysis?'<sheet name="آنالیز" sheetId="2" r:id="rId3"/>':'')+(hasAdj?'<sheet name="تعدیل" sheetId="3" r:id="rId4"/>':'')+'</sheets><calcPr calcMode="auto"/></workbook>';
       const rel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
       const wrel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+(hasAnalysis?'<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>':'')+(hasAdj?'<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/>':'')+'</Relationships>';
-      const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
+      const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="#,##0.####"/></numFmts><fonts count="3"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="14"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFB4C7E7"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="2" fillId="2" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
       const types='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+(hasAnalysis?'<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>':'')+(hasAdj?'<Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>':'')+'<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';
       const zipParts=[{name:'[Content_Types].xml',data:types},{name:'_rels/.rels',data:rel},{name:'xl/workbook.xml',data:wb},{name:'xl/_rels/workbook.xml.rels',data:wrel},{name:'xl/worksheets/sheet1.xml',data:sh},{name:'xl/styles.xml',data:styles}];
       if(hasAnalysis)zipParts.push({name:'xl/worksheets/sheet2.xml',data:sh2});
@@ -6956,7 +6956,7 @@ async function downloadRealXlsx(rows){
   const wb='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets><sheet name="گزارش" sheetId="1" r:id="rId1"/></sheets></workbook>';
   const rel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
   const wrel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
-  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="0.####"/></numFmts><fonts count="2"><font><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="11"/><name val="B Nazanin"/><family val="2"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" applyFont="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyFont="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
+  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="0.####"/></numFmts><fonts count="2"><font><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="11"/><name val="B Nazanin"/><family val="2"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" applyFont="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="1" applyFont="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
   const types='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';
   const blob=makeStoredZip([
     {name:'[Content_Types].xml',data:types},
@@ -8867,7 +8867,7 @@ const num=v=>{const x=Number(v);return Number.isFinite(x)?x:0};
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[m]));
 function rows(){const out=[];(Array.isArray(meter)?meter:[]).forEach((m,i)=>{const p=typeof ensureParts==='function'?ensureParts(m):(m.coefParts||{}),c=typeof coefValue==='function'?coefValue(m):num(p.chapter||1)*num(p.region||1)*num(p.floor||1)*num(p.overhead||1)*num(p.optional||1),q=num(m.qty)||1,b=num(m.base),parts={chapter:num(p.chapter||1),region:num(p.region||1),floor:num(p.floor||1),overhead:num(p.overhead||1),other:num(p.optional||1)};out.push({r:i+1,type:'آیتم اصلی',discipline:meterDiscipline(m),year:m.year||'',chapter:m.chapter||'',code:m.code||'',desc:m.desc||'',unit:m.unit||'',qty:q,unitPrice:b,amount:b*q,chapterCoef:parts.chapter,region:parts.region,floor:parts.floor,overhead:parts.overhead,other:parts.other,coef:c,final:b*q*c});(m.rels||[]).forEach(r=>{const rq=num(r.qty)||q,u=num(r.cost),a=u*rq;out.push({r:i+1,type:'اضافه‌بها',discipline:meterDiscipline(m),year:m.year||'',chapter:m.chapter||'',code:r.code||'',desc:r.desc||'',unit:r.unit||m.unit||'',qty:rq,unitPrice:u,amount:a,chapterCoef:parts.chapter,region:parts.region,floor:parts.floor,overhead:parts.overhead,other:1,coef:c,final:a*c})})});return out}
 function sumRows(){const mp=new Map();rows().forEach(x=>{const k=(x.discipline||'')+'|'+x.year+'|'+x.chapter;if(!mp.has(k))mp.set(k,{discipline:x.discipline||'',year:x.year,chapter:x.chapter,count:0,net:0,total:0});const g=mp.get(k);if(x.type==='آیتم اصلی')g.count++;g.net+=num(x.amount);g.total+=num(x.final)});return [...mp.values()].sort(window.v87GroupSort)}
-function xlsx(headers,data,name){const all=[headers,...data],cc=new Set(headers.map((h,i)=>String(h).includes('ضریب')?i:-1).filter(i=>i>=0)),mc=new Set(headers.map((h,i)=>/مبلغ|مجموع|بها/.test(String(h))?i:-1).filter(i=>i>=0)),dc=new Set(headers.map((h,i)=>/شرح/.test(String(h))?i:-1).filter(i=>i>=0)),lastRow=all.length-1;let sh='<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+headers.map((h,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+(dc.has(i)?48:(cc.has(i)?13:17))+'" customWidth="1"/>').join('')+'</cols><sheetData>';all.forEach((r,ri)=>{const isHead=ri===0,isTotal=!isHead&&ri===lastRow&&all.length>2;sh+='<row r="'+(ri+1)+'">';r.forEach((v,ci)=>{const ref=xlsxCol(ci)+(ri+1),is=typeof v==='number'&&Number.isFinite(v),hasData=v!==null&&v!==undefined&&String(v).trim()!=='',st=!hasData?0:(isHead?1:(isTotal?(mc.has(ci)?6:5):(mc.has(ci)?2:(cc.has(ci)?3:(dc.has(ci)?4:0)))));sh+=is?'<c r="'+ref+'" s="'+st+'" t="n"><v>'+v+'</v></c>':'<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>'});sh+='</row>'});sh+='</sheetData><autoFilter ref="A1:'+xlsxCol(headers.length-1)+all.length+'"/></worksheet>';const wb='<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="گزارش" sheetId="1" r:id="rId1"/></sheets></workbook>';const rel='<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';const wr='<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';const st='<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="0.####"/></numFmts><fonts count="2"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0"/></cellStyleXfs><cellXfs count="7"><xf numFmtId="0" fontId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="3" fontId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="1" fillId="1" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';const types='<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';const blob=makeStoredZip([{name:'[Content_Types].xml',data:types},{name:'_rels/.rels',data:rel},{name:'xl/workbook.xml',data:wb},{name:'xl/_rels/workbook.xml.rels',data:wr},{name:'xl/worksheets/sheet1.xml',data:sh},{name:'xl/styles.xml',data:st}]);const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
+function xlsx(headers,data,name){const all=[headers,...data],cc=new Set(headers.map((h,i)=>String(h).includes('ضریب')?i:-1).filter(i=>i>=0)),mc=new Set(headers.map((h,i)=>/مبلغ|مجموع|بها/.test(String(h))?i:-1).filter(i=>i>=0)),dc=new Set(headers.map((h,i)=>/شرح/.test(String(h))?i:-1).filter(i=>i>=0)),lastRow=all.length-1;let sh='<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+headers.map((h,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+(dc.has(i)?48:(cc.has(i)?13:17))+'" customWidth="1"/>').join('')+'</cols><sheetData>';all.forEach((r,ri)=>{const isHead=ri===0,isTotal=!isHead&&ri===lastRow&&all.length>2;sh+='<row r="'+(ri+1)+'">';r.forEach((v,ci)=>{const ref=xlsxCol(ci)+(ri+1),is=typeof v==='number'&&Number.isFinite(v),hasData=v!==null&&v!==undefined&&String(v).trim()!=='',st=!hasData?0:(isHead?1:(isTotal?(mc.has(ci)?6:5):(mc.has(ci)?2:(cc.has(ci)?3:(dc.has(ci)?4:0)))));sh+=is?'<c r="'+ref+'" s="'+st+'" t="n"><v>'+v+'</v></c>':'<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>'});sh+='</row>'});sh+='</sheetData><autoFilter ref="A1:'+xlsxCol(headers.length-1)+all.length+'"/></worksheet>';const wb='<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="گزارش" sheetId="1" r:id="rId1"/></sheets></workbook>';const rel='<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';const wr='<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';const st='<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="165" formatCode="0.####"/></numFmts><fonts count="2"><font><sz val="11"/><name val="B Nazanin"/></font><font><b/><sz val="11"/><name val="B Nazanin"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0"/></cellStyleXfs><cellXfs count="7"><xf numFmtId="0" fontId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="3" fontId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="165" fontId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="1" fillId="1" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';const types='<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';const blob=makeStoredZip([{name:'[Content_Types].xml',data:types},{name:'_rels/.rels',data:rel},{name:'xl/workbook.xml',data:wb},{name:'xl/_rels/workbook.xml.rels',data:wr},{name:'xl/worksheets/sheet1.xml',data:sh},{name:'xl/styles.xml',data:st}]);const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
 function pdf(title,h,data,totalsRow){const w=window.open('','_blank','width=1500,height=900');if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}const head=h.map(x=>'<th>'+esc(x)+'</th>').join(''),body=data.map(r=>'<tr>'+r.map(v=>'<td>'+esc(typeof v==='number'?v.toLocaleString('fa-IR',{maximumFractionDigits:4}):v)+'</td>').join('')+'</tr>').join(''),totalHtml=totalsRow?('<tr class="v75TotalRow">'+totalsRow.map(v=>'<td>'+esc(typeof v==='number'?v.toLocaleString('fa-IR',{maximumFractionDigits:4}):v)+'</td>').join('')+'</tr>'):'';w.document.write('<!doctype html><html dir="rtl"><head><meta charset="utf-8"><style>@font-face{font-family:BN;src:url("'+location.origin+'/BNazanin.ttf")}body{font-family:BN,"B Nazanin",Tahoma;margin:15px;padding-top:calc(48px + env(safe-area-inset-top));box-sizing:border-box}h2{text-align:center}table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #777;padding:5px;text-align:center}th{background:#eee}tr.v75TotalRow td{font-weight:bold;background:#eee}.v75ReportBar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;position:relative;z-index:2}.v75ReportBar button{padding:9px 20px;font-size:14px;font-family:inherit;border-radius:7px;border:none;cursor:pointer}.v75ReportBar .v75Dl{background:#2e7d32;color:#fff}.v75ReportBar .v75Cl{background:#b71c1c;color:#fff}@media print{.v75ReportBar{display:none}@page{size:A4 landscape;margin:7mm}}</style></head><body><div class="v75ReportBar"><button type="button" class="v75Dl" onclick="window.print()">دانلود گزارش</button><button type="button" class="v75Cl" onclick="window.close()">بستن گزارش</button></div><h2>'+esc(title)+'</h2><table><thead><tr>'+head+'</tr></thead><tbody>'+body+totalHtml+'</tbody></table></body></html>');w.document.close();w.focus()}
 window.__v125_pdfExport=pdf; window.__v125_xlsxExport=xlsx;
 function meterTotalsRow(d){const totAmount=d.reduce((a,r)=>a+(Number(r[10])||0),0),totFinal=d.reduce((a,r)=>a+(Number(r[17])||0),0);return ['','','','','','','','','','جمع کل',totAmount,'','','','','','',totFinal]}
@@ -10277,7 +10277,7 @@ setInterval(bindExports,500);
   var ICON_CLOSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>';
   var ICON_HOME='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"></path></svg>';
   // ترتیب و نام گزینه‌ها؛ هر کدام دکمه‌ی اصلی خودش را صدا می‌زند
-  var ITEMS=[['cplHomeBtn','صفحه اصلی'],['themeToggleBtn','تغییر پوسته'],['newProject','پروژه جدید'],['cplNewCalcBtn','محاسبه جدید'],['cplAddItemBtn','آیتم ستاره‌دار جدید'],['starredItemsBtn','لیست آیتم‌های ستاره‌دار'],['saveProject','ذخیره پروژه'],['v59MeterExcel','گزارش اکسل'],['v59MeterPdf','گزارش چاپی'],['openProjects','تاریخچه پروژه‌ها'],['adminPanelBtn','مدیریت کاربران'],['openMohandesyar','مهندس‌یار'],['supportBtn','پشتیبانی'],['logoutProject','خروج']];
+  var ITEMS=[['cplHomeBtn','صفحه اصلی'],['themeToggleBtn','تغییر پوسته'],['newProject','پروژه جدید'],['cplNewCalcBtn','محاسبه جدید'],['cplAddItemBtn','آیتم ستاره‌دار جدید'],['starredItemsBtn','لیست آیتم‌های ستاره‌دار'],['saveProject','ذخیره پروژه'],['v59MeterExcel','گزارش اکسل'],['v59MeterPdf','گزارش چاپی'],['openProjects','تاریخچه پروژه‌ها'],['adminPanelBtn','مدیریت کاربران'],['openMohandesyar','مهندس‌یار'],['cplBackupBtn','پشتیبان‌گیری'],['supportBtn','پشتیبانی'],['logoutProject','خروج']];
   function real(id){return document.getElementById(id)}
   function iconOf(id){
     if(id==='cplHomeBtn')return ICON_HOME;
@@ -10536,7 +10536,7 @@ setInterval(bindExports,500);
   document.getElementById('cplPriceStar').addEventListener('click',function(){if(!(window.__mainProjectId&&(window.__mainProjectSettings||{}).listYear)){var pb=document.getElementById('cplPickProject');if(pb)pb.click();return}var b=real('starredItemsBtn');if(b)b.click()});
   // هر بار صفحه اصلی باز شود، نمای اصلی
     var was=home.classList.contains('show');new MutationObserver(function(){var now=home.classList.contains('show');if(now&&!was){home.setAttribute('data-view','');closeMenu()}was=now}).observe(home,{attributes:true,attributeFilter:['class']});
-  var ITEMS=[['themeToggleBtn','تغییر پوسته'],['saveProject','ذخیره پروژه'],['adminPanelBtn','مدیریت کاربران'],['openMohandesyar','مهندس‌یار'],['supportBtn','پشتیبانی'],['logoutProject','خروج']];
+  var ITEMS=[['themeToggleBtn','تغییر پوسته'],['saveProject','ذخیره پروژه'],['adminPanelBtn','مدیریت کاربران'],['openMohandesyar','مهندس‌یار'],['cplBackupBtn','پشتیبان‌گیری'],['supportBtn','پشتیبانی'],['logoutProject','خروج']];
   function icon(id){var b=real(id),sv=b&&b.querySelector('svg');if(!sv)return '';var c=sv.cloneNode(true);c.removeAttribute('id');c.removeAttribute('width');c.removeAttribute('height');return c.outerHTML}
   function build(){
     menu.innerHTML='';
@@ -11647,8 +11647,8 @@ setInterval(bindExports,500);
   var X_STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="166" formatCode="#,##0.###"/></numFmts>'+
     '<fonts count="4"><font><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="14"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="22"/><name val="B Nazanin"/><family val="2"/></font></fonts>'+
     '<fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF0F0F0"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE2EFDA"/><bgColor indexed="64"/></patternFill></fill></fills>'+
-    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders>'+
-    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="16">'+
+    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders>'+
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="20">'+
     '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
@@ -11657,7 +11657,7 @@ setInterval(bindExports,500);
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
-    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="4" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="4" borderId="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
+    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="4" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="4" borderId="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="2" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
   function buildXlsx(sheetName,rows,widths,merges){
     if(cmpCap){cmpCap.sheets=[{name:sheetName,rows:rows,widths:widths,merges:merges}];return new Blob([''])}
     var sh='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+
@@ -11667,7 +11667,8 @@ setInterval(bindExports,500);
       row.c.forEach(function(cell,ci){
         var v=cell[0],st=cell[1]||0,ref=xCol(ci)+(ri+1);
         if(Array.isArray(v))sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is>'+v.map(function(q){return '<r><rPr><rFont val="B Nazanin"/>'+(q[2]?'<strike/>':'')+'<color rgb="'+q[1]+'"/><sz val="11"/></rPr><t xml:space="preserve">'+xEsc(q[0])+'</t></r>'}).join('')+'</is></c>';
-        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'"><v>'+v+'</v></c>';
+        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'">'+(cell[2]?'<f>'+xEsc(cell[2])+'</f>':'')+'<v>'+v+'</v></c>';
+        else if(v===''||v==null)sh+='<c r="'+ref+'" s="'+st+'"/>';
         else sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>';
       });
       sh+='</row>';
@@ -11691,7 +11692,8 @@ setInterval(bindExports,500);
       row.c.forEach(function(cell,ci){
         var v=cell[0],st=cell[1]||0,ref=xCol(ci)+(ri+1);
         if(Array.isArray(v))sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is>'+v.map(function(q){return '<r><rPr><rFont val="B Nazanin"/>'+(q[2]?'<strike/>':'')+'<color rgb="'+q[1]+'"/><sz val="11"/></rPr><t xml:space="preserve">'+xEsc(q[0])+'</t></r>'}).join('')+'</is></c>';
-        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'"><v>'+v+'</v></c>';
+        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'">'+(cell[2]?'<f>'+xEsc(cell[2])+'</f>':'')+'<v>'+v+'</v></c>';
+        else if(v===''||v==null)sh+='<c r="'+ref+'" s="'+st+'"/>';
         else sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>';
       });
       sh+='</row>';
@@ -11707,6 +11709,7 @@ setInterval(bindExports,500);
   function buildXlsxMulti(sheets){
     sheets=[].concat.apply([],sheets);
     if(cmpCap){cmpCap.sheets=sheets;return new Blob([''])}
+    try{var __nu={};window.__xlFormulize&&window.__xlFormulize(sheets,sheets.map(function(x){return sheetName(x.name,__nu)}),16)}catch(e){}
     var H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',used={},N=sheets.length,i;
     var ct=H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>';
     var wbS='',rel='',files=[];
@@ -11719,7 +11722,7 @@ setInterval(bindExports,500);
     rel+='<Relationship Id="rId'+(N+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
     files.push({name:'[Content_Types].xml',data:ct});
     files.push({name:'_rels/.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'});
-    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets></workbook>'});
+    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>'});
     files.push({name:'xl/_rels/workbook.xml.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+rel+'</Relationships>'});
     for(i=0;i<N;i++)files.push({name:'xl/worksheets/sheet'+(i+1)+'.xml',data:sheetXml(sheets[i].rows,sheets[i].widths,sheets[i].merges||[],sheets[i].land)});
     files.push({name:'xl/styles.xml',data:X_STYLES});
@@ -13791,8 +13794,8 @@ window.__cplSig=function(){
   var X_STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="166" formatCode="#,##0.###"/></numFmts>'+
     '<fonts count="4"><font><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="14"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="22"/><name val="B Nazanin"/><family val="2"/></font></fonts>'+
     '<fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF0F0F0"/><bgColor indexed="64"/></patternFill></fill></fills>'+
-    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders>'+
-    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="11">'+
+    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders>'+
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="15">'+
     '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
@@ -13801,7 +13804,7 @@ window.__cplSig=function(){
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
-    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf></cellXfs></styleSheet>';
+    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
   function sheetXml(rows,widths,merges,land){
     var sh='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+
       widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join('')+'</cols><sheetData>';
@@ -13810,7 +13813,8 @@ window.__cplSig=function(){
       row.c.forEach(function(cell,ci){
         var v=cell[0],st=cell[1]||0,ref=xCol(ci)+(ri+1);
         if(Array.isArray(v))sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is>'+v.map(function(q){return '<r><rPr><rFont val="B Nazanin"/>'+(q[2]?'<strike/>':'')+'<color rgb="'+q[1]+'"/><sz val="11"/></rPr><t xml:space="preserve">'+xEsc(q[0])+'</t></r>'}).join('')+'</is></c>';
-        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'"><v>'+v+'</v></c>';
+        else if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'">'+(cell[2]?'<f>'+xEsc(cell[2])+'</f>':'')+'<v>'+v+'</v></c>';
+        else if(v===''||v==null)sh+='<c r="'+ref+'" s="'+st+'"/>';
         else sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>';
       });
       sh+='</row>';
@@ -13826,6 +13830,7 @@ window.__cplSig=function(){
   function buildXlsxMulti(sheets){
     sheets=[].concat.apply([],sheets);
     if(cmpCap){cmpCap.sheets=sheets;return new Blob([''])}
+    try{var __nu={};window.__xlFormulize&&window.__xlFormulize(sheets,sheets.map(function(x){return sheetName(x.name,__nu)}),11)}catch(e){}
     var H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',used={},N=sheets.length,i;
     var ct=H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>';
     var wbS='',rel='',files=[];
@@ -13838,7 +13843,7 @@ window.__cplSig=function(){
     rel+='<Relationship Id="rId'+(N+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
     files.push({name:'[Content_Types].xml',data:ct});
     files.push({name:'_rels/.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'});
-    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets></workbook>'});
+    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>'});
     files.push({name:'xl/_rels/workbook.xml.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+rel+'</Relationships>'});
     for(i=0;i<N;i++)files.push({name:'xl/worksheets/sheet'+(i+1)+'.xml',data:sheetXml(sheets[i].rows,sheets[i].widths,sheets[i].merges||[],sheets[i].land)});
     files.push({name:'xl/styles.xml',data:X_STYLES});
@@ -14396,9 +14401,9 @@ window.__cplSig=function(){
     if(sp.head&&nc>=4){sp.head.forEach(function(h){var r=[[h[0],1],['',1],[String(h[1]==null?'':h[1]),3]];for(var q=3;q<nc;q++)r.push(['',3]);var k=add(r);mg.push('A'+k+':B'+k);mg.push('C'+k+':'+last+k)});add([])}
     add(sp.cols.map(function(c){return [c,1]}));
     var lb=null;
-    sp.rows.forEach(function(r){
+    sp.rows.forEach(function(r,ri){
       if(sp.band&&r[0]!==lb){lb=r[0];var b=[['نوع فهرست بها '+lb+(sp.bandNote?' ('+sp.bandNote+')':''),5]];for(var i=1;i<nc;i++)b.push(['',5]);var k=add(b,22);mg.push('A'+k+':'+last+k)}
-      add(cellsOf(r),0)});
+      var kk=add(cellsOf(r),0);try{if(sp.items&&sp.items[ri]&&String(sp.t).indexOf('برگه مالی')===0){var xi=sp.items[ri];rows[kk-1].meta={d:xi.discipline,ch:p2(effCh(xi)),cat:catOf(xi)}}}catch(e){}});
     if(sp.foot)add(sp.foot.map(function(v){return [v,typeof v==='number'?6:7]}));
     if(sp.extra){add([]);sp.extra.forEach(function(r){var k=add(cellsOf(r),0);if(r.length===1)mg.push('A'+k+':'+last+k)})}
     return {name:sp.t,rows:rows,widths:sp.w,merges:mg,land:sp.land};
@@ -15808,8 +15813,8 @@ window.__cplSig=function(){
   var X_STYLES='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="166" formatCode="#,##0.###"/></numFmts>'+
     '<fonts count="4"><font><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="11"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="14"/><name val="B Nazanin"/><family val="2"/></font><font><b/><sz val="22"/><name val="B Nazanin"/><family val="2"/></font></fonts>'+
     '<fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF0F0F0"/><bgColor indexed="64"/></patternFill></fill></fills>'+
-    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color indexed="64"/></left><right style="thin"><color indexed="64"/></right><top style="thin"><color indexed="64"/></top><bottom style="thin"><color indexed="64"/></bottom><diagonal/></border></borders>'+
-    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="10">'+
+    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF000000"/></left><right style="thin"><color rgb="FF000000"/></right><top style="thin"><color rgb="FF000000"/></top><bottom style="thin"><color rgb="FF000000"/></bottom><diagonal/></border></borders>'+
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="14">'+
     '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
@@ -15818,7 +15823,7 @@ window.__cplSig=function(){
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf>'+
     '<xf numFmtId="166" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
     '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>'+
-    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
+    '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="3" fontId="1" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
   function sheetXml(rows,widths,merges,land){
     var sh='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+
       widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join('')+'</cols><sheetData>';
@@ -15827,6 +15832,7 @@ window.__cplSig=function(){
       row.c.forEach(function(cell,ci){
         var v=cell[0],st=cell[1]||0,ref=xCol(ci)+(ri+1);
         if(typeof v==='number'&&isFinite(v))sh+='<c r="'+ref+'" s="'+st+'"><v>'+v+'</v></c>';
+        else if(v===''||v==null)sh+='<c r="'+ref+'" s="'+st+'"/>';
         else sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>';
       });
       sh+='</row>';
@@ -15841,6 +15847,7 @@ window.__cplSig=function(){
   }
   function buildXlsxMulti(sheets){
     sheets=[].concat.apply([],sheets);
+    try{var __nu={};window.__xlFormulize&&window.__xlFormulize(sheets,sheets.map(function(x){return sheetName(x.name,__nu)}),10)}catch(e){}
     var H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',used={},N=sheets.length,i;
     var ct=H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>';
     var wbS='',rel='',files=[];
@@ -15853,7 +15860,7 @@ window.__cplSig=function(){
     rel+='<Relationship Id="rId'+(N+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
     files.push({name:'[Content_Types].xml',data:ct});
     files.push({name:'_rels/.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'});
-    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets></workbook>'});
+    files.push({name:'xl/workbook.xml',data:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'+wbS+'</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>'});
     files.push({name:'xl/_rels/workbook.xml.rels',data:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+rel+'</Relationships>'});
     for(i=0;i<N;i++)files.push({name:'xl/worksheets/sheet'+(i+1)+'.xml',data:sheetXml(sheets[i].rows,sheets[i].widths,sheets[i].merges||[],sheets[i].land)});
     files.push({name:'xl/styles.xml',data:X_STYLES});
@@ -17096,6 +17103,7 @@ window.__cplSig=function(){
       if(a!=='menu'&&a!=='theme'&&a!=='xls'&&a!=='pdf')closeMenu();
       if(a==='home'){close();if(typeof window.cplOpenHome==='function')window.cplOpenHome();var hh=document.getElementById('cplHome');if(hh){hh.setAttribute('data-view','');hh.scrollTop=0}}
       else if(a==='back'){if(ST.view==='menu')close();else{ST.view='menu';render()}}
+      else if(a==='backup'){closeMenu();if(window.cplBackupDialog)window.cplBackupDialog()}
       else if(a==='support'){closeMenu();var sb=document.getElementById('supportBtn');if(sb)sb.click()}
       else if(a==='menu'){toggleMenu(t)}
       else if(a==='theme'){closeMenu();var tb=document.getElementById('themeToggleBtn');if(tb)tb.click()}
@@ -17135,7 +17143,7 @@ window.__cplSig=function(){
   function head(title,showBack){
     var ICO_SUP=SV+'<path d="M4 13a8 8 0 0 1 16 0"/><path d="M19 13v4a2 2 0 0 1-2 2h-1"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><path d="M12 19v1a2 2 0 0 1-2 2H9"/></svg>';
     return '<div class="cbHead"><button type="button" class="btn cbMenuBtn" data-cb="menu" aria-label="منو" title="منو" aria-haspopup="true" aria-expanded="false">'+ICO_MENU+'</button><b>'+E(title)+'</b><button type="button" class="btn" data-cb="home" aria-label="بازگشت به صفحه قبل" title="بازگشت به صفحه قبل">'+ICO_HOME+'</button>'+
-      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
+      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="backup">'+((window.__bkIcons||{}).bk||'')+'<span>پشتیبان‌گیری</span></button><button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
   }
   /* ---------- منوی هدر: تم، گزارش اکسل، گزارش چاپی، بستن ---------- */
   function closeMenu(){
@@ -18131,14 +18139,22 @@ document.addEventListener('mousedown',function(e){
   function lum(c){var m=c.match(/[\d.]+/g);if(!m||m.length<3)return 0;var a=m.length>3?+m[3]:1;if(a<.5)return 0;return(+m[0]*299+ +m[1]*587+ +m[2]*114)/1000}
   function sweep(){
     t=null;
-    if(document.documentElement.getAttribute('data-theme')==='light')return;
+    var light=document.documentElement.getAttribute('data-theme')==='light';
+    /* حاشیه‌ی قبلی که این اسکریپت گذاشته: اگر دکمه دیگر سفید نیست (یا تم روشن است) برداشته شود تا «سفیدیِ ماندگار» دور کادرها نماند */
+    var st=document.querySelectorAll('[data-wbs="1"]');
+    for(var j=0;j<st.length;j++){
+      var s0=st[j];
+      if(light||lum(getComputedStyle(s0).backgroundColor)<=200){s0.style.removeProperty('border');s0.removeAttribute('data-wbs');s0.removeAttribute('data-wb')}
+    }
+    if(light)return;
     var all=document.querySelectorAll('button,.btn');
     for(var i=0;i<all.length;i++){
       var e=all[i];if(e.getAttribute('data-wb')==='1')continue;
       var r=e.getBoundingClientRect();if(r.width<8||r.height<8)continue;
-      if(lum(getComputedStyle(e).backgroundColor)>200){e.style.setProperty('border','1px solid '+G,'important');e.setAttribute('data-wb','1')}
+      if(lum(getComputedStyle(e).backgroundColor)>200){e.style.setProperty('border','1px solid '+G,'important');e.setAttribute('data-wb','1');e.setAttribute('data-wbs','1')}
     }
   }
+  setInterval(function(){if(t==null)t=setTimeout(sweep,50)},1500);
   function sched(){if(t==null)t=setTimeout(sweep,250)}
   new MutationObserver(sched).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','data-theme','aria-hidden']});
   document.addEventListener('click',sched,true);
@@ -18848,6 +18864,458 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root 
 })();
 </script>
 
+<script id="cpl-backup-js">
+(function(){
+  var SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+  var ICO_BK=SV+'<path d="M12 3v12"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>';
+  var ICO_RS=SV+'<path d="M12 15V3"/><path d="m7.5 7.5 4.5-4.5 4.5 4.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>';
+  var busy=false,fin=null;
+  function toast(msg,ms){
+    var t=document.createElement('div');t.textContent=msg;
+    t.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:56px;z-index:2147483646;background:#1f2937;color:#fff;border:1px solid #f59e0b;border-radius:12px;padding:10px 16px;font-size:14px;line-height:1.7;max-width:92vw;text-align:center;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.35);pointer-events:none';
+    document.body.appendChild(t);setTimeout(function(){try{t.remove()}catch(e){}},ms||2500);return t;
+  }
+  function call(path,opt){
+    if(typeof api==='function')return api(path,opt||{});
+    return fetch(path,Object.assign({credentials:'same-origin',headers:{'content-type':'application/json'}},opt||{})).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||'خطا در ارتباط با سرور');return d})});
+  }
+  function fa(n){try{return Number(n).toLocaleString('fa-IR')}catch(e){return String(n)}}
+  function who(){try{var u=window.currentUser||{};return {code:u.code||'',name:u.name||''}}catch(e){return {code:'',name:''}}}
+  async function backup(){
+    if(busy)return;busy=true;var msg=toast('در حال تهیه‌ی بک‌آپ…',60000);
+    try{
+      var list=(await call('/api/projects')).projects||[],out=[];
+      for(var i=0;i<list.length;i++){
+        msg.textContent='در حال تهیه‌ی بک‌آپ… '+fa(i+1)+' از '+fa(list.length);
+        var row=list[i],p=(await call('/api/projects/'+row.id)).project,an={};
+        try{an=(await call('/api/projects/'+row.id+'/analysis')).analysis||{}}catch(e){}
+        out.push({id:p.id,name:p.name,data:p.data,analysis:an,created_at:p.created_at,updated_at:p.updated_at,
+          parentProjectId:row.parentProjectId||null,projectType:row.projectType||'main',calculationName:row.calculationName||''});
+      }
+      var pack={format:'metriz-backup',version:1,exportedAt:new Date().toISOString(),user:who(),count:out.length,projects:out};
+      var blob=new Blob([JSON.stringify(pack)],{type:'application/json'}),a=document.createElement('a');
+      var d=new Date(),ds=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+      a.href=URL.createObjectURL(blob);a.download='metriz-backup-'+ds+'.json';document.body.appendChild(a);a.click();
+      setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+      try{msg.remove()}catch(e){}toast('بک‌آپ '+fa(out.length)+' پروژه ذخیره شد.',3000);
+    }catch(e){try{msg.remove()}catch(_){}toast('تهیه‌ی بک‌آپ ناموفق بود: '+(e&&e.message||''),4000)}
+    busy=false;
+  }
+  function uid(){try{if(crypto.randomUUID)return crypto.randomUUID()}catch(e){}
+    var b=new Uint8Array(16);crypto.getRandomValues(b);b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;
+    var h=Array.prototype.map.call(b,function(x){return('0'+x.toString(16)).slice(-2)}).join('');
+    return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20)}
+  async function restore(file){
+    if(busy)return;busy=true;var msg=null;
+    try{
+      var pack=JSON.parse(await file.text());
+      if(!pack||pack.format!=='metriz-backup'||!Array.isArray(pack.projects))throw new Error('این فایل، بک‌آپ معتبر برنامه نیست.');
+      if(!pack.projects.length)throw new Error('بک‌آپ خالی است.');
+      if(!confirm('بازیابی '+fa(pack.projects.length)+' پروژه از بک‌آپ؟\nپروژه‌های هم‌شناسه جایگزین می‌شوند و نسخه‌ی بک‌آپ مبنا قرار می‌گیرد. پروژه‌هایی که در بک‌آپ نیستند حذف نمی‌شوند.'))throw new Error('');
+      msg=toast('در حال بازیابی…',600000);
+      var have={};try{((await call('/api/projects')).projects||[]).forEach(function(r){have[r.id]=1})}catch(e){}
+      /* اول پروژه‌های اصلی، بعد محاسبه‌ها */
+      var ord=pack.projects.slice().sort(function(a,b){return (a.parentProjectId?1:0)-(b.parentProjectId?1:0)}),ok=0,bad=0;
+      for(var i=0;i<ord.length;i++){
+        var p=ord[i];msg.textContent='در حال بازیابی… '+fa(i+1)+' از '+fa(ord.length);
+        var body={name:String(p.name||'پروژه').slice(0,120),data:String(p.data||'')};
+        if(p.projectType)body.projectType=p.projectType;
+        if(p.parentProjectId||p.projectType==='calculation')body.parentProjectId=p.parentProjectId||null;
+        if(p.calculationName)body.calculationName=p.calculationName;
+        try{
+          if(have[p.id])await call('/api/projects/'+p.id,{method:'PUT',body:JSON.stringify(body)});
+          else await call('/api/projects',{method:'POST',body:JSON.stringify(Object.assign({id:p.id},body))});
+          if(p.analysis&&Object.keys(p.analysis).length){try{await call('/api/projects/'+p.id+'/analysis',{method:'PUT',body:JSON.stringify(p.analysis)})}catch(e){}}
+          ok++;
+        }catch(e){bad++}
+      }
+      try{window.__fpCache=null}catch(e){}
+      try{msg.remove()}catch(e){}
+      toast(fa(ok)+' پروژه بازیابی شد'+(bad?' ('+fa(bad)+' مورد ناموفق)':'')+'.',2800);setTimeout(function(){location.reload()},1600);
+    }catch(e){if(msg){try{msg.remove()}catch(_){}}if(e&&e.message)toast(e.message,4000)}
+    busy=false;
+  }
+  var inp=null;
+  function pick(){
+    if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';inp.style.display='none';
+      inp.addEventListener('change',function(){var f=inp.files&&inp.files[0];inp.value='';if(f)restore(f)});document.body.appendChild(inp)}
+    inp.click();
+  }
+  function mk(id,title,ico,fn){
+    var b=document.createElement('button');b.type='button';b.id=id;b.className='btn projectIconBtn';b.title=title;b.setAttribute('aria-label',title);b.innerHTML=ico;
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();fn()});return b;
+  }
+  function inject(){
+    if(document.getElementById('cplBackupBtn'))return;
+    var sup=document.getElementById('supportBtn');if(!sup||!sup.parentNode)return;
+    sup.parentNode.insertBefore(mk('cplBackupBtn','پشتیبان‌گیری',ICO_BK,dialog),sup);
+  }
+  inject();setTimeout(inject,600);
+  function dialog(){
+    if(document.getElementById('cplBkDlg'))return;
+    var ov=document.createElement('div');ov.id='cplBkDlg';
+    ov.style.cssText='position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl';
+    var bx=document.createElement('div');
+    bx.style.cssText='width:min(400px,100%);box-sizing:border-box;background:var(--c8,#1b1b1b);color:var(--c2,#f2f2f2);border:1px solid var(--c5,#393939);border-radius:24px;padding:18px;font-family:inherit';
+    var bs='display:flex;align-items:center;justify-content:center;gap:12px;width:100%;box-sizing:border-box;height:56px;margin-top:10px;border-radius:18px;border:1px solid var(--c5,#393939);background:var(--c1,#000);color:inherit;font:inherit;font-size:16px;font-weight:700;cursor:pointer';
+    bx.innerHTML='<div style="text-align:center;font-size:18px;font-weight:800;margin-bottom:4px">پشتیبان‌گیری</div><div style="text-align:center;font-size:13px;opacity:.7;line-height:1.8">همه‌ی پروژه‌های شما در یک فایل ذخیره می‌شود.</div>'+
+      '<button type="button" data-a="bk" style="'+bs+'">'+ICO_BK+'<span>پشتیبان‌گیری</span></button>'+
+      '<button type="button" data-a="rs" style="'+bs+'">'+ICO_RS+'<span>بازیابی</span></button>'+
+      '<button type="button" data-a="x" style="'+bs+';background:transparent;font-weight:600">بستن</button>';
+    ov.appendChild(bx);document.body.appendChild(ov);
+    function close(){try{ov.remove()}catch(e){}}
+    ov.addEventListener('click',function(e){
+      var t=e.target.closest&&e.target.closest('button[data-a]');
+      if(!t){if(e.target===ov)close();return}
+      var a=t.getAttribute('data-a');close();
+      if(a==='bk')backup();else if(a==='rs')pick();
+    });
+  }
+  window.cplBackupDialog=dialog;window.cplBackup=backup;window.cplRestorePick=pick;window.__bkIcons={bk:ICO_BK,rs:ICO_RS};
+})();
+</script>
+<script id="cpl-xlsx-borders-js">
+(function(){
+  /* کامل‌کردن کادر در همه‌ی خروجی‌های اکسل: سلول‌های ادغام‌شده، سلول‌های خالی/جاافتاده و سلول‌های بی‌کادرِ وسط جدول.
+     همه‌ی تولیدکننده‌های xlsx از window.__xlsxPost عبور می‌کنند، پس این‌جا یک‌جا اصلاح می‌شود. */
+  var NS='http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+  function colNum(s){var n=0;for(var i=0;i<s.length;i++)n=n*26+(s.charCodeAt(i)-64);return n}
+  function colStr(n){var s='';while(n>0){var r=(n-1)%26;s=String.fromCharCode(65+r)+s;n=Math.floor((n-1)/26)}return s}
+  function ref(r){var m=/^([A-Z]+)(\d+)$/.exec(r||'');return m?{c:colNum(m[1]),r:+m[2]}:null}
+  function kids(el,name){var o=[];for(var n=el.firstChild;n;n=n.nextSibling)if(n.nodeType===1&&n.localName===name)o.push(n);return o}
+  function fixStyles(doc){
+    var root=doc.documentElement,bs=kids(root,'borders')[0],cx=kids(root,'cellXfs')[0];
+    if(!bs||!cx)return null;
+    var borders=kids(bs,'border'),thin=-1,i;
+    function has(b){return ['left','right','top','bottom'].some(function(s){var e=kids(b,s)[0];return e&&e.getAttribute('style')})}
+    var full=function(b){return ['left','right','top','bottom'].every(function(s){var e=kids(b,s)[0];return e&&e.getAttribute('style')})};
+    for(i=0;i<borders.length;i++)if(full(borders[i])){thin=i;break}
+    if(thin<0){
+      var b=doc.createElementNS(NS,'border');
+      ['left','right','top','bottom'].forEach(function(s){var e=doc.createElementNS(NS,s);e.setAttribute('style','thin');var c=doc.createElementNS(NS,'color');c.setAttribute('rgb','FF000000');e.appendChild(c);b.appendChild(e)});
+      b.appendChild(doc.createElementNS(NS,'diagonal'));
+      bs.appendChild(b);thin=borders.length;bs.setAttribute('count',String(thin+1));borders.push(b);
+    }
+    var xfs=kids(cx,'xf'),bordered=xfs.map(function(x){var id=+(x.getAttribute('borderId')||0);return id>0&&borders[id]&&has(borders[id])});
+    return {cx:cx,xfs:xfs,bordered:bordered,thin:thin,cache:{},doc:doc,
+      withBorder:function(idx){
+        if(this.bordered[idx])return idx;
+        if(this.cache[idx]!==undefined)return this.cache[idx];
+        var x=this.xfs[idx]||this.xfs[0],c=x.cloneNode(true);
+        c.setAttribute('borderId',String(this.thin));c.setAttribute('applyBorder','1');
+        this.cx.appendChild(c);this.xfs.push(c);this.bordered.push(true);
+        var n=this.xfs.length-1;this.cx.setAttribute('count',String(this.xfs.length));this.cache[idx]=n;return n;
+      }};
+  }
+  function fixSheet(doc,S){
+    var root=doc.documentElement,sd=kids(root,'sheetData')[0];if(!sd)return false;
+    var rows=kids(sd,'row'),rmap={},changed=false;
+    rows.forEach(function(r){rmap[r.getAttribute('r')||''] = r});
+    function rowEl(n){
+      if(rmap[n])return rmap[n];
+      var e=doc.createElementNS(NS,'row');e.setAttribute('r',String(n));
+      var after=null;rows.forEach(function(x){if(+x.getAttribute('r')<n)after=x});
+      if(after)after.parentNode.insertBefore(e,after.nextSibling);else sd.insertBefore(e,sd.firstChild);
+      rows.push(e);rmap[n]=e;return e;
+    }
+    function cellMap(r){var m={};kids(r,'c').forEach(function(c){var p=ref(c.getAttribute('r'));if(p)m[p.c]=c});return m}
+    function setCell(r,rn,cn,sIdx){
+      var m=cellMap(r),c=m[cn];
+      if(c){var cur=+(c.getAttribute('s')||0);if(!S.bordered[cur]){c.setAttribute('s',String(S.withBorder(sIdx!=null?sIdx:cur)));changed=true}return}
+      c=doc.createElementNS(NS,'c');c.setAttribute('r',colStr(cn)+rn);c.setAttribute('s',String(S.withBorder(sIdx||0)));
+      var before=null;Object.keys(m).map(Number).sort(function(a,b){return a-b}).forEach(function(k){if(k>cn&&!before)before=m[k]});
+      r.insertBefore(c,before);changed=true;
+    }
+    /* ۱) سلول‌های ادغام‌شده: همه‌ی خانه‌ها استایل خانه‌ی بالا-چپ (با کادر) بگیرند */
+    var mc=kids(root,'mergeCells')[0];
+    if(mc)kids(mc,'mergeCell').forEach(function(m){
+      var p=/^([A-Z]+\d+):([A-Z]+\d+)$/.exec(m.getAttribute('ref')||'');if(!p)return;
+      var a=ref(p[1]),b=ref(p[2]);if(!a||!b)return;
+      var tl=rowEl(a.r),tc=cellMap(tl)[a.c],ts=tc?+(tc.getAttribute('s')||0):0;
+      if(!S.bordered[ts]){
+        /* خانه‌ی ادغام‌شده‌ی بی‌کادر (مثل عنوان بالای صفحه) دست نمی‌خورد، مگر هم‌ردیف سلول‌های دارای کادر باشد */
+        var rowHas=kids(tl,'c').some(function(c){return S.bordered[+(c.getAttribute('s')||0)]});
+        if(!rowHas)return;
+      }
+      for(var r=a.r;r<=b.r;r++)for(var c=a.c;c<=b.c;c++)setCell(rowEl(r),r,c,ts);
+    });
+    /* ۲) ردیف‌هایی که حداقل یک سلول کادردار دارند: بین اولین و آخرین سلول کادردار هیچ خانه‌ی بی‌کادر/جاافتاده نماند */
+    rows.slice().forEach(function(r){
+      var rn=+r.getAttribute('r'),cs=kids(r,'c'),lo=1e9,hi=0;
+      cs.forEach(function(c){var p=ref(c.getAttribute('r'));if(p&&S.bordered[+(c.getAttribute('s')||0)]){lo=Math.min(lo,p.c);hi=Math.max(hi,p.c)}});
+      if(hi<lo||hi===lo)return;
+      for(var c=lo;c<=hi;c++)setCell(r,rn,c,0);
+    });
+    return changed;
+  }
+  var prev=window.__xlsxPost;
+  window.__xlsxPost=function(files){
+    if(typeof prev==='function'){try{files=prev(files)||files}catch(e){}}
+    try{
+      var stI=-1,i;for(i=0;i<files.length;i++)if(files[i].name==='xl/styles.xml'&&typeof files[i].data==='string'){stI=i;break}
+      if(stI<0||typeof DOMParser==='undefined')return files;
+      var P=new DOMParser(),X=new XMLSerializer(),sdoc=P.parseFromString(files[stI].data,'application/xml');
+      if(sdoc.getElementsByTagName('parsererror').length)return files;
+      var S=fixStyles(sdoc);if(!S)return files;
+      var out=files.slice(),any=false;
+      for(i=0;i<out.length;i++){
+        var f=out[i];if(typeof f.data!=='string'||!/^xl\/worksheets\/[^/]+\.xml$/.test(f.name))continue;
+        var d=P.parseFromString(f.data,'application/xml');if(d.getElementsByTagName('parsererror').length)continue;
+        if(fixSheet(d,S)){var s=X.serializeToString(d);if(!/^<\?xml/.test(s))s='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+s;out[i]={name:f.name,data:s};any=true}
+      }
+      if(any){var ss=X.serializeToString(sdoc);if(!/^<\?xml/.test(ss))ss='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+ss;out[stI]={name:'xl/styles.xml',data:ss}}
+      return out;
+    }catch(e){try{console.warn('xlsx border fix',e)}catch(_){}return files}
+  };
+})();
+</script>
+<script id="cpl-xlsx-formulas-js">
+(function(){
+  /* فرمول‌دار کردن خروجی اکسل: ریزمتره ← روکش / برگه مالی ← فصول ← دفترچه‌ها.
+     هر فرمول فقط وقتی گذاشته می‌شود که نتیجه‌اش با عدد خود نرم‌افزار یکی باشد؛ وگرنه همان عدد ثابت می‌ماند. */
+  function colL(n){var s='';n++;while(n){var r=(n-1)%26;s=String.fromCharCode(65+r)+s;n=Math.floor((n-1)/26)}return s}
+  function q(n){return "'"+String(n).replace(/'/g,"''")+"'"}
+  function T(c){return c&&typeof c[0]==='string'?c[0].trim():''}
+  function Nm(c){return c&&typeof c[0]==='number'&&isFinite(c[0])?c[0]:null}
+  function near(a,b,t){return Math.abs(a-b)<=t}
+  function relTol(b){return 1e-6*(1+Math.abs(b))}
+  function ranges(sheet,col,rowsArr){
+    rowsArr=rowsArr.slice().sort(function(a,b){return a-b});
+    var out=[],s=rowsArr[0],p=s,i;
+    for(i=1;i<=rowsArr.length;i++){
+      var v=rowsArr[i];
+      if(v===p+1){p=v;continue}
+      out.push(q(sheet)+'!'+col+s+(p>s?':'+col+p:''));
+      s=v;p=v;
+    }
+    return out;
+  }
+  function footIdx(rows,from,label){for(var i=from;i<rows.length;i++){var c=rows[i].c;if(c&&T(c[0])===label)return i}return -1}
+  window.__xlFormulize=function(sheets,names,B){
+    try{run(sheets,names,B)}catch(e){try{console.warn('xlsx formulas',e)}catch(_){}}
+  };
+  function run(sheets,names,B){
+    var G=B,M=B+1,GT=B+2,MT=B+3;
+    function sty(cell,kind){var tot=cell[1]===6||cell[1]===10;return kind==='m'?(tot?MT:M):(tot?GT:G)}
+    function setF(cell,f,kind){cell[2]=f;cell[1]=sty(cell,kind)}
+    var totals={};
+    function addTot(disc,code,sheet,ref,val){
+      var k1=disc+'|'+code,k2='|'+code;
+      (totals[k1]=totals[k1]||[]).push({sheet:sheet,ref:ref,v:val,used:false});
+      (totals[k2]=totals[k2]||[]).push({sheet:sheet,ref:ref,v:val,used:false});
+    }
+    /* ۱) ریزمتره */
+    sheets.forEach(function(sh,si){
+      var rows=sh.rows,nm=names[si],i,j;
+      for(i=0;i<rows.length;i++){
+        var c=rows[i].c;
+        if(!c||c.length<8||T(c[0])!=='ردیف'||T(c[1])!=='تعداد'||T(c[6])!=='حاصل ضرب')continue;
+        var bt=(i>0&&rows[i-1].c&&rows[i-1].c[0])?T(rows[i-1].c[0]):'',disc='',rest=bt,mm=/^\[([^\]]+)\]\s*/.exec(bt);
+        if(mm){disc=mm[1];rest=bt.slice(mm[0].length)}
+        var parts=rest.split(' — '),code=(parts.length>1&&parts[0].indexOf('اضافه')===0)?parts[1]:parts[0];
+        code=String(code||'').trim();
+        var first=-1,last=-1,tot=-1;
+        for(j=i+1;j<rows.length;j++){
+          var cj=rows[j].c;if(!cj||!cj.length)break;
+          if(T(cj[0])==='جمع نهایی'){tot=j;break}
+          var okRow=true,k,vals=[];
+          for(k=1;k<=5;k++){var v=Nm(cj[k]);if(v===null){if(!(cj[k]&&cj[k][0]===''))okRow=false}vals.push(v)}
+          var g=Nm(cj[6]);
+          if(okRow&&g!==null){
+            var any=vals.some(function(x){return x!==null}),ex=any?vals.reduce(function(a,x){return a*(x===null?1:x)},1):0,r=j+1;
+            if(near(ex,g,relTol(g))){setF(cj[6],'IF(COUNT(B'+r+':F'+r+')=0,0,PRODUCT(B'+r+':F'+r+'))','g');if(first<0)first=j;last=j}
+          }
+        }
+        if(tot>=0&&first>=0&&last>=first){
+          var tc=rows[tot].c[6],tv=Nm(tc);
+          if(tv!==null){
+            var s2=0;for(j=first;j<=last;j++){var gv=Nm(rows[j].c[6]);s2+=gv===null?0:gv}
+            if(near(s2,tv,relTol(tv))){setF(tc,'SUM(G'+(first+1)+':G'+(last+1)+')','g');addTot(disc,code,nm,'G'+(tot+1),tv)}
+          }
+        }
+        i=Math.max(i,tot>=0?tot:i);
+      }
+    });
+    function takeTot(disc,code,val){
+      var arr=totals[disc+'|'+code]||totals['|'+code]||[],i;
+      for(i=0;i<arr.length;i++)if(!arr[i].used&&near(arr[i].v,val,relTol(val))){arr[i].used=true;return arr[i]}
+      return null;
+    }
+    /* ۲) برگه مالی */
+    var entries=[];
+    sheets.forEach(function(sh,si){
+      if(String(sh.name).indexOf('برگه مالی')!==0)return;
+      var rows=sh.rows,nm=names[si],hi=-1,i,H;
+      for(i=0;i<rows.length;i++){var c=rows[i].c;if(c&&T(c[0])==='نوع فهرست بها'&&c.map(T).indexOf('شماره آیتم')>=0){hi=i;break}}
+      if(hi<0)return;
+      H=rows[hi].c.map(T);
+      var iCode=H.indexOf('شماره آیتم'),iQty=H.indexOf('مقدار'),iPrice=H.indexOf('بهای واحد'),iAmt=H.indexOf('مبلغ'),iCh=H.indexOf('ضریب فصل'),iWC=-1;
+      H.forEach(function(h,k){if(h.indexOf('مبلغ با ضرایب')===0)iWC=k});
+      if(iCode<0||iQty<0||iPrice<0||iAmt<0)return;
+      var fi=footIdx(rows,hi+1,'جمع کل'),endI=fi<0?rows.length:fi,firstItem=-1,lastItem=-1;
+      for(i=hi+1;i<endI;i++){
+        var c2=rows[i].c;if(!c2||c2.length<=iAmt)continue;
+        var amt=Nm(c2[iAmt]),qty=Nm(c2[iQty]),pr=Nm(c2[iPrice]);
+        if(amt===null||qty===null||pr===null)continue;
+        var r=i+1,disc=T(c2[0]),code=T(c2[iCode]);
+        if(firstItem<0)firstItem=i;lastItem=i;
+        var t=takeTot(disc,code,qty);
+        if(t)setF(c2[iQty],q(t.sheet)+'!'+t.ref,'g');
+        if(near(Math.round(qty*pr),amt,0.51))setF(c2[iAmt],'ROUND('+colL(iQty)+r+'*'+colL(iPrice)+r+',0)','m');
+        var wcv=iWC>=0?Nm(c2[iWC]):null;
+        if(wcv!==null&&iCh>=0&&iCh<iWC){
+          var pd=1,okc=true,k;for(k=iCh;k<iWC;k++){var cv=Nm(c2[k]);if(cv===null){okc=false;break}pd*=cv}
+          if(okc&&near(Math.round(amt*pd),wcv,0.51))setF(c2[iWC],'ROUND('+colL(iAmt)+r+'*PRODUCT('+colL(iCh)+r+':'+colL(iWC-1)+r+'),0)','m');
+        }
+        if(rows[i].meta)entries.push({sheet:nm,r:r,iAmt:iAmt,iWC:iWC,meta:rows[i].meta,amt:amt,wc:wcv});
+      }
+      if(fi>=0&&firstItem>=0){
+        [iAmt,iWC].forEach(function(ci){
+          if(ci<0)return;var fc=rows[fi].c[ci],fv=Nm(fc);if(fv===null)return;
+          var s=0,k;for(k=firstItem;k<=lastItem;k++){var v=Nm(rows[k].c[ci]);s+=v===null?0:v}
+          if(near(s,fv,1))setF(fc,'SUM('+colL(ci)+(firstItem+1)+':'+colL(ci)+(lastItem+1)+')','m');
+        });
+      }
+    });
+    /* ۳) فصول */
+    var CAT={'فهرست بها':'list','ستاره‌دار':'star','فاکتوری':'fac','پایکار':'pay'};
+    var chapInfo={};
+    sheets.forEach(function(sh,si){
+      if(String(sh.name).indexOf('فصول')!==0)return;
+      var rows=sh.rows,nm=names[si],hi=-1,i,H,wc=false;
+      for(i=0;i<rows.length;i++){
+        var c=rows[i].c;if(!c)continue;
+        if(T(c[0])==='نوع مبالغ'&&c[2])wc=T(c[2]).indexOf('با ضرایب')>=0;
+        if(T(c[0])==='نوع فهرست بها'&&c.map(T).indexOf('جمع فصل (ریال)')>=0){hi=i;break}
+      }
+      if(hi<0)return;
+      H=rows[hi].c.map(T);
+      var iTot=H.indexOf('جمع فصل (ریال)'),cats=[];
+      H.forEach(function(h,k){if(CAT[h])cats.push({k:k,cat:CAT[h],name:h})});
+      if(!cats.length)return;
+      var fi=footIdx(rows,hi+1,'جمع کل'),endI=fi<0?rows.length:fi,first=-1,last=-1;
+      for(i=hi+1;i<endI;i++){
+        var cc=rows[i].c;if(!cc||cc.length<=iTot)continue;
+        var tv=Nm(cc[iTot]);if(tv===null)continue;
+        var disc=T(cc[0]),mm=/(\d+(?:\.\d+)?)/.exec(T(cc[1]));if(!mm)continue;
+        var chn=parseFloat(mm[1]),r=i+1;
+        if(first<0)first=i;last=i;
+        cats.forEach(function(ct){
+          var cell=cc[ct.k],cv=Nm(cell);if(cv===null||!entries.length)return;
+          var es=entries.filter(function(e){return e.meta.d===disc&&parseFloat(e.meta.ch)===chn&&e.meta.cat===ct.cat&&(wc?e.iWC>=0:true)});
+          if(!es.length)return;
+          var by={},sum=0;
+          es.forEach(function(e){(by[e.sheet]=by[e.sheet]||{col:colL(wc?e.iWC:e.iAmt),rs:[]}).rs.push(e.r);sum+=wc?(e.wc||0):e.amt});
+          var refs=[];Object.keys(by).forEach(function(s){refs=refs.concat(ranges(s,by[s].col,by[s].rs))});
+          var f='SUM('+refs.join(',')+')';
+          if(f.length<6000&&near(sum,cv,1))setF(cell,f,'m');
+        });
+        var c0=cats[0].k,c1=cats[cats.length-1].k,s3=0,okT=true;
+        cats.forEach(function(ct){var v=Nm(cc[ct.k]);if(v===null)okT=false;else s3+=v});
+        if(okT&&c1-c0===cats.length-1&&near(s3,tv,1))setF(cc[iTot],'SUM('+colL(c0)+r+':'+colL(c1)+r+')','m');
+        var m=chapInfo[disc]=chapInfo[disc]||[];
+        var ex=m.filter(function(x){return x.sheet===nm})[0];
+        if(!ex){ex={sheet:nm,rows:[],cats:cats,sh:sh};m.push(ex)}
+        ex.rows.push(i);
+      }
+      if(fi>=0&&first>=0){
+        rows[fi].c.forEach(function(fc,ci){
+          var fv=Nm(fc);if(fv===null||ci<2)return;
+          var s=0,k;for(k=first;k<=last;k++){var v=Nm(rows[k].c[ci]);s+=v===null?0:v}
+          if(near(s,fv,1))setF(fc,'SUM('+colL(ci)+(first+1)+':'+colL(ci)+(last+1)+')','m');
+        });
+      }
+    });
+    /* ۴) دفترچه‌ها */
+    sheets.forEach(function(sh){
+      if(String(sh.name).indexOf('دفترچه')!==0)return;
+      var rows=sh.rows,hi=-1,i,H;
+      for(i=0;i<rows.length;i++){var c=rows[i].c;if(c&&T(c[0])==='نوع فهرست بها'&&c.map(T).indexOf('مبلغ دفترچه (ریال)')>=0){hi=i;break}}
+      if(hi<0)return;
+      H=rows[hi].c.map(T);
+      var iTot=H.indexOf('مبلغ دفترچه (ریال)'),iEq=H.indexOf('مبلغ تجهیز'),cats=[];
+      H.forEach(function(h,k){if(CAT[h])cats.push({k:k,cat:CAT[h],name:h})});
+      var fi=footIdx(rows,hi+1,'جمع کل'),endI=fi<0?rows.length:fi,first=-1,last=-1;
+      for(i=hi+1;i<endI;i++){
+        var cc=rows[i].c;if(!cc||cc.length<=iTot)continue;
+        var tv=Nm(cc[iTot]);if(tv===null)continue;
+        var disc=T(cc[0]),r=i+1;if(first<0)first=i;last=i;
+        var infos=chapInfo[disc]||[];
+        cats.forEach(function(ct){
+          var cell=cc[ct.k],cv=Nm(cell);if(cv===null||!infos.length)return;
+          var refs=[],sum=0,okc=true;
+          infos.forEach(function(inf){
+            var cc2=inf.cats.filter(function(x){return x.cat===ct.cat})[0];if(!cc2){okc=false;return}
+            refs=refs.concat(ranges(inf.sheet,colL(cc2.k),inf.rows.map(function(x){return x+1})));
+            inf.rows.forEach(function(x){var v=Nm(inf.sh.rows[x].c[cc2.k]);sum+=v===null?0:v});
+          });
+          if(okc&&near(sum,cv,1))setF(cell,'SUM('+refs.join(',')+')','m');
+        });
+        var s3=0,okT=cats.length>0;
+        cats.forEach(function(ct){var v=Nm(cc[ct.k]);if(v===null)okT=false;else s3+=v});
+        var eq=iEq>=0?Nm(cc[iEq]):0;if(eq===null)okT=false;
+        if(okT&&cats[cats.length-1].k-cats[0].k===cats.length-1&&near(s3+eq,tv,1))
+          setF(cc[iTot],'SUM('+colL(cats[0].k)+r+':'+colL(cats[cats.length-1].k)+r+')'+(iEq>=0?'+'+colL(iEq)+r:''),'m');
+      }
+      if(fi>=0&&first>=0){
+        rows[fi].c.forEach(function(fc,ci){
+          var fv=Nm(fc);if(fv===null||ci<1)return;
+          var s=0,k;for(k=first;k<=last;k++){var v=Nm(rows[k].c[ci]);s+=v===null?0:v}
+          if(near(s,fv,1))setF(fc,'SUM('+colL(ci)+(first+1)+':'+colL(ci)+(last+1)+')','m');
+        });
+      }
+    });
+    /* ۵) روکش: مقدار هر آیتم از جمع ریزمتره */
+    sheets.forEach(function(sh){
+      var rows=sh.rows,hi=-1,i,H;
+      for(i=0;i<rows.length;i++){var c=rows[i].c;if(c){var t=c.map(T);if(t.indexOf('شماره آیتم')>=0&&t.indexOf('شرح ردیف')>=0&&t.indexOf('مقدار')>=0){hi=i;H=t;break}}}
+      if(hi<0)return;
+      var iCode=H.indexOf('شماره آیتم'),iQty=H.indexOf('مقدار'),iDisc=H.indexOf('نوع فهرست بها');
+      for(i=hi+1;i<rows.length;i++){
+        var c2=rows[i].c;if(!c2||c2.length<=iQty)continue;
+        var qty=Nm(c2[iQty]),code=T(c2[iCode]);if(qty===null||!code)continue;
+        var arr=totals[(iDisc>=0?T(c2[iDisc]):'')+'|'+code]||totals['|'+code]||[];
+        if(!arr.length)continue;
+        var s=0;arr.forEach(function(a){s+=a.v});
+        var use=null;
+        if(near(s,qty,relTol(qty)))use=arr;
+        else{arr.forEach(function(a){if(!use&&near(a.v,qty,relTol(qty)))use=[a]})}
+        if(use)setF(c2[iQty],'SUM('+use.map(function(a){return q(a.sheet)+'!'+a.ref}).join(',')+')','g');
+      }
+    });
+  }
+})();
+</script>
+<script id="cpl-xlsx-xf0-js">
+(function(){
+  /* اکسل xf شماره ۰ را «پیش‌فرض بدون کادر» می‌گیرد و xfهای هم‌شکل آن را با آن یکی می‌کند؛ پس سلول‌های متنیِ دارای کادر بی‌کادر دیده می‌شدند.
+     این‌جا یک xf پیش‌فرض ساده در ایندکس ۰ گذاشته می‌شود و همه‌ی استایل‌های سلول‌ها یکی بالا می‌روند. */
+  var prev=window.__xlsxPost;
+  window.__xlsxPost=function(files){
+    if(typeof prev==='function'){try{files=prev(files)||files}catch(e){}}
+    try{
+      var si=-1,i;for(i=0;i<files.length;i++)if(files[i].name==='xl/styles.xml'&&typeof files[i].data==='string'){si=i;break}
+      if(si<0)return files;
+      var st=files[si].data;
+      if(/data-xf0="1"/.test(st))return files;
+      var m=/<cellXfs count="(\d+)">/.exec(st);if(!m)return files;
+      var n=(+m[1])+1;
+      st=st.replace(m[0],'<cellXfs count="'+n+'"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>');
+      /* فونت فارسی: بدون charset=178 اکسل نسخهٔ لاتین «B Nazanin» را برمی‌دارد و متن فارسی با فونت دیگری دیده می‌شود */
+      st=st.replace(/<font>([\s\S]*?)<\/font>/g,function(a,body){
+        if(!/<name val="B Nazanin"\/>/.test(body)||/<charset\b/.test(body))return a;
+        body=body.replace(/(<name val="B Nazanin"\/>(?:<family val="\d+"\/>)?)/,'$1<charset val="178"/>');
+        return '<font>'+body+'</font>'});
+      var out=files.map(function(f,k){
+        if(k===si)return {name:f.name,data:st};
+        if(typeof f.data==='string'&&/^xl\/worksheets\/[^/]+\.xml$/.test(f.name))
+          return {name:f.name,data:f.data.replace(/(<c\b[^>]*?\bs=")(\d+)(")/g,function(a,p,v,q){return p+(+v+1)+q}).replace(/<rFont val="B Nazanin"\/>(?!<charset)/g,'<rFont val="B Nazanin"/><charset val="178"/>')};
+        return f});
+      return out;
+    }catch(e){return files}
+  };
+})();
+</script>
 <script id="cpl-base-pick-js">
 (function(){
   var CLOSED='<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/>';
