@@ -17221,7 +17221,7 @@ window.__cplSig=function(){
   function renderBody(){
     var box=$('cbBody');if(!box)return;
     if(ST.view==='menu'){
-      box.innerHTML='<div class="cbMenu"><button type="button" data-cb="items">'+ICO_ITEMS+'<b>آیتم‌های فهرست بها - آنالیز بها</b></button><button type="button" data-cb="index">'+ICO_IDX+'<b>شاخص‌های فصلی</b></button><button type="button" data-cb="ridx">'+ICO_IDX+'<b>شاخص‌های رشته‌ای</b></button><button type="button" data-cb="coef">'+ICO_CALC+'<b>ضریب تعدیل</b></button></div>';
+      box.innerHTML='<div class="cbMenu"><button type="button" data-cb="items">'+ICO_ITEMS+'<b>فهرست بها - آنالیز بها</b></button><button type="button" data-cb="index">'+ICO_IDX+'<b>شاخص‌های فصلی</b></button><button type="button" data-cb="ridx">'+ICO_IDX+'<b>شاخص‌های رشته‌ای</b></button><button type="button" data-cb="coef">'+ICO_CALC+'<b>ضریب تعدیل</b></button></div>';
       return;
     }
     if(window.__DATA_EXPIRED&&!ready()){box.innerHTML='<div class="cbEmpty" style="white-space:pre-line;line-height:2"><b>اتمام اشتراک</b>\n'+(window.__DATA_EXPIRED_MSG||'اشتراک شما به پایان رسیده است و بخش داده‌های پایه بسته است.')+'</div>';return}
@@ -17469,7 +17469,7 @@ window.__cplSig=function(){
   });
   document.addEventListener('app-data-ready',function(){if(root&&root.classList.contains('show')&&ST.view!=='menu')renderBody()});
   document.addEventListener('app-data-expired',function(){if(root&&root.classList.contains('show')&&ST.view!=='menu')renderBody()});
-  window.cplOpenBaseInfo=open;
+  window.cplOpenBaseInfo=open;window.cplCloseBaseInfo=close;
 })();
 </script>
 <script id="v332-sort-icon-js">
@@ -18717,4 +18717,158 @@ document.addEventListener('keydown',function(e){
     pick.click();
   }catch(err){console.error(err)}
 },true);
+</script>
+
+<style id="cpl-tabbar-css">
+#cplTabBar{position:fixed;z-index:29150;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));width:min(760px,calc(100% - 32px));box-sizing:border-box;display:none;flex-direction:row;direction:rtl;gap:0;padding:3px;background:var(--c8);border:1px solid var(--c5);border-radius:24px;box-shadow:none;-webkit-tap-highlight-color:transparent}
+#cplTabBar.on{display:flex}
+#cplTabBar .cplTab{appearance:none;-webkit-appearance:none;flex:1 1 0;min-width:0;height:68px;padding:5px 0;margin:0;border:0;border-radius:19px;background:transparent;color:var(--c3);font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:background .12s ease,color .12s ease,transform .12s ease}
+#cplTabBar .cplTab svg{width:26px;height:26px;flex:0 0 26px;display:block}
+#cplTabBar .cplTab span{font-size:12.5px;font-weight:800;line-height:1.3;text-align:center;max-width:100%;text-wrap:balance;padding:0 2px}
+html body #cplTabBar .cplTab{border:1px solid transparent!important;box-sizing:border-box;box-shadow:none!important;outline:0!important;background-image:none!important;text-shadow:none!important;min-height:0!important}
+html body #cplTabBar .cplTab:not(.cur){background-color:transparent!important}
+html body #cplTabBar .cplTab:not(.cur):active{background-color:var(--c9)!important}
+html body #cplTabBar .cplTab.cur{background-color:var(--btnPrimaryBg,#ededed)!important;color:var(--btnPrimaryText,#111)!important}
+html body #cplTabBar .cplTab svg{stroke-width:1.8}
+html:not([data-theme="light"]) body #cplTabBar .cplTab.cur{border-color:#8c8c8c!important}
+#cplTabBar .cplTab:active{transform:scale(.95);background:var(--c9)}
+#cplTabBar .cplTab.cur{background:var(--btnPrimaryBg,#ededed);color:var(--btnPrimaryText,#111)}
+#cplTabBar .cplTab.permOff{opacity:.38}
+@media (hover:hover){#cplTabBar .cplTab:not(.cur):hover{background:var(--c9);color:var(--c2)}}
+#cplTabBar .cplTab span{font-size:12px}
+@media (min-width:600px){#cplTabBar .cplTab span{font-size:15px}#cplTabBar .cplTab{height:72px}}
+@media (max-width:380px){#cplTabBar .cplTab span{font-size:11.5px}#cplTabBar .cplTab svg{width:24px;height:24px;flex-basis:24px}}
+/* داده‌های پایه: چهار کارت وسط صفحه مثل کارت‌های بقیه بخش‌ها */
+html body #cplBase{padding-left:16px!important;padding-right:16px!important}
+html body #cplBase .cbWrap{display:flex;flex-direction:column;min-height:calc(100dvh - 104px - env(safe-area-inset-bottom,0px))}
+html body #cplBase .cbWrap #cbBody{flex:1 0 auto;display:flex;flex-direction:column}
+html body #cplBase .cbWrap #cbBody:has(>.cbMenu){justify-content:center}
+html body #cplBase .cbWrap .cbMenu{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 40px;padding:0}
+html body #cplBase .cbWrap .cbMenu button:not(.cbPick){flex-direction:column!important;justify-content:center!important;align-items:center!important;text-align:center!important;gap:14px!important;min-height:150px!important;padding:18px 10px!important;border-radius:24px!important;direction:rtl!important}
+html body #cplBase .cbWrap .cbMenu button:not(.cbPick):active{transform:scale(.97)}
+html body #cplBase .cbWrap .cbMenu button:not(.cbPick) svg{width:44px!important;height:44px!important;flex:0 0 44px!important}
+html body #cplBase .cbWrap .cbMenu button:not(.cbPick) b{font-size:18px!important;font-weight:800!important;line-height:1.4!important;text-align:center!important;flex:0 1 auto!important}
+/* منوی داده‌های پایه: تایتل و کارت‌ها عین تب «صورت وضعیت و تعدیل» */
+html:root:root:root:root body #cplBase .cbWrap:has(>#cbBody>.cbMenu) .cbHead{position:relative!important;border-bottom:0!important;margin-bottom:0!important;height:90px!important;padding-bottom:0!important;box-shadow:none!important}
+html:root:root:root:root body #cplBase .cbWrap:has(>#cbBody>.cbMenu) .cbHead>b{position:absolute!important;left:0!important;right:0!important;top:calc(var(--hdrTop,36px) + 74px)!important;height:53px!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;font-family:BYekanBold,'B Yekan',Tahoma,Arial,sans-serif!important;font-synthesis:none!important;font-variant:normal!important;font-size:26px!important;font-weight:700!important;line-height:47px!important;color:var(--c3)!important}
+@media (min-width:600px){html:root:root:root:root body #cplBase .cbWrap:has(>#cbBody>.cbMenu) .cbHead>b{font-size:28px!important}html body #cplBase .cbWrap .cbMenu::before{height:90px!important}}
+html body #cplBase .cbWrap #cbBody:has(>.cbMenu){width:min(760px,100%);margin:0 auto}
+html body #cplBase .cbWrap #cbBody:has(>.cbMenu){justify-content:flex-start!important;padding-top:calc(var(--hdrTop,36px) + 159px)}
+html body #cplBase .cbWrap .cbMenu::before{content:"";grid-column:1/-1;height:91px;visibility:hidden}
+html body #cplBase .cbWrap .cbMenu button:not(.cbPick){min-height:121px!important}
+html body #cplBase .cbWrap .cbMenu button{background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;border-radius:24px!important;box-shadow:none!important}
+html body #cplBase .cbWrap .cbMenu button svg{stroke-width:1.6!important}
+html body #cplBase .cbWrap .cbMenu:has(.cbPick)::before{display:none}
+html body #cplBase:has(.cbMenu) .cbWrap{min-height:0!important}
+html body #cplBase:has(.cbMenu){padding-bottom:0!important}
+html body #cplBase .cbWrap .cbMenu{margin-bottom:0!important}
+html body #cplBase .cbWrap .cbMenu button.cbPick{grid-column:1/-1;appearance:none;-webkit-appearance:none;font-family:inherit;color:var(--c2);cursor:pointer;background:var(--c8);border:1px solid var(--c5);border-radius:22px;min-height:91px!important;padding:14px 20px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:16px;text-align:center;direction:rtl;-webkit-tap-highlight-color:transparent;transition:transform .12s ease,background .12s ease}
+@media (min-width:600px){html body #cplBase .cbWrap .cbMenu button.cbPick{min-height:90px!important}}
+html body #cplBase .cbWrap .cbMenu button.cbPick{justify-content:center!important;flex-direction:row!important;gap:14px!important;text-align:center!important}
+html body #cplBase .cbWrap .cbMenu button.cbPick b{text-align:center!important;flex:0 0 auto!important}
+html body #cplBase .cbWrap .cbMenu button.cbPick small{line-height:27px!important;font-size:16px!important}
+@media (min-width:600px){html body #cplBase .cbWrap .cbMenu button.cbPick small{font-size:15px!important}}
+html body #cplBase .cbWrap .cbMenu button.cbPick:active{transform:scale(.97);background:var(--c9)}
+html body #cplBase .cbWrap .cbMenu button.cbPick svg{width:44px;height:44px;flex:0 0 44px;display:block}
+html body #cplBase .cbWrap .cbMenu button.cbPick .cbPickTxt{flex:0 1 auto;max-width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;text-align:center}
+html body #cplBase .cbWrap .cbMenu button.cbPick b{font-size:20px;font-weight:800;line-height:1.45}
+html body #cplBase .cbWrap .cbMenu button.cbPick small{display:block;font-size:17px;font-weight:600;opacity:.7;line-height:1.7;white-space:pre-line}
+@media (hover:hover){html body #cplBase .cbWrap .cbMenu button.cbPick:hover{border-color:var(--c6)}}
+/* همه‌ی کارت‌ها بالاتر تا با نوار تب پایین تداخل نکنن */
+html body #cplHome .cplGrid{padding-bottom:100px!important}
+html body #cplHome .cplMainView .cplHomeHead{margin-bottom:6px!important}
+html body #cplHome{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}
+html body #cplBase{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}
+</style>
+<nav id="cplTabBar" aria-label="بخش‌های اصلی"></nav>
+<script id="cpl-tabbar-js">
+(function(){
+  /* ترتیب از راست: صورت وضعیت و تعدیل - صورت مجلس - داده‌های پایه - قیمت جدید - هزینه و درآمد */
+  var TABS=[
+    {k:'st',id:'cplGoStatement',t:'صورت وضعیت'},
+    {k:'mn',id:'cplGoMinutes',t:'صورت مجلس'},
+    {k:'base',id:'cplGoBase',t:'داده‌های پایه'},
+    {k:'price',id:'cplGoPrice',t:'قیمت جدید'},
+    {k:'cmp',id:'cplGoCmp',t:'هزینه و درآمد'}
+  ];
+  var VIEW={statements:'st',minutes:'mn',price:'price',compare:'cmp',expense:'cmp'};
+  var bar=document.getElementById('cplTabBar'),home=document.getElementById('cplHome');
+  if(!bar||!home)return;
+  var btns={};
+  TABS.forEach(function(d){
+    var b=document.createElement('button');b.type='button';b.className='cplTab';b.setAttribute('data-tab',d.k);b.setAttribute('data-wb','1');b.setAttribute('aria-label',d.t);
+    var src=document.querySelector('#'+d.id+' svg'),ic=src?src.cloneNode(true):document.createElementNS('http://www.w3.org/2000/svg','svg');
+    ic.removeAttribute('width');ic.removeAttribute('height');ic.setAttribute('stroke-width','1.8');ic.setAttribute('aria-hidden','true');
+    b.appendChild(ic);var sp=document.createElement('span');sp.textContent=d.t;b.appendChild(sp);
+    b.addEventListener('click',function(){go(d)});
+    bar.appendChild(b);btns[d.k]=b;
+  });
+  function baseOpen(){return document.body.classList.contains('cplBaseOpen')}
+  function cur(){
+    if(baseOpen())return 'base';
+    if(!home.classList.contains('show'))return '';
+    return VIEW[home.getAttribute('data-view')||'']||'';
+  }
+  function sync(){
+    var on=(home.classList.contains('show')&&!!VIEW[home.getAttribute('data-view')||''])||baseOpen();
+    bar.classList.toggle('on',on);
+    var c=cur();
+    TABS.forEach(function(d){
+      var b=btns[d.k],card=document.getElementById(d.id);
+      b.classList.toggle('cur',d.k===c);
+      
+      var off=!!(card&&card.classList.contains('permOff'));
+      b.classList.toggle('permOff',off);
+      if(off)b.setAttribute('aria-disabled','true');else b.removeAttribute('aria-disabled');
+    });
+  }
+  function go(d){
+    var card=document.getElementById(d.id);if(!card)return;
+    if(card.classList.contains('permOff')){card.click();return}
+    if(baseOpen()&&typeof window.cplCloseBaseInfo==='function')window.cplCloseBaseInfo();
+    if(!home.classList.contains('show')&&typeof window.cplOpenHome==='function')window.cplOpenHome();
+    /* همان کارت اصلی صفحه اول صدا زده می‌شود تا رفتار و دسترسی‌ها یکی باشد */
+    setTimeout(function(){card.click();sync()},0);
+  }
+  try{
+    var mo=new MutationObserver(sync);
+    mo.observe(home,{attributes:true,attributeFilter:['class','data-view']});
+    mo.observe(document.body,{attributes:true,attributeFilter:['class']});
+    TABS.forEach(function(d){var c=document.getElementById(d.id);if(c)mo.observe(c,{attributes:true,attributeFilter:['class']})});
+  }catch(e){}
+  document.addEventListener('app-data-ready',sync);
+  sync();setTimeout(sync,600);
+})();
+</script>
+
+<script id="cpl-base-pick-js">
+(function(){
+  var CLOSED='<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/>';
+  var OPEN='<path d="M4.5 19.5h-0A2.5 2.5 0 0 1 2 17V6.5A2.5 2.5 0 0 1 4.5 4H8l2 2.5h6.5A2.5 2.5 0 0 1 19 9v1.5"/><path d="M4.5 19.5h13.2a2.5 2.5 0 0 0 2.4-1.8l1.6-5.2a1.8 1.8 0 0 0-1.7-2.3H8.6a2.5 2.5 0 0 0-2.4 1.8z"/>';
+  function name(){var o=document.getElementById('cplPickName');return o?String(o.textContent||'').trim():''}
+  function fill(b){
+    var t=name(),has=!!t&&!/انتخاب نشده/.test(t),lines=t.split('\n');
+    b.querySelector('svg').innerHTML=has?OPEN:CLOSED;
+    var tt=b.querySelector('b'),ss=b.querySelector('small');
+    if(has){tt.textContent=lines[0].trim();ss.textContent=lines.slice(1).join('\n').trim()}
+    else{tt.textContent='انتخاب پروژه';ss.textContent='پروژه‌ای انتخاب نشده'}
+    ss.style.display=ss.textContent?'block':'none';
+  }
+  function ensure(){
+    var m=document.querySelector('#cplBase .cbMenu');if(!m)return;
+    var b=m.querySelector('.cbPick');
+    if(!b){
+      b=document.createElement('button');b.type='button';b.className='cbPick';b.setAttribute('data-wb','1');
+      b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span class="cbPickTxt"><b></b><small></small></span>';
+      b.addEventListener('click',function(e){e.stopPropagation();var o=document.getElementById('cplPickProject');if(o)o.click()});
+      m.insertBefore(b,m.firstChild);
+    }
+    fill(b);
+  }
+  var t=null;
+  function sched(){if(t)return;t=setTimeout(function(){t=null;ensure()},0)}
+  try{new MutationObserver(function(){if(document.body.classList.contains('cplBaseOpen'))sched()}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})}catch(e){}
+  var o=document.getElementById('cplPickName');
+  if(o)try{new MutationObserver(sched).observe(o,{childList:true,characterData:true,subtree:true})}catch(e){}
+})();
 </script>
