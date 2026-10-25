@@ -29,3 +29,11 @@ CREATE TABLE IF NOT EXISTS projects (
  analysis_data TEXT DEFAULT '{}'
 );
 CREATE INDEX IF NOT EXISTS projects_user_updated_idx ON projects(user_id, updated_at DESC);
+CREATE TABLE IF NOT EXISTS presence (
+ cid TEXT PRIMARY KEY,
+ kind TEXT NOT NULL,
+ user_id TEXT,
+ first_seen INTEGER NOT NULL,
+ last_seen INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS presence_seen_idx ON presence(last_seen);

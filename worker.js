@@ -189,6 +189,8 @@ async function ensureLicenseSchema(env){
     const sHave=new Set(((await env.DB.prepare(`SELECT name FROM pragma_table_info('sessions')`).all()).results||[]).map(x=>x.name));
     if(!sHave.has('device_id')){try{await env.DB.prepare(`ALTER TABLE sessions ADD COLUMN device_id TEXT`).run();}catch(e){if(!/duplicate column|already exists/i.test(e.message||'')) throw e;}}
     await env.DB.prepare(`CREATE TABLE IF NOT EXISTS login_attempts(k TEXT PRIMARY KEY, n INTEGER NOT NULL, reset_at INTEGER NOT NULL)`).run();
+    await env.DB.prepare(`CREATE TABLE IF NOT EXISTS presence(cid TEXT PRIMARY KEY, kind TEXT NOT NULL, user_id TEXT, first_seen INTEGER NOT NULL, last_seen INTEGER NOT NULL)`).run();
+    await env.DB.prepare(`CREATE INDEX IF NOT EXISTS presence_seen_idx ON presence(last_seen)`).run();
     await env.DB.prepare(`CREATE TABLE IF NOT EXISTS data_access(user_id TEXT NOT NULL, day INTEGER NOT NULL, shard TEXT NOT NULL, PRIMARY KEY(user_id,day,shard))`).run();
     /* رمزهای قابل‌بازیابی قدیمی (password_enc) برای همیشه پاک می‌شوند */
     await env.DB.prepare(`UPDATE users SET password_enc=NULL WHERE password_enc IS NOT NULL`).run();
@@ -329,6 +331,38 @@ async function api(request,env,url){
       return json({ok:true,code:u.code,name:u.name,role:u.role||'user',perms:parsePerms(u.perms,u),sub:subInfo(u)},200,{'Set-Cookie':cookie('sid',sid)});
     }
     const user=await userFrom(request,env);
+    /* ---- حضور آنلاین: هر تب/دستگاه هر ~۶۰ ثانیه یک ping سبک می‌فرستد (فقط شناسه‌ی تصادفی؛ بدون داده‌ی پروژه) ---- */
+    if(url.pathname==='/api/ping' && request.method==='POST'){
+      let body={}; try{body=await request.json()}catch{}
+      const cid=String(body?.cid||'');
+      if(!/^[A-Za-z0-9_-]{8,64}$/.test(cid)) return new Response(null,{status:204});
+      const demo=/(?:^|;\s*)cplDemo=1(?:;|$)/.test(request.headers.get('Cookie')||'');
+      const kind=user?'user':(demo?'demo':'');
+      if(!kind) return new Response(null,{status:204}); /* صفحه‌ی ورود/بازدیدکننده‌ی بی‌نشست ثبت نمی‌شود */
+      const now=Date.now(), ip=request.headers.get('CF-Connecting-IP')||'unknown';
+      /* سقف ساده: حداکثر ۴۰ ping در دقیقه از هر IP (جلوگیری از پر شدن جدول) */
+      const rk='ping:'+ip;
+      const r=await env.DB.prepare('SELECT n,reset_at FROM login_attempts WHERE k=?').bind(rk).first();
+      if(r && r.reset_at>now && r.n>=40) return new Response(null,{status:204});
+      await env.DB.prepare('INSERT INTO login_attempts(k,n,reset_at) VALUES(?,1,?) ON CONFLICT(k) DO UPDATE SET n=CASE WHEN reset_at<=? THEN 1 ELSE n+1 END, reset_at=CASE WHEN reset_at<=? THEN ? ELSE reset_at END').bind(rk,now+60000,now,now,now+60000).run();
+      await env.DB.prepare('INSERT INTO presence(cid,kind,user_id,first_seen,last_seen) VALUES(?,?,?,?,?) ON CONFLICT(cid) DO UPDATE SET kind=excluded.kind,user_id=excluded.user_id,last_seen=excluded.last_seen').bind(cid,kind,user?user.id:null,now,now).run();
+      if(Math.random()<0.02) await env.DB.prepare('DELETE FROM presence WHERE last_seen<?').bind(now-30*DAY_MS).run();
+      return new Response(null,{status:204});
+    }
+    if(url.pathname==='/api/admin/online' && request.method==='GET'){
+      if(!user) return json({error:'ابتدا وارد حساب کاربری شوید.'},401);
+      if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
+      const now=Date.now(), ONLINE_MS=150000, today=dayStart(now), week=now-7*DAY_MS;
+      const q=async(sql,...b)=>(await env.DB.prepare(sql).bind(...b).first())||{};
+      const onU=await q("SELECT COUNT(DISTINCT user_id) AS n FROM presence WHERE kind='user' AND last_seen>?",now-ONLINE_MS);
+      const onD=await q("SELECT COUNT(*) AS n FROM presence WHERE kind='demo' AND last_seen>?",now-ONLINE_MS);
+      const tdU=await q("SELECT COUNT(DISTINCT user_id) AS n FROM presence WHERE kind='user' AND last_seen>=?",today);
+      const tdD=await q("SELECT COUNT(*) AS n FROM presence WHERE kind='demo' AND last_seen>=?",today);
+      const wkU=await q("SELECT COUNT(DISTINCT user_id) AS n FROM presence WHERE kind='user' AND last_seen>=?",week);
+      const wkD=await q("SELECT COUNT(*) AS n FROM presence WHERE kind='demo' AND last_seen>=?",week);
+      const list=await env.DB.prepare("SELECT u.name AS name,u.code AS code,MAX(p.last_seen) AS last_seen,COUNT(p.cid) AS devices FROM presence p JOIN users u ON u.id=p.user_id WHERE p.kind='user' AND p.last_seen>? GROUP BY u.id ORDER BY last_seen DESC LIMIT 100").bind(now-ONLINE_MS).all();
+      return json({now,online_window_sec:ONLINE_MS/1000,online:{users:Number(onU.n||0),demo:Number(onD.n||0)},today:{users:Number(tdU.n||0),demo:Number(tdD.n||0)},week:{users:Number(wkU.n||0),demo:Number(wkD.n||0)},online_users:list.results||[]},200,{'Cache-Control':'no-store'});
+    }
     if(url.pathname==='/api/me' && request.method==='GET'){ if(!user){ const blk=await sessionSubBlock(request,env); if(blk) return json({ok:false,...blk},401); return json({ok:false,error:'ابتدا وارد حساب کاربری شوید.'},401); } const full=await env.DB.prepare('SELECT id,code,name,role,active,last_login,expires_at,starts_at,created_at,perms FROM users WHERE id=?').bind(user.id).first(); if(full) full.perms=parsePerms(full.perms,full); return full?json({ok:true,user:full,sub:subInfo(full)},200,{'Cache-Control':'no-store'}):json({ok:false},401); }
     if(url.pathname==='/api/logout' && request.method==='POST'){
       const sid=getSession(request); let deviceId=''; try{const body=await request.json(); deviceId=deviceFrom(body)}catch{}
