@@ -678,9 +678,14 @@
   }
   function ensureSyncButtons() {
     if (!cur || demo()) return;
-    var hosts = document.querySelectorAll('.mnHomeBtn:not(#stTrHome), #cplHomeQuickBtn');
+    var hosts = document.querySelectorAll('.mnHomeBtn:not(#stTrHome), #cplHomeQuickBtn, #cplBase .cbHead>[data-cb="home"]');
     for (var i = 0; i < hosts.length; i++) {
       var h = hosts[i], P = h.parentElement; if (!P) continue;
+      if (h.getAttribute('data-cb') === 'home') {   /* داده‌های پایه: دکمه درست بعد از خانه، مثل بقیه‌ی تب‌ها */
+        var hb2 = h.nextElementSibling && h.nextElementSibling.classList.contains('mzSyncBtn') ? h.nextElementSibling : mkSync('btn');
+        if (hb2.previousElementSibling !== h) h.insertAdjacentElement('afterend', hb2);
+        continue;
+      }
       var b = h.nextElementSibling && h.nextElementSibling.classList.contains('mzSyncBtn') ? h.nextElementSibling : null;
       if (!b) { b = P.querySelector(':scope>.mzSyncBtn'); }
       if (!b) b = mkSync(h.id === 'cplHomeQuickBtn' ? 'btn projectIconBtn' : 'btn mnIco');

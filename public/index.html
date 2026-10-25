@@ -16610,7 +16610,7 @@ window.__cplSig=function(){
     function after(){
       document.querySelectorAll('.mnOverlay').forEach(function(o){o.remove()});
       if(typeof window.cplOpenHome==='function')window.cplOpenHome();
-      if(toCmp)setTimeout(function(){var h=document.getElementById('cplHome');if(h){h.setAttribute('data-view','compare');h.scrollTop=0}},0);
+      setTimeout(function(){var h=document.getElementById('cplHome');if(h){h.setAttribute('data-view','');h.scrollTop=0}},0);
     }
     if(ed){var c=ed.querySelector('#mnClose,#stClose,#ciClose,#exClose');if(c){window.__cplAfterClose=after;c.click();return}}
     after();
@@ -16785,10 +16785,9 @@ window.__cplSig=function(){
   function goHome(){
     ['analysisPage','analysisModal','starredModal'].forEach(function(id){var r=document.getElementById(id);if(r&&r.getAttribute('aria-hidden')==='false'){var c=r.querySelector('#closeAnalysisPage,#closeAnalysis,#closeStarred');if(c)c.click()}});
     var cb0=document.getElementById('cplBase');
-    if(window.__cbAnalysisFrom&&cb0&&cb0.classList.contains('show')){window.__cbAnalysisFrom=false;return}
-    var from=window.__cplStarFrom,ed=from&&document.getElementById(from);
-    if(ed){window.__cplStarFrom=null;return}
-    setTimeout(function(){document.querySelectorAll('.mnOverlay').forEach(function(o){o.remove()});if(typeof window.cplOpenHome==='function')window.cplOpenHome()},60);
+    window.__cbAnalysisFrom=false;window.__cplStarFrom=null;
+    if(cb0&&cb0.classList.contains('show')&&typeof window.cplCloseBaseInfo==='function')window.cplCloseBaseInfo();
+    setTimeout(function(){document.querySelectorAll('.mnOverlay').forEach(function(o){o.remove()});if(typeof window.cplOpenHome==='function')window.cplOpenHome();var h=document.getElementById('cplHome');if(h){h.setAttribute('data-view','');h.scrollTop=0}},60);
   }
   function themeItem(){var b=document.createElement('button');b.type='button';b.className='btn mnThemeItem';b.title='تغییر پوسته';b.setAttribute('aria-label','تغییر پوسته');b.innerHTML=SV+'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="mnMenuLbl">تغییر پوسته</span>';b.addEventListener('click',function(e){e.preventDefault();var t=document.getElementById('themeToggleBtn');if(t)t.click()});return b}
   function build(c){
@@ -17095,7 +17094,9 @@ window.__cplSig=function(){
       var t=e.target.closest?e.target.closest('[data-cb]'):null;if(!t)return;
       var a=t.getAttribute('data-cb');
       if(a!=='menu'&&a!=='theme'&&a!=='xls'&&a!=='pdf')closeMenu();
-      if(a==='home'||a==='back'){if(ST.view==='menu')close();else{ST.view='menu';render()}}
+      if(a==='home'){close();if(typeof window.cplOpenHome==='function')window.cplOpenHome();var hh=document.getElementById('cplHome');if(hh){hh.setAttribute('data-view','');hh.scrollTop=0}}
+      else if(a==='back'){if(ST.view==='menu')close();else{ST.view='menu';render()}}
+      else if(a==='support'){closeMenu();var sb=document.getElementById('supportBtn');if(sb)sb.click()}
       else if(a==='menu'){toggleMenu(t)}
       else if(a==='theme'){closeMenu();var tb=document.getElementById('themeToggleBtn');if(tb)tb.click()}
       else if(a==='xls'){closeMenu();doXls()}
@@ -17132,8 +17133,9 @@ window.__cplSig=function(){
     });
   }
   function head(title,showBack){
+    var ICO_SUP=SV+'<path d="M4 13a8 8 0 0 1 16 0"/><path d="M19 13v4a2 2 0 0 1-2 2h-1"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><path d="M12 19v1a2 2 0 0 1-2 2H9"/></svg>';
     return '<div class="cbHead"><button type="button" class="btn cbMenuBtn" data-cb="menu" aria-label="منو" title="منو" aria-haspopup="true" aria-expanded="false">'+ICO_MENU+'</button><b>'+E(title)+'</b><button type="button" class="btn" data-cb="home" aria-label="بازگشت به صفحه قبل" title="بازگشت به صفحه قبل">'+ICO_HOME+'</button>'+
-      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
+      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
   }
   /* ---------- منوی هدر: تم، گزارش اکسل، گزارش چاپی، بستن ---------- */
   function closeMenu(){
@@ -18730,7 +18732,8 @@ html body #cplTabBar .cplTab:not(.cur){background-color:transparent!important}
 html body #cplTabBar .cplTab:not(.cur):active{background-color:var(--c9)!important}
 html body #cplTabBar .cplTab.cur{background-color:var(--btnPrimaryBg,#ededed)!important;color:var(--btnPrimaryText,#111)!important}
 html body #cplTabBar .cplTab svg{stroke-width:1.8}
-html:not([data-theme="light"]) body #cplTabBar .cplTab.cur{border-color:#8c8c8c!important}
+html:not([data-theme="light"]) body #cplTabBar .cplTab.cur{border-color:#8c8c8c!important;background-color:var(--c1,#000)!important;color:var(--c2,#f2f2f2)!important}
+html:not([data-theme="light"]) body #cplTabBar .cplTab.cur:active{background-color:var(--c1,#000)!important}
 #cplTabBar .cplTab:active{transform:scale(.95);background:var(--c9)}
 #cplTabBar .cplTab.cur{background:var(--btnPrimaryBg,#ededed);color:var(--btnPrimaryText,#111)}
 #cplTabBar .cplTab.permOff{opacity:.38}
@@ -18779,6 +18782,10 @@ html body #cplHome .cplGrid{padding-bottom:100px!important}
 html body #cplHome .cplMainView .cplHomeHead{margin-bottom:6px!important}
 html body #cplHome{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}
 html body #cplBase{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}
+
+/* دکمه‌ی Online/Offline در داده‌های پایه: همان اندازه‌ی بقیه تب‌ها (عرض آزاد، نه ۴۶px ثابت) */
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body #cplBase .cbHead>.mzSyncBtn.mzSyncBtn{flex:0 0 auto!important;width:auto!important;min-width:46px!important;max-width:none!important;padding:0 10px!important;gap:5px!important;border-radius:999px!important;background:var(--c8)!important;background-image:none!important;border:1px solid var(--c5)!important;box-shadow:none!important}
+html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body #cplBase .cbHead>.mzSyncBtn.mzSyncBtn svg{width:24px!important;height:24px!important;flex:0 0 24px!important}
 </style>
 <nav id="cplTabBar" aria-label="بخش‌های اصلی"></nav>
 <script id="cpl-tabbar-js">
@@ -18870,5 +18877,79 @@ html body #cplBase{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!
   try{new MutationObserver(function(){if(document.body.classList.contains('cplBaseOpen'))sched()}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})}catch(e){}
   var o=document.getElementById('cplPickName');
   if(o)try{new MutationObserver(sched).observe(o,{childList:true,characterData:true,subtree:true})}catch(e){}
+})();
+</script>
+
+<style id="cpl-online-css">
+#adminOnlineBar{margin:12px 0 0;padding:12px;background:var(--glBg,#1a1a1d);border:1px solid var(--glBd,rgba(255,255,255,.08));border-radius:var(--sqR2,24px);direction:rtl}
+#adminOnlineBar .olHead{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;color:var(--c2)}
+#adminOnlineBar .olDot{width:10px;height:10px;border-radius:50%;background:#34c759;flex:0 0 10px;box-shadow:0 0 0 4px rgba(52,199,89,.18)}
+#adminOnlineBar .olGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+#adminOnlineBar .olCell{background:var(--c1,#000);border:1px solid var(--glBd,rgba(255,255,255,.08));border-radius:16px;padding:8px 6px;text-align:center}
+#adminOnlineBar .olCell b{display:block;font-size:20px;font-weight:800;line-height:1.4;color:var(--c2)}
+#adminOnlineBar .olCell small{display:block;font-size:12px;color:var(--c3);line-height:1.5}
+#adminOnlineBar .olCell i{display:block;font-style:normal;font-size:11px;color:var(--c3);opacity:.8;line-height:1.5}
+#adminOnlineBar .olList{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+#adminOnlineBar .olRow{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--c2);padding:6px 10px;border-radius:12px;background:var(--c1,#000)}
+#adminOnlineBar .olRow span{color:var(--c3)}
+#adminOnlineBar .olErr{margin-top:8px;font-size:13px;color:#ff7b78}
+</style>
+<script id="cpl-online-js">
+(function(){
+  /* ---- ۱) ping حضور: شناسه‌ی تصادفی هر تب (بدون هیچ اطلاعات شخصی). sendBeacon از fetch ساختگی نسخه آزمایشی رد می‌شود ---- */
+  var cid='';
+  try{cid=sessionStorage.getItem('cplCid')||''}catch(e){}
+  if(!/^[A-Za-z0-9_-]{8,64}$/.test(cid)){
+    var a=new Uint8Array(12);try{crypto.getRandomValues(a)}catch(e){for(var i=0;i<12;i++)a[i]=Math.floor(Math.random()*256)}
+    cid='c'+Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2)}).join('');
+    try{sessionStorage.setItem('cplCid',cid)}catch(e){}
+  }
+  function ping(){
+    if(document.hidden)return;
+    var body=JSON.stringify({cid:cid});
+    try{
+      if(navigator.sendBeacon&&navigator.sendBeacon('/api/ping',new Blob([body],{type:'application/json'})))return;
+    }catch(e){}
+    try{fetch('/api/ping',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'content-type':'application/json'},body:body}).catch(function(){})}catch(e){}
+  }
+  setInterval(ping,60000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)ping()});
+  window.addEventListener('pageshow',ping);
+  setTimeout(ping,2500);
+  /* بعد از ورود/شروع نسخه آزمایشی، سریع‌تر ثبت شود */
+  document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('#loginBtn,#registerBtn,#demoLoginBtn');if(t){setTimeout(ping,2500);setTimeout(ping,6000)}},true);
+
+  /* ---- ۲) نوار آمار در پنل مدیریت (فقط مدیر؛ سرور خودش دسترسی را چک می‌کند) ---- */
+  var drawer=document.getElementById('adminDrawer'),timer=null;
+  if(!drawer)return;
+  function fa(n){try{return Number(n||0).toLocaleString('fa-IR')}catch(e){return String(n||0)}}
+  function ago(ts){var s=Math.max(0,Math.round((Date.now()-ts)/1000));return s<60?'چند ثانیه پیش':fa(Math.round(s/60))+' دقیقه پیش'}
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function bar(){
+    var b=document.getElementById('adminOnlineBar');if(b)return b;
+    var host=document.getElementById('adminMenuBtns');if(!host||!host.parentNode)return null;
+    b=document.createElement('div');b.id='adminOnlineBar';host.parentNode.insertBefore(b,host.nextSibling);return b;
+  }
+  function cell(n,l,sub){return '<div class="olCell"><b>'+fa(n)+'</b><small>'+l+'</small>'+(sub?'<i>'+sub+'</i>':'')+'</div>'}
+  async function load(){
+    var b=bar();if(!b)return;
+    try{
+      var r=await fetch('/api/admin/online',{credentials:'same-origin',cache:'no-store'});
+      if(!r.ok){b.style.display='none';return}
+      var d=await r.json();b.style.display='';
+      var on=d.online||{},td=d.today||{},wk=d.week||{};
+      var html='<div class="olHead"><span class="olDot"></span><span>کاربران نسخه آزمایشی</span></div><div class="olGrid">'
+        +cell(on.demo,'آنلاین الان')
+        +cell(td.demo,'امروز')
+        +cell(wk.demo,'۷ روز اخیر')+'</div>';
+      b.innerHTML=html;
+    }catch(e){b.innerHTML='<div class="olErr">دریافت آمار ممکن نشد.</div>'}
+  }
+  function sync(){
+    if(drawer.classList.contains('show')){load();if(!timer)timer=setInterval(load,20000)}
+    else if(timer){clearInterval(timer);timer=null}
+  }
+  try{new MutationObserver(sync).observe(drawer,{attributes:true,attributeFilter:['class']})}catch(e){}
+  sync();
 })();
 </script>
