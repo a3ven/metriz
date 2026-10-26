@@ -10331,6 +10331,7 @@ setInterval(bindExports,500);
       ITEMS.forEach(function(it){
         var rb=real(it[0]);if(!rb)return;
         if(it[0]==='adminPanelBtn'&&!rb.classList.contains('admin-visible'))return;
+        if(it[0]==='cplBackupBtn'&&document.body.classList.contains('cplBaseOpen'))return;
         var b=document.createElement('button');b.type='button';if(it[0]==='logoutProject')b.className='danger';
         b.innerHTML=iconOf(it[0])+'<span>'+it[1]+'</span>';
         b.addEventListener('click',function(){setOpen(false);rb.click()});
@@ -10571,6 +10572,7 @@ setInterval(bindExports,500);
     ITEMS.forEach(function(it){
       var rb=real(it[0]);if(!rb)return;
       if(it[0]==='adminPanelBtn'&&!rb.classList.contains('admin-visible'))return;
+      if(it[0]==='cplBackupBtn'&&document.body.classList.contains('cplBaseOpen'))return;
       var b=document.createElement('button');b.type='button';if(it[0]==='logoutProject')b.className='danger';
       b.innerHTML=icon(it[0])+'<span>'+it[1]+'</span>';
       b.addEventListener('click',function(){closeMenu();rb.click()});
@@ -17355,7 +17357,7 @@ window.__cplSig=function(){
   function head(title,showBack){
     var ICO_SUP=SV+'<path d="M4 13a8 8 0 0 1 16 0"/><path d="M19 13v4a2 2 0 0 1-2 2h-1"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><path d="M12 19v1a2 2 0 0 1-2 2H9"/></svg>';
     return '<div class="cbHead"><button type="button" class="btn cbMenuBtn" data-cb="menu" aria-label="منو" title="منو" aria-haspopup="true" aria-expanded="false">'+ICO_MENU+'</button><b>'+E(title)+'</b><button type="button" class="btn" data-cb="home" aria-label="بازگشت به صفحه قبل" title="بازگشت به صفحه قبل">'+ICO_HOME+'</button>'+
-      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="backup">'+((window.__bkIcons||{}).bk||'')+'<span>پشتیبان‌گیری</span></button><button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
+      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
   }
   /* ---------- منوی هدر: تم، گزارش اکسل، گزارش چاپی، بستن ---------- */
   function closeMenu(){
@@ -19364,7 +19366,7 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
   function inject(){
     if(document.getElementById('cplBackupBtn'))return;
     var sup=document.getElementById('supportBtn');if(!sup||!sup.parentNode)return;
-    sup.parentNode.insertBefore(mk('cplBackupBtn','پشتیبان‌گیری',ICO_BK,dialog),sup);
+    sup.parentNode.insertBefore(mk('cplBackupBtn','پشتیبان‌گیری',ICO_BK,function(){(window.cplBackupDialog2||dialog)()}),sup);
   }
   inject();setTimeout(inject,600);
   function dialog(){
@@ -19387,7 +19389,358 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
       if(a==='bk')backup();else if(a==='rs')pick();
     });
   }
-  window.cplBackupDialog=dialog;window.cplBackup=backup;window.cplRestorePick=pick;window.__bkIcons={bk:ICO_BK,rs:ICO_RS};
+  window.cplBackupDialog=dialog;window.__cplRestoreFile=restore;window.cplBackup=backup;window.cplRestorePick=pick;window.__bkIcons={bk:ICO_BK,rs:ICO_RS};
+})();
+</script>
+<style id="admin-fullscreen">
+html:root:root:root body #adminDrawer{padding:0!important;align-items:stretch!important;justify-content:stretch!important;background:var(--c35,#161616)!important}
+html:root:root:root body #adminDrawer .adminPanel{width:100%!important;max-width:none!important;height:100dvh!important;max-height:none!important;border-radius:0!important;border:0!important;padding:0 14px calc(14px + env(safe-area-inset-bottom,0px))!important}
+html:root:root:root body #adminDrawer .adminPanel>div:first-child{padding-top:calc(12px + env(safe-area-inset-top,0px))!important}
+</style>
+<script id="cpl-section-backup-js">
+(function(){
+  'use strict';
+  /* پشتیبان‌گیری/بازیابی بخشی: صورت‌وضعیت، تعدیل، صورت‌مجلس، قیمت جدید — با انتخاب شماره و نسخه (پیمانکار/مشاور/کارفرما) */
+  var NAME={P:'پیمانکار',C:'مشاور',E:'کارفرما'},SUF={P:'',C:'__C',E:'__E'};
+  var SECS={
+    st:{id:'st',kind:'statement',key:'statements',title:'صورت‌وضعیت',one:'صورت‌وضعیت شماره',all:'همه صورت‌وضعیت‌ها'},
+    adj:{id:'adj',kind:'adjustment',key:'adjustments',title:'تعدیل',one:'تعدیل شماره',all:'همه تعدیل‌ها'},
+    mn:{id:'mn',kind:'minutes',key:'minutes',title:'صورت‌مجلس',one:'صورت‌مجلس شماره',all:'همه صورت‌مجلس‌ها'},
+    price:{id:'price',kind:'price',key:'',title:'قیمت جدید',all:'همه آیتم‌ها'},
+    proj:{id:'proj',kind:'project',key:'',title:'پروژه و داده‌ها',all:'همه پروژه‌ها'},
+    ci:{id:'ci',kind:'costincome',key:'costIncomes',title:'هزینه-درآمد',one:'هزینه-درآمد شماره',all:'همه هزینه-درآمدها',noVer:true}
+  };
+  var CTX={'':['proj'],statements:['st','adj'],minutes:['mn'],price:['price'],compare:['ci']};
+  var CTX_TITLE={'':'پروژه و داده‌ها',statements:'صورت‌وضعیت و تعدیل',minutes:'صورت‌مجلس',price:'قیمت جدید',compare:'هزینه-درآمد'};
+  var busy=false;
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function toEn(s){return String(s==null?'':s).replace(/[۰-۹]/g,function(c){return String(c.charCodeAt(0)-1776)}).replace(/[٠-٩]/g,function(c){return String(c.charCodeAt(0)-1632)})}
+  function fd(s){return String(s==null?'':s).replace(/[0-9]/g,function(c){return '۰۱۲۳۴۵۶۷۸۹'[+c]})}
+  function clone(x){return x===undefined?undefined:JSON.parse(JSON.stringify(x))}
+  function toast(msg,ms){
+    var t=document.createElement('div');t.textContent=msg;
+    t.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:56px;z-index:2147483646;background:#1f2937;color:#fff;border:1px solid #f59e0b;border-radius:12px;padding:10px 16px;font-size:14px;line-height:1.7;max-width:92vw;text-align:center;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.35);pointer-events:none';
+    document.body.appendChild(t);setTimeout(function(){try{t.remove()}catch(e){}},ms||2800);return t;
+  }
+  function ctxKey(){
+    var h=document.getElementById('cplHome');
+    if(!h||!h.classList.contains('show'))return '';
+    return h.getAttribute('data-view')||'';
+  }
+  async function getD(){
+    var id=window.__mainProjectId;
+    if(!id)throw new Error('ابتدا یک پروژه را انتخاب کن.');
+    var md=await api('/api/projects/'+id),d={};
+    try{d=JSON.parse(md.project.data||'{}')}catch(e){}
+    if(!d||typeof d!=='object'||Array.isArray(d))d={};
+    return {id:id,name:md.project.name||'',d:d};
+  }
+  async function putD(D){
+    await api('/api/projects/'+D.id,{method:'PUT',body:JSON.stringify({name:D.name,data:JSON.stringify(D.d)})});
+  }
+  function list(d,k){return Array.isArray(d[k])?d[k]:[]}
+  function recLabel(r,sec){var n=String(r&&r.no!=null?r.no:'').trim();if(sec.kind==='costincome'){var nm=String((r&&r.name)||'').trim();return nm||(n?sec.one+' '+fd(toEn(n)):'بدون نام')}return n?sec.one+' '+fd(toEn(n)):((r&&r.name)||'بدون نام')}
+  function numOf(r){var n=parseFloat(toEn(r&&r.no));return isFinite(n)?n:1e15}
+  function jDate(){
+    try{
+      var p=new Intl.DateTimeFormat('en-u-ca-persian',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()),o={};
+      p.forEach(function(x){o[x.type]=x.value});
+      if(o.year&&o.month&&o.day)return o.year+'-'+o.month+'-'+o.day;
+    }catch(e){}
+    return new Date().toISOString().slice(0,10);
+  }
+  function safe(s){return String(s||'').replace(/[\\\/:*?"<>|\u0000-\u001f]/g,' ').replace(/\s+/g,'_').replace(/^_+|_+$/g,'').slice(0,60)}
+  function download(name,obj){
+    var blob=new Blob([JSON.stringify(obj)],{type:'application/json'}),a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+  }
+  function user(){try{var u=window.currentUser||{};return {code:u.code||'',name:u.name||''}}catch(e){return {code:'',name:''}}}
+
+  /* ---------- جمع‌آوری برای صورت‌وضعیت / تعدیل / صورت‌مجلس ---------- */
+  function docIds(d,key){
+    var seen={},out=[];
+    ['P','C','E'].forEach(function(v){list(d,key+SUF[v]).forEach(function(r){if(r&&r.id!=null&&!seen[r.id]){seen[r.id]=1;out.push(r)}})});
+    return out.sort(function(a,b){return numOf(a)-numOf(b)});
+  }
+  function findRec(d,key,v,id){return list(d,key+SUF[v]).find(function(x){return x&&x.id===id})||null}
+  function collectDocs(d,sec,id,ver){
+    var ids=id==='*'?docIds(d,sec.key).map(function(r){return r.id}):[id],vers=ver==='*'?['P','C','E']:[ver],recs=[],bases={};
+    ids.forEach(function(i){
+      var got=false;
+      vers.forEach(function(v){var r=findRec(d,sec.key,v,i);if(r){recs.push({id:i,ver:v,rec:clone(r)});got=true}});
+      if(got&&vers.indexOf('P')<0){var b=findRec(d,sec.key,'P',i);if(b)bases[i]=clone(b)}
+    });
+    return {recs:recs,bases:bases};
+  }
+
+  /* ---------- قیمت جدید ---------- */
+  function starred(){try{return typeof window.starredItems==='function'?window.starredItems():[]}catch(e){return []}}
+  function pkeyOf(it){try{return window.__cplWf.price.key(it)}catch(e){return String(it&&it.id!=null&&it.id!==''?it.id:((it&&it.discipline)||'')+'|'+((it&&it.code)||''))}}
+  function metaKeyOf(it){try{return typeof analysisItemKey==='function'?analysisItemKey(it):''}catch(e){return ''}}
+  function itemTitle(it){var c='';try{c=typeof displayItemCode==='function'?displayItemCode(it):it.code}catch(e){c=it&&it.code}return (c?fd(String(c))+' — ':'')+((it&&it.desc)||'بدون شرح')}
+  function pCapture(d,code,mk){
+    var ov={},src=(d.analysisOverrides&&typeof d.analysisOverrides==='object')?d.analysisOverrides:{};
+    Object.keys(src).forEach(function(k){if(k.indexOf(code+'|')===0)ov[k]=clone(src[k])});
+    var cr=(d.analysisCustomRows||{})[code],me=mk?(d.analysisItemMeta||{})[mk]:undefined;
+    return {ov:ov,cr:clone(cr),meta:clone(me)};
+  }
+  function pApply(d,code,mk,snap){
+    var ov=(d.analysisOverrides&&typeof d.analysisOverrides==='object')?d.analysisOverrides:{},
+        cr=(d.analysisCustomRows&&typeof d.analysisCustomRows==='object')?d.analysisCustomRows:{},
+        me=(d.analysisItemMeta&&typeof d.analysisItemMeta==='object')?d.analysisItemMeta:{};
+    Object.keys(ov).forEach(function(k){if(k.indexOf(code+'|')===0)delete ov[k]});
+    delete cr[code];if(mk)delete me[mk];
+    if(snap){
+      Object.keys(snap.ov||{}).forEach(function(k){ov[k]=clone(snap.ov[k])});
+      if(snap.cr!==undefined)cr[code]=clone(snap.cr);
+      if(snap.meta!==undefined&&mk)me[mk]=clone(snap.meta);
+    }
+    d.analysisOverrides=ov;d.analysisCustomRows=cr;d.analysisItemMeta=me;
+  }
+  function collectPrice(D,idx,ver){
+    var d=D.d,sl=starred(),raw=Array.isArray(window.__cplCustomItems)?window.__cplCustomItems:[],pvAll=(d.priceVers&&typeof d.priceVers==='object')?d.priceVers:{},
+        idxs=idx==='*'?sl.map(function(_,i){return i}):[+idx],vers=ver==='*'?['P','C','E']:[ver],out=[];
+    idxs.forEach(function(i){
+      var it=sl[i],rw=raw[i];if(!it||!rw)return;
+      var pk=pkeyOf(it),mk=metaKeyOf(it),e=pvAll[pk]||{active:'P',snaps:{}},act=e.active||'P',vs=[];
+      vers.forEach(function(v){
+        if(v===act)vs.push({ver:v,snap:pCapture(d,String(it.code),mk)});
+        else if(e.snaps&&e.snaps[v])vs.push({ver:v,snap:clone(e.snaps[v])});
+      });
+      if(vs.length)out.push({pkey:pk,metaKey:mk,code:String(it.code),discipline:String(it.discipline),title:itemTitle(it),item:clone(rw),active:act,versions:vs});
+    });
+    return out;
+  }
+
+  /* ---------- پشتیبان‌گیری ---------- */
+  async function doBackup(secId,numVal,verVal,numText){
+    if(busy)return;busy=true;
+    try{
+      var sec=SECS[secId],D=await getD(),pack={format:'metriz-section-backup',version:1,kind:sec.kind,kindLabel:sec.title,exportedAt:new Date().toISOString(),
+        project:{id:D.id,name:D.name},user:user(),selection:{no:numText,ver:sec.noVer?'':(verVal==='*'?'همه نسخه‌ها':NAME[verVal])}};
+      var count=0;
+      if(sec.kind==='price'){
+        pack.items=collectPrice(D,numVal,verVal);count=pack.items.length;
+      }else{
+        var c=collectDocs(D.d,sec,numVal,verVal);pack.records=c.recs;pack.bases=c.bases;count=c.recs.length;
+      }
+      if(!count){toast(sec.noVer||numVal==='*'?'برای این انتخاب چیزی ذخیره نشده است.':'نسخهٔ «'+(verVal==='*'?'':NAME[verVal])+'» برای این مورد ثبت نشده است.',3500);busy=false;return}
+      var name=['metriz',safe(sec.title),safe(numVal==='*'?'همه':numText.replace(/\s*شماره\s*/,'-')),(sec.noVer?'':safe(verVal==='*'?'همه-نسخه‌ها':'نسخه-'+NAME[verVal])),safe('پروژه-'+D.name),jDate()].filter(Boolean).join('_')+'.json';
+      download(name,pack);
+      toast('پشتیبان «'+sec.title+'» ('+fd(count)+' مورد) ذخیره شد.',3200);
+    }catch(e){toast('پشتیبان‌گیری ناموفق بود: '+(e&&e.message||''),4000)}
+    busy=false;
+  }
+
+  /* ---------- پشتیبان کل پروژه (با همه داده‌ها و محاسبه‌هایش) ---------- */
+  async function doBackupProject(pid,label){
+    if(busy)return;busy=true;var msg=toast('در حال تهیه‌ی پشتیبان…',600000);
+    try{
+      var all=(await api('/api/projects')).projects||[];
+      var rows=pid==='*'?all:all.filter(function(r){return r.id===pid||r.parentProjectId===pid}),out=[];
+      for(var k=0;k<rows.length;k++){
+        msg.textContent='در حال تهیه‌ی پشتیبان… '+fd(k+1)+' از '+fd(rows.length);
+        var row=rows[k],p=(await api('/api/projects/'+row.id)).project,an={};
+        try{an=(await api('/api/projects/'+row.id+'/analysis')).analysis||{}}catch(e){}
+        out.push({id:p.id,name:p.name,data:p.data,analysis:an,created_at:p.created_at,updated_at:p.updated_at,
+          parentProjectId:row.parentProjectId||null,projectType:row.projectType||'main',calculationName:row.calculationName||''});
+      }
+      try{msg.remove()}catch(e){}
+      if(!out.length){toast('پروژه‌ای برای پشتیبان‌گیری نیست.',3000);busy=false;return}
+      var pack={format:'metriz-backup',version:1,exportedAt:new Date().toISOString(),user:user(),scope:pid==='*'?'all':'project',count:out.length,projects:out};
+      download(['metriz','پروژه',safe(pid==='*'?'همه-پروژه‌ها':label),jDate()].filter(Boolean).join('_')+'.json',pack);
+      toast('پشتیبان '+fd(out.length)+' پروژه/محاسبه ذخیره شد.',3000);
+    }catch(e){try{msg.remove()}catch(_){}toast('پشتیبان‌گیری ناموفق بود: '+(e&&e.message||''),4000)}
+    busy=false;
+  }
+
+  /* ---------- بازیابی ---------- */
+  async function doRestore(file,secIds,legacyOk){
+    if(busy)return;busy=true;
+    try{
+      var pack;try{pack=JSON.parse(await file.text())}catch(e){throw new Error('فایل خوانده نشد؛ این یک فایل پشتیبان معتبر نیست.')}
+      if(pack&&pack.format==='metriz-backup'){
+        busy=false;
+        if(!legacyOk||typeof window.__cplRestoreFile!=='function')throw new Error('این فایل «پشتیبان کامل همه‌ی پروژه‌ها» است و از همین بخش قابل بازیابی نیست؛ از صفحه اصلی بازیابی کن.');
+        return window.__cplRestoreFile(file);
+      }
+      if(!pack||pack.format!=='metriz-section-backup')throw new Error('این فایل، پشتیبان معتبر برنامه نیست.');
+      var sec=secIds.map(function(i){return SECS[i]}).find(function(s){return s.kind===pack.kind});
+      if(!sec)throw new Error('این فایل مربوط به «'+(pack.kindLabel||pack.kind)+'» است و در این بخش قابل بازیابی نیست.');
+      var D=await getD(),n=sec.kind==='price'?(pack.items||[]).length:(pack.records||[]).length;
+      if(!n)throw new Error('فایل پشتیبان خالی است.');
+      var sel=pack.selection||{},other=pack.project&&pack.project.id&&String(pack.project.id)!==String(D.id);
+      var warn='';
+      if(sec.kind==='adjustment'){
+        var stIds={};['P','C','E'].forEach(function(v){list(D.d,'statements'+SUF[v]).forEach(function(r){stIds[r.id]=1})});
+        var miss=(pack.records||[]).filter(function(x){return x.rec&&x.rec.stId&&!stIds[x.rec.stId]}).length;
+        if(miss)warn='\n\nتوجه: صورت‌وضعیتِ مربوط به '+fd(miss)+' تعدیل در این پروژه نیست؛ برای محاسبه‌ی درست، صورت‌وضعیت‌ها را هم بازیابی کن.';
+      }
+      var msg='بازیابی «'+sec.title+'»'+(sel.no&&sel.no!=='همه'?' ('+sel.no+')':'')+(sel.ver?' — '+sel.ver:'')+'\n'+fd(n)+' مورد از پشتیبان پروژه‌ی «'+((pack.project&&pack.project.name)||'؟')+'» در پروژه‌ی فعلی «'+D.name+'» بازیابی شود؟'+
+        '\nموارد هم‌شناسه جایگزین می‌شوند و بقیه‌ی موارد پروژه دست‌نخورده می‌مانند.'+(other?'\n\nهشدار: این فایل از پروژه‌ای دیگر گرفته شده است.':'')+warn;
+      if(!confirm(msg)){busy=false;return}
+      var t=toast('در حال بازیابی…',600000);
+      D=await getD();var d=D.d,added=0,rep=0;
+      if(sec.kind==='price'){
+        d.customItems=Array.isArray(d.customItems)?d.customItems:[];
+        d.priceVers=(d.priceVers&&typeof d.priceVers==='object'&&!Array.isArray(d.priceVers))?d.priceVers:{};
+        var live=starred();
+        (pack.items||[]).forEach(function(e){
+          var same=function(c){return c&&String(c.code)===String(e.code)&&String(c.discipline)===String(e.discipline)};
+          var ci=d.customItems.findIndex(same),existed=ci>=0;
+          if(existed){d.customItems[ci]=clone(e.item);rep++}else{d.customItems.push(clone(e.item));added++}
+          var li=live.find(same),pk=li?pkeyOf(li):e.pkey,mk=li?metaKeyOf(li):e.metaKey,ent=d.priceVers[pk],vers=(e.versions||[]).map(function(x){return x.ver});
+          var act=ent?(ent.active||'P'):(vers.indexOf(e.active)>=0?e.active:vers[0]);
+          var snaps=(ent&&ent.snaps&&typeof ent.snaps==='object')?ent.snaps:{};
+          (e.versions||[]).forEach(function(x){
+            if(x.ver===act){pApply(d,String(e.code),mk,x.snap);delete snaps[x.ver]}
+            else snaps[x.ver]=clone(x.snap);
+          });
+          d.priceVers[pk]={active:act,snaps:snaps};
+        });
+      }else{
+        var up=function(k,rec){
+          var l=list(d,k).slice(),i=l.findIndex(function(x){return x&&x.id===rec.id});
+          if(i<0&&rec.no!=null&&String(rec.no).trim()!==''){var nn=toEn(rec.no).trim();i=l.findIndex(function(x){return x&&x.no!=null&&toEn(x.no).trim()===nn})}
+          if(i>=0){l[i]=rec;rep++}else{l.push(rec);added++}
+          d[k]=l;
+        };
+        Object.keys(pack.bases||{}).forEach(function(i){
+          if(!findRec(d,sec.key,'P',i)){d[sec.key]=list(d,sec.key).concat([clone(pack.bases[i])])}
+        });
+        (pack.records||[]).forEach(function(x){if(x&&x.rec&&SUF[x.ver]!==undefined)up(sec.key+SUF[x.ver],clone(x.rec))});
+      }
+      await putD(D);
+      try{window.__fpCache=null}catch(e){}
+      try{t.remove()}catch(e){}
+      toast('بازیابی انجام شد ('+fd(added)+' جدید، '+fd(rep)+' جایگزین).',2600);
+      setTimeout(function(){location.reload()},1500);
+    }catch(e){if(e&&e.message)toast(e.message,4500)}
+    busy=false;
+  }
+
+  /* ---------- رابط کاربری ---------- */
+  var ICO=window.__bkIcons||{bk:'',rs:''};
+  var CHEV='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  var BS='display:flex;align-items:center;justify-content:center;gap:12px;width:100%;box-sizing:border-box;height:54px;margin-top:10px;border-radius:18px;border:1px solid var(--c5,#393939);background:var(--c1,#000);color:inherit;font:inherit;font-size:16px;font-weight:700;cursor:pointer';
+  var SS='display:block;width:100%;box-sizing:border-box;height:42px;margin:4px 0 10px;padding:0 12px;border-radius:14px;border:1px solid var(--c5,#393939);background:var(--c8,#1b1b1b);color:inherit;font:inherit;font-size:15px;direction:rtl';
+  var LS='display:block;font-size:13px;opacity:.75;margin-top:2px';
+
+  function dialog(){
+    if(document.body.classList.contains('cplBaseOpen'))return;
+    var ck=ctxKey(),secIds=CTX[ck];
+    if(!secIds){ /* بخش‌هایی که پشتیبان بخشی ندارند (مثل هزینه-درآمد) همان پشتیبان‌گیری کامل قبلی */
+      if(typeof window.__cplLegacyDialog==='function')return window.__cplLegacyDialog();return;
+    }
+    if(document.getElementById('cplBkDlg'))return;
+    var ov=document.createElement('div');ov.id='cplBkDlg';
+    ov.style.cssText='position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl';
+    var bx=document.createElement('div');
+    bx.style.cssText='position:relative;width:min(380px,100%);max-height:92vh;overflow:auto;box-sizing:border-box;background:var(--c8,#1b1b1b);color:var(--c2,#f2f2f2);border:1px solid var(--c5,#393939);border-radius:22px;padding:14px;font-family:inherit';
+    var pj='';try{var pn=document.getElementById('currentProjectName');pj=pn?(pn.textContent||'').trim().split('\n')[0]:''}catch(e){}
+    bx.innerHTML='<button type="button" data-a="x" aria-label="بستن" title="بستن" style="position:absolute;top:10px;left:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:0;border-radius:10px;background:transparent;color:inherit;cursor:pointer;padding:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
+      '<div style="text-align:center;font-size:16px;font-weight:800;padding:0 40px">'+esc(CTX_TITLE[ck])+'</div>'+
+      '<div style="text-align:center;font-size:12px;opacity:.65;margin-top:2px;padding:0 40px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(pj?esc(pj):'ابتدا یک پروژه انتخاب کن.')+'</div>'+
+      '<div style="display:flex;gap:8px;margin-top:12px">'+
+      '<button type="button" data-a="bk" style="'+BS+';margin-top:0;height:46px;font-size:15px;gap:8px;flex:1 1 0;min-width:0">'+ICO.bk+'<span>پشتیبان‌گیری</span></button>'+
+      '<button type="button" data-a="rs" style="'+BS+';margin-top:0;height:46px;font-size:15px;gap:8px;flex:1 1 0;min-width:0">'+ICO.rs+'<span>بازیابی</span></button></div>'+
+      '<div data-bkarea style="display:none"></div>';
+    ov.appendChild(bx);document.body.appendChild(ov);
+    var area=bx.querySelector('[data-bkarea]');
+    function close(){document.removeEventListener('keydown',onKey,true);try{ov.remove()}catch(e){}}
+    function onKey(e){if(e.key==='Escape'){e.stopPropagation();close()}}
+    document.addEventListener('keydown',onKey,true);
+
+    function buildArea(){
+      var h='<div style="display:'+(secIds.length===1?'none':'flex')+';gap:8px;margin-top:8px">';
+      secIds.forEach(function(id){
+        h+='<button type="button" data-tg="'+id+'" style="'+BS+';height:44px;margin-top:0;font-size:14px;gap:6px;flex:1 1 0;min-width:0"><span>'+esc(SECS[id].title)+'</span><span data-c style="display:inline-flex;transition:transform .2s">'+CHEV+'</span></button>';
+      });
+      h+='</div>';
+      secIds.forEach(function(id){h+='<div data-pn="'+id+'" style="display:none;padding:10px 6px 2px"></div>'});
+      
+      area.innerHTML=h;
+    }
+    async function fill(id){
+      var pn=area.querySelector('[data-pn="'+id+'"]'),sec=SECS[id];
+      pn.innerHTML='<div style="text-align:center;opacity:.7;font-size:13px">در حال خواندن…</div>';
+      if(sec.kind==='project'){
+        try{
+          var all=((await api('/api/projects')).projects||[]).filter(function(r){return !r.parentProjectId&&r.projectType!=='calculation'});
+          if(!all.length){pn.innerHTML='<div style="text-align:center;opacity:.75;font-size:14px">پروژه‌ای ثبت نشده است.</div>';return}
+          pn.innerHTML='<label style="'+LS+'">پروژه</label><select data-num style="'+SS+'"><option value="*">همه پروژه‌ها ('+fd(all.length)+')</option>'+all.map(function(r){return '<option value="'+esc(r.id)+'">'+esc(r.name||'بدون نام')+'</option>'}).join('')+'</select>'+
+            '<button type="button" data-save style="'+BS+';height:46px;margin-top:2px;background:#f59e0b;color:#111;border-color:#f59e0b">'+ICO.bk+'<span>ذخیره فایل پشتیبان</span></button>';
+          pn.querySelector('[data-save]').addEventListener('click',function(){var ns=pn.querySelector('[data-num]');var t=ns.options[ns.selectedIndex].textContent;close();doBackupProject(ns.value,t)});
+        }catch(e){pn.innerHTML='<div style="text-align:center;color:#ff7a70;font-size:14px">'+esc(e&&e.message||'خواندن اطلاعات انجام نشد.')+'</div>'}
+        return;
+      }
+      try{
+        var D=await getD(),numOpts='',nums=[];
+        if(sec.kind==='price'){
+          nums=starred().map(function(it,i){return {v:String(i),t:itemTitle(it)}});
+        }else{
+          nums=docIds(D.d,sec.key).map(function(r){return {v:String(r.id),t:recLabel(r,sec)}});
+        }
+        if(!nums.length){pn.innerHTML='<div style="text-align:center;opacity:.75;font-size:14px;line-height:1.9">'+(sec.kind==='price'?'آیتم ستاره‌داری':'موردی')+' در این پروژه ثبت نشده است.</div>';return}
+        numOpts='<option value="*">'+sec.all+' ('+fd(nums.length)+')</option>'+nums.map(function(n){return '<option value="'+esc(n.v)+'">'+esc(n.t)+'</option>'}).join('');
+        pn.innerHTML='<label style="'+LS+'">'+(sec.kind==='price'?'آیتم':(sec.kind==='costincome'?'مورد':'شماره'))+'</label><select data-num style="'+SS+'">'+numOpts+'</select>'+
+          (sec.noVer?'':'<label style="'+LS+'">نسخه</label><select data-ver style="'+SS+'"></select>')+
+          '<button type="button" data-save style="'+BS+';height:46px;margin-top:2px;background:#f59e0b;color:#111;border-color:#f59e0b">'+ICO.bk+'<span>ذخیره فایل پشتیبان</span></button>';
+        var nsel=pn.querySelector('[data-num]'),vsel=pn.querySelector('[data-ver]');
+        function has(v,num){
+          if(sec.kind==='price'){
+            var it=starred()[+num];if(!it)return false;
+            var e=(D.d.priceVers||{})[pkeyOf(it)]||{active:'P',snaps:{}};return v===(e.active||'P')||!!(e.snaps&&e.snaps[v]);
+          }
+          return !!findRec(D.d,sec.key,v,num);
+        }
+        function paintVers(){
+          var num=nsel.value,cur=vsel.value||'*',o='<option value="*">همه نسخه‌ها</option>';
+          ['P','C','E'].forEach(function(v){
+            var ok=num==='*'?true:has(v,num);
+            o+='<option value="'+v+'">'+NAME[v]+(num!=='*'&&!ok?' (ثبت نشده)':'')+'</option>';
+          });
+          vsel.innerHTML=o;vsel.value=cur;
+        }
+        if(vsel){paintVers();nsel.addEventListener('change',paintVers)}
+        pn.querySelector('[data-save]').addEventListener('click',function(){
+          var txt=nsel.value==='*'?'همه':nsel.options[nsel.selectedIndex].textContent;
+          close();doBackup(id,nsel.value,vsel?vsel.value:'P',txt);
+        });
+      }catch(e){pn.innerHTML='<div style="text-align:center;color:#ff7a70;font-size:14px;line-height:1.9">'+esc(e&&e.message||'خواندن اطلاعات انجام نشد.')+'</div>'}
+    }
+    ov.addEventListener('click',function(e){
+      if(e.target===ov){close();return}
+      var b=e.target.closest&&e.target.closest('button');if(!b)return;
+      if(b.hasAttribute('data-tg')){
+        var id=b.getAttribute('data-tg'),pn=area.querySelector('[data-pn="'+id+'"]'),open=pn.style.display!=='none';
+        area.querySelectorAll('[data-pn]').forEach(function(p){p.style.display='none'});
+        area.querySelectorAll('[data-tg] [data-c]').forEach(function(c){c.style.transform=''});
+        if(!open){pn.style.display='block';b.querySelector('[data-c]').style.transform='rotate(180deg)';fill(id)}
+        return;
+      }
+      if(b.hasAttribute('data-all')){close();window.cplBackup();return}
+      var a=b.getAttribute('data-a');
+      if(a==='bk'){
+        var show=area.style.display==='none';
+        area.style.display=show?'block':'none';bx.querySelector('[data-a=bk]').style.borderColor=show?'#f59e0b':'';
+        if(show&&!area.firstChild){buildArea();if(secIds.length===1){var t=area.querySelector('[data-tg]');if(t)t.click()}}
+      }else if(a==='rs'){
+        close();pick(secIds,ck==='');
+      }else if(a==='x')close();
+    });
+  }
+  var inp=null,curIds=[],curLegacy=false;
+  function pick(secIds,legacyOk){
+    curIds=secIds;curLegacy=legacyOk;
+    if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';inp.style.display='none';
+      inp.addEventListener('change',function(){var f=inp.files&&inp.files[0];inp.value='';if(f)doRestore(f,curIds,curLegacy)});document.body.appendChild(inp)}
+    inp.click();
+  }
+  window.__cplLegacyDialog=window.cplBackupDialog;
+  window.cplBackupDialog2=dialog;window.cplBackupDialog=dialog;
 })();
 </script>
 <script id="cpl-xlsx-borders-js">
