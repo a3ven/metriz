@@ -1504,6 +1504,40 @@ html body #stTrM .mnHead .trHdBtns{display:flex;gap:6px;align-items:center;flex:
 #stTrM .trTag.empty{border-color:var(--c5);opacity:.75}
 #stTrM .trTag small{color:var(--c55)}
 #stTrM .trTagX{border:0;background:transparent;color:inherit;cursor:pointer;padding:0 4px;font-size:12px;line-height:1}
+/* دکمهٔ «فواصل حمل»: کنار دکمهٔ مصالح؛ داخل پنل فاصلهٔ هر مصالح (اول مصالحی که مقدار دارند) */
+#stTrM .trDdBar{display:flex;flex-wrap:wrap;gap:0 12px;align-items:flex-start}
+#stTrM .trDdCol{flex:1 1 360px;min-width:0;max-width:420px}
+#stTrM .trDdBtnTxt{display:inline-flex;align-items:baseline;gap:8px}
+#stTrM .trDdBtnTxt small{color:var(--c55);font-size:12px;font-weight:400}
+#stTrM .trDistRow{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:8px 14px;line-height:1.5}
+#stTrM .trDistRow:hover{background:var(--c9)}
+#stTrM .trDistRow .trDdNm{flex:1 1 120px;min-width:0;font-weight:700}
+#stTrM .trDistRow.empty .trDdNm{opacity:.7}
+#stTrM .trDistRow small{color:var(--c55);font-size:12px;font-weight:400}
+#stTrM .trDistRow input{width:104px;min-width:0;padding:0 14px;height:38px;box-sizing:border-box;border:1px solid var(--c5);border-radius:19px;background:var(--c1);color:var(--c2);font-size:var(--fs-input);text-align:center}
+#stTrM .trDistRow{display:grid;grid-template-columns:minmax(90px,1fr) 88px 88px 88px;align-items:center;gap:8px;padding:6px 14px}
+#stTrM .trDistHdr{padding-top:8px;padding-bottom:2px;font-size:12px;color:var(--c55);text-align:center;border-bottom:1px solid var(--glBd,var(--c5))}
+#stTrM .trDistHdr:hover{background:transparent!important}
+#stTrM .trDdCol:nth-child(2){flex-basis:440px;max-width:560px}
+#stTrM .trDistTop{display:flex;align-items:center;gap:10px}
+#stTrM .trDistIns{display:flex;gap:8px}
+#stTrM .trDistIns label{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--c55)}
+#stTrM .trDistRow input{width:100%;min-width:0}
+#stTrM .trDistHint{padding:8px 14px;font-size:12px;line-height:1.8;color:var(--c55);border-bottom:1px solid var(--glBd,var(--c5))}
+#stTrM .trDistEmpty{padding:14px;color:var(--c55);font-size:14px;line-height:1.8}
+/* شرح ردیف‌ها: دو خط + مثلث برای نمایش کامل (مثل برگهٔ مالی) */
+#stTrM td.trDescCell{min-width:280px;width:340px;max-width:440px}
+#stTrM .trRowsHd{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin:14px 0 8px;padding:0 18px;min-height:46px;border:1px solid var(--glBd,var(--c5));border-radius:var(--sqR3,22px);background:var(--glBg,var(--c8));color:var(--surfaceText,var(--c2));font-weight:700;font-size:var(--fs-body);cursor:pointer;text-align:start}
+#stTrM .trRowsHd.open{border-color:var(--c2)}
+html body #stTrM .trRowsHd{box-sizing:border-box!important;min-height:58px!important;padding:12px 20px!important;border-radius:var(--sqR3,22px)!important;font-size:calc(var(--fs-body,16px) + 2px)!important;line-height:1.7;background:var(--glBg,var(--c8))!important;border:1px solid var(--glBd,var(--c5))!important;box-shadow:none!important;overflow:hidden}
+html body #stTrM .trRowsHd.open{border-color:var(--c2)!important}
+html body #stTrM .trRowsHd .mnMuted{font-size:.88em;font-weight:400}
+#stTrM .trResTbl{font-size:16px}
+#stTrM .trResTbl th,#stTrM .trResTbl td{font-size:16px}
+#stTrM .trResTbl .trSel{font-size:15px}
+#stTrM .trRowsHd svg{flex:0 0 auto;transition:transform .2s}
+#stTrM .trRowsHd.open svg{transform:rotate(180deg)}
+@media(max-width:820px){#stTrM .trLblGhost{display:none}}
 #stCover .mnSortBar .mnTextBtn{gap:8px}
 #cplHome .cplCmpView{display:none;width:min(560px,100%);flex:1 0 auto;flex-direction:column;align-items:center}
 #cplHome[data-view="compare"] .cplMainView{display:none}
@@ -3638,6 +3672,9 @@ html body #stTrM .trDd.open .trDdBtn{border-color:var(--c2)!important}
 html body #stTrM .trDd .trDdPanel{border-radius:var(--sqR2,24px)!important;background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;box-shadow:none!important}
 html body #stTrM .trDd :is(.trDdAll,.trDdSep){background:var(--sqIn,#26262a)!important;border-color:var(--glBd,rgba(255,255,255,.08))!important}
 html body #stTrM .trDd .trDdRow:hover{background:var(--sqIn,#26262a)!important}
+html body #stTrM .trDd .trDistRow:hover{background:var(--sqIn,#26262a)!important}
+html body #stTrM .trDd .trDistRow input{height:38px!important;min-height:38px!important;box-sizing:border-box!important;border-radius:var(--sqR3,22px)!important;background:var(--sqIn,#26262a)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;color:var(--surfaceText)!important;box-shadow:none!important}
+html body #stTrM .trDd .trDistRow input:focus{border-color:var(--c2)!important;outline:none}
 /* ۴) ورود از Excel/CSV در ضرایب صورت‌وضعیت: کادر انتخاب فایل مثل انتخاب فایل ضرایب در تعریف پروژه */
 html body :is(#stcoFile,#cicoFile){box-sizing:border-box!important;display:block!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:0 8px!important;line-height:42px!important;font-size:14px!important;vertical-align:middle;overflow:hidden;background:var(--glBg,#1a1a1d)!important;background-color:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;border-radius:var(--sqR3,22px)!important;color:var(--surfaceText)!important;box-shadow:none!important}
 html body :is(#stcoFile,#cicoFile)::file-selector-button{height:30px;margin:0 0 0 8px;padding:0 12px;box-sizing:border-box;border-radius:var(--sqR3,22px);border:1px solid var(--glBd,rgba(255,255,255,.08));background:var(--sqIn,#26262a);color:var(--surfaceText);font:inherit;font-size:14px;line-height:28px;vertical-align:middle;cursor:pointer}
@@ -3687,6 +3724,21 @@ html body #stCoefM .mnTable input.stCx,html body #stCoefM .mnCovTable input.stCx
 html body #ciCoefM .mnHead .mnHomeBtn{display:none!important}
 html body :is(#stCoefM,#ciCoefM) .mnSortBar button.coefSampleBtn.btn{box-sizing:border-box!important;height:44px!important;min-height:44px!important;padding:0 18px!important;border-radius:var(--sqR3,22px)!important;background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;color:var(--glFg,var(--surfaceText))!important;font-size:var(--fs-btn)!important;font-weight:700!important;box-shadow:none!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;white-space:nowrap!important}
 html body :is(#stCoefM,#ciCoefM) .mnSortBar button.coefSampleBtn.btn:active{border-color:var(--c2)!important}
+html body #stCoefM .stcoRow2 .stcoImpGrp{display:flex!important;flex-wrap:nowrap!important;align-items:flex-end;gap:6px;flex:2 1 0;min-width:0}
+html body #stCoefM .stcoRow2 .stcoImpGrp .coefImpBtn{flex:1 1 0!important;min-width:0}
+html body #stCoefM .stcoRow2 .stcoImpGrp{flex:0 0 auto!important;min-width:max-content!important}
+html body #stCoefM .stcoRow2 .stcoImpGrp button.coefImpBtn.btn{flex:0 0 auto!important;min-width:max-content!important;white-space:nowrap!important;padding:0 12px!important}
+html body #stCoefM .stcoRow2>.mnField,html body #stCoefM .stcoRow2>.mnField:first-child{flex:1 1 0!important;min-width:0!important}
+html body #stCoefM .stcoRow2>.mnField :is(select,input){min-width:0!important;width:100%!important;padding-inline:8px!important;text-overflow:ellipsis}
+@media (max-width:640px){
+html body #stCoefM .stcoRow2 .stcoImpGrp button.coefImpBtn.btn{font-size:13px!important;padding:0 8px!important;gap:4px!important}
+html body #stCoefM .stcoRow2 .stcoImpGrp button.coefImpBtn.btn svg{width:18px!important;height:18px!important;flex:0 0 18px!important}
+html body #stCoefM .stcoRow2>.mnField{font-size:12px!important}
+html body #stCoefM .stcoRow2>.mnField :is(select,input){font-size:13px!important;padding-inline:4px!important}
+html body #stCoefM .stcoRow2 .mnAddBtn,html body #stCoefM .stcoRow2 button.stcoClearIco.btn{flex:0 0 38px!important;width:38px!important;min-width:38px!important}
+}
+html body #stCoefM .stcoRow2 button.stcoClearIco.btn{box-sizing:border-box!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;padding:0!important;border-radius:50%!important;background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;color:#e5484d!important;display:inline-flex!important;align-items:center;justify-content:center;box-shadow:none!important}
+html body #stCoefM .mnCovTable tbody td input:is(.stCc,.stCt,.stCx,.stPb,.stPp){font-size:19px!important;font-weight:700!important;height:44px!important;min-height:44px!important}
 </style>
 <style id="noExtraScroll">
 /* اسکرول فقط وقتی لازم است: نوار ابزار دسکتاپ از عرض صفحه بیرون نزند، و پشت صفحه‌های تمام‌صفحه اسکرول اضافه نیاید */
@@ -4225,7 +4277,35 @@ html body :is(#stEditor#stEditor#stEditor#stEditor#stEditor#stEditor#stEditor#st
 html[data-theme="light"] body .stRowTools .btn,html[data-theme="light"] body .mnChapWrap .mnSortBtn,html[data-theme="light"] body .mnChapWrap .mnSortBtn.on,html[data-theme="light"] body .mnChapWrap .mnSortBtn:hover{background:#dedfe1!important;color:#2b2c2e!important;border:1px solid #dbdcde!important}
 html[data-theme="light"] body .stRowTools .btn svg,html[data-theme="light"] body .mnChapWrap .mnSortBtn svg,html[data-theme="light"] body .mnChapWrap .mnSortBtn.on svg{stroke:#2b2c2e!important;color:#2b2c2e!important}
 </style>
-</head><body>
+<style id="mz-add-css">
+/* ===== ضرایب صورت‌وضعیت: نوع آیتم‌ها + دکمهٔ باز کردن از تعریف پروژه + منوی ستاره‌دارها ===== */
+html body #projectSetup #chapterCoefStBtn{min-height:44px!important;border-radius:var(--sqR3,22px)!important;box-sizing:border-box!important}
+html body #stImportModal .impType{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;font-size:14px;color:var(--c3,#a7a7a7)}
+html body #stImportModal .impType select{height:44px;box-sizing:border-box;width:100%;font-size:15px;padding:0 10px;border-radius:12px;background:var(--c8,#1c1c1c);color:var(--c2,#f2f2f2);border:1px solid var(--c5,#393939)}
+html body #stCoefM .mnTable input.stCt,html body #stCoefM .mnCovTable input.stCt{width:100%;min-width:56px;box-sizing:border-box;text-align:center}
+html body #stCoefM .mnCovTable th small{font-weight:400;opacity:.7}
+#mzStarDd{width:min(560px,100%);margin:-70px auto 90px;position:relative;z-index:1}
+#mzStarDd .mzStarDdBtn{appearance:none;-webkit-appearance:none;width:100%;display:flex;align-items:center;gap:12px;min-height:56px;padding:0 16px;border-radius:18px;border:1px solid var(--c5);background:var(--c8);color:var(--c2);font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;text-align:right}
+#mzStarDd .mzStarDdBtn svg{width:24px;height:24px;flex:0 0 24px}
+#mzStarDd .mzStarDdBtn .mzLbl{flex:1 1 auto}
+#mzStarDd .mzStarDdBtn .mzChev{transition:transform .15s ease}
+#mzStarDd.open .mzStarDdBtn .mzChev{transform:rotate(180deg)}
+#mzStarDd .mzStarDdList{display:none;margin-top:8px;max-height:min(46vh,380px);overflow:auto;border:1px solid var(--c5);border-radius:18px;background:var(--c4);padding:6px;-webkit-overflow-scrolling:touch}
+#mzStarDd.open .mzStarDdList{display:block}
+#mzStarDd .mzStarRow{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:12px;background:transparent;color:var(--c2);font-family:inherit;font-size:15px;text-align:right;cursor:pointer}
+#mzStarDd .mzStarRow:active,#mzStarDd .mzStarRow:hover{background:var(--c9)}
+#mzStarDd .mzStarRow .mzCode{direction:ltr;font-family:monospace;font-weight:800;flex:0 0 auto}
+#mzStarDd .mzStarRow .mzDesc{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mzStarDd .mzEmpty{padding:14px;text-align:center;color:var(--c3,#a7a7a7);font-size:15px}
+#mzStarSel{max-width:100%;font-weight:700}
+html body #stCoefM .mnPick.stcoRow2{flex-wrap:wrap!important}
+html body #stCoefM .stcoRow2>.mnField{flex:1 1 96px!important}
+html body #stCoefM .stcoRow2>.mnField:nth-of-type(3){flex:1.6 1 130px!important}
+html body #stCoefM .stcoRow2 .coefImpBtn{flex:1 1 100%!important}
+
+/* ویرایش اطلاعات پروژه: فونت دکمه‌های اطلاعات قرارداد / فهرست بها و تعدیل / ضرایب صورت‌وضعیت / کل ضرایب پروژه یک سایز بزرگ‌تر */
+html:root body #projectSetup #contractToggleBtn,html:root body #projectSetup #listInfoToggleBtn,html:root body #projectSetup #stCoefToggleBtn,html:root body #projectSetup #chapterCoefStBtn{font-size:16px!important}
+</style></head><body>
 <script id="v-coef-round4-core">
 /* ضرایب پروژه (طبقات، منطقه، بالاسری، پیشنهادی کل، ضرایب فصل): همیشه تا ۴ رقم اعشار گرد می‌شوند، در کل پروژه */
 (function(){
@@ -4810,15 +4890,22 @@ html[data-theme="light"] body .stRowTools .btn svg,html[data-theme="light"] body
         <label>تاریخ قرارداد<input id="setupContractDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱"></label>
         <label><span class="cdTitle">مدت قرارداد <span id="setupContractDurationLbl">(ماه)</span></span><input id="setupContractDuration" type="text" inputmode="numeric" maxlength="4" dir="ltr" autocomplete="off" placeholder="۱۲" style="text-align:right"></label>
       </div>
+      <div class="wide contractToggleRow"><button type="button" class="btn" id="listInfoToggleBtn" data-lbl="اطلاعات فهرست بها و تعدیل" aria-expanded="false" aria-controls="listInfoBox">＋ اطلاعات فهرست بها و تعدیل</button></div>
+      <div class="wide contractBox" id="listInfoBox" hidden>
       <label>سال فهرست بها<select id="setupListYear"></select></label>
       <div class="setupListsBox" id="setupListsBox"><span class="setupListsLbl">فهارس بهای پروژه</span><button type="button" class="setupListsToggle" id="setupListsToggle" aria-haspopup="true" aria-expanded="false"><span id="setupListsSummary">انتخاب فهرست‌های بها</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="setupListsPanel" id="setupListsPanel" hidden><div class="setupListsHead"><span class="setupListsBtns"><button type="button" class="btn" id="setupListsAll">همه</button><button type="button" class="btn" id="setupListsNone">هیچ</button><button type="button" class="btn" id="setupListsSearchBtn" aria-label="جستجو" title="جستجو در فهارس بها"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button></span><input type="search" id="setupListsSearch" class="setupListsSearch" placeholder="جستجوی فهرست بها…" autocomplete="off" hidden><span class="muted">بعد از باز شدن پروژه فقط فهرست‌های بها تیک‌خورده در دسترس‌اند.</span></div><div class="setupListsGrid" id="setupListsChecks"></div></div></div>
       <select id="setupListType" style="display:none" aria-hidden="true" tabindex="-1"><option>ابنیه</option><option>مکانیک</option><option>برق</option></select>
       <label>سال مبنا<select id="setupBaseYear"></select></label>
       <label>دوره مبنا<select id="setupBasePeriod"></select></label>
+      </div>
+      <div class="wide contractToggleRow"><button type="button" class="btn" id="stCoefToggleBtn" data-lbl="ضرایب صورت‌وضعیت" aria-expanded="false" aria-controls="stCoefBox">＋ ضرایب صورت‌وضعیت</button></div>
+      <div class="wide contractBox" id="stCoefBox" hidden>
       <label>ضریب طبقات<input id="setupFloorCoef" type="text" inputmode="decimal" value="1" placeholder="1"></label>
       <label>ضریب منطقه<input id="setupRegionCoef" type="text" inputmode="decimal" value="1" placeholder="1"></label>
       <label>ضریب بالاسری<input id="setupOverheadCoef" type="text" inputmode="decimal" value="1" placeholder="1"></label><label>ضریب پیشنهادی کل<input id="setupProjectCoef" type="text" inputmode="decimal" value="1" placeholder="1"></label>
-      <div class="wide projectCoeffBox"><div><b>ضرایب پیشنهادی جزء</b></div><div class="coefFileRow"><input id="chapterCoefFile" type="file" accept=".xlsx,.xls,.csv" class="box"><button type="button" class="btn" id="chapterCoefSampleBtn" title="دانلود اکسل نمونه ضرایب" aria-label="دانلود اکسل نمونه ضرایب"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;margin-inline-end:6px"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>اکسل نمونه</button></div><button type="button" class="btn" id="chapterCoefEditBtn" disabled>نمایش و ویرایش ضرایب پیشنهادی</button><div id="chapterCoefStatus" class="muted"></div><div id="chapterCoefEditor" style="display:none;margin-top:10px"></div></div>
+        <div style="grid-column:1/-1"><button type="button" class="btn" id="chapterCoefStBtn" style="width:100%" title="باز کردن صفحهٔ ضرایب" aria-label="کل ضرایب پروژه">کل ضرایب پروژه</button></div>
+      </div>
+      <div class="wide projectCoeffBox" style="display:none!important" aria-hidden="true"><div><b>ضرایب پیشنهادی جزء</b></div><div class="coefFileRow"><input id="chapterCoefFile" type="file" accept=".xlsx,.xls,.csv" class="box" hidden style="display:none!important;width:0!important;min-width:0!important;flex:0 0 0!important;padding:0!important;border:0!important;margin:0!important"><button type="button" class="btn" id="chapterCoefUploadBtn" title="بارگذاری اکسل ضرایب" aria-label="بارگذاری اکسل ضرایب">بارگذاری اکسل</button><select id="chapterCoefType" class="box" aria-label="نوع آیتم‌ها" title="ضرایب برای کدام آیتم‌ها اعمال شود"><option value="all">آیتم‌های فهرستی و ستاره‌دار</option><option value="list">آیتم‌های فهرستی</option><option value="star">آیتم‌های ستاره‌دار</option></select><button type="button" class="btn" id="chapterCoefSampleBtn" title="دانلود اکسل نمونه ضرایب" aria-label="دانلود اکسل نمونه ضرایب"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;margin-inline-end:6px"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>اکسل نمونه</button></div><button type="button" class="btn" id="chapterCoefEditBtn" disabled>نمایش و ویرایش ضرایب پیشنهادی</button><div id="chapterCoefStatus" class="muted"></div><div id="chapterCoefEditor" style="display:none;margin-top:10px"></div></div>
     </div>
     <div class="projectSetupError" id="projectSetupMsg"></div>
     <div class="projectSetupActions">
@@ -4833,7 +4920,7 @@ html[data-theme="light"] body .stRowTools .btn svg,html[data-theme="light"] body
     <div class="projectRow"><button class="btn projectIconBtn" id="themeToggleBtn" type="button" title="تغییر پوسته روشن/تیره" aria-label="تغییر پوسته روشن/تیره"><svg id="themeToggleIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></button><button class="btn primary projectIconBtn exportIconBtn" id="newProject" title="پروژه جدید" aria-label="پروژه جدید"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M12 8v8M8 12h8"></path></svg></button><button class="btn projectIconBtn exportIconBtn" id="saveProject" title="ذخیره پروژه" aria-label="ذخیره پروژه"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button><button class="btn projectIconBtn exportIconBtn" id="openProjects" title="تاریخچه پروژه‌ها" aria-label="تاریخچه پروژه‌ها"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9A8.5 8.5 0 1 1 4 15.5"></path><path d="M3 4v5h5"></path><path d="M12 8v4l3 2"></path></svg></button><button class="btn projectIconBtn exportIconBtn" id="adminPanelBtn" style="display:none" title="مدیریت کاربران" aria-label="مدیریت کاربران"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><path d="M4 20c0-3 2.5-5 5-5s5 2 5 5"></path><circle cx="17" cy="9" r="2.4"></circle><path d="M15.5 20c.2-2.2 1.7-4 3.7-4.4"></path></svg></button><button class="btn projectIconBtn exportIconBtn" id="openMohandesyar" type="button" title="مهندس‌یار" aria-label="مهندس‌یار"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg></button><button class="btn projectIconBtn" id="supportBtn" type="button" title="پشتیبانی" aria-label="پشتیبانی"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"></path><path d="M19 13v4a2 2 0 0 1-2 2h-1"></path><rect x="17" y="13" width="4" height="6" rx="1.5"></rect><rect x="3" y="13" width="4" height="6" rx="1.5"></rect><path d="M12 19v1a2 2 0 0 1-2 2H9"></path></svg></button><button class="btn projectIconBtn exportIconBtn" id="logoutProject" title="خروج" aria-label="خروج"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg></button></div>
     <div class="projectRow legacyProjectRow"><button class="btn projectIconBtn" id="newCalculation" title="محاسبه جدید" aria-label="محاسبه جدید"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M12 8v8M8 12h8"></path></svg></button><button class="btn projectIconBtn" id="saveCalculation" title="ذخیره محاسبه" aria-label="ذخیره محاسبه"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button><button class="btn projectIconBtn" id="openCalculations" title="تاریخچه محاسبات" aria-label="تاریخچه محاسبات"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9A8.5 8.5 0 1 1 4 15.5"></path><path d="M3 4v5h5"></path><path d="M12 8v4l3 2"></path></svg></button></div>
   </div>
-</div><div class="top"><h1 class="title">فهرست بها</h1><div class="toolbar"><select id="discipline" aria-label="نوع فهرست بها"><option value="ابنیه">ابنیه</option><option value="مکانیک">مکانیک</option><option value="برق">برق</option></select><select id="year"></select><select id="chapter"></select><div class="searchWrap"><span class="searchIcon">⌕</span><input id="search" placeholder="جستجوی کل فهرست بها: کد، شرح، اضافه‌بها..." autocomplete="off"></div><div class="toolbarActions"><button type="button" class="btn" id="cplAddItemBtn" title="تعریف آیتم ستاره‌دار جدید برای آیتم‌هایی که در فهرست بها نیست">＋ آیتم ستاره‌دار جدید</button><button type="button" class="btn" id="mzPrepOffline" title="دانلود داده‌ی ۱۳۹۹ تا ۱۴۰۴ (ابنیه، مکانیک، برق) برای استفاده‌ی آفلاین">⬇ آماده‌سازی آفلاین</button><button type="button" class="btn" id="starredItemsBtn" title="لیست آیتم‌های ستاره‌دار">★ لیست آیتم‌های ستاره‌دار</button></div></div></div><div id="searchPanel" class="card searchResults" style="display:none"></div><div id="browse" class="card"><div class="chapterTitle" id="chapterTitle"></div><div class="hint" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><span>روی هر آیتم بزن تا جزئیات و تمام موارد مرتبط باز شود. اضافه‌بهاهای انتخابی را می‌توانی وارد لیست متره کنی.</span><button type="button" class="btn" id="chapterIntroBtn" title="مقدمه فصل (الزامات عمومی و الزامات گروه‌ها)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg><span>مقدمه فصل</span></button></div><div id="items"></div></div><div class="card list meterCollapsed" id="meterCard"><div class="listHead" id="meterToggle"><div><b class="meterToggle">لیست متره <span class="meterToggleIcon" id="meterToggleIcon">▲</span></b><div class="muted" id="listCount">۰ مورد</div></div><div class="total" id="total">۰ ریال</div></div><div id="meterList"><div class="empty">هنوز آیتمی به لیست اضافه نشده است.</div></div><div class="meterActions"><button class="btn primary" id="nextStage">مرحله بعد: مجموعه هر فصل ←</button><button type="button" class="btn danger exportIconBtn clearIconBtn" id="clearList" title="پاک کردن لیست" aria-label="پاک کردن لیست"><img src="./Icon/icons8-clear-96.png?v=204-icon" alt=""></button><button type="button" class="btn exportIconBtn" id="v59MeterExcel" title="گزارش اکسل لیست متره" aria-label="گزارش اکسل لیست متره"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="v59MeterPdf" title="گزارش چاپی لیست متره" aria-label="گزارش چاپی لیست متره"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button></div></div></div><div id="chapterSummaryModal" class="summaryModal" aria-hidden="true"><div class="summaryPanel"><div class="summaryHead"><div><b>مرحله بعد — مجموعه هر فصل</b><div class="muted">جمع آیتم‌های لیست متره به تفکیک سال و فصل</div></div><div class="stageNav"><button type="button" class="btn danger" id="closeWorkflowFromSummary">✕</button></div></div><div id="chapterSummary"></div></div></div><div id="analysisModal" class="analysisModal" aria-hidden="true"><div class="analysisPanel"><div class="analysisHead"><div><b id="analysisTitle">آنالیز آیتم</b><div class="muted" id="analysisMeta"></div></div><div class="stageNav analysisActions"><button type="button" class="btn primary analysisStepBtn" id="analysisNext" title="مرحله بعد: روکش آنالیز">مرحله بعد: روکش آنالیز</button><button type="button" class="btn primary exportIconBtn analysisSaveIcon" id="analysisSave" title="ذخیره آنالیز" aria-label="ذخیره آنالیز"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button><button type="button" class="btn exportIconBtn" id="analysisExcel" title="گزارش اکسل آنالیز" aria-label="گزارش اکسل آنالیز"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="analysisPdf" title="گزارش چاپی آنالیز" aria-label="گزارش چاپی آنالیز"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button><button type="button" class="btn" id="closeAnalysis">✕</button></div></div><div id="analysisItemFields" class="analysisItemFields"><label><span class="aifT">شرح آیتم</span><textarea id="analysisItemDesc" rows="1" placeholder="شرح آیتم"></textarea></label><label><span class="aifT">واحد</span><select id="analysisItemUnit"><option value="">— انتخاب واحد —</option></select></label><label><span class="aifT">قیمت روز <span class="muted">(قیمت حاصل از آنالیز)</span></span><input id="analysisItemPrice" inputmode="decimal" readonly></label></div><div id="analysisCopyBar" class="analysisCopyBar" style="display:none"></div><div id="analysisBody"></div></div></div>
+</div><div class="top"><h1 class="title">فهرست بها</h1><div class="toolbar"><select id="discipline" aria-label="نوع فهرست بها"><option value="ابنیه">ابنیه</option><option value="مکانیک">مکانیک</option><option value="برق">برق</option></select><select id="year"></select><select id="chapter"></select><select id="mzStarSel" aria-label="آیتم‌های ستاره‌دار" title="همه آیتم‌های ستاره‌دار پروژه"><option value="">★ آیتم‌های ستاره‌دار</option></select><div class="searchWrap"><span class="searchIcon">⌕</span><input id="search" placeholder="جستجوی کل فهرست بها: کد، شرح، اضافه‌بها..." autocomplete="off"></div><div class="toolbarActions"><button type="button" class="btn" id="cplAddItemBtn" title="تعریف آیتم ستاره‌دار جدید برای آیتم‌هایی که در فهرست بها نیست">＋ آیتم ستاره‌دار جدید</button><button type="button" class="btn" id="mzPrepOffline" title="دانلود داده‌ی ۱۳۹۹ تا ۱۴۰۴ (ابنیه، مکانیک، برق) برای استفاده‌ی آفلاین">⬇ آماده‌سازی آفلاین</button><button type="button" class="btn" id="starredItemsBtn" title="لیست آیتم‌های ستاره‌دار">★ لیست آیتم‌های ستاره‌دار</button></div></div></div><div id="searchPanel" class="card searchResults" style="display:none"></div><div id="browse" class="card"><div class="chapterTitle" id="chapterTitle"></div><div class="hint" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><span>روی هر آیتم بزن تا جزئیات و تمام موارد مرتبط باز شود. اضافه‌بهاهای انتخابی را می‌توانی وارد لیست متره کنی.</span><button type="button" class="btn" id="chapterIntroBtn" title="مقدمه فصل (الزامات عمومی و الزامات گروه‌ها)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg><span>مقدمه فصل</span></button></div><div id="items"></div></div><div class="card list meterCollapsed" id="meterCard"><div class="listHead" id="meterToggle"><div><b class="meterToggle">لیست متره <span class="meterToggleIcon" id="meterToggleIcon">▲</span></b><div class="muted" id="listCount">۰ مورد</div></div><div class="total" id="total">۰ ریال</div></div><div id="meterList"><div class="empty">هنوز آیتمی به لیست اضافه نشده است.</div></div><div class="meterActions"><button class="btn primary" id="nextStage">مرحله بعد: مجموعه هر فصل ←</button><button type="button" class="btn danger exportIconBtn clearIconBtn" id="clearList" title="پاک کردن لیست" aria-label="پاک کردن لیست"><img src="./Icon/icons8-clear-96.png?v=204-icon" alt=""></button><button type="button" class="btn exportIconBtn" id="v59MeterExcel" title="گزارش اکسل لیست متره" aria-label="گزارش اکسل لیست متره"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="v59MeterPdf" title="گزارش چاپی لیست متره" aria-label="گزارش چاپی لیست متره"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button></div></div></div><div id="chapterSummaryModal" class="summaryModal" aria-hidden="true"><div class="summaryPanel"><div class="summaryHead"><div><b>مرحله بعد — مجموعه هر فصل</b><div class="muted">جمع آیتم‌های لیست متره به تفکیک سال و فصل</div></div><div class="stageNav"><button type="button" class="btn danger" id="closeWorkflowFromSummary">✕</button></div></div><div id="chapterSummary"></div></div></div><div id="analysisModal" class="analysisModal" aria-hidden="true"><div class="analysisPanel"><div class="analysisHead"><div><b id="analysisTitle">آنالیز آیتم</b><div class="muted" id="analysisMeta"></div></div><div class="stageNav analysisActions"><button type="button" class="btn primary analysisStepBtn" id="analysisNext" title="مرحله بعد: روکش آنالیز">مرحله بعد: روکش آنالیز</button><button type="button" class="btn primary exportIconBtn analysisSaveIcon" id="analysisSave" title="ذخیره آنالیز" aria-label="ذخیره آنالیز"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button><button type="button" class="btn exportIconBtn" id="analysisExcel" title="گزارش اکسل آنالیز" aria-label="گزارش اکسل آنالیز"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="analysisPdf" title="گزارش چاپی آنالیز" aria-label="گزارش چاپی آنالیز"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button><button type="button" class="btn" id="closeAnalysis">✕</button></div></div><div id="analysisItemFields" class="analysisItemFields"><label><span class="aifT">شرح آیتم</span><textarea id="analysisItemDesc" rows="1" placeholder="شرح آیتم"></textarea></label><label><span class="aifT">واحد</span><select id="analysisItemUnit"><option value="">— انتخاب واحد —</option></select></label><label><span class="aifT">قیمت روز <span class="muted">(قیمت حاصل از آنالیز)</span></span><input id="analysisItemPrice" inputmode="decimal" readonly></label></div><div id="analysisCopyBar" class="analysisCopyBar" style="display:none"></div><div id="analysisBody"></div></div></div>
 <div id="starredModal" class="analysisModal" aria-hidden="true"><div class="analysisPanel"><div class="analysisHead"><div><b>لیست آیتم‌های ستاره‌دار</b><div class="muted">تمام آیتم‌های جدیدی که برای پروژه تعریف شده‌اند.</div></div><div class="stageNav analysisActions"><button type="button" class="btn exportIconBtn" id="starredExcel" title="گزارش اکسل آیتم ستاره‌دار" aria-label="گزارش اکسل آیتم ستاره‌دار"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="starredPdf" title="گزارش چاپی آیتم ستاره‌دار" aria-label="گزارش چاپی آیتم ستاره‌دار"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button><span class="mnSortField"><select id="starredFilt" hidden><option value="all">همه وضعیت‌ها</option><option value="contractor">نزد پیمانکار</option><option value="consultant">نزد مشاور</option><option value="employer">نزد کارفرما</option><option value="announced">ابلاغ کارفرما</option></select><button type="button" class="btn exportIconBtn mnSortBtn" data-sel="starredSort" title="مرتب‌سازی" aria-label="مرتب‌سازی"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><select id="starredSort" hidden><option value="added">ترتیب افزودن — صعودی</option><option value="added_desc">ترتیب افزودن — نزولی</option><option value="code_asc">شماره آیتم — صعودی</option><option value="code_desc">شماره آیتم — نزولی</option></select></span><button type="button" class="btn danger" id="closeStarred">✕</button></div></div><div id="starredFilters" class="starredFilters"></div><div id="starredBody"></div></div></div>
 <div id="chapterIntroModal" class="analysisModal" aria-hidden="true"><div class="analysisPanel"><div class="analysisHead"><div><b id="chapterIntroTitle">مقدمه فصل</b><div class="muted" id="chapterIntroMeta"></div></div><div class="stageNav"><button type="button" class="btn" id="closeChapterIntro">✕</button></div></div><div id="chapterIntroBody" style="padding:14px 4px;line-height:2.1;font-size:16px;white-space:pre-wrap;overflow-wrap:anywhere"></div></div></div><div class="stageNav"><button type="button" class="btn" id="closeGeneralInstr">✕</button></div></div><div id="generalInstrBody" style="padding:14px 4px;line-height:2.1;font-size:16px;white-space:pre-wrap;overflow-wrap:anywhere"></div></div></div>
 <div id="analysisPage" class="analysisModal" aria-hidden="true"><div class="analysisPanel analysisPagePanel"><div class="analysisHead"><div><b id="analysisPageTitle">روکش آنالیز قیمت جدید</b><span id="analysisPageSaveMsg" class="analysisPageSaveMsg"></span></div><div class="stageNav analysisActions"><button type="button" class="btn analysisStepBtn" id="backFromAnalysisPage" title="مرحله قبل">→ مرحله قبل</button><button type="button" class="btn primary exportIconBtn analysisPageSave" id="analysisPageSave" title="ذخیره تنظیمات آنالیزها" aria-label="ذخیره تنظیمات آنالیزها"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg></button><button type="button" class="btn exportIconBtn" id="analysisPageExcel" title="گزارش اکسل آنالیز همان آیتم"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="analysisPagePdf" title="گزارش چاپی آنالیز همان آیتم"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button><button type="button" class="btn exportIconBtn" id="starredExcel2" title="گزارش اکسل روکش + آنالیز" aria-label="گزارش اکسل کل روکش و آنالیز قیمت جدید"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg></button><button type="button" class="btn exportIconBtn" id="starredPdf2" title="گزارش چاپی روکش + آنالیز" aria-label="گزارش چاپی کل روکش و آنالیز قیمت جدید"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg></button><button type="button" class="btn danger" id="closeAnalysisPage">✕</button></div></div><div id="analysisPageBody"></div></div></div>
@@ -4940,7 +5027,13 @@ window.plDiscsForYear=function(y){
   return withData.length?withData:order;
 };
 /* برای انتخابگرهای پنجره‌های دیگر (ریزمتره، صورت‌وضعیت، آیتم ستاره‌دار، ...) */
-window.selDiscs=function(){return window.plDiscsForYear(projYear()||($('year')&&$('year').value)||'')};
+window.selDiscs=function(){
+  /* وقتی «ضرایب پروژه» از فرم تعریف پروژه باز است، دفترچه‌های تیک‌خوردهٔ همان فرم ملاک است */
+  if(window.__stcoProjectForm&&window.getSetupLists){
+    const f=(window.getSetupLists()||[]).map(window.plCanon).filter(Boolean);
+    if(f.length){const fy=(($('setupListYear')&&$('setupListYear').value)||'');const o=defsFor(fy).map(d=>d.key).filter(n=>f.includes(n));return o.length?o:f}
+  }
+  return window.plDiscsForYear(projYear()||($('year')&&$('year').value)||'')};
 window.plHeaderText=function(m){
   const l=m&&m.lists;if(!Array.isArray(l)||!l.length)return '';
   const defs=defsFor(m.listYear);if(l.length>=defs.length)return '';
@@ -5842,7 +5935,7 @@ function analysisPageRows(onlyId){
   const arr=starredItems().filter(item=>!onlyId||String(item.id)===String(onlyId)),st=loadAnalysisPageState(),ps=projectSettings(),ys=analysisPageYears();
   return arr.map(item=>{
     const state=analysisPageItemState(item); const groups=analysisCurrentRows(item); const price=groups.reduce((a,g)=>a+g.rows.reduce((s,r)=>s+r.total,0),0);
-    const s=ps,ch=String(item.chapter||'').trim(),map=s.chapterCoefficients||window.__chapterCoefficients||{};
+    const s=ps,ch=String(item.chapter||'').trim(),map=window.__coefMapFor?window.__coefMapFor(s,'star'):(s.chapterCoefficients||window.__chapterCoefficients||{});
     if(item.factor){const blank=Object.assign({},state,{baseYear:'',basePeriod:'',workYear:'',workPeriod:''});return {item,factor:true,price,state:blank,ys,index:NaN,workIndex:NaN,chapterCoef:NaN,region:NaN,floor:NaN,overhead:NaN,totalCoef:1,indexFactor:NaN,newPrice:price};}
     const lt=normalizeDiscipline(item.discipline||s.listType||'ابنیه');
     const ch2=ch.replace(/^0+(?=\d)/,'')||ch, ch2pad=/^\d+$/.test(ch2)?ch2.padStart(2,'0'):ch2;
@@ -6282,9 +6375,9 @@ function recalcRel(r,m){
   r.cost=relatedUnitCost(r,parseNum(m.base,0),r.effect);
   return r
 }
-function projectMultiplierForChapter(ch,discipline){const s=(window.__mainProjectSettings||{});const R=function(x){return Math.round(x*1e4)/1e4};const a=R(Number(s.floorCoef??1)||1),b=R(Number(s.regionCoef??1)||1),c=R(Number(s.overheadCoef??1)||1);const map=s.chapterCoefficients||window.__chapterCoefficients||{};const k=String(ch).padStart(2,'0');const hasDisc=String(discipline||'').trim()!=='';const lt=normalizeDiscipline(discipline||s.listType||'ابنیه').toLowerCase();const key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:(hasDisc?1:(map[k]??map[String(Number(ch))]??1));const v=Number(raw);return a*b*c*(Number.isFinite(v)?R(v):1)}
-function addItem(id){const it=DATA.find(x=>x.id===id);if(!it)return;const c=projectMultiplierForChapter(it.chapter,it.discipline);meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[]});save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();renderMeter();}
-function addRelatedItem(id,ri){const it=DATA.find(x=>x.id===id),r=it?.related?.[Number(ri)];if(!it||!r)return;const existing=meter.find(m=>m.year===it.year&&m.discipline===it.discipline&&m.code===it.code);const effect=1;const rel={code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||'',effect,qty:1,qtyOverride:false,cost:relatedUnitCost(r,it.price,effect)};if(existing){existing.rels=existing.rels||[];if(!existing.rels.some(x=>x.code===r.code&&x.desc===r.desc))existing.rels.push(rel)}else {const c=projectMultiplierForChapter(it.chapter,it.discipline);meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[rel]});}save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();showMeterList();renderMeter();}
+function projectMultiplierForChapter(ch,discipline,kind){const s=(window.__mainProjectSettings||{});const R=function(x){return Math.round(x*1e4)/1e4};const a=R(Number(s.floorCoef??1)||1),b=R(Number(s.regionCoef??1)||1),c=R(Number(s.overheadCoef??1)||1);const map=window.__coefMapFor?window.__coefMapFor(s,kind||'list'):(s.chapterCoefficients||window.__chapterCoefficients||{});const k=String(ch).padStart(2,'0');const hasDisc=String(discipline||'').trim()!=='';const lt=normalizeDiscipline(discipline||s.listType||'ابنیه').toLowerCase();const key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:(hasDisc?1:(map[k]??map[String(Number(ch))]??1));const v=Number(raw);return a*b*c*(Number.isFinite(v)?R(v):1)}
+function addItem(id){const it=DATA.find(x=>x.id===id);if(!it)return;const c=projectMultiplierForChapter(it.chapter,it.discipline,it.custom?'star':'list');meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[]});save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();renderMeter();}
+function addRelatedItem(id,ri){const it=DATA.find(x=>x.id===id),r=it?.related?.[Number(ri)];if(!it||!r)return;const existing=meter.find(m=>m.year===it.year&&m.discipline===it.discipline&&m.code===it.code);const effect=1;const rel={code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||'',effect,qty:1,qtyOverride:false,cost:relatedUnitCost(r,it.price,effect)};if(existing){existing.rels=existing.rels||[];if(!existing.rels.some(x=>x.code===r.code&&x.desc===r.desc))existing.rels.push(rel)}else {const c=projectMultiplierForChapter(it.chapter,it.discipline,it.custom?'star':'list');meter.push({year:it.year,discipline:normalizeDiscipline(it.discipline||currentDiscipline()),chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coef:c,coefExpr:String(c),rels:[rel]});}save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave();showMeterList();renderMeter();}
 document.addEventListener('click',e=>{const desc=e.target.closest('.itemCompactDesc,.itemHead > .desc');if(desc){e.preventDefault();e.stopPropagation();desc.classList.toggle('expanded');return}const head=e.target.closest('.itemHead');if(head&&!e.target.closest('button,input,label'))head.closest('.item').classList.toggle('open');const add=e.target.closest('.addItem');if(add){e.preventDefault();addItem(add.dataset.id);return}const addRel=e.target.closest('.addRelated');if(addRel){e.preventDefault();addRelatedItem(addRel.dataset.id,addRel.dataset.ri);return}const rem=e.target.closest('.remove');if(rem){e.preventDefault();meter.splice(Number(rem.dataset.i),1);save();if(window.scheduleCalculationAutoSave)window.scheduleCalculationAutoSave()}});
 function updateMeterRow(i){
  const m=meter[i];if(!m)return;const relTotal=(m.rels||[]).reduce((a,r)=>a+parseNum(r.cost,0)*parseNum(r.qty,m.qty),0);const line=(parseNum(m.base,0)*parseNum(m.qty,1)+relTotal)*coefValue(m);const cell=document.querySelector('[data-line-total="'+i+'"]');if(cell)cell.textContent=fmt(line)+' ریال';const sub=document.querySelector('[data-rel-subtotal="'+i+'"]');if(sub)sub.textContent='جمع اضافه‌بهاها: '+fmt(relTotal*coefValue(m))+' ریال';let total=0;meter.forEach(x=>{const rt=(x.rels||[]).reduce((a,r)=>a+parseNum(r.cost,0)*parseNum(r.qty,x.qty),0);total+=(parseNum(x.base,0)*parseNum(x.qty,1)+rt)*coefValue(x)});const totalEl=document.getElementById('total');if(totalEl)totalEl.textContent=fmt(total)+' ریال';
@@ -6886,7 +6979,7 @@ function setMeterCollapsed(collapsed){
 function proposedChapterCoefForExport(m){
   try{
     const st=window.__mainProjectSettings||window.__currentProjectSettings||{};
-    const map=st.chapterCoefficients||window.__chapterCoefficients||{};
+    const map=window.__coefMapFor?window.__coefMapFor(st,window.__coefKindOf(m)):(st.chapterCoefficients||window.__chapterCoefficients||{});
     const ch=String(m.chapter||'').trim().replace(/[^0-9]/g,'').padStart(2,'0');
     const lt=String(st.listType||m.listType||'ابنیه').trim().toLowerCase();
     const keys=[lt+'|'+ch,ch,String(Number(ch))];
@@ -7013,6 +7106,7 @@ window.exportRowsData=exportRowsData;
   window.readContractFields=function(){const c={};Object.keys(CONTRACT_IDS).forEach(k=>{c[k]=String($(CONTRACT_IDS[k])?.value||'').trim()});return c};
   window.fillContractFields=function(c){c=c||{};Object.keys(CONTRACT_IDS).forEach(k=>{const e=$(CONTRACT_IDS[k]);if(e)e.value=c[k]||''});
     const box=$('contractBox'),b=$('contractToggleBtn');if(box&&b){const has=Object.values(c).some(v=>String(v||'').trim());box.hidden=!has;b.setAttribute('aria-expanded',has?'true':'false');b.textContent=(has?'− ':'＋ ')+'اطلاعات قرارداد'}};
+  document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('#listInfoToggleBtn,#stCoefToggleBtn');if(!b)return;const box=$(b.getAttribute('aria-controls'));if(!box)return;box.hidden=!box.hidden;b.setAttribute('aria-expanded',box.hidden?'false':'true');b.textContent=(box.hidden?'＋ ':'− ')+(b.dataset.lbl||'')});
   document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('#contractToggleBtn');if(!b)return;const box=$('contractBox');if(!box)return;box.hidden=!box.hidden;b.setAttribute('aria-expanded',box.hidden?'false':'true');b.textContent=(box.hidden?'＋ ':'− ')+'اطلاعات قرارداد'});
   (function(){const FA='۰۱۲۳۴۵۶۷۸۹',fa=n=>String(n).replace(/\d/g,d=>FA[d]);
     function lbl(){const e=$('setupContractDuration'),l=$('setupContractDurationLbl');if(!e||!l)return;
@@ -7197,7 +7291,7 @@ window.exportRowsData=exportRowsData;
   function openHistory(mode='projects'){$('projectDrawer')?.classList.add('show');loadHistory(mode)}
   function closeHistory(){$('projectDrawer')?.classList.remove('show')}
   function newMainEntry(){
-    currentProjectId=null;mainProjectId=null;parentProjectId=null;projectType='main';calculationName='';window.__mainProjectId=null;window.__mainProjectSettings=null;window.__restoredAdjustmentSnapshot=null;window.__chapterCoefficients={};
+    currentProjectId=null;mainProjectId=null;parentProjectId=null;projectType='main';calculationName='';window.__mainProjectId=null;window.__mainProjectSettings=null;window.__stCoefDefaults=null;window.__restoredAdjustmentSnapshot=null;window.__chapterCoefficients={};
     if(window.__cplLoadCustom)window.__cplLoadCustom(null);
     if(typeof window.resetProjectSetupForm==='function')window.resetProjectSetupForm();
     meter=[];localStorage.setItem('fehrestMeterV3','[]');if(typeof renderMeter==='function')renderMeter();
@@ -7225,12 +7319,15 @@ window.exportRowsData=exportRowsData;
       floorCoef:__r4c($('setupFloorCoef')?.value),regionCoef:__r4c($('setupRegionCoef')?.value),
       overheadCoef:__r4c($('setupOverheadCoef')?.value),projectCoef:__r4c($('setupProjectCoef')?.value),
       chapterCoefficients:window.__chapterCoefficients||getMainSettings().chapterCoefficients||{},
+      stCoefDefaults:(window.__stCoefDefaults&&window.__stCoefDefaults.pid===(mainId||'new')?window.__stCoefDefaults.v:getMainSettings().stCoefDefaults),
       contract:window.readContractFields?window.readContractFields():{}};
+    if(settings.stCoefDefaults===undefined)delete settings.stCoefDefaults;
     try{
       if(wasCalculation){
         // ویرایش مشخصات پروژه از داخل یک محاسبه: فقط پروژه اصلی به‌روزرسانی شود و محاسبه فعلی دست‌نخورده بماند.
         const md=await api('/api/projects/'+mainId);let mainData={};try{mainData=JSON.parse(md.project.data)}catch{}
         mainData.project=Object.assign({},mainData.project||{},settings);
+        if(window.__coefByType)mainData.coefByType=JSON.parse(JSON.stringify(window.__coefByType));
         mainData.year=listYear;mainData.adjBaseYear=baseYear;mainData.adjBasePeriod=basePeriod;mainData.appVersion=VERSION;
         await api('/api/projects/'+mainId,{method:'PUT',body:JSON.stringify({name:settings.name,data:JSON.stringify(mainData)})});
         window.__mainProjectSettings=settings;
@@ -7239,7 +7336,7 @@ window.exportRowsData=exportRowsData;
       }else{
         window.__mainProjectSettings=settings;
         if(currentProjectId) window.__mainProjectId=currentProjectId;
-        const data={version:5,appVersion:VERSION,project:settings,year:listYear,adjBaseYear:baseYear,adjBasePeriod:basePeriod,parentProjectId:null,projectType:'main',meter:JSON.parse(JSON.stringify(Array.isArray(meter)?meter:[])),customItems:JSON.parse(JSON.stringify(window.__cplCustomItems||[]))};
+        const data={version:5,appVersion:VERSION,project:settings,year:listYear,adjBaseYear:baseYear,adjBasePeriod:basePeriod,parentProjectId:null,projectType:'main',meter:JSON.parse(JSON.stringify(Array.isArray(meter)?meter:[])),customItems:JSON.parse(JSON.stringify(window.__cplCustomItems||[])),coefByType:JSON.parse(JSON.stringify(window.__coefByType||{list:{},star:{}}))};
         const target=currentProjectId;
         if(target){
           // ذخیره مشخصات پروژه نباید آنالیزهای ذخیره‌شده را پاک کند.
@@ -7254,6 +7351,7 @@ window.exportRowsData=exportRowsData;
         }
         else {const d=await api('/api/projects',{method:'POST',body:JSON.stringify({name:settings.name,data:JSON.stringify(data),projectType:'main',parentProjectId:null})});currentProjectId=d.id;mainProjectId=d.id;window.__mainProjectId=d.id;parentProjectId=null;projectType='main';}
       }
+      window.__stCoefDefaults=null;
       if(window.__cplApply)window.__cplApply();setFixedBase();hideSetup();renderHeader();
       setMsg('');
     }catch(e){setMsg(e.message||'خطا در ذخیره تغییرات پروژه')}
@@ -7412,6 +7510,7 @@ window.exportRowsData=exportRowsData;
   async function openProjectV26(id){
     try{
       const d=await api('/api/projects/'+id);let x={};try{x=JSON.parse(d.project.data)}catch{}
+      window.__stCoefDefaults=null;
       currentProjectId=id;parentProjectId=x.parentProjectId||x.project?.parentProjectId||null;projectType=x.projectType||x.project?.type||(parentProjectId?'calculation':'main');calculationName=x.calculationName||x.project?.calculationName||'';
       if(projectType==='calculation'&&parentProjectId){mainProjectId=parentProjectId;window.__mainProjectId=parentProjectId;const pd=await api('/api/projects/'+parentProjectId);let pm={};try{pm=JSON.parse(pd.project.data)}catch{};window.__mainProjectSettings=pm.project||{};if(window.__cplLoadCustom)window.__cplLoadCustom(pm);}
       else {mainProjectId=id;window.__mainProjectId=id;window.__mainProjectSettings=x.project||{name:d.project.name,listYear:x.year,baseYear:x.adjBaseYear,basePeriod:x.adjBasePeriod};if(window.__cplLoadCustom)window.__cplLoadCustom(x);}
@@ -7568,9 +7667,11 @@ window.exportRowsData=exportRowsData;
     const chapterKey=v=>{const d=String(v??'').replace(/[۰-۹]/g,d=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))).replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).replace(/[^0-9]/g,'');return d?String(Number(d)).padStart(2,'0'):''};
     const rowKey=(list,ch)=>normKey(list)+'|'+chapterKey(ch);
     let loadedRows=[];
+    const typeSel=$('chapterCoefType'),curType=()=>(typeSel&&typeSel.value)||'all';
+    const TYPE_NAME={all:'همه آیتم‌ها',list:'آیتم‌های فهرستی',star:'آیتم‌های ستاره‌دار'};
     /* فرم پروژه جدید خام باشد: هیچ داده‌ای از پروژه قبلی نیاید و ضرایب پیش‌فرض ۱ باشند */
     window.resetProjectSetupForm=function(){
-      loadedRows=[];window.__chapterCoefficients={};
+      loadedRows=[];window.__chapterCoefficients={};window.__coefByType={list:{},star:{}};if(typeSel)typeSel.value='all';
       const set=(id,v)=>{const e=$(id);if(e)e.value=v};
       set('setupProjectName','');window.fillContractFields&&window.fillContractFields(null);
       ['setupFloorCoef','setupRegionCoef','setupOverheadCoef','setupProjectCoef'].forEach(id=>set(id,'1'));
@@ -7619,12 +7720,28 @@ window.exportRowsData=exportRowsData;
       if(window.__mainProjectSettings)window.__mainProjectSettings.chapterCoefficients=window.__chapterCoefficients;
       if(btn)btn.disabled=!loadedRows.length;
     }
+    function loadTypeRows(){
+      const t=curType();
+      loadedRows=mapRows((window.__coefByType||{})[t],currentSettings().listType||'ابنیه');
+      if(btn)btn.disabled=!loadedRows.length;
+      if(status)status.textContent=loadedRows.length?(loadedRows.length+' ضریب برای «'+TYPE_NAME[t]+'» ذخیره‌شده در پروژه.'):('برای «'+TYPE_NAME[t]+'» ضریب جداگانه‌ای ثبت نشده است؛ ضرایب «همه آیتم‌ها» اعمال می‌شود.');
+      if(editor)editor.style.display='none';
+    }
+    typeSel?.addEventListener('change',()=>{if(curType()==='all')updateButtonState();else loadTypeRows()});
     function updateButtonState(){
+      if(curType()!=='all'){loadTypeRows();return}
       const hasSaved=!!savedMap();
       if(hasSaved){setLoadedFromMap(savedMap());if(status)status.textContent=loadedRows.length+' ضریب پیشنهادی ذخیره‌شده در پروژه.';}
       else if(btn)btn.disabled=!loadedRows.length;
     }
 
+    /* بعد از ویرایش ضرایب از بخش «ضرایب صورت‌وضعیت»، وضعیت کادر ضرایب پیشنهادی همین فرم را تازه کن */
+    window.__chapterCoefRefresh=function(){
+      if(curType()==='all'){setLoadedFromMap(window.__chapterCoefficients||{});if(status)status.textContent=loadedRows.length?(loadedRows.length+' ضریب پیشنهادی در فرم پروژه.'):''}
+      else loadTypeRows();
+      if(editor){editor.style.display='none';editor.innerHTML=''}
+    };
+    $('chapterCoefStBtn')?.addEventListener('click',()=>{if(typeof window.__stOpenProjectCoefs==='function')window.__stOpenProjectCoefs();else alert('بخش ضرایب صورت‌وضعیت هنوز آماده نیست.')});
     function productCoef(m){
       const p=m.coefParts||{};
       const n=x=>{const z=toNum(x);return z===null?1:z};
@@ -7637,8 +7754,9 @@ window.exportRowsData=exportRowsData;
         const d=normalizeDiscipline(m?.discipline||m?.list||m?.listType||settings?.listType||'ابنیه');
         const k=rowKey(d,m.chapter), k2=chapterKey(m.chapter), legacyList=normKey(m.list||'');
         const candidates=[k,legacyList+'|'+k2];
+        const mp=window.__coefMapFor?window.__coefMapFor({chapterCoefficients:map},window.__coefKindOf(m)):map;
         let val;
-        for(const kk of candidates){if(kk&&Object.prototype.hasOwnProperty.call(map,kk)){val=toNum(map[kk]);break}}
+        for(const kk of candidates){if(kk&&Object.prototype.hasOwnProperty.call(mp,kk)){val=toNum(mp[kk]);break}}
         // اگر برای این نوع فهرست بها/فصل ضریب اختصاصی نبود، ضریب پیشنهادی پروژه معیار است.
         if(val===undefined||val===null)val=projectCoef;
         m.discipline=d; m.list=d;
@@ -7655,7 +7773,8 @@ window.exportRowsData=exportRowsData;
       return changed;
     }
 
-    async function persistCoefficientsToProject(map){
+    async function persistCoefficientsToProject(map,ptype){
+      ptype=ptype||'all';
       const mainId=currentMainId();
       if(!mainId) throw new Error('ابتدا پروژه را ذخیره یا انتخاب کن.');
       const all=await fetchProjects();
@@ -7664,7 +7783,11 @@ window.exportRowsData=exportRowsData;
       const md=await api('/api/projects/'+mainId); let mainData={};
       try{mainData=JSON.parse(md.project.data||'{}')}catch{}
       const oldSettings=mainData.project||window.__mainProjectSettings||{};
-      const settings=Object.assign({},oldSettings,{chapterCoefficients:map});
+      const baseMap=ptype==='all'?map:(oldSettings.chapterCoefficients||window.__chapterCoefficients||{});
+      if(ptype!=='all'){window.__coefByType=Object.assign({list:{},star:{}},window.__coefByType||{});window.__coefByType[ptype]=map}
+      const settings=Object.assign({},oldSettings,{chapterCoefficients:baseMap});
+      map=baseMap;
+      mainData.coefByType=JSON.parse(JSON.stringify(window.__coefByType||{list:{},star:{}}));
       mainData.project=settings;
       mainData.appVersion=VERSION;
       mainData.meter=Array.isArray(mainData.meter)?mainData.meter:[];
@@ -7727,7 +7850,7 @@ window.exportRowsData=exportRowsData;
         if(Number.isFinite(na)&&Number.isFinite(nb)&&na!==nb)return na-nb;
         return String(a.chapter).localeCompare(String(b.chapter),'fa',{numeric:true});
       });
-      if(loadedRows.length&&typeof meter!=='undefined'&&Array.isArray(meter)){
+      if(curType()==='all'&&loadedRows.length&&typeof meter!=='undefined'&&Array.isArray(meter)){
         const previewMap=Object.fromEntries(loadedRows.map(r=>[r.key,r.coef]));
         const st=Object.assign({},currentSettings(),{chapterCoefficients:previewMap});
         applyMapToMeter(meter,previewMap,st);
@@ -7744,10 +7867,13 @@ window.exportRowsData=exportRowsData;
         if(invalid){alert('یکی از ضرایب واردشده معتبر نیست.');return}
         btn.disabled=true;
         try{
-          const result=await persistCoefficientsToProject(map);
+          const ptype=curType();
+          const result=await persistCoefficientsToProject(map,ptype);
+          if(ptype==='all'){
           window.__chapterCoefficients=map;
           if(window.__mainProjectSettings)window.__mainProjectSettings.chapterCoefficients=map;
-          if(status)status.textContent='ضرایب پروژه ذخیره شد؛ '+result.calcCount+' محاسبه قبلی و '+result.itemCount+' آیتم به‌روزرسانی شد.';
+          }
+          if(status)status.textContent='ضرایب «'+TYPE_NAME[curType()]+'» ذخیره شد؛ '+result.calcCount+' محاسبه قبلی و '+result.itemCount+' آیتم به‌روزرسانی شد.';
           editor.style.display='none';
         }catch(err){alert(err?.message||String(err));if(status)status.textContent='ذخیره ضرایب انجام نشد: '+(err?.message||String(err));}
         finally{btn.disabled=false;updateButtonState()}
@@ -7771,7 +7897,16 @@ window.exportRowsData=exportRowsData;
           loadedRows.push({list,listKey:normKey(list),chapter:ch,chapterKey:ch,coef:Math.round(n*1e4)/1e4,key:rowKey(list,ch)});
         }
         const dedup={};loadedRows.forEach(r=>dedup[r.key]=r);loadedRows=Object.values(dedup);
-        if(loadedRows.length&&typeof meter!=='undefined'&&Array.isArray(meter)){
+        if(loadedRows.length&&curType()!=='all'){
+          const t=curType(),importedMap=Object.fromEntries(loadedRows.map(r=>[r.key,r.coef]));
+          window.__coefByType=Object.assign({list:{},star:{}},window.__coefByType||{});window.__coefByType[t]=importedMap;
+          if(typeof meter!=='undefined'&&Array.isArray(meter)){
+            const st=Object.assign({},currentSettings());
+            applyMapToMeter(meter,window.__chapterCoefficients||st.chapterCoefficients||{},st);
+            localStorage.setItem('fehrestMeterV3',JSON.stringify(meter));
+            if(typeof window.renderMeter==='function')window.renderMeter();
+          }
+        }else if(loadedRows.length&&typeof meter!=='undefined'&&Array.isArray(meter)){
           const importedMap=Object.fromEntries(loadedRows.map(r=>[r.key,r.coef]));
           const st=Object.assign({},currentSettings(),{chapterCoefficients:importedMap});
           applyMapToMeter(meter,importedMap,st);
@@ -7780,7 +7915,7 @@ window.exportRowsData=exportRowsData;
           localStorage.setItem('fehrestMeterV3',JSON.stringify(meter));
           if(typeof window.renderMeter==='function')window.renderMeter();
         }
-        if(status)status.textContent=loadedRows.length+' ضریب از Excel خوانده شد و روی لیست متره اعمال شد. برای ماندگاری دائمی «اعمال و ذخیره ضرایب» را بزن.';
+        if(status)status.textContent=loadedRows.length+' ضریب برای «'+TYPE_NAME[curType()]+'» از Excel خوانده شد و روی لیست متره اعمال شد. برای ماندگاری دائمی «اعمال و ذخیره ضرایب» را بزن.';
         if(btn)btn.disabled=!loadedRows.length;
         if(editor)editor.style.display='none';
       }catch(err){if(status)status.textContent='خواندن فایل ضرایب پیشنهادی انجام نشد: '+(err?.message||String(err));if(btn)btn.disabled=true;}
@@ -7792,6 +7927,7 @@ window.exportRowsData=exportRowsData;
         const id=currentMainId(); if(!id)return false;
         const d=await api('/api/projects/'+id); let x={};try{x=JSON.parse(d.project.data||'{}')}catch{}
         const settings=x.project||{}; const map=settings.chapterCoefficients;
+        try{const t=x.coefByType;window.__coefByType={list:(t&&t.list)||{},star:(t&&t.star)||{}}}catch(e){}
         if(map&&typeof map==='object'&&Object.keys(map).length){
           // پروژه اصلی منبع قطعی ضرایب است؛ حتی در حالت بازبودن یک محاسبه.
           window.__mainProjectSettings=Object.assign({},window.__mainProjectSettings||{},settings,{chapterCoefficients:map});
@@ -7847,7 +7983,7 @@ window.exportRowsData=exportRowsData;
   function getSettings(){
     try{return typeof fixedProjectSettings==='function'?fixedProjectSettings():(window.__mainProjectSettings||{})}catch{return window.__mainProjectSettings||{}}
   }
-  function chapterPart(m){const s=getSettings(),map=s.chapterCoefficients||window.__chapterCoefficients||{},k=String(m.chapter||'').padStart(2,'0'),lt=normalizeDiscipline(m.discipline||s.listType||'ابنیه').toLowerCase(),key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:Number(s.projectCoef??1);const v=Number(raw);return Number.isFinite(v)&&v>0?v:1}
+  function chapterPart(m){const s=getSettings(),map=window.__coefMapFor?window.__coefMapFor(s,window.__coefKindOf(m)):(s.chapterCoefficients||window.__chapterCoefficients||{}),k=String(m.chapter||'').padStart(2,'0'),lt=normalizeDiscipline(m.discipline||s.listType||'ابنیه').toLowerCase(),key=lt+'|'+k;const raw=Object.prototype.hasOwnProperty.call(map,key)?map[key]:Number(s.projectCoef??1);const v=Number(raw);return Number.isFinite(v)&&v>0?v:1}
   function ensureParts(m){
     if(m.coefParts && typeof m.coefParts==='object'){
       m.coefParts.chapter=num(m.coefParts.chapter,chapterPart(m));
@@ -7937,7 +8073,7 @@ window.exportRowsData=exportRowsData;
   }
   window.addItem=function(id){
     const it=DATA.find(x=>x.id===id);if(!it)return;
-    const s=getSettings(), d=normalizeDiscipline(it.discipline||currentDiscipline()), p={chapter:chapterPart({chapter:it.chapter,discipline:d}),region:num(s.regionCoef,1),floor:num(s.floorCoef,1),overhead:num(s.overheadCoef,1),optional:1};
+    const s=getSettings(), d=normalizeDiscipline(it.discipline||currentDiscipline()), p={chapter:chapterPart({chapter:it.chapter,discipline:d,code:it.code,custom:it.custom}),region:num(s.regionCoef,1),floor:num(s.floorCoef,1),overhead:num(s.overheadCoef,1),optional:1};
     meter.push({year:it.year,discipline:d,chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coefParts:p,coef:p.chapter*p.region*p.floor*p.overhead,coefExpr:'1',rels:[]});
     save();renderMeter();return true;
   };
@@ -7946,7 +8082,7 @@ window.exportRowsData=exportRowsData;
     const itDisc=normalizeDiscipline(it.discipline||currentDiscipline()); const existing=meter.find(m=>m.year===it.year&&normalizeDiscipline(m.discipline||m.listType||'')===itDisc&&m.code===it.code&&!m.relatedOnly);
     const rel={code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||'',effect:1,qty:1,qtyOverride:false,cost:relatedUnitCost(r,it.price,1)};
     if(existing){ensureParts(existing);existing.rels=existing.rels||[];if(!existing.rels.some(x=>x.code===r.code&&x.desc===r.desc))existing.rels.push(rel)}
-    else {const s=getSettings(),p={chapter:chapterPart({chapter:it.chapter}),region:num(s.regionCoef,1),floor:num(s.floorCoef,1),overhead:num(s.overheadCoef,1),optional:1};meter.push({year:it.year,discipline:itDisc,chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coefParts:p,coef:p.chapter*p.region*p.floor*p.overhead,coefExpr:'1',rels:[rel]});}
+    else {const s=getSettings(),p={chapter:chapterPart({chapter:it.chapter,code:it.code,custom:it.custom}),region:num(s.regionCoef,1),floor:num(s.floorCoef,1),overhead:num(s.overheadCoef,1),optional:1};meter.push({year:it.year,discipline:itDisc,chapter:it.chapter,code:it.code,desc:it.desc,unit:it.unit,base:it.price,qty:1,coefParts:p,coef:p.chapter*p.region*p.floor*p.overhead,coefExpr:'1',rels:[rel]});}
     save();alert('اضافه‌بها به لیست اضافه شد.');
   };
   document.addEventListener('click',function(e){
@@ -8062,7 +8198,7 @@ document.addEventListener('click',function(e){if(typeof addOnce==='function'&&ad
     const rel={code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||'',effect:1,qty:1,qtyOverride:false,cost:relatedUnitCost(r,it.price,1)};
     if(existing){ensureParts(existing);existing.rels=existing.rels||[];if(!existing.rels.some(x=>x.code===r.code&&x.desc===r.desc))existing.rels.push(rel)}
     else{
-      const s=getSettings(),d=normalizeDiscipline(it.discipline||currentDiscipline()),p={chapter:chapterPart({chapter:it.chapter,discipline:d}),region:n(s.regionCoef,1),floor:n(s.floorCoef,1),overhead:n(s.overheadCoef,1),optional:1};
+      const s=getSettings(),d=normalizeDiscipline(it.discipline||currentDiscipline()),p={chapter:chapterPart({chapter:it.chapter,discipline:d,code:it.code,custom:it.custom}),region:n(s.regionCoef,1),floor:n(s.floorCoef,1),overhead:n(s.overheadCoef,1),optional:1};
       const effect=1, standaloneCost=relatedUnitCost(r,it.price,effect);
       meter.push({year:it.year,discipline:it.discipline||currentDiscipline(),chapter:it.chapter,code:r.code,desc:r.desc,unit:r.unit,base:standaloneCost,parentBase:it.price,parentCode:it.code,qty:1,coefParts:p,coef:p.chapter*p.region*p.floor*p.overhead,coefExpr:'1',rels:[],relatedOnly:true,relatedEffect:effect,relatedFunction:r.function||'',relatedVariable:r.variable||'',relatedPrice:priceVal(r),relatedCodeRef:{code:r.code,desc:r.desc,unit:r.unit,price:priceVal(r),variable:r.variable||'',function:r.function||''}});
     }
@@ -8117,7 +8253,7 @@ document.addEventListener('click',function(e){if(typeof addOnce==='function'&&ad
       existing.rels=Array.isArray(existing.rels)?existing.rels:[];
       if(!existing.rels.some(x=>String(x.code)===String(rel.code)&&String(x.desc)===String(rel.desc))) existing.rels.push(rel);
     }else{
-      const coef=typeof projectMultiplierForChapter==='function'?projectMultiplierForChapter(it.chapter):1;
+      const coef=typeof projectMultiplierForChapter==='function'?projectMultiplierForChapter(it.chapter,undefined,it.custom?'star':'list'):1;
       meter.push({
         year:it.year,discipline:itDiscipline,chapter:it.chapter,code:r.code,desc:r.desc,unit:r.unit,
         base:rel.cost,parentBase:it.price,parentCode:it.code,qty:1,coef:coef,coefExpr:'1',rels:[],
@@ -10442,6 +10578,7 @@ setInterval(bindExports,500);
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V5.5"/><path d="M4.5 12v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V12"/></svg>
       <span class="pickTxt"><b style="font-size:20px!important;line-height:1.45!important">داده‌های پایه</b><small>آنالیز بها - شاخص تعدیل</small></span></button>
   </div>
+  
   </div>
   <div class="cplPriceView">
     <div class="cplHomeHead"><h1>قیمت جدید ها</h1></div>
@@ -11131,9 +11268,9 @@ setInterval(bindExports,500);
       if(typeof window.cplDefineStarItem!=='function'){say('تعریف آیتم ستاره‌دار در دسترس نیست.');return}
       window.cplDefineStarItem(function(t){
         var x=DATA.find(function(d){return String(d.id)===String(t.id)});if(!x||!cur)return;
-        cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
+        cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
         dirty=true;renderItems();
-        var last=document.querySelector('#mnItems .mnItem[data-i="'+(cur.items.length-1)+'"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
+        var last=document.querySelector('#mnItems .mnItem[data-i="0"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
       });
     });
     $('mnSave').addEventListener('click',save);
@@ -11264,7 +11401,7 @@ setInterval(bindExports,500);
       var rows=g.rows.map(function(r){return {n:r.n,l:r.l,w:r.w,h:r.h,wt:r.wt,d:r.d||''}});
       var ex=cur.items.find(function(it){return !it.extraOf&&String(it.id)===String(x.id)});
       if(ex){ex.rows=(ex.rows.length===1&&impRowEmpty(ex.rows[0]))?rows:ex.rows.concat(rows)}
-      else cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:rows});
+      else cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:rows});
       added++;if(missing.indexOf(g)>=0)star++;
     });
     if(added){dirty=true;renderItems()}
@@ -11367,7 +11504,7 @@ setInterval(bindExports,500);
     var x=hits[0],obj,nfObj=null;
     if(x)obj={uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]};
     else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('mnChap').value||'',free:true,rows:[newRow()]};nfObj=obj}
-    if(cur.sortMode==='code')cur.items.push(obj);else cur.items.unshift(obj);
+    cur.items.unshift(obj);
     inp.value='';dirty=true;
     if(catF!=='all'&&catOf(obj)!==catF){catF='all';var ff=$('mnFilt');if(ff)ff.value='all'}
     renderItems();
@@ -11377,9 +11514,9 @@ setInterval(bindExports,500);
   function addItem(){
     var id=$('mnItem').value;if(!id){say('ابتدا یک آیتم انتخاب کن.');return}
     var x=DATA.find(function(d){return String(d.id)===String(id)});if(!x)return;
-    cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
+    cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
     dirty=true;renderItems();
-    var last=document.querySelector('#mnItems .mnItem[data-i="'+(cur.items.length-1)+'"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
+    var last=document.querySelector('#mnItems .mnItem[data-i="0"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
   }
 
   function itemPrice(it){
@@ -13113,9 +13250,9 @@ window.__cplSig=function(){
       if(typeof window.cplDefineStarItem!=='function'){say('تعریف آیتم ستاره‌دار در دسترس نیست.');return}
       window.cplDefineStarItem(function(t){
         var x=DATA.find(function(d){return String(d.id)===String(t.id)});if(!x||!cur)return;
-        cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
+        cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
         dirty=true;renderItems();
-        var last=document.querySelector('#stItems .mnItem[data-i="'+(cur.items.length-1)+'"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
+        var last=document.querySelector('#stItems .mnItem[data-i="0"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
       });
     });
     $('stSave').addEventListener('click',save);
@@ -13246,7 +13383,7 @@ window.__cplSig=function(){
       var rows=g.rows.map(function(r){return {n:r.n,l:r.l,w:r.w,h:r.h,wt:r.wt,d:r.d||''}});
       var ex=cur.items.find(function(it){return !it.extraOf&&String(it.id)===String(x.id)});
       if(ex){ex.rows=(ex.rows.length===1&&impRowEmpty(ex.rows[0]))?rows:ex.rows.concat(rows)}
-      else cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:rows});
+      else cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:rows});
       added++;if(missing.indexOf(g)>=0)star++;
     });
     if(added){dirty=true;renderItems()}
@@ -13472,7 +13609,7 @@ window.__cplSig=function(){
     var x=hits[0],obj,nfObj=null;
     if(x)obj={uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]};
     else{obj={uid:uid(),id:'free-'+uid(),code:'\u062f\u0644\u062e\u0648\u0627\u0647',desc:t,unit:'',discipline:disc,chapter:$('stChap').value||'',free:true,rows:[newRow()]};nfObj=obj}
-    if(cur.sortMode==='code')cur.items.push(obj);else cur.items.unshift(obj);
+    cur.items.unshift(obj);
     inp.value='';dirty=true;
     if(catF!=='all'&&catOf(obj)!==catF){catF='all';var ff=$('stFilt');if(ff)ff.value='all'}
     if(!isAllDisc()&&obj.discipline!==$('stDisc').value){$('stDisc').value=obj.discipline;lastDisc=obj.discipline;fillChapters()}
@@ -13483,9 +13620,9 @@ window.__cplSig=function(){
   function addItem(){
     var id=$('stItem').value;if(!id){say('ابتدا یک آیتم انتخاب کن.');return}
     var x=DATA.find(function(d){return String(d.id)===String(id)});if(!x)return;
-    cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
+    cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
     dirty=true;renderItems();
-    var last=document.querySelector('#stItems .mnItem[data-i="'+(cur.items.length-1)+'"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
+    var last=document.querySelector('#stItems .mnItem[data-i="0"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
   }
 
   function priceTag(v){return '<span class="mnPriceTag">بهای آیتم: <b>'+fmt(v)+'</b> ریال</span>'}
@@ -13967,15 +14104,35 @@ window.__cplSig=function(){
   /* تکه‌های داده‌ی سال×دفترچه‌ی آیتم‌های این سند هم لود شوند */
   (window.__wantFns=window.__wantFns||[]).push(function(){var o=[];try{if(!cur)return o;var y=String(cur.year||'');if(!y)return o;(cur.items||[]).forEach(function(it){if(it&&it.discipline)o.push([y,it.discipline])})}catch(e){}return o});
   function cnum(v){var x=num(v);return x===null?1:Math.round(x*1e4)/1e4}
-  function defaultCoefs(){var s=window.__mainProjectSettings||{};return {floor:cnum(s.floorCoef),region:cnum(s.regionCoef),overhead:cnum(s.overheadCoef),other:1,ch:Object.assign({},s.chapterCoefficients||{})}}
+  function defaultCoefs(){var s=window.__mainProjectSettings||{},bt=window.__coefByType||{},d=s.stCoefDefaults||{};
+    var o={floor:cnum(s.floorCoef),region:cnum(s.regionCoef),overhead:cnum(s.overheadCoef),other:d.other!=null?cnum(d.other):1,ch:Object.assign({},s.chapterCoefficients||{}),chT:{list:Object.assign({},bt.list||{}),star:Object.assign({},bt.star||{})}};
+    try{if(d.cust&&d.cust.length){o.cust=JSON.parse(JSON.stringify(d.cust));d.cust.forEach(function(u){o[u.id]=d[u.id]!=null?d[u.id]:1})}if(d.chx)o.chx=JSON.parse(JSON.stringify(d.chx));if(d.gT)o.gT=JSON.parse(JSON.stringify(d.gT));if(d.chxT)o.chxT=JSON.parse(JSON.stringify(d.chxT));if(d.pk)o.pk=JSON.parse(JSON.stringify(d.pk));if(d.gD)o.gD=JSON.parse(JSON.stringify(d.gD))}catch(e){}
+    return o}
   function projCoef(){var k=cur.coefs&&cur.coefs.project;if(k!=null&&String(k).trim()!=='')return cnum(k);var s=window.__mainProjectSettings||{};return cnum(s.projectCoef)}
   function chCoef(d,c){var v=cur.coefs.ch[d+'|'+p2(c)];return(v==null||String(v).trim()==='')?projCoef():cnum(v)}
+  /* ضریب پیشنهادی فصل بر اساس نوع آیتم: «فهرستی» یا «ستاره‌دار»؛ اگر برای آن نوع ضریب جدا ثبت نشده باشد، ضریب «همه آیتم‌ها» اعمال می‌شود */
+  function chTAny(){var t=cur&&cur.coefs&&cur.coefs.chT;return !!t&&(Object.keys(t.list||{}).length>0||Object.keys(t.star||{}).length>0)}
+  function chCoefK(d,c,kind){var t=cur.coefs.chT&&cur.coefs.chT[kind],v=t&&t[d+'|'+p2(c)];return(v==null||String(v).trim()==='')?chCoef(d,c):cnum(v)}
+  function chCoefIt(it){if(!chTAny())return chCoef(it.discipline,effCh(it));var k='list';try{k=catOf(it)==='star'?'star':'list'}catch(e){}return chCoefK(it.discipline,effCh(it),k)}
   /* ضرایب طبقات/منطقه/بالاسری/سایر به‌ازای هر فصل (پیش‌فرض: کادرهای بالای جدول؛ قابل ویرایش) */
   function custList(){return(cur.coefs&&cur.coefs.cust)||[]}
   /* ضرایب دلخواه را برای روکش آنالیز قیمت جدید در دسترس می‌گذارد */
-  function syncCustToProject(){try{if(!cur||!cur.coefs)return;var pid=window.__mainProjectId||window.currentProjectId||(typeof currentProjectId!=='undefined'?currentProjectId:'');var L=custList().map(function(u){var cx={};if(cur.coefs.chx)Object.keys(cur.coefs.chx).forEach(function(k){var v=cur.coefs.chx[k]&&cur.coefs.chx[k][u.id];if(v!=null&&String(v).trim()!=='')cx[k]=cnum(v)});return {id:u.id,name:u.name||'ضریب دلخواه',value:cnum(cur.coefs[u.id]),chx:cx}});localStorage.setItem('mzCustCoefs:'+(pid||''),JSON.stringify(L))}catch(e){}}
+  function syncCustToProject(){try{if(!cur||!cur.coefs||cur.projectMode)return;var pid=window.__mainProjectId||window.currentProjectId||(typeof currentProjectId!=='undefined'?currentProjectId:'');var L=custList().map(function(u){var cx={},ks={},XS=cur.coefs.chxT&&cur.coefs.chxT.star||{};Object.keys(cur.coefs.chx||{}).forEach(function(k){ks[k]=1});Object.keys(XS).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){var vs=XS[k]&&XS[k][u.id],v=cur.coefs.chx&&cur.coefs.chx[k]&&cur.coefs.chx[k][u.id];if(stHas(vs))cx[k]=cnum(vs);else if(stHas(v))cx[k]=cnum(v)});try{var GDs=cur.coefs.gD&&cur.coefs.gD.star||{};Object.keys(GDs).forEach(function(dd){if(!stHas(GDs[dd]&&GDs[dd][u.id]))return;paykChList(dd).forEach(function(cc){var kq=dd+'|'+p2(cc[0]);if(cx[kq]==null)cx[kq]=cnum(GDs[dd][u.id])})})}catch(e){}return {id:u.id,name:u.name||'ضریب دلخواه',value:stGBase(u.id,'star'),chx:cx}});localStorage.setItem('mzCustCoefs:'+(pid||''),JSON.stringify(L))}catch(e){}}
   function cuProd(d,c){var r=1;custList().forEach(function(u){r*=gcf(d,c,u.id)});return Math.round(r*1e6)/1e6}
-  function gcf(d,c,f){var x=cur.coefs.chx&&cur.coefs.chx[d+'|'+p2(c)],v=x&&x[f];return(v==null||String(v).trim()==='')?cnum(cur.coefs[f]):cnum(v)}
+  function stHas(v){return v!=null&&String(v).trim()!==''}
+  function stView(){var v=window.__stcoType;return v==='star'?'star':'list'}
+  function stMode(){return window.__stcoMode==='payk'?'payk':'work'}
+  /* ---- پایکار: ضرایب جدا (پیش‌فرض ۱)؛ فقط بالاسری با کارکرد مشترک است ---- */
+  function pkO(){var c=cur.coefs;return c.pk=c.pk||{g:{},chx:{},base:{}}}
+  function pkKey(d,c){return d+'|'+p2(parseInt(String(c).split('.')[0],10)||0)}
+  function pkG(f,d){var P=cur.coefs.pk,v=P&&d&&P.gD&&P.gD[d]&&P.gD[d][f];if(stHas(v))return cnum(v);v=P&&P.g&&P.g[f];return stHas(v)?cnum(v):1}
+  function pkCf(d,c,f){var x=cur.coefs.pk&&cur.coefs.pk.chx&&cur.coefs.pk.chx[pkKey(d,c)],v=x&&x[f];return stHas(v)?cnum(v):pkG(f,d)}
+  function stKind(it){var k='list';try{k=catOf(it)==='star'?'star':'list'}catch(e){}return k}
+  /* مقدار پایهٔ ضریب سراسری (کادر بالا): اگر برای نوع آیتم جدا ثبت شده باشد همان، وگرنه مقدار مشترک */
+  function stGBase(f,kind,d){var G=cur.coefs.gD,v;if(G&&d){v=kind&&G[kind]&&G[kind][d]&&G[kind][d][f];if(stHas(v))return cnum(v);v=G.all&&G.all[d]&&G.all[d][f];if(stHas(v))return cnum(v)}var t=kind&&cur.coefs.gT&&cur.coefs.gT[kind];v=t&&t[f];return stHas(v)?cnum(v):cnum(cur.coefs[f])}
+  function stDisc(){var D=window.__stcoFilt;return(D&&D!=='all')?D:null}
+  /* اولویت: فصلیِ ویژهٔ نوع ← فصلیِ مشترک ← سراسریِ ویژهٔ نوع ← سراسریِ مشترک */
+  function gcf(d,c,f,kind){var k=d+'|'+p2(c),xt=kind&&cur.coefs.chxT&&cur.coefs.chxT[kind]&&cur.coefs.chxT[kind][k],vt=xt&&xt[f];if(stHas(vt))return cnum(vt);var x=cur.coefs.chx&&cur.coefs.chx[k],v=x&&x[f];if(stHas(v))return cnum(v);return stGBase(f,kind,d)}
   function totCoef(d,c){return chCoef(d,c)*gcf(d,c,'floor')*gcf(d,c,'region')*gcf(d,c,'overhead')*gcf(d,c,'other')*cuProd(d,c)}
   /* آیتم فهرست بها را با شناسه پیدا می‌کند؛ اگر پیدا نشد با سال صورت‌وضعیت + نوع فهرست بها + شماره آیتم */
   function dataOf(it){
@@ -13992,8 +14149,8 @@ window.__cplSig=function(){
   function ckList(){return CK0.concat(custList().map(function(u){return u.id}))}
   function cfOf(it,k){var o=it.cf&&it.cf[k],v=(o===undefined||o===null||String(o).trim()==='')?null:num(o);if(v!==null)return v;
     /* پایکار: ضریب طبقات اعمال نمی‌شود؛ ضریب جدول پیوست ۱ × ۰٫۷ در «سایر ضرایب» می‌نشیند؛ ضریب فصل، منطقه و بالاسری مثل قبل */
-    if(it.payk){if(k==='floor')return 1;if(k==='other')return Math.round(gcf(it.discipline,effCh(it),'other')*paykFactor(it)*1e6)/1e6}
-    return k==='ch'?c76ChEff(it):gcf(it.discipline,effCh(it),k)}
+    if(it.payk){if(k==='ch')return c76ChEff(it);if(k==='overhead')return gcf(it.discipline,effCh(it),'overhead',null);if(k==='other')return Math.round(pkCf(it.discipline,effCh(it),'other')*paykFactor(it)*1e6)/1e6;return pkCf(it.discipline,effCh(it),k)}
+    return k==='ch'?c76ChEff(it):gcf(it.discipline,effCh(it),k,stKind(it))}
   /* ================= بخشنامه ۷۶۵۷۴ — تبصره ماده ۲-۵ (سقف ۲۵٪ افزایش مقادیر فصل‌های دارای ضریب پیشنهادی جزء بیشتر از ضریب کل) =================
      E = مبلغ برآورد اولیه فصل (ورودی دستی «+برآوردی» یا جمع «مقدار برآورد × بهای واحد» آیتم‌ها)، W = مبلغ کارکرد فصل (خالص، بدون ضرایب)، C = ۱٫۲۵ × E،
      مازاد X = max(0, W − C). مازاد فقط بین ردیف‌های دارای افزایش مقدار (نسبت به برآورد) و به نسبت مبلغ افزایش آن‌ها پخش می‌شود و فقط برای همان بخش، به‌جای ضریب فصل، ضریب پیشنهادی کل ملاک می‌شود.
@@ -14057,9 +14214,9 @@ window.__cplSig=function(){
     });
     return res;
   }
-  function c76ChBase(it){var o=it.cf&&it.cf.ch,v=(o==null||String(o).trim()==='')?null:num(o);return v!==null?v:chCoef(it.discipline,effCh(it))}
+  function c76ChBase(it){var o=it.cf&&it.cf.ch,v=(o==null||String(o).trim()==='')?null:num(o);return v!==null?v:chCoefIt(it)}
   function c76ChEff(it){
-    var base=chCoef(it.discipline,effCh(it)),cf=cur&&cur.c76;
+    var base=chCoefIt(it),cf=cur&&cur.c76;
     if(!cf||!cf.on||it.extraOf||it.payk||!it.uid)return base;
     var r=c76Get().rows[it.uid];return r&&r.eff!=null?r.eff:base}
   var C76_ST={none:'بدون برآورد',no:'مشمول نیست',below:'مشمول؛ زیر سقف',applied:'مشمول؛ مازاد دارد',partial:'مشمول؛ نیازمند تأیید',confirm:'نیازمند تأیید'};
@@ -14294,6 +14451,8 @@ window.__cplSig=function(){
   });
   /* ---------- پایکار: ضرایب متوسط پیوست ۱ «مصالح پایکار» فهرست بها (جدول ضرایب هر فصل) × ۰٫۷ (بند صورت‌وضعیت موقت) ---------- */
   var PAYK_F=0.7;
+  /* فصل ۴۲ (تجهیز و برچیدن کارگاه): درصد ۷۰٪ پایکار اعمال نمی‌شود (پیش‌فرض ۱) */
+  function paykPctDef(c){return parseInt(String(c).split('.')[0],10)===42?1:PAYK_F}
   var PAYK_ABN={5:.9,12:.5,13:.65,14:.5,16:.7,17:.9,18:.7,19:.7,20:.7,21:.7,22:.7,23:.75,24:.8};
   var PAYK_MEC={7:.85,8:.9,9:.85,11:.85,12:.8,13:.9,14:.9,15:.9,16:.85,18:.9,19:.85,20:.9,21:.9,22:.9,23:.9,24:.85,25:.6,27:.9,28:.85,29:.7,30:.85,31:.85,32:.85,33:.8,34:.6};
   var PAYK_EL99={1:.9,2:.7,3:.85,4:.9,5:.9,6:.55,7:.85,8:.2,9:.9,10:.7,11:.6,12:.6,13:.4,14:.95,15:.95,16:.95,17:.92,18:.95,19:.95,20:.7,21:.8,22:.9,23:.7,24:.7,25:.9,26:.9,27:.95,28:.65};
@@ -14302,8 +14461,9 @@ window.__cplSig=function(){
   /* [سال شروع اعتبار, جدول] — برای سال‌های بعد از آخرین جدول (مثلاً ۱۴۰۵) آخرین جدول موجود استفاده می‌شود */
   var PAYK_T={'ابنیه':[[1399,PAYK_ABN]],'مکانیک':[[1399,PAYK_MEC]],'برق':[[1399,PAYK_EL99],[1400,PAYK_EL00],[1401,PAYK_EL01]]};
   function paykTable(d,y){var a=PAYK_T[d];if(!a)return null;var yr=parseInt(toEn(y),10)||0,t=a[0][1];a.forEach(function(p){if(yr>=p[0])t=p[1]});return t}
-  function paykBase(it){var t=paykTable(it.discipline,cur&&cur.year);if(!t)return null;var c=parseInt(String(effCh(it)).split('.')[0],10);return t[c]!=null?t[c]:null}
-  function paykFactor(it){var bs=paykBase(it);return Math.round((bs===null?1:bs)*PAYK_F*1e6)/1e6}
+  function paykBase(it){var ov=cur&&cur.coefs&&cur.coefs.pk&&cur.coefs.pk.base&&cur.coefs.pk.base[pkKey(it.discipline,effCh(it))];if(stHas(ov))return cnum(ov);var t=paykTable(it.discipline,cur&&cur.year);if(!t)return null;var c=parseInt(String(effCh(it)).split('.')[0],10);return t[c]!=null?t[c]:null}
+  function pkPct(d,c){var v=cur&&cur.coefs&&cur.coefs.pk&&cur.coefs.pk.pct&&cur.coefs.pk.pct[pkKey(d,c)];if(!stHas(v))return paykPctDef(c);var x=cnum(v);return x>1?x/100:x}
+  function paykFactor(it){var bs=paykBase(it);return Math.round((bs===null?1:bs)*pkPct(it.discipline,effCh(it))*1e6)/1e6}
   /* ---------- پایکار: اتصال آیتم به یک فصل غیر از پایکار (ضریب فصل، جمع فصل و تعدیل از همان فصل) ---------- */
   function effCh(it){return(it&&it.payk&&it.paykCh!=null&&String(it.paykCh).trim()!=='')?String(it.paykCh):(it?it.chapter:'')}
   var PAYK_CH_CACHE={};
@@ -14327,7 +14487,7 @@ window.__cplSig=function(){
   function paykHtml(it){
     var on=!!it.payk,info='',sel=on?paykChSel(it):'';
     if(on){var bs=paykBase(it),f=paykFactor(it);
-      info='<span class="mnPaykInfo" title="'+esc('ضریب پایکار: '+(bs===null?'برای این فصل ضریبی در جدول پیوست ۱ نیست؛ فقط ۰٫۷ اعمال شد':'ضریب جدول فصل '+fm(bs)+' × ۰٫۷')+' — ضریب طبقات اعمال نمی‌شود؛ ضریب فصل، منطقه و بالاسری اعمال می‌شود')+'">'+(bs===null?'':fm(bs)+' × ')+fm(PAYK_F)+'</span>';}
+      info='<span class="mnPaykInfo" title="'+esc('ضریب پایکار: '+(bs===null?'برای این فصل ضریبی در جدول پیوست ۱ نیست؛ فقط ۰٫۷ اعمال شد':'ضریب جدول فصل '+fm(bs)+' × ۰٫۷')+' — ضریب طبقات اعمال نمی‌شود؛ ضریب فصل، منطقه و بالاسری اعمال می‌شود')+'">'+(bs===null?'':fm(bs)+' × ')+fm(pkPct(it.discipline,effCh(it)))+'</span>';}
     return '<label class="mnPayk'+(on?' on':'')+'" title="مصالح پایکار: ضرایب پیوست ۱ فهرست بها اعمال شود و ضریب طبقات نخورد"><input type="checkbox" class="mnPaykChk"'+(on?' checked':'')+'><span>پایکار</span></label>'+sel+info;
   }
   function setPayk(it,on){if(on)it.payk=1;else delete it.payk;dirty=true;renderItems()}
@@ -14512,7 +14672,7 @@ window.__cplSig=function(){
      آیتم‌های صورت‌وضعیت × ضریب مصرف مصالح (اکسل‌های فهرست بها ۱۳۹۹ تا ۱۴۰۴، «حاصل ضرایب»)
      → تجمیع مصرف هر گروه مصالح (گرد به ۳ رقم اعشار برای هر ردیف، مثل نمونه حمل)
      → × max(فاصله − ۳۰، ۰) → مقدار ردیف ۲۸۰۱۰۵ (تن‌کیلومتر) → برگه مالی */
-  var TR_CODE='280105',TR_FREE=30,TR_MAX=750,TR_YEARS=['1399','1400','1401','1402','1403','1404'];
+  var TR_CODE='280105',TR_FREE=30,TR_ROAD=0.3,TR_MAX=750,TR_YEARS=['1399','1400','1401','1402','1403','1404'];
   var TR_GROUPS=[["m01","آجر سیمانی","آجر سیمانی"],["m02","آجر فشاری","آجر فشاری"],["m03","آجر قزاقی","آجر قزاقی"],["m04","آجر ماسه آهکی","آجر ماسه آهکی"],["m05","آجر ماشینی","آجر ماشینی"],["m06","آجر مخصوص نما","آجر مخصوص نما"],["m07","آجر مخصوص کف","آجر مخصوص کف"],["m08","آسفالت سرد کارخانه ای","آسفالت سرد کارخانه ای"],["m09","آهک","آهک"],["m10","اساس و زیر اساس","اساس و زیر اساس"],["m11","انواع آهن آلات","انواع آهن آلات"],["m12","بتن آسفالتی","بتن آسفالتی"],["m13","بلوک سفالی","بلوک سفالی"],["m14","بلوک سیمانی","بلوک سیمانی"],["m15","پوکه صنعتی","پوکه صنعتی"],["m16","پوکه معدنی","پوکه معدنی"],["m17","جدول ماشینی پرسی","جدول ماشینی پرسی"],["m18","خاک","خاک"],["m19","سنگ قلوه","سنگ قلوه"],["m20","سنگ لاشه","سنگ لاشه"],["m21","سیمان","سیمان"],["m22","شن","شن"],["m23","شن و ماسه","شن و ماسه"],["m24","فولاد سرد نورد شده گالوانیزه","فولاد سرد نورد شده گالوانیزه"],["m25","قطعات سازه های فضاکار","قطعات سازه های فضاکار"],["m26","ماسه","ماسه"],["m27","مصالح تخریبی","مصالح تخریبی"],["m28","مصالح سنگی آسفالت سرد","مصالح سنگی آسفالت سرد"],["m29","میلگرد","میلگرد"]];
   var TR_DEFAULT={"m11":1,"m29":1,"m24":1,"m25":1,"m01":1,"m02":1,"m03":1,"m04":1,"m05":1,"m06":1,"m07":1,"m13":1,"m14":1,"m21":1,"m23":1,"m08":0,"m09":0,"m10":0,"m12":0,"m15":0,"m16":0,"m17":0,"m18":0,"m19":0,"m20":0,"m22":0,"m26":0,"m27":0,"m28":0};
   var TR_LEGACY={"iron":["m11","m29","m24","m25"],"cement":["m21"],"sand":["m23"],"brick":["m01","m02","m03","m04","m05","m06","m07","m13","m14"],"other":["m08","m09","m10","m12","m15","m16","m17","m18","m19","m20","m27","m28"]};
@@ -14535,7 +14695,7 @@ window.__cplSig=function(){
   }
   function trCode(it){return impCode(String(it.code==null?'':it.code).replace(/\*$/,''))}
   /* محاسبه همه گروه‌ها؛ انتخاب گروه‌ها با فراخواننده است */
-  function trCompute(year,dist,items,dm){
+  function trCompute(year,dist,items,dm,rd){
     var ty=trYearOf(year),tab=trTable(ty),dv=num(dist),D=dv===null?0:dv,eff=Math.max(0,D-TR_FREE);
     var out={year:ty,dist:D,eff:eff,groups:[]};dm=dm||{};
     TR_GROUPS.forEach(function(G){
@@ -14549,7 +14709,10 @@ window.__cplSig=function(){
       });
       sum=trRound(sum,3);
       var gv=num(dm[G[0]]),gd=gv!==null?gv:D,ge=Math.max(0,gd-TR_FREE);
-      out.groups.push({key:G[0],label:G[1],title:G[2],lines:lines,sum:sum,dist:gd,eff:ge,has:gv!==null||dv!==null,tk:trRound(sum*ge,2)});
+      /* راه خاکی و شنی: بهای حمل با ضریب ۱٫۳۰ → به‌ازای هر کیلومتر راه خاکی/شنی ۰٫۳ کیلومتر اضافه (مثل نمونه) */
+      var dk=num(((rd&&rd.dirt)||{})[G[0]]),sk=num(((rd&&rd.grav)||{})[G[0]]);dk=dk===null||dk<0?0:dk;sk=sk===null||sk<0?0:sk;
+      var rx=ge>0?trRound(TR_ROAD*(dk+sk),4):0,et=trRound(ge+rx,4);
+      out.groups.push({key:G[0],label:G[1],title:G[2],lines:lines,sum:sum,dist:gd,base:ge,dirt:dk,grav:sk,eff:et,has:gv!==null||dv!==null,tk:trRound(sum*et,2)});
     });
     return out;
   }
@@ -14588,21 +14751,24 @@ window.__cplSig=function(){
     if(!t.items)t.items=Object.assign({},old&&old.trCalc.items?old.trCalc.items:{});
     if(!t.dists){t.dists=Object.assign({},old&&old.trCalc.dists?old.trCalc.dists:{});
       var od=old&&old.trCalc.dist;if(od&&!(old.trCalc.dists))Object.keys(t.groups).forEach(function(k){if(t.groups[k]&&t.dists[k]==null)t.dists[k]=String(od)})}
+    if(!t.dirt)t.dirt=Object.assign({},old&&old.trCalc.dirt?old.trCalc.dirt:{});
+    if(!t.grav)t.grav=Object.assign({},old&&old.trCalc.grav?old.trCalc.grav:{});
     t.dist='';
     return t;
   }
   var ICO_TRUCK='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12v10H2z"/><path d="M14 9h4.5l3.5 3.5V16h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
+  var trUi={rows:false};
   function trSelected(full,t){return full.groups.filter(function(g){return t.groups[g.key]})}
   function trTotal(sel){return trRound(sel.reduce(function(a,g){return a+g.tk},0),2)}
 
   function openTransport(){
     if(!cur||needItems())return;
     if(!window.__DATA_READY){say('فهرست بها هنوز بارگذاری نشده است؛ چند لحظه بعد دوباره تلاش کن.');return}
-    var t=trState();
+    var t=trState();trUi.rows=false;
     var ICO_TRX='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
         ICO_TRMENU='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
     var m=shell('stTrM','<div class="mnHead"><b>محاسبات حمل — '+esc(stTitle(cur))+'</b><div class="mnBtns trHdBtns" data-v212="1">'+
-      '<button type="button" class="btn primary trApplyBtn" id="stTrApplyMin" title="ثبت یا به‌روزرسانی ردیف‌های حمل (فصل ۲۸) در ریزمتره صورت‌وضعیت">افزودن به ریزمتره</button>'+
+      '<button type="button" class="btn mnIco" id="stTrBack" title="مرحله قبل" aria-label="مرحله قبل"></button>'+
       '<button type="button" class="btn mnIco mnHomeBtn" id="stTrHome" title="ریزمتره" aria-label="ریزمتره">'+ICO_HOME+'</button>'+
       '<button type="button" class="btn mnIco mnMenuBtn" id="stTrMenuBtn" title="منو" aria-label="منو" aria-expanded="false">'+ICO_TRMENU+'</button>'+
       '<div class="mnMenuPanel" id="stTrMenuPanel">'+
@@ -14610,23 +14776,31 @@ window.__cplSig=function(){
         '<button type="button" class="btn mnTextBtn" id="stTrPdf" title="گزارش چاپی برگه‌های محاسبه مصرف مصالح و حمل">'+ICO_PDF+'<span class="mnMenuLbl">گزارش چاپی</span></button>'+
         '<button type="button" class="btn" id="stTrX" aria-label="بستن">'+ICO_TRX+'<span class="mnMenuLbl">بستن</span></button>'+
       '</div></div></div>'+
-      '<div class="trLbl">مصالح مشمول حمل</div>'+
-      '<div class="trDd" id="stTrDd"><button type="button" class="btn trDdBtn" id="stTrDdBtn" aria-expanded="false"><span id="stTrDdTxt"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="trDdPanel" id="stTrDdPanel"></div></div>'+
-      '<div class="trTags" id="stTrTags"></div><div id="stTrDyn"></div>');
+      '<div class="trDdBar">'+
+        '<div class="trDdCol"><div class="trLbl">مصالح مشمول حمل</div>'+
+          '<div class="trDd" id="stTrDd"><button type="button" class="btn trDdBtn" id="stTrDdBtn" aria-expanded="false"><span id="stTrDdTxt"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="trDdPanel" id="stTrDdPanel"></div></div></div>'+
+        '<div class="trDdCol"><div class="trLbl trLblGhost" aria-hidden="true">&nbsp;</div>'+
+          '<div class="trDd" id="stTrDd2"><button type="button" class="btn trDdBtn" id="stTrDdBtn2" aria-expanded="false"><span class="trDdBtnTxt"><span>فواصل حمل</span><small id="stTrDd2Cnt"></small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="trDdPanel" id="stTrDd2Panel"></div></div></div>'+
+      '</div><div id="stTrDyn"></div>');
     m.firstChild.style.width='min(1000px,100%)';
     $('stTrX').onclick=function(){closeShell('stTrM')};
     m.addEventListener('click',function(e){if(e.target===m)closeShell('stTrM')});
+    $('stTrBack').onclick=function(){closeShell('stTrM')};
     $('stTrHome').onclick=function(){closeShell('stTrM');closeShell('stCover')};
     (function(){var mb=$('stTrMenuBtn'),pn=$('stTrMenuPanel');
       mb.onclick=function(e){e.preventDefault();e.stopPropagation();var o=pn.classList.toggle('open');mb.setAttribute('aria-expanded',o?'true':'false');
         if(o){var r=mb.getBoundingClientRect();pn.style.top=(r.bottom+6)+'px';pn.style.right='auto';pn.style.left=Math.max(8,Math.min((r.left+r.right)/2>window.innerWidth/2?r.right-pn.offsetWidth:r.left,window.innerWidth-pn.offsetWidth-8))+'px'}};
       pn.addEventListener('click',function(){pn.classList.remove('open');mb.setAttribute('aria-expanded','false')});
     })();
-    m.addEventListener('input',function(e){var c=e.target;if(c&&c.dataset&&c.dataset.dk){t.dists[c.dataset.dk]=c.value;trRender(true)}});
+    m.addEventListener('input',function(e){var c=e.target;if(c&&c.dataset&&c.dataset.dk){t.dists[c.dataset.dk]=c.value;trRender(true)}else if(c&&c.dataset&&c.dataset.dx){t.dirt[c.dataset.dx]=c.value;trRender(true)}else if(c&&c.dataset&&c.dataset.gx){t.grav[c.dataset.gx]=c.value;trRender(true)}});
     m.addEventListener('change',function(e){var c=e.target;if(c&&c.dataset&&c.dataset.g){t.groups[c.dataset.g]=c.checked?1:0;trRender()}else if(c&&c.dataset&&c.dataset.tallchk){var on=!!c.checked;TR_GROUPS.forEach(function(G){t.groups[G[0]]=on?1:0});trRender()}else if(c&&c.dataset&&c.dataset.it){t.items[c.dataset.it]=c.value;trRender()}});
-    $('stTrPdf').onclick=trPrint;$('stTrXls').onclick=trExcel;$('stTrApplyMin').onclick=function(){trApply('min')};m.addEventListener('click',function(e){if(e.target.id==='stTrApplyMin2')trApply('min')});
-    $('stTrDdBtn').onclick=function(e){e.stopPropagation();var dd=$('stTrDd'),o=dd.classList.toggle('open');this.setAttribute('aria-expanded',o?'true':'false')};
-    m.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-trrm]');if(b){t.groups[b.dataset.trrm]=0;trRender();return}if(e.target.closest&&e.target.closest('#stTrDd'))return;var dd=$('stTrDd');if(dd&&dd.classList.contains('open')){dd.classList.remove('open');$('stTrDdBtn').setAttribute('aria-expanded','false')}});
+    $('stTrPdf').onclick=trPrint;$('stTrXls').onclick=trExcel;m.addEventListener('click',function(e){if(e.target.id==='stTrApplyMin2')trApply('min')});
+    var TR_DDS=[['stTrDd','stTrDdBtn'],['stTrDd2','stTrDdBtn2']];
+    function trDdToggle(id,btnId){return function(e){e.stopPropagation();var dd=$(id),o=dd.classList.toggle('open');$(btnId).setAttribute('aria-expanded',o?'true':'false');
+      TR_DDS.forEach(function(p){if(p[0]===id)return;var od=$(p[0]);if(od){od.classList.remove('open');$(p[1]).setAttribute('aria-expanded','false')}})}}
+    $('stTrDdBtn').onclick=trDdToggle('stTrDd','stTrDdBtn');$('stTrDdBtn2').onclick=trDdToggle('stTrDd2','stTrDdBtn2');
+    m.addEventListener('click',function(e){var rh=e.target.closest&&e.target.closest('[data-trrows]');if(rh){trUi.rows=!trUi.rows;trRender(true);return}var b=e.target.closest&&e.target.closest('[data-trrm]');if(b){t.groups[b.dataset.trrm]=0;trRender();return}
+      TR_DDS.forEach(function(p){var dd=$(p[0]);if(dd&&dd.classList.contains('open')&&!dd.contains(e.target)){dd.classList.remove('open');$(p[1]).setAttribute('aria-expanded','false')}})});
     trRender();
   }
   /* هر گروه مصالح → ردیف فصل ۲۸ انتخاب‌شده، بهای واحد و مبلغ */
@@ -14638,7 +14812,7 @@ window.__cplSig=function(){
   }
   /* کشوی انتخاب مصالح: اول مصالحی که مقدار دارند، بعد بقیه به ترتیب الفبا؛ تیک «همه» بالای لیست */
   function trPickRender(full,t,skipTags){
-    var panel=$('stTrDdPanel'),txt=$('stTrDdTxt'),tags=$('stTrTags');if(!panel)return;
+    var panel=$('stTrDdPanel'),txt=$('stTrDdTxt');if(!panel)return;
     function cmp(a,b){return String(a.label).localeCompare(String(b.label),'fa')}
     var withQ=full.groups.filter(function(g){return g.lines.length>0}).sort(cmp),
         noQ=full.groups.filter(function(g){return !g.lines.length}).sort(cmp),
@@ -14652,18 +14826,33 @@ window.__cplSig=function(){
     var nl=panel.querySelector('.trDdList');if(nl)nl.scrollTop=st;
     txt.textContent=nSel===0?'انتخاب مصالح…':nSel===total?'همه مصالح ('+fmt(total)+')':fmt(nSel)+' مصالح انتخاب شده';
     var chosen=full.groups.filter(function(g){return t.groups[g.key]}).sort(cmp);
-    if(skipTags)return;
-    tags.innerHTML=chosen.map(function(g){return '<div class="trTag'+(g.lines.length?'':' empty')+'"><b>'+esc(g.label)+'</b><small>'+fk(g.sum,3)+' تن</small><label class="trTagIn"><span>فاصله (کیلومتر)</span><input dir="ltr" inputmode="decimal" autocomplete="off" data-dk="'+g.key+'" placeholder="مثلاً 120" value="'+esc(String((t.dists||{})[g.key]==null?'':t.dists[g.key]))+'"></label><button type="button" class="trTagX" data-trrm="'+g.key+'" aria-label="حذف '+esc(g.label)+'">✕</button></div>'}).join('');
+    /* دکمهٔ «فواصل حمل»: فاصلهٔ همهٔ مصالح انتخاب‌شده؛ اول مصالحی که مقدار (مصرف) دارند، بعد بقیه الفبایی */
+    var dp=$('stTrDd2Panel'),dcnt=$('stTrDd2Cnt');if(!dp)return;
+    var nFill=chosen.filter(function(g){var v=(t.dists||{})[g.key];return v!=null&&String(v).trim()!==''}).length;
+    if(dcnt)dcnt.textContent=chosen.length?fmt(nFill)+' از '+fmt(chosen.length)+' وارد شده':'';
+    if(skipTags)return; /* هنگام تایپ فاصله، پنل دوباره ساخته نمی‌شود تا مکان‌نما نپرد */
+    var dl=dp.querySelector('.trDdList'),dst=dl?dl.scrollTop:0;
+    function inpv(m,k){var v=(m||{})[k];return esc(String(v==null?'':v))}
+    function drow(g){return '<div class="trDistRow'+(g.lines.length?'':' empty')+'"><span class="trDdNm">'+esc(g.label)+'</span>'+
+      '<input dir="ltr" inputmode="decimal" autocomplete="off" data-dk="'+g.key+'" placeholder="کیلومتر" aria-label="فاصله حمل '+esc(g.label)+'" value="'+inpv(t.dists,g.key)+'">'+
+      '<input dir="ltr" inputmode="decimal" autocomplete="off" data-dx="'+g.key+'" placeholder="کیلومتر" aria-label="راه خاکی '+esc(g.label)+'" value="'+inpv(t.dirt,g.key)+'">'+
+      '<input dir="ltr" inputmode="decimal" autocomplete="off" data-gx="'+g.key+'" placeholder="کیلومتر" aria-label="راه شنی '+esc(g.label)+'" value="'+inpv(t.grav,g.key)+'"></div>'}
+    var dWith=chosen.filter(function(g){return g.lines.length>0}),dNo=chosen.filter(function(g){return !g.lines.length});
+    dp.innerHTML=chosen.length?'<div class="trDistHint">راه خاکی و شنی (کیلومتر، جزئی از فاصله کل): بهای حمل با ضریب ۱٫۳۰ منظور می‌شود، یعنی ۰٫۳ کیلومتر اضافه به‌ازای هر کیلومتر.</div><div class="trDistRow trDistHdr"><span></span><span>فاصله (کیلومتر)</span><span>راه خاکی</span><span>راه شنی</span></div><div class="trDdList">'+
+      (dWith.length?'<div class="trDdSep">دارای مقدار ('+fmt(dWith.length)+')</div>'+dWith.map(drow).join(''):'')+
+      (dNo.length?'<div class="trDdSep">بدون مقدار — الفبایی ('+fmt(dNo.length)+')</div>'+dNo.map(drow).join(''):'')+'</div>'
+      :'<div class="trDistEmpty">ابتدا از دکمهٔ «مصالح مشمول حمل» مصالح را انتخاب کن.</div>';
+    var nl2=dp.querySelector('.trDdList');if(nl2)nl2.scrollTop=dst;
   }
   function trRender(skipTags){
     var t=cur.tr,box=$('stTrDyn');if(!box)return;
-    var full=trCompute(t.year,t.dist,cur.items,t.dists),eff=full.eff,sel=trSelected(full,t),tonkm=trTotal(sel);
+    var full=trCompute(t.year,t.dist,cur.items,t.dists,t),eff=full.eff,sel=trSelected(full,t),tonkm=trTotal(sel);
     var pr=trPricing(t,full,sel),amt=pr.reduce(function(a,x){return a+x.amt},0),cands=trCands(full.year);
-    var miss=sel.filter(function(g){return !g.has}),hasDist=sel.length?miss.length===0:true,h='';
+    var selQ=sel.filter(function(g){return g.lines.length>0}),miss=selQ.filter(function(g){return !g.has}),hasDist=selQ.length?miss.length===0:true,h='';
     trPickRender(full,t,skipTags);
     var warn=[];
         if(!trRec(full.year))warn.push('ردیف ۲۸۰۱۰۵ در فهرست بهای سال '+faD(full.year)+' پیدا نشد.');
-    pr.forEach(function(x){if(!x.rec)warn.push('برای «'+x.g.label+'» ردیف فصل ۲۸ پیدا نشد.')});
+    pr.forEach(function(x){if(!x.rec&&x.g.lines.length>0)warn.push('برای «'+x.g.label+'» ردیف فصل ۲۸ پیدا نشد.')});
     if(cur.items.some(function(x){return !x.trCalc&&x.discipline==='ابنیه'&&trCode(x)===TR_CODE}))warn.push('در این صورت‌وضعیت یک ردیف ۲۸۰۱۰۵ دستی هم وجود دارد؛ مراقب محاسبه دوباره حمل باش.');
     if(String(full.year)!==String(cur.year||''))warn.push('سال صورت‌وضعیت '+faD(toEn(cur.year||''))+' است؛ ضرایب و بهای واحد از سال '+faD(full.year)+' گرفته می‌شود.');
     if(warn.length)h+='<div class="trWarn">'+warn.map(esc).join('<br>')+'</div>';
@@ -14672,11 +14861,13 @@ window.__cplSig=function(){
     sel.forEach(function(g){g.lines.forEach(function(l){var o=map[l.it.uid];if(!o){o=map[l.it.uid]={it:l.it,q:l.q,c:{}};order.push(o)}o.c[g.key]=l.c})});
     var pos={};bookSorted().forEach(function(x,i){pos[x.uid]=i});
     order.sort(function(a,b){return pos[a.it.uid]-pos[b.it.uid]});
-    h+='<div class="trLbl">ردیف‌های انتخاب‌شده و مصرف مصالح <span class="mnMuted">('+fmt(order.length)+' ردیف از '+fmt(cur.items.filter(function(x){return !x.trCalc}).length)+')</span></div>';
-    if(!sel.length)h+='<div class="mnEmpty">هیچ گروه مصالحی انتخاب نشده است.</div>';
+    var rowsOpen=!!trUi.rows;
+    h+='<button type="button" class="btn trRowsHd'+(rowsOpen?' open':'')+'" data-trrows="1" aria-expanded="'+(rowsOpen?'true':'false')+'"><span>ردیف‌های انتخاب‌شده و مصرف مصالح <span class="mnMuted">('+fmt(order.length)+' ردیف از '+fmt(cur.items.filter(function(x){return !x.trCalc}).length)+')</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>';
+    if(!rowsOpen){}
+    else if(!sel.length)h+='<div class="mnEmpty">هیچ گروه مصالحی انتخاب نشده است.</div>';
     else if(!order.length)h+='<div class="mnEmpty">در این صورت‌وضعیت ردیفی با مصرف مصالح مشمول حمل پیدا نشد.</div>';
     else h+='<div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>کد</th><th>شرح</th><th>مقدار</th><th>واحد</th>'+sel.map(function(g){return '<th>'+esc(g.label)+' (تن)</th>'}).join('')+'</tr></thead><tbody>'+
-      order.map(function(o){return '<tr><td>'+esc(o.it.code)+'</td><td class="mnCovDesc" title="'+esc(o.it.desc)+'">'+esc(String(o.it.desc||'').length>90?String(o.it.desc).slice(0,90)+'…':o.it.desc)+'</td><td>'+fk(o.q,4)+'</td><td>'+esc(o.it.unit||'')+'</td>'+sel.map(function(g){return '<td>'+(o.c[g.key]==null?'—':fk(o.c[g.key],3))+'</td>'}).join('')+'</tr>'}).join('')+
+      order.map(function(o){return '<tr><td>'+esc(o.it.code)+'</td><td class="mnCovDesc trDescCell"><div class="mnClampWrap"><div class="mnClamp">'+esc(o.it.desc||'')+'</div><button type="button" class="mnClampBtn" aria-label="نمایش کامل شرح" aria-expanded="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 5.5v13a.9.9 0 0 1-1.4.75l-9-6.5a.9.9 0 0 1 0-1.5l9-6.5a.9.9 0 0 1 1.4.75z"/></svg></button></div></td><td>'+fk(o.q,4)+'</td><td>'+esc(o.it.unit||'')+'</td>'+sel.map(function(g){return '<td>'+(o.c[g.key]==null?'—':fk(o.c[g.key],3))+'</td>'}).join('')+'</tr>'}).join('')+
       '</tbody><tfoot><tr><td colspan="4">جمع مصرف</td>'+sel.map(function(g){return '<td>'+fk(g.sum,3)+'</td>'}).join('')+'</tr></tfoot></table></div>';
     /* نتیجه حمل + انتخاب ردیف فصل ۲۸ برای هر گروه */
     function optsFor(g){
@@ -14685,17 +14876,17 @@ window.__cplSig=function(){
       if(!list.length)return '<option>'+faD(TR_CODE)+'</option>';
       return '<option value=""'+(isAuto?' selected':'')+'>'+esc('خودکار ← '+faD(auto))+'</option>'+list.map(function(c){var d=String(c.rec.desc||'');return '<option value="'+c.code+'"'+(!isAuto&&c.code===cur0?' selected':'')+'>'+esc(faD(c.code)+' — '+(d.length>55?d.slice(0,55)+'…':d))+'</option>'}).join('');
     }
-    h+='<div class="trLbl">نتیجه حمل</div><div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>مصالح</th><th>مصرف (تن)</th><th>فاصله (کیلومتر)</th><th>مسافت قابل محاسبه (کیلومتر)</th><th>تن‌کیلومتر</th><th>ردیف فصل ۲۸</th><th>بهای واحد (ریال)</th><th>مبلغ (ریال)</th></tr></thead><tbody>'+
-      pr.map(function(x){var g=x.g;return '<tr><td class="mnCovDesc">'+esc(g.label)+'</td><td>'+fk(g.sum,3)+'</td><td>'+fk(g.dist)+'</td><td>'+fk(g.eff)+'</td><td>'+fk(g.tk,2)+'</td><td><select class="trSel" data-it="'+g.key+'">'+optsFor(g)+'</select></td><td>'+(x.rec?fk(x.price,0):'—')+'</td><td>'+fk(x.amt,0)+'</td></tr>'}).join('')+
+    h+='<div class="trLbl">نتیجه حمل</div><div class="mnTableWrap"><table class="mnCovTable trResTbl"><thead><tr><th>مصالح</th><th>مصرف (تن)</th><th>فاصله (کیلومتر)</th><th>مسافت قابل محاسبه (کیلومتر)</th><th>تن‌کیلومتر</th><th>ردیف فصل ۲۸</th><th>بهای واحد (ریال)</th><th>مبلغ (ریال)</th></tr></thead><tbody>'+
+      pr.filter(function(x){return x.g.lines.length>0}).map(function(x){var g=x.g;return '<tr><td class="mnCovDesc">'+esc(g.label)+'</td><td>'+fk(g.sum,3)+'</td><td>'+fk(g.dist)+'</td><td>'+fk(g.eff)+'</td><td>'+fk(g.tk,2)+'</td><td><select class="trSel" data-it="'+g.key+'">'+optsFor(g)+'</select></td><td>'+(x.rec?fk(x.price,0):'—')+'</td><td>'+fk(x.amt,0)+'</td></tr>'}).join('')+
       '</tbody><tfoot><tr><td>جمع مقدار حمل</td><td></td><td></td><td></td><td>'+fk(tonkm,2)+'</td><td></td><td></td><td>'+fk(amt,0)+'</td></tr></tfoot></table></div>';
-    h+='<div class="trSum"><div>مبلغ حمل: <b>'+fk(amt,0)+'</b> ریال</div></div>';
+    h+='<div class="trSum"><div>مبلغ حمل: <b>'+fk(amt,0)+'</b> ریال</div><button type="button" class="btn primary trApplyBtn" id="stTrApplyMin2" style="margin-inline-start:auto">انتقال به ریزمتره</button></div>';
     box.innerHTML=h;
-    var ok=hasDist&&sel.length>0&&pr.every(function(x){return x.rec});
-    Array.prototype.forEach.call(document.querySelectorAll('#stTrM .trApplyBtn'),function(ap){ap.disabled=!hasDist||(sel.length>0&&!ok)});
+    var ok=hasDist&&selQ.length>0&&pr.every(function(x){return x.g.lines.length===0||x.rec});
+    Array.prototype.forEach.call(document.querySelectorAll('#stTrM .trApplyBtn'),function(ap){ap.disabled=!hasDist||(selQ.length>0&&!ok)});
   }
   function trApply(mode){
-    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists),selAll=trSelected(full,t),eff=full.eff;
-    if(selAll.some(function(g){return !g.has})){say('ابتدا فاصله حمل را برای مصالح انتخاب‌شده وارد کن.');return}
+    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists,t),selAll=trSelected(full,t),eff=full.eff;
+    if(selAll.some(function(g){return g.lines.length>0&&!g.has})){say('ابتدا فاصله حمل را برای مصالح انتخاب‌شده وارد کن.');return}
     var sel=selAll.filter(function(g){return g.tk>0});
     var olds=cur.items.filter(function(x){return x.trCalc});
     if(!sel.length&&!olds.length){say(selAll.every(function(g){return g.eff<=0})?'فاصله حمل از ۳۰ کیلومتر بیشتر نیست؛ ردیفی اضافه نشد.':'مصرف مصالح مشمول حمل پیدا نشد؛ ردیفی اضافه نشد.');return}
@@ -14705,13 +14896,13 @@ window.__cplSig=function(){
       if(!rcq){alert('ردیف فصل ۲۸ برای «'+sel[qi].label+'» در فهرست بهای سال '+faD(full.year)+' پیدا نشد.');return}
       recs[sel[qi].key]=rcq;
     }
-    var meta={year:full.year,dist:String(t.dist),dists:Object.assign({},t.dists),groups:Object.assign({},t.groups),items:Object.assign({},t.items)};
+    var meta={year:full.year,dist:String(t.dist),dists:Object.assign({},t.dists),dirt:Object.assign({},t.dirt),grav:Object.assign({},t.grav),groups:Object.assign({},t.groups),items:Object.assign({},t.items)};
     var keep={},fresh=[];
     /* هر گروه مصالح یک ردیف حمل (فصل ۲۸) جدا (مثل برگه مالی نمونه حمل)؛ ردیف‌های قبلی همین محاسبه به‌روز می‌شوند */
     sel.forEach(function(g){
       var rec=recs[g.key];
       var r=newRow();r.n=String(g.tk);
-      r.d=faD(String(g.sum).replace('.','٫'))+' تن × '+faD(String(g.eff).replace('.','٫'))+' کیلومتر';
+      r.d=faD(String(g.sum).replace('.','٫'))+' تن × '+(g.dirt||g.grav?'(('+faD(String(g.dist))+' − '+faD(String(TR_FREE))+')'+(g.dirt?' + (۰٫۳ × '+faD(String(g.dirt).replace('.','٫'))+' خاکی)':'')+(g.grav?' + (۰٫۳ × '+faD(String(g.grav).replace('.','٫'))+' شنی)':'')+') = ':'')+faD(String(g.eff).replace('.','٫'))+' کیلومتر';
       var obj=olds.filter(function(x){return x.trCalc.g===g.key})[0];
       if(!obj){obj={uid:uid()};fresh.push(obj)}
       keep[obj.uid]=1;
@@ -14722,8 +14913,7 @@ window.__cplSig=function(){
       if(String(full.year)!==String(cur.year||''))obj.price=String(Math.round(priceVal(rec)));else delete obj.price;
     });
     cur.items=cur.items.filter(function(x){return !x.trCalc||keep[x.uid]});
-    if(cur.sortMode==='code')fresh.forEach(function(o){cur.items.push(o)});
-    else fresh.slice().reverse().forEach(function(o){cur.items.unshift(o)});
+    fresh.slice().reverse().forEach(function(o){cur.items.unshift(o)});
     dirty=true;closeShell('stTrM');
     if($('stItems'))renderItems();
     renderFlow();
@@ -14732,7 +14922,7 @@ window.__cplSig=function(){
   }
 
   function trExcel(){
-    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists),sel=trSelected(full,t),tonkm=trTotal(sel);
+    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists,t),sel=trSelected(full,t),tonkm=trTotal(sel);
     var pr=trPricing(t,full,sel),amt=pr.reduce(function(a,x){return a+x.amt},0),shs=[],used={};
     function nm(s){s=String(s).replace(/[\\\/\?\*\[\]:]/g,' ').slice(0,28);var b=s,k=2;while(used[s])s=b.slice(0,26)+' '+(k++);used[s]=1;return s}
     shs.push(specSheet({t:nm('خلاصه حمل'),title:docTitle('محاسبات حمل صورت‌وضعیت'),
@@ -14751,7 +14941,7 @@ window.__cplSig=function(){
     dlBlob(buildXlsxMulti(shs),fileName('محاسبات حمل صورت‌وضعیت','xlsx'));
   }
   function trPrint(){
-    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists),eff=full.eff,sel=trSelected(full,t),tonkm=trTotal(sel);
+    var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists,t),eff=full.eff,sel=trSelected(full,t),tonkm=trTotal(sel);
     var pr=trPricing(t,full,sel),amt=pr.reduce(function(a,x){return a+x.amt},0);
     var meta=esc(metaLine()).replace(/ {3,}/g,' — ');
     var pages=[];
@@ -14764,7 +14954,7 @@ window.__cplSig=function(){
       pages.push({t:'برگه محاسبه مقدار '+g.title+' مصرفی، مربوط به حمل '+stTitle(cur),b:
         '<table><thead><tr><th style="width:5%">ردیف</th><th style="width:9%">کد فهرست بها</th><th>شرح</th><th style="width:8%">واحد</th><th>K1</th><th>K2</th><th>K3</th><th>K4</th><th>ضریب</th><th>مقدار</th><th>مصرفی</th></tr></thead><tbody>'+rows+
         '<tr class="tot"><td colspan="10">جمع '+esc(g.title)+' مصرفی (تن)</td><td>'+fk(g.sum,3)+'</td></tr></tbody></table>'+
-        '<div style="font-weight:700;margin:6px 0" dir="ltr">'+fk(g.sum,3)+' × ( ( '+fk(g.dist)+' − '+fk(TR_FREE)+' ) ) = '+fk(g.tk,2)+' &nbsp; (تن‌کیلومتر)</div>'});
+        '<div style="font-weight:700;margin:6px 0" dir="ltr">'+fk(g.sum,3)+' × ( ( '+fk(g.dist)+' − '+fk(TR_FREE)+' )'+(g.dirt?' + ( 0.3 × '+fk(g.dirt)+' )':'')+(g.grav?' + ( 0.3 × '+fk(g.grav)+' )':'')+' ) = '+fk(g.tk,2)+' &nbsp; (تن‌کیلومتر)</div>'});
     });
     pages.push({t:'خلاصه محاسبات حمل (فصل ۲۸) — '+stTitle(cur),b:
       '<table><thead><tr><th>مصالح</th><th>مصرف (تن)</th><th>فاصله (کیلومتر)</th><th>مسافت قابل محاسبه (کیلومتر)</th><th>مقدار حمل (تن‌کیلومتر)</th><th>ردیف فصل ۲۸</th><th>بهای واحد (ریال)</th><th>مبلغ (ریال)</th></tr></thead><tbody>'+
@@ -14810,23 +15000,68 @@ window.__cplSig=function(){
       if(rr2)tr2.lastElementChild.textContent=fm(rr2[rr2.length-1]);
       sp2.foot.forEach(function(v,ci){var e=$('stfQ'+ci);if(e&&typeof v==='number')e.textContent=fm(v)})}
     else if(t.classList.contains('stCn')){var u0=custList().find(function(u){return u.id===t.dataset.id});if(u0){u0.name=t.value;dirty=true;syncCustToProject();document.querySelectorAll('th.stCth[data-id="'+u0.id+'"]').forEach(function(h){h.textContent=u0.name||'ضریب دلخواه'})}}
-    else if(t.classList.contains('stCg')){cur.coefs[t.dataset.g]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset();var g0=t.dataset.g,nv=cnum(t.value);document.querySelectorAll('.stCx[data-g="'+g0+'"]').forEach(function(i){var x=cur.coefs.chx&&cur.coefs.chx[i.dataset.k],o=x&&x[g0];if(o==null||String(o).trim()==='')i.value=nv;i.placeholder=nv})}
+    else if(t.classList.contains('stCg')){if(stMode()!=='payk')return;var g0=t.dataset.g,V0=stView(),PK0=stMode()==='payk',D0=stDisc();stSetTop(g0,t.value,PK0,V0,D0);dirty=true;if(typeof c76Reset==='function')c76Reset();var nv=cnum(t.value);document.querySelectorAll('.stCx[data-g="'+g0+'"]').forEach(function(i){var kx=i.dataset.k,o,ot;if(D0&&kx.split('|')[0]!==D0)return;if(PK0){var sr=g0==='overhead'?cur.coefs.chx:(cur.coefs.pk&&cur.coefs.pk.chx);o=sr&&sr[kx]&&sr[kx][g0];ot=null}else{var x=cur.coefs.chx&&cur.coefs.chx[kx],xt=cur.coefs.chxT&&cur.coefs.chxT[V0]&&cur.coefs.chxT[V0][kx];o=x&&x[g0];ot=xt&&xt[g0]}if(!stHas(o)&&!stHas(ot))i.value=nv;i.placeholder=nv})}
     else if(t.classList.contains('stCc')){cur.coefs.ch[t.dataset.k]=t.value;dirty=true}
-    else if(t.classList.contains('stCx')){var kk=t.dataset.k;if(!cur.coefs.chx)cur.coefs.chx={};if(!cur.coefs.chx[kk])cur.coefs.chx[kk]={};cur.coefs.chx[kk][t.dataset.g]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset()}
+    else if(t.classList.contains('stCt')){var T0=cur.coefs.chT=cur.coefs.chT||{list:{},star:{}},tp0=t.dataset.t;T0[tp0]=T0[tp0]||{};if(String(t.value).trim()==='')delete T0[tp0][t.dataset.k];else T0[tp0][t.dataset.k]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset()}
+    else if(t.classList.contains('stPb')){var P2=pkO();P2.base=P2.base||{};if(!stHas(t.value))delete P2.base[t.dataset.k];else P2.base[t.dataset.k]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset()}
+    else if(t.classList.contains('stPp')){var P5=pkO();P5.pct=P5.pct||{};if(!stHas(t.value))delete P5.pct[t.dataset.k];else P5.pct[t.dataset.k]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset()}
+    else if(t.classList.contains('stCx')&&stMode()==='payk'&&t.dataset.g!=='overhead'){var P1=pkO();P1.chx=P1.chx||{};P1.chx[t.dataset.k]=P1.chx[t.dataset.k]||{};P1.chx[t.dataset.k][t.dataset.g]=t.value;dirty=true;if(typeof c76Reset==='function')c76Reset()}
+    else if(t.classList.contains('stCx')){var kk=t.dataset.k,gg=t.dataset.g,V1=stMode()==='payk'?'all':stView();if(V1==='all'){if(!cur.coefs.chx)cur.coefs.chx={};if(!cur.coefs.chx[kk])cur.coefs.chx[kk]={};cur.coefs.chx[kk][gg]=t.value;['list','star'].forEach(function(tt){var m1=cur.coefs.chxT&&cur.coefs.chxT[tt]&&cur.coefs.chxT[tt][kk];if(m1)delete m1[gg]})}else{var XT=cur.coefs.chxT=cur.coefs.chxT||{list:{},star:{}};XT[V1]=XT[V1]||{};XT[V1][kk]=XT[V1][kk]||{};XT[V1][kk][gg]=t.value}dirty=true;if(typeof c76Reset==='function')c76Reset()}
   });
+  /* ---------- ضرایب سراسری کادر بالا: پرسش «هر دو / فقط فهرستی / فقط ستاره‌دار» ---------- */
+  function stGTop(f){var D=stDisc();if(stMode()==='payk')return f==='overhead'?stGBase('overhead',null,D):pkG(f,D);return stGBase(f,stView(),D)}
+  /* ضریب کادر بالا فقط به «نوع فهرست بها / نوع آیتم / ضرایب»ِ فعال می‌خورد؛ اگر نوع فهرست «همه» بود به همه */
+  function stSetTop(g,val,PK,V,D){var c=cur.coefs,G=c.gD=c.gD||{};
+    if(PK&&g==='overhead'){G.all=G.all||{};if(D){G.all[D]=G.all[D]||{};G.all[D][g]=val}else{c.overhead=val;Object.keys(G.all).forEach(function(d){delete G.all[d][g]})}return}
+    if(PK){var P=pkO();P.gD=P.gD||{};if(D){P.gD[D]=P.gD[D]||{};P.gD[D][g]=val}else{P.g[g]=val;Object.keys(P.gD).forEach(function(d){delete P.gD[d][g]})}return}
+    G[V]=G[V]||{};if(D){G[V][D]=G[V][D]||{};G[V][D][g]=val}else{var GT=c.gT=c.gT||{list:{},star:{}};GT[V]=GT[V]||{};GT[V][g]=val;Object.keys(G[V]).forEach(function(d){delete G[V][d][g]})}}
+  function stCoefName(g){var a=GL.find(function(x){return x[0]===g});if(a)return a[1];var u=custList().find(function(x){return x.id===g});return u?(u.name||'ضریب دلخواه'):'ضریب'}
+  function stScopeNote(){var V=stView(),tx=stMode()==='payk'?'حالت پایکار: فقط ضریب بالاسری با کارکرد مشترک است؛ طبقات، منطقه، سایر و ضرایب دلخواه جدا هستند و پیش‌فرضشان ۱ است. ضریب پایکار از جدول پیوست ۱ فهرست بها (قابل ویرایش؛ بدون ضریب = ۱) می‌آید و در ستون 70% (پیش‌فرض ۰٫۷، قابل ویرایش) ضرب می‌شود.':'';return tx?'<div class="mnMuted" style="margin:0 0 8px;font-size:13px;opacity:.8">'+tx+'</div>':''}
+  function pkCell(k,g){var ph,val;if(g==='overhead'){ph=stGBase('overhead',null,k.split('|')[0]);var x=cur.coefs.chx&&cur.coefs.chx[k],v=x&&x[g];val=stHas(v)?v:ph}else{ph=pkG(g,k.split('|')[0]);var y=cur.coefs.pk&&cur.coefs.pk.chx&&cur.coefs.pk.chx[k],w=y&&y[g];val=stHas(w)?w:ph}return '<td><input class="stCx" data-k="'+esc(k)+'" data-g="'+g+'" dir="ltr" inputmode="decimal" placeholder="'+esc(ph)+'" value="'+esc(val)+'"></td>'}
+  function pkRows(){var ks={},yr=cur.year,P=cur.coefs.pk||{};(window.selDiscs?window.selDiscs():DISCS).forEach(function(d){var tb=paykTable(d,yr);if(tb)Object.keys(tb).forEach(function(c){ks[d+'|'+p2(c)]=1});try{paykChList(d).forEach(function(c){ks[pkKey(d,c[0])]=1})}catch(e){}});Object.keys(P.base||{}).concat(Object.keys(P.chx||{}),Object.keys(P.pct||{})).forEach(function(k){ks[k]=1});var f=window.__stcoFilt;
+    return Object.keys(ks).filter(function(k){return !f||f==='all'||k.split('|')[0]===f}).sort(function(a,b){var A=a.split('|'),B=b.split('|');return DISCS.indexOf(A[0])-DISCS.indexOf(B[0])||parseFloat(A[1])-parseFloat(B[1])}).map(function(k){var a=k.split('|'),tb=paykTable(a[0],yr),bs=tb&&tb[parseInt(a[1],10)],ov=P.base&&P.base[k],val=stHas(ov)?ov:(bs==null?1:bs),pv=P.pct&&P.pct[k],pct=stHas(pv)?pv:paykPctDef(a[1]);
+      return '<tr><td>'+esc(a[0])+'</td><td>'+esc(chapterLabel(a[0],a[1]))+'</td><td><input class="stPb" data-k="'+esc(k)+'" dir="ltr" inputmode="decimal" placeholder="1" value="'+esc(val)+'"></td><td><input class="stPp" data-k="'+esc(k)+'" dir="ltr" inputmode="decimal" placeholder="'+paykPctDef(a[1])+'" value="'+esc(pct)+'"></td>'+GL.map(function(g){return pkCell(k,g[0])}).join('')+custList().map(function(u){return pkCell(k,u.id)}).join('')+'</tr>'}).join('')}
+  function cxCell(k,g){var V=stView(),ph=stGBase(g,V,k.split('|')[0]),x=cur.coefs.chx&&cur.coefs.chx[k],v=x&&x[g],xt=V!=='all'&&cur.coefs.chxT&&cur.coefs.chxT[V]&&cur.coefs.chxT[V][k],vt=xt&&xt[g],val=stHas(vt)?vt:(stHas(v)?v:ph);return '<td><input class="stCx" data-k="'+esc(k)+'" data-g="'+g+'" dir="ltr" inputmode="decimal" placeholder="'+esc(ph)+'" value="'+esc(val)+'"></td>'}
+  function askScope(name,cb,note){var old=$('stcoScopeM');if(old)old.remove();var ov=document.createElement('div');ov.id='stcoScopeM';ov.className='cplAskOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+    ov.innerHTML='<div class="cplAskBox"><h3>'+esc(name)+'</h3><p style="margin:0 0 12px;font-size:14px;opacity:.85">این ضریب روی کدام آیتم‌ها اعمال شود؟'+(note?' ('+esc(note)+')':'')+'</p><div class="cplAskBtns"><button type="button" class="btn primary" data-s="all">هر دو</button><button type="button" class="btn" data-s="list">فقط فهرست بهایی</button><button type="button" class="btn" data-s="star">فقط ستاره‌دار</button></div></div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button[data-s]');if(b){ov.remove();cb(b.dataset.s);return}if(e.target===ov){ov.remove();cb(null)}})}
+  function applyScope(g,v,sn,s){var c=cur.coefs,GT=c.gT=c.gT||{list:{},star:{}};GT.list=GT.list||{};GT.star=GT.star||{};
+    var rs=function(o,k,val){if(val==null)delete o[k];else o[k]=val};
+    if(s==='all'){c[g]=v;delete GT.list[g];delete GT.star[g]}
+    else{if(sn.all!==undefined)c[g]=sn.all;rs(GT.list,g,sn.list);rs(GT.star,g,sn.star);GT[s][g]=v}
+    dirty=true;if(typeof c76Reset==='function')c76Reset();window.__stcoType=(s==='all'?stView():s);openCoefs()}
+  document.addEventListener('focusin',function(e){var t=e.target;if(!cur||!t||!t.classList||!t.classList.contains('stCg'))return;var g=t.dataset.g,GT=cur.coefs.gT||{};t.__snap={all:cur.coefs[g],list:GT.list&&GT.list[g],star:GT.star&&GT.star[g]}});
+  document.addEventListener('change',function(e){var t=e.target;if(!cur||!t||!t.classList||!t.classList.contains('stCg'))return;
+    if(stMode()==='payk')return;
+    var g=t.dataset.g,v=t.value,V=stView(),D=stDisc(),prev=t.defaultValue;
+    if(num(toEn(v))===null){t.value=prev;return}
+    if(String(cnum(v))===String(cnum(prev)))return;
+    /* ضریب کادر بالا: بپرس برای ستاره‌دار / فهرستی / هر دو؛ دفترچه = «نوع فهرست بها»ی انتخاب‌شده (همه ⇒ همهٔ دفترچه‌ها) */
+    askScope(stCoefName(g)+' — '+v,function(sc){
+      if(!sc){t.value=prev;return}
+      (sc==='all'?['list','star']:[sc]).forEach(function(k){stSetTop(g,v,false,k,D)});
+      dirty=true;if(typeof c76Reset==='function')c76Reset();window.__stcoType=(sc==='all'?V:sc);openCoefs()},
+      D?('دفترچه: '+D):'همهٔ دفترچه‌ها')});
   /* ---------- ضرایب ---------- */
-  function coefKeys(){var s={};Object.keys(cur.coefs.ch).forEach(function(k){s[k]=1});cur.items.forEach(function(i){s[i.discipline+'|'+p2(effCh(i))]=1});
+  function coefKeys(){var s={};Object.keys(cur.coefs.ch).forEach(function(k){s[k]=1});['list','star'].forEach(function(t){Object.keys((cur.coefs.chT&&cur.coefs.chT[t])||{}).forEach(function(k){s[k]=1})});cur.items.forEach(function(i){s[i.discipline+'|'+p2(effCh(i))]=1});try{(window.selDiscs?window.selDiscs():DISCS).forEach(function(d){paykChList(d).forEach(function(c){s[d+'|'+p2(c[0])]=1})})}catch(e){}
+    /* فصل‌های آیتم‌های ستاره‌دار حتی قبل از اعمال ضرایب در فهرست باشند (ضریب پیش‌فرض ۱) */
+    try{var sd0=(window.selDiscs?window.selDiscs():DISCS);(typeof window.starredItems==='function'?window.starredItems():[]).forEach(function(it){var d0=normalizeDiscipline(it.discipline);if(sd0.indexOf(d0)>=0&&it.chapter!=null&&String(it.chapter).trim()!=='')s[d0+'|'+p2(it.chapter)]=1})}catch(e){}
     return Object.keys(s).sort(function(a,b){var A=a.split('|'),B=b.split('|');return DISCS.indexOf(A[0])-DISCS.indexOf(B[0])||parseFloat(A[1])-parseFloat(B[1])})}
-  function coefSpec(){return {t:'ضرایب',cols:['نوع فهرست بها','شماره فصل','ضریب','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب'].concat(custList().map(function(u){return u.name||'ضریب دلخواه'})),w:[18,14,14,14,14,14,14].concat(custList().map(function(){return 14})),rows:coefKeys().map(function(k){var a=k.split('|');return [a[0],a[1],chCoef(a[0],a[1]),gcf(a[0],a[1],'floor'),gcf(a[0],a[1],'region'),gcf(a[0],a[1],'overhead'),gcf(a[0],a[1],'other')].concat(custList().map(function(u){return gcf(a[0],a[1],u.id)}))}),extra:GL.concat(custList().map(function(u){return [u.id,u.name||'ضریب دلخواه']})).map(function(g){return [g[1],'',cnum(cur.coefs[g[0]])]})}}
+  function coefSpec(){return {t:'ضرایب',cols:['نوع فهرست بها','شماره فصل','ضریب','ضریب آیتم‌های فهرستی','ضریب آیتم‌های ستاره‌دار','ضریب طبقات','ضریب منطقه','ضریب بالاسری','سایر ضرایب'].concat(custList().map(function(u){return u.name||'ضریب دلخواه'})),w:[18,14,14,14,14,14,14,14,14].concat(custList().map(function(){return 14})),rows:coefKeys().map(function(k){var a=k.split('|');return [a[0],a[1],chCoef(a[0],a[1]),chCoefK(a[0],a[1],'list'),chCoefK(a[0],a[1],'star'),gcf(a[0],a[1],'floor'),gcf(a[0],a[1],'region'),gcf(a[0],a[1],'overhead'),gcf(a[0],a[1],'other')].concat(custList().map(function(u){return gcf(a[0],a[1],u.id)}))}),extra:GL.concat(custList().map(function(u){return [u.id,u.name||'ضریب دلخواه']})).map(function(g){return [g[1],'',cnum(cur.coefs[g[0]])]})}}
+  /* ضریب پیشنهادی نمایش‌داده‌شده برای فصل: مقدار نوع آیتم انتخاب‌شده (فهرستی/ستاره‌دار)، وگرنه ضریب مشترک، وگرنه ضریب پروژه */
+  function coefShown(k){var tp=stView(),T=cur.coefs.chT&&cur.coefs.chT[tp],v=T&&T[k];if(stHas(v))return v;var c=cur.coefs.ch[k];return stHas(c)?c:projCoef()}
   function openCoefs(){
-    var rows=coefKeys().map(function(k){var a=k.split('|');return '<tr><td>'+esc(a[0])+'</td><td>'+esc(chapterLabel(a[0],a[1]))+'</td><td><input class="stCc" data-k="'+esc(k)+'" dir="ltr" inputmode="decimal" value="'+esc((cur.coefs.ch[k]==null||String(cur.coefs.ch[k]).trim()==='')?projCoef():cur.coefs.ch[k])+'"></td>'+GL.map(function(g){var x=cur.coefs.chx&&cur.coefs.chx[k],v=x&&x[g[0]];return '<td><input class="stCx" data-k="'+esc(k)+'" data-g="'+g[0]+'" dir="ltr" inputmode="decimal" placeholder="'+esc(cnum(cur.coefs[g[0]]))+'" value="'+esc((v==null||String(v).trim()==='')?cnum(cur.coefs[g[0]]):v)+'"></td>'}).join('')+custList().map(function(u){var x=cur.coefs.chx&&cur.coefs.chx[k],v=x&&x[u.id];return '<td><input class="stCx" data-k="'+esc(k)+'" data-g="'+u.id+'" dir="ltr" inputmode="decimal" placeholder="'+esc(cnum(cur.coefs[u.id]))+'" value="'+esc((v==null||String(v).trim()==='')?cnum(cur.coefs[u.id]):v)+'"></td>'}).join('')+'</tr>'}).join('');
+    var rows=coefKeys().filter(function(k){return !window.__stcoFilt||window.__stcoFilt==='all'||k.split('|')[0]===window.__stcoFilt}).map(function(k){var a=k.split('|');return '<tr><td>'+esc(a[0])+'</td><td>'+esc(chapterLabel(a[0],a[1]))+'</td><td><input class="stCt" data-k="'+esc(k)+'" data-t="'+stView()+'" dir="ltr" inputmode="decimal" value="'+esc(coefShown(k))+'"></td>'+GL.map(function(g){return cxCell(k,g[0])}).join('')+custList().map(function(u){return cxCell(k,u.id)}).join('')+'</tr>'}).join('');
+    var PKM=stMode()==='payk';if(PKM)rows=pkRows();
     shell('stCoefM','<div class="mnHead"><b>ضرایب صورت‌وضعیت</b><div class="mnBtns">'+iconBtns('stco',true)+'<button type="button" class="btn mnTextBtn" id="stcoBack" data-cb="back" title="مرحله قبل" aria-label="مرحله قبل">قبلی</button></div></div><div class="mnTop stcoTop">'+
-      GL.map(function(g){return '<label class="mnField">'+g[1]+'<input class="stCg" data-g="'+g[0]+'" dir="ltr" inputmode="decimal" value="'+esc(cur.coefs[g[0]])+'"></label>'}).join('')+custList().map(function(u){return '<label class="mnField stcoCust">'+esc(u.name||'ضریب دلخواه')+'<input class="stCg" data-g="'+u.id+'" dir="ltr" inputmode="decimal" value="'+esc(cur.coefs[u.id]==null?1:cur.coefs[u.id])+'"></label>'}).join('')+'<button type="button" class="btn primary mnAddBtn stcoAddCoef" id="stcoAddCoef" title="افزودن ضریب دلخواه" aria-label="افزودن ضریب دلخواه">＋</button><button type="button" class="btn mnIco stcoListBtn" id="stcoListBtn" title="لیست ضرایب دلخواه" aria-label="لیست ضرایب دلخواه"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg></button></div>'+
-      '<div class="mnPick stcoRow2"><label class="mnField">نوع فهرست بها<select id="stcoD">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option>'+d+'</option>'}).join('')+'</select></label><label class="mnField">شماره فصل<input id="stcoC" dir="ltr" inputmode="numeric" placeholder=""></label><button type="button" class="btn primary mnAddBtn" id="stcoAdd" title="افزودن ضریب فصل">＋</button>'+
-      '<button type="button" class="btn coefImpBtn" id="stcoImpBtn" title="ورود ضرایب پیشنهادی از اکسل" aria-label="ورود ضرایب پیشنهادی از اکسل"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود ضرایب پیشنهادی از اکسل</span></button></div>'+
-      '<div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>فصل</th><th>ضریب پیشنهادی</th><th>ضریب طبقات</th><th>ضریب منطقه</th><th>ضریب بالاسری</th><th>سایر ضرایب</th>'+custList().map(function(u){return '<th class="stCth" data-id="'+u.id+'">'+esc(u.name||'ضریب دلخواه')+'</th>'}).join('')+'</tr></thead><tbody>'+(rows||'<tr><td colspan="'+(7+custList().length)+'" class="mnMuted">ضریب فصلی ثبت نشده است.</td></tr>')+'</tbody></table></div>');
-    $('stcoBack').onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}closeShell('stCoefM');if($('stCover'))renderFlow()};
-    (function(){var m=$('stCoefM');if(!m)return;m.addEventListener('click',function(e){var h=e.target.closest&&e.target.closest('.mnHomeBtn');if(!h)return;e.preventDefault();e.stopPropagation();closeShell('stCoefM');if($('stCover'))renderFlow()},true)})();
+      GL.map(function(g){return '<label class="mnField">'+g[1]+'<input class="stCg" data-g="'+g[0]+'" dir="ltr" inputmode="decimal" value="'+esc(stGTop(g[0]))+'"></label>'}).join('')+custList().map(function(u){return '<label class="mnField stcoCust">'+esc(u.name||'ضریب دلخواه')+'<input class="stCg" data-g="'+u.id+'" dir="ltr" inputmode="decimal" value="'+esc(stGTop(u.id)==null?1:stGTop(u.id))+'"></label>'}).join('')+'<button type="button" class="btn primary mnAddBtn stcoAddCoef" id="stcoAddCoef" title="افزودن ضریب دلخواه" aria-label="افزودن ضریب دلخواه">＋</button><button type="button" class="btn mnIco stcoListBtn" id="stcoListBtn" title="لیست ضرایب دلخواه" aria-label="لیست ضرایب دلخواه"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg></button></div>'+
+      '<div class="mnPick stcoRow2"><label class="mnField">نوع فهرست بها<select id="stcoD"><option value="all">همه</option>'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label><label class="mnField">نوع آیتم<select id="stcoT"'+(PKM?' disabled':'')+'><option value="list">فهرست بهایی</option><option value="star">ستاره‌دار</option></select></label><label class="mnField">ضرایب<select id="stcoM"><option value="work">کارکرد</option><option value="payk">پایکار</option></select></label><label class="mnField">اضافه کردن فصل دلخواه<input id="stcoC" dir="ltr" inputmode="numeric" placeholder=""></label><button type="button" class="btn primary mnAddBtn" id="stcoAdd" title="افزودن ضریب فصل">＋</button>'+
+      '<span class="stcoImpGrp"><button type="button" class="btn coefImpBtn" id="stcoImpBtn" title="ورود ضرایب پیشنهادی از اکسل" aria-label="ورود ضرایب پیشنهادی از اکسل"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود ضرایب پیشنهادی از اکسل</span></button><button type="button" class="btn stcoClearIco" id="stcoClearAll" title="پاک کردن همه ضرایب" aria-label="پاک کردن همه ضرایب"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button></span></div>'+
+      stScopeNote()+'<div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>فصل</th>'+(PKM?'<th>ضریب پایکار<br><small>جدول پیوست ۱</small></th><th>70%</th>':'<th>ضریب پیشنهادی<br><small>'+(stView()==='star'?'ستاره‌دار':'فهرستی')+'</small></th>')+'<th>ضریب طبقات</th><th>ضریب منطقه</th><th>ضریب بالاسری</th><th>سایر ضرایب</th>'+custList().map(function(u){return '<th class="stCth" data-id="'+u.id+'">'+esc(u.name||'ضریب دلخواه')+'</th>'}).join('')+'</tr></thead><tbody>'+(rows||'<tr><td colspan="'+((PKM?8:7)+custList().length)+'" class="mnMuted">ضریب فصلی ثبت نشده است.</td></tr>')+'</tbody></table></div>');
+    $('stcoBack').onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}if(cur&&cur.projectMode){projCoefClose();return}closeShell('stCoefM');if($('stCover'))renderFlow()};
+    (function(){var m=$('stCoefM');if(!m)return;m.addEventListener('click',function(e){var h=e.target.closest&&e.target.closest('.mnHomeBtn');if(!h)return;e.preventDefault();e.stopPropagation();if(cur&&cur.projectMode){projCoefClose();return}closeShell('stCoefM');if($('stCover'))renderFlow()},true)})();
+    if(cur&&cur.projectMode){var ht=document.querySelector('#stCoefM .mnHead>b');if(ht)ht.textContent='ضرایب صورت‌وضعیت — پیش‌فرض پروژه'}
     function askCoef(o,cb){
       var old=$('stcoAskM');if(old)old.remove();
       var ov=document.createElement('div');ov.id='stcoAskM';ov.className='cplAskOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
@@ -14847,22 +15082,43 @@ window.__cplSig=function(){
         ov.innerHTML='<div class="cplAskBox"><h3>ضرایب دلخواه</h3>'+(L.length?'<div class="stcoLst">'+L.map(function(u){return '<div class="stcoLstRow"><span class="stcoLstName">'+esc(u.name||'ضریب دلخواه')+'</span><span class="stcoLstVal" dir="ltr">'+esc(fm(cur.coefs[u.id]==null?1:cur.coefs[u.id]))+'</span><button type="button" class="btn mnIco stcoLstEdit" data-id="'+u.id+'" title="ویرایش عنوان" aria-label="ویرایش عنوان"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button><button type="button" class="btn danger mnIco stcoLstDel" data-id="'+u.id+'" title="حذف" aria-label="حذف"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-12M9 7V4h6v3"/></svg></button></div>'}).join('')+'</div>':'<p>ضریب دلخواهی ثبت نشده است.</p>')+'<div class="cplAskBtns" style="margin-top:14px"><button type="button" class="btn" id="stcoLstClose">بستن</button></div></div>';
         $('stcoLstClose').onclick=close;
         ov.querySelectorAll('.stcoLstEdit').forEach(function(b){b.onclick=function(){var u=custList().find(function(x){return x.id===b.dataset.id});if(!u)return;askCoef({title:'ویرایش عنوان ضریب',name:u.name,noVal:true},function(n){u.name=n;dirty=true;changed=true;draw()})}});
-        ov.querySelectorAll('.stcoLstDel').forEach(function(b){b.onclick=function(){var id=b.dataset.id;if(!confirm('این ضریب دلخواه حذف شود؟'))return;cur.coefs.cust=custList().filter(function(u){return u.id!==id});delete cur.coefs[id];if(cur.coefs.chx)Object.keys(cur.coefs.chx).forEach(function(k){delete cur.coefs.chx[k][id]});dirty=true;changed=true;if(typeof c76Reset==='function')c76Reset();draw()}});
+        ov.querySelectorAll('.stcoLstDel').forEach(function(b){b.onclick=function(){var id=b.dataset.id;if(!confirm('این ضریب دلخواه حذف شود؟'))return;cur.coefs.cust=custList().filter(function(u){return u.id!==id});delete cur.coefs[id];if(cur.coefs.chx)Object.keys(cur.coefs.chx).forEach(function(k){delete cur.coefs.chx[k][id]});['list','star'].forEach(function(tt){if(cur.coefs.gT&&cur.coefs.gT[tt])delete cur.coefs.gT[tt][id];var mm=cur.coefs.chxT&&cur.coefs.chxT[tt];if(mm)Object.keys(mm).forEach(function(k){if(mm[k])delete mm[k][id]})});if(cur.coefs.pk){if(cur.coefs.pk.g)delete cur.coefs.pk.g[id];Object.keys(cur.coefs.pk.chx||{}).forEach(function(k){if(cur.coefs.pk.chx[k])delete cur.coefs.pk.chx[k][id]});Object.keys(cur.coefs.pk.gD||{}).forEach(function(d){delete cur.coefs.pk.gD[d][id]})}if(cur.coefs.gD)Object.keys(cur.coefs.gD).forEach(function(kd){Object.keys(cur.coefs.gD[kd]).forEach(function(d){if(cur.coefs.gD[kd][d])delete cur.coefs.gD[kd][d][id]})});dirty=true;changed=true;if(typeof c76Reset==='function')c76Reset();draw()}});
       }
       ov.addEventListener('click',function(e){if(e.target===ov)close()});draw();
     };
-    $('stcoSave').onclick=function(e){if(e)e.preventDefault();save()};
+    $('stcoClearAll').onclick=function(){
+      if(!confirm('همهٔ ضرایب (فصل‌ها، کادر بالا، ضرایب دلخواه و پایکار) پاک و به مقدار پیش‌فرض برگردانده شود؟'))return;
+      var c=cur.coefs;c.ch={};c.chT={list:{},star:{}};c.chx={};c.chxT={list:{},star:{}};c.gT={list:{},star:{}};c.gD={};c.pk={g:{},chx:{},base:{}};
+      c.floor=1;c.region=1;c.overhead=1;c.other=1;c.project=1;custList().forEach(function(u){c[u.id]=1});
+      dirty=true;if(typeof c76Reset==='function')c76Reset();openCoefs()};
+    $('stcoSave').onclick=function(e){if(e)e.preventDefault();if(cur&&cur.projectMode){projCoefSave();return}save()};
     $('stcoXls').onclick=function(){cmpEntry(function(){xlsSpec(coefSpec())})};$('stcoPdf').onclick=function(){cmpEntry(function(){pdfSpec(coefSpec())})};
-    $('stcoAdd').onclick=function(){var c=toEn($('stcoC').value).trim();if(!/^\d+$/.test(c)){say('شماره فصل را وارد کن.');return}var k=$('stcoD').value+'|'+p2(c);if(cur.coefs.ch[k]==null)cur.coefs.ch[k]=1;dirty=true;openCoefs()};
+    (function(){var d=$('stcoD'),t=$('stcoT');if(d){d.value=window.__stcoFilt||'all';d.onchange=function(){window.__stcoFilt=d.value;openCoefs()}}if(t)t.value=stView();if(t)t.onchange=function(){window.__stcoType=t.value;openCoefs()};var mm0=$('stcoM');if(mm0){mm0.value=stMode();mm0.onchange=function(){window.__stcoMode=mm0.value;openCoefs()}}})();
+    $('stcoAdd').onclick=function(){var c=toEn($('stcoC').value).trim(),dv=$('stcoD').value,tp=$('stcoT').value;if(dv==='all'){say('نوع فهرست بها را انتخاب کن.');return}if(!/^\d+$/.test(c)){say('شماره فصل را وارد کن.');return}var k=dv+'|'+p2(c);if(stMode()==='payk'){var P3=pkO();P3.chx=P3.chx||{};P3.chx[k]=P3.chx[k]||{};dirty=true;openCoefs();return}if(tp==='all'){if(!stHas(cur.coefs.ch[k]))cur.coefs.ch[k]=projCoef();dirty=true;if(typeof c76Reset==='function')c76Reset();openCoefs();return}var T=cur.coefs.chT=cur.coefs.chT||{list:{},star:{}};T[tp]=T[tp]||{};if(T[tp][k]==null)T[tp][k]=(cur.coefs.ch[k]==null||String(cur.coefs.ch[k]).trim()==='')?projCoef():cur.coefs.ch[k];dirty=true;if(typeof c76Reset==='function')c76Reset();openCoefs()};
     function bindImp(){$('stcoFile').onchange=async function(){
       var f=this.files[0];if(!f)return;
+      var tp=($('stcoImpType')||{}).value||'all',TPN={all:'آیتم‌های فهرستی و ستاره‌دار',list:'آیتم‌های فهرستی',star:'آیتم‌های ستاره‌دار'};
       try{var rs,ext=f.name.toLowerCase().split('.').pop();
         if(ext==='csv')rs=(await f.text()).split(/\r?\n/).filter(Boolean).map(function(x){return x.split(/[;\t,]/)});
         else{if(!window.XLSX)await new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
           var wb=window.XLSX.read(await f.arrayBuffer(),{type:'array'});rs=window.XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''})}
-        var n=0;rs.forEach(function(r){var a=String(r[0]||'').trim(),g=GL.find(function(x){return x[1]===a}),v=num(r[2]);if(v===null)return;v=Math.round(v*1e4)/1e4;
-          if(g){cur.coefs[g[0]]=v;n++;return}var c=toEn(r[1]).trim();if(!/^\d+$/.test(c))return;cur.coefs.ch[normalizeDiscipline(a)+'|'+p2(c)]=v;n++});
-        dirty=true;var dm=$('stImportModal');if(dm)dm.remove();say(fmt(n)+' ضریب خوانده شد');openCoefs();
+        var rows2=[];rs.forEach(function(r){var a=String(r[0]||'').trim(),g=GL.find(function(x){return x[1]===a}),v=num(r[2]);if(v===null)return;v=Math.round(v*1e4)/1e4;if(g){rows2.push({g:g[0],v:v});return}var c=toEn(r[1]).trim();if(!/^\d+$/.test(c))return;var dd=normalizeDiscipline(a);rows2.push({d:dd,k:dd+'|'+p2(c),v:v})});
+        var PKI=stMode()==='payk';
+        var tgt=function(){if(PKI){var P=pkO();return P.base=P.base||{}}if(tp==='all')return cur.coefs.ch;var T=cur.coefs.chT=cur.coefs.chT||{list:{},star:{}};return T[tp]=T[tp]||{}};
+        var ds={};rows2.forEach(function(x){if(x.d)ds[x.d]=1});
+        var run=function(mode){var M=tgt(),n=0;
+          if(mode==='clear')Object.keys(M).forEach(function(k){delete M[k]});
+          rows2.forEach(function(x){
+            if(x.g){if(mode==='add')return;if(PKI){if(x.g==='overhead'){cur.coefs.overhead=x.v;n++}return}
+              if(tp==='all')cur.coefs[x.g]=x.v;else{var GT1=cur.coefs.gT=cur.coefs.gT||{list:{},star:{}};GT1[tp]=GT1[tp]||{};GT1[tp][x.g]=x.v;var GD1=cur.coefs.gD&&cur.coefs.gD[tp];if(GD1)Object.keys(GD1).forEach(function(d){delete GD1[d][x.g]})}n++;return}
+            if(mode==='add'&&stHas(M[x.k]))return;M[x.k]=x.v;n++});
+          dirty=true;var dm=$('stImportModal');if(dm)dm.remove();if(typeof c76Reset==='function')c76Reset();
+          say(fmt(n)+' ضریب '+(mode==='clear'?'جایگزین ضرایب قبلی شد':(mode==='add'?'به ضرایب قبلی اضافه شد':'وارد شد (هم‌ردیف‌ها جایگزین شدند)'))+(PKI?' — پایکار':(tp==='all'?'':' — برای «'+TPN[tp]+'»')));openCoefs()};
+        var dm0=$('stImportModal');if(dm0)dm0.remove();
+          var ov=document.createElement('div');ov.id='stcoImpAsk';ov.className='cplAskOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+          ov.innerHTML='<div class="cplAskBox"><p style="margin:0 0 14px;font-size:15px;line-height:1.9">ضرایب فعلی با تأیید شما حذف شده و با ضرایب جدید جایگزین خواهند شد. آیا تأیید می‌کنید؟</p><div class="cplAskBtns"><button type="button" class="btn primary" data-m="clear">تأیید</button><button type="button" class="btn" data-m="cancel">انصراف</button></div></div>';
+          document.body.appendChild(ov);
+          ov.addEventListener('click',function(e){var bb=e.target.closest&&e.target.closest('button[data-m]');if(bb){ov.remove();if(bb.dataset.m==='clear')run('clear');return}if(e.target===ov)ov.remove()})
       }catch(e){alert('خواندن فایل انجام نشد.')}
     }}
     $('stcoImpBtn').onclick=function(){
@@ -14870,16 +15126,49 @@ window.__cplSig=function(){
       var S='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
       var c=document.createElement('div');c.id='stImportModal';
       c.innerHTML='<div class="impPanel" role="dialog" aria-modal="true"><div class="impHead"><b>ورود ضرایب پیشنهادی از اکسل</b><button type="button" class="btn impX" id="stcoImpX" title="بستن" aria-label="بستن">'+S+'<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg></button></div>'
+        +'<label class="impType">نوع آیتم‌هایی که ضرایب روی آن‌ها اعمال می‌شود<select id="stcoImpType" class="box" aria-label="نوع آیتم‌ها"><option value="all">همه آیتم‌ها</option><option value="list">آیتم‌های فهرستی</option><option value="star">آیتم‌های ستاره‌دار</option></select></label>'
         +'<div class="impRow"><label class="btn primary impBtn" for="stcoFile">'+S+'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>انتخاب فایل اکسل</span></label>'
         +'<button type="button" class="btn impBtn coefSampleBtn" id="stcoImpSample" title="دانلود اکسل نمونه ضرایب" aria-label="دانلود اکسل نمونه ضرایب">'+S+'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5 12 17l2.5-2.5"/></svg><span>اکسل نمونه</span></button></div>'
         +'<input type="file" id="stcoFile" accept=".xlsx,.xls,.csv" hidden>'
-        +'<div class="impNote">ستون‌ها: نوع فهرست بها، شماره فصل، ضریب پیشنهادی.</div></div>';
+        +'</div>';
       document.body.appendChild(c);
       function close(){c.remove()}
       c.addEventListener('click',function(e){if(e.target===c)close()});
-      $('stcoImpX').onclick=close;bindImp();
+      $('stcoImpX').onclick=close;bindImp();(function(){var s0=$('stcoImpType');if(s0)s0.value='all'})();
     };
   }
+  /* ---------- ضرایب صورت‌وضعیت به‌عنوان پیش‌فرض پروژه (باز شدن از «تعریف پروژه») ---------- */
+  var projSaved=null;
+  function projPid(){return window.__mainProjectId||'new'}
+  function projCoefClose(){window.__stcoProjectForm=false;closeShell('stCoefM');cur=projSaved&&projSaved.cur||null;dirty=projSaved?projSaved.dirty:false;projSaved=null}
+  function projCoefSave(){
+    var c=cur.coefs,g=function(id,v){var e=$(id);if(e)e.value=String(v)};
+    g('setupFloorCoef',cnum(c.floor));g('setupRegionCoef',cnum(c.region));g('setupOverheadCoef',cnum(c.overhead));g('setupProjectCoef',cnum(c.project));
+    var clean=function(o){var r={};Object.keys(o||{}).forEach(function(k){var v=num(o[k]);if(v!==null&&v>0)r[k]=Math.round(v*1e4)/1e4});return r};
+    var m=clean(c.ch);window.__chapterCoefficients=m;if(window.__mainProjectSettings)window.__mainProjectSettings.chapterCoefficients=m;
+    window.__coefByType={list:clean(c.chT&&c.chT.list),star:clean(c.chT&&c.chT.star)};
+    var d={other:cnum(c.other),cust:JSON.parse(JSON.stringify(c.cust||[])),chx:JSON.parse(JSON.stringify(c.chx||{})),gT:JSON.parse(JSON.stringify(c.gT||{})),chxT:JSON.parse(JSON.stringify(c.chxT||{})),pk:JSON.parse(JSON.stringify(c.pk||{})),gD:JSON.parse(JSON.stringify(c.gD||{}))};
+    (c.cust||[]).forEach(function(u){d[u.id]=cnum(c[u.id])});
+    window.__stCoefDefaults={pid:projPid(),v:d};
+    if(typeof window.__chapterCoefRefresh==='function')window.__chapterCoefRefresh();
+    projCoefClose();
+    say('ضرایب صورت‌وضعیت در فرم پروژه اعمال شد؛ برای ثبت نهایی، پروژه را ذخیره کن.');
+  }
+  window.__stOpenProjectCoefs=function(){
+    var g=function(id){var e=$(id);return e?e.value:''};
+    var S=window.__mainProjectSettings||{},pend=window.__stCoefDefaults,d=(pend&&pend.pid===projPid()?pend.v:S.stCoefDefaults)||{},bt=window.__coefByType||{};
+    var co={floor:cnum(g('setupFloorCoef')),region:cnum(g('setupRegionCoef')),overhead:cnum(g('setupOverheadCoef')),project:cnum(g('setupProjectCoef')),other:d.other!=null?cnum(d.other):1,
+      ch:Object.assign({},window.__chapterCoefficients||{}),chT:{list:Object.assign({},bt.list||{}),star:Object.assign({},bt.star||{})}};
+    try{if(d.cust&&d.cust.length){co.cust=JSON.parse(JSON.stringify(d.cust));d.cust.forEach(function(u){co[u.id]=d[u.id]!=null?d[u.id]:1})}if(d.chx)co.chx=JSON.parse(JSON.stringify(d.chx));if(d.gT)co.gT=JSON.parse(JSON.stringify(d.gT));if(d.chxT)co.chxT=JSON.parse(JSON.stringify(d.chxT));if(d.pk)co.pk=JSON.parse(JSON.stringify(d.pk));if(d.gD)co.gD=JSON.parse(JSON.stringify(d.gD))}catch(e){}
+    if(!projSaved)projSaved={cur:cur,dirty:dirty};
+    window.__stcoProjectForm=true;
+    cur={id:'__project',projectMode:true,name:'ضرایب پروژه',year:toEn(g('setupListYear'))||projectYear(),items:[],coefs:co};
+    dirty=false;window.__stcoFilt='all';window.__stcoType='list';window.__stcoMode='work';
+    /* داده‌ی فصل‌های همهٔ دفترچه‌های انتخاب‌شده بارگذاری شود (قبلاً فقط ابنیه لود بود) */
+    (function(){var y=String(cur.year||''),w=window.__extraWants=window.__extraWants||[];(window.selDiscs?window.selDiscs():[]).forEach(function(d){if(y&&!w.some(function(x){return String(x[0])===y&&x[1]===d}))w.push([y,d])});try{window.__reconcileShards&&window.__reconcileShards()}catch(e){}})();
+    openCoefs();
+  };
+  document.addEventListener('app-shards-loaded',function(){if(cur&&cur.projectMode&&$('stCoefM'))openCoefs()});
   /* ---------- نقل از صورت‌مجالس ---------- */
   function orderMin(m){var it=m.items||[],idx=it.map(function(_,i){return i});if(m.sortMode==='added_asc'){var hv={};it.forEach(function(x){hv[x.uid]=1});var tp0=idx.filter(function(i){return !it[i].extraOf||!hv[it[i].extraOf]}).reverse(),o0=[];tp0.forEach(function(i){o0.push(it[i]);idx.filter(function(k){return it[k].extraOf===it[i].uid}).forEach(function(k){o0.push(it[k])})});return o0}if(m.sortMode!=='code')return it.slice();
     var have={};it.forEach(function(x){have[x.uid]=1});var tops=idx.filter(function(i){return !it[i].extraOf||!have[it[i].extraOf]});
@@ -15076,17 +15365,20 @@ window.__cplSig=function(){
     var KK=parseFloat(toEn(a&&a.k!=null?a.k:'0.95'));if(!(KK>0))KK=0.95;
     var useNet=!!(a&&a.amtMode==='net');
     window.__adjLabelYear=a.workY;var on=trOn(a,st),cm=chapMap(st,on,a),pm=pv?chapMap(pv,on,a):{},ks={};Object.keys(cm).concat(Object.keys(pm)).forEach(function(k){ks[k]=1});
-    var sg=adjSegs(a,st),segs=sg?sg.segs:[{y:String(a.workY),p:String(a.workP),frac:1,days:0,u:0,key:String(a.workY)+'|'+String(a.workP)+'|0',from:null,to:null}],errs={},segInfo={},segSum={};
+    var sg=adjSegs(a,st),segs=sg?sg.segs:[{y:String(a.workY),p:String(a.workP),frac:1,days:0,u:0,key:String(a.workY)+'|'+String(a.workP)+'|0',from:null,to:null}],errs={},errG={},addErr=function(who,msg){var l=errG[msg]=errG[msg]||[];if(l.indexOf(who)<0)l.push(who)},segInfo={},segSum={};
+    /* نوع تعدیل: فصلی (پیش‌فرض) یا رشته‌ای (بر اساس شاخص کل هر دفترچه) */
+    var DM=!!(a&&a.adjMode==='disc'),gAll=Object.keys(cm).map(function(k){return cm[k]});
+    if(DM){var aggD=function(m){var o={};Object.keys(m).forEach(function(k){var x=m[k],e=o[x.d]=o[x.d]||{d:x.d,c:null,net:0,wc:0};e.net+=x.net||0;e.wc+=x.wc||0});return o};cm=aggD(cm);pm=aggD(pm);ks={};Object.keys(cm).concat(Object.keys(pm)).forEach(function(k){ks[k]=1})}
     var keys=Object.keys(ks).sort(function(x,y){var X=x.split('|'),Y=y.split('|');return DISCS.indexOf(X[0])-DISCS.indexOf(Y[0])||parseFloat(X[1])-parseFloat(Y[1])||String(X[1]).localeCompare(String(Y[1]),'en',{numeric:true})||String(X[2]||'').localeCompare(String(Y[2]||''))}),miss=0,rows=[];
     keys.forEach(function(k){
       var c=cm[k],p=pm[k],g=c||p,cw=c?(useNet?c.net:c.wc):0,pw=p?(useNet?p.net:p.wc):0;if(!cw&&!pw)return;
-      var per=cw-pw,ib=getAdjIndex(g.c,a.baseY,a.baseP,g.d);
+      var per=cw-pw,ib=DM?discIdx(g.d,a.baseY,a.baseP,gAll):getAdjIndex(g.c,a.baseY,a.baseP,g.d);
       segs.forEach(function(sgm){
-        var get=function(y2,p2){return getAdjIndex(g.c,y2,p2,g.d)},rs=segRes(a,g,sgm,get),iw=rs.v,
+        var get=function(y2,p2){return DM?discIdx(g.d,y2,p2,gAll):getAdjIndex(g.c,y2,p2,g.d)},rs=segRes(a,g,sgm,get),iw=rs.v,
           ok=!rs.err&&isFinite(ib)&&isFinite(iw)&&ib!==0;
-        if(!ok){miss++;errs[rs.err||('شاخص مبنا یا شاخص دوره‌ی کارکرد برای فصل‌ها موجود نیست.')]=1}
-        var r=ok?(iw/ib-1)*KK:0;
-        var fr=sgm.frac,spc=adjSplitComposite(g.c),chNum=faD(String(spc.grp?adjEffectiveChapter(g.d,g.c,a.workY):spc.ch)),
+        if(!ok){miss++;var spE=DM?{grp:'',ch:''}:adjSplitComposite(g.c),chE=faD(String(spE.grp?adjEffectiveChapter(g.d,g.c,a.workY):spE.ch));addErr(DM?('شاخص رشته‌ای '+g.d):('فصل '+chE+' ('+g.d+')'),rs.err||((!isFinite(ib)||ib===0)?('شاخص مبنا ('+adjPeriodLabel(a.baseP,a.baseY,null,null)+' '+faD(toEn(a.baseY))+') پیدا نشد.'):'شاخص دوره‌ی کارکرد پیدا نشد.'))}
+        var r=ok?Math.round((iw/ib-1)*KK*1000)/1000:0;
+        var fr=sgm.frac,spc=DM?{grp:'',ch:''}:adjSplitComposite(g.c),chNum=DM?'همه فصل‌ها':faD(String(spc.grp?adjEffectiveChapter(g.d,g.c,a.workY):spc.ch)),
           dayRatio=(sg&&sg.total)?faD(sgm.days)+'/'+faD(sg.total):'—',
           perYr=rs.per||(adjPeriodLabel(sgm.p,sgm.y,null,null)+' '+faD(toEn(sgm.y)));
         if(!segInfo[sgm.key])segInfo[sgm.key]=rs;
@@ -15096,12 +15388,12 @@ window.__cplSig=function(){
     });
     var eqSel=eqDiscOf(a,st),eqCw=eqTotal(st),eqPw=pv?eqTotal(pv):0,eqNote='';
     if(eqCw||eqPw){
-      var eqPer=eqCw-eqPw,eqG=Object.keys(cm).map(function(k){return cm[k]}),eqIb=eqIdx(eqSel,a.baseY,a.baseP,eqG);
+      var eqPer=eqCw-eqPw,eqG=gAll,eqIb=eqIdx(eqSel,a.baseY,a.baseP,eqG);
       segs.forEach(function(sgm){
         var get=function(y2,p2){return eqIdx(eqSel,y2,p2,eqG)},rs=segRes(a,null,sgm,get),eqIw=rs.v,
           ok=!rs.err&&isFinite(eqIb)&&isFinite(eqIw)&&eqIb!==0;
-        if(!ok){miss++;errs[(rs.err||'شاخص مبنا یا شاخص دوره‌ی کارکرد موجود نیست.')+' (تجهیز و برچیدن کارگاه)']=1}
-        var r=ok?(eqIw/eqIb-1)*KK:0,fr=sgm.frac,
+        if(!ok){miss++;addErr('تجهیز و برچیدن کارگاه',rs.err||((!isFinite(eqIb)||eqIb===0)?('شاخص مبنا ('+adjPeriodLabel(a.baseP,a.baseY,null,null)+' '+faD(toEn(a.baseY))+') پیدا نشد.'):'شاخص دوره‌ی کارکرد پیدا نشد.'))}
+        var r=ok?Math.round((eqIw/eqIb-1)*KK*1000)/1000:0,fr=sgm.frac,
           dayRatio=(sg&&sg.total)?faD(sgm.days)+'/'+faD(sg.total):'—',
           perYr=rs.per||(adjPeriodLabel(sgm.p,sgm.y,null,null)+' '+faD(toEn(sgm.y)));
         if(!segInfo[sgm.key])segInfo[sgm.key]=rs;
@@ -15110,10 +15402,12 @@ window.__cplSig=function(){
       });
       eqNote=1;
     }
+    Object.keys(errG).forEach(function(m){errs[errG[m].join('، ')+': '+m]=1});
     var vsuf=function(v){var N=window.__cplVer&&window.__cplVer.NAME;return(v&&v!=='P'&&N&&N[v])?' (نسخهٔ '+N[v]+')':''};var nm=stTitle(st)+vsuf(a.stV),pn=pv?stTitle(pv)+vsuf(a.pvV):'صورت‌وضعیت شماره ۰ (همه صفر)';
     var head=[['صورت‌وضعیت',nm],['نسبت به',pn],['سال مبنای تعدیل',toEn(a.baseY)],['دوره مبنای تعدیل',adjPeriodLabel(a.baseP,a.baseY,null,null)]];
     if(sg){head.push(['شروع کارکرد',faD(jStr(sg.from))],['پایان کارکرد',faD(jStr(sg.to))],['مدت کارکرد',faD(sg.total)+' روز'],['ضریب',String(KK)])}
     else head.push(['سال دوره کار',toEn(a.workY)],['دوره کار',adjPeriodLabel(a.workP,a.workY,null,null)],['ضریب',String(KK)],['تاریخ',toEn(a.workDate||st.workDate||'')]);
+    head.push(['نوع تعدیل',DM?'رشته‌ای':'فصلی']);
     if(eqNote)head.push(['دفترچه تعدیل تجهیز',eqSel]);
     if(a.endDate)head.push(['تاریخ خاتمه مجاز',faD(toEn(a.endDate))]);
     if(a.cStart)head.push(['تاریخ شروع بکار',faD(toEn(a.cStart))]);
@@ -15167,7 +15461,16 @@ window.__cplSig=function(){
     'html body #stAdjM .stadInt .mnCovTable tfoot td{font-weight:700;background:var(--c8)}'+
     'html body #stAdjM .stadInt .stadRs{height:30px!important;min-height:30px!important;padding:0 10px!important;font-size:13px}'+
     'html body #stAdjM .stadErr{margin:6px 0;padding:8px 10px;border:1px solid rgba(220,38,38,.6);border-radius:10px;background:rgba(220,38,38,.10);color:inherit;font-size:14px;line-height:1.9}'+
-    'html body #stAdjM .stadErr:empty{display:none}';
+    'html body #stAdjM .stadErr:empty,html body #stAdjM .stadErr[hidden]{display:none}'+
+    'html body #stAdjM .stadIntBtnRow{display:flex;align-items:center;gap:8px}'+
+    'html body #stAdjM #stadIntBtn{font-size:calc(var(--fs-btn) + 2px)!important}'+
+    'html body #stAdjM .stadModeGrp{display:inline-flex;align-items:stretch;border:1px solid var(--c5,rgba(127,140,155,.4));border-radius:19px;overflow:hidden;height:38px}'+
+    'html body #stAdjM .stadModeGrp label{display:flex;margin:0;cursor:pointer}'+
+    'html body #stAdjM .stadModeGrp input{position:absolute;opacity:0;pointer-events:none}'+
+    'html body #stAdjM .stadModeGrp span{display:flex;align-items:center;padding:0 14px;font-size:calc(var(--fs-btn) + 1px);font-weight:700;white-space:nowrap}'+
+    'html body #stAdjM .stadModeGrp input:checked+span{background:#fff!important;color:#000!important}'+
+    'html body #stAdjM .stadWarnBtn{flex:0 0 38px;width:38px;min-width:38px;height:38px;min-height:38px;padding:0;border-radius:50%;color:#f59e0b;border:1px solid rgba(245,158,11,.6);background:rgba(245,158,11,.12);display:inline-flex;align-items:center;justify-content:center}'+
+    'html body #stAdjM .stadWarnBtn[hidden]{display:none}';
     document.head.appendChild(s)})();
   function segTbl(sp){
     var L=sp.segs||[];if(!L.length)return '<div class="mnEmpty">برای نمایش انترپوله زمانی، تاریخ صورت‌وضعیت فعلی و قبلی را وارد کنید.</div>';
@@ -15230,7 +15533,9 @@ window.__cplSig=function(){
       '<label class="mnField"><span class="stadLb">نسخه</span><select id="stadPvV" class="stadVer" title="نسخهٔ صورت‌وضعیت قبلی" aria-label="نسخهٔ صورت‌وضعیت قبلی"></select></label>'+
       '<label class="mnField"><span class="stadLb">سال مبنای تعدیل</span><select id="stadBY">'+yopt()+'</select></label>'+
       '<label class="mnField"><span class="stadLb">دوره مبنای تعدیل</span><select id="stadBP"></select></label>'+
-      '</div><div id="stadNote" class="mnMuted"></div><div id="stadErr" class="stadErr"></div><div class="stadIntBtnRow"><button type="button" class="btn mnTextBtn stadTxtBtn" id="stadIntBtn">انترپوله زمانی کارکرد</button></div><div class="stadIntOv" id="stadIntOv" hidden><div class="stadInt"><div class="stadIntHead"><b>انترپوله زمانی کارکرد</b><label class="mnField"><span class="stadLb">تاریخ شروع بکار</span><input id="stadCs" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۳/۱۱/۳۰"></label><label class="stadChk"><input type="checkbox" id="stadFd"><span>محاسبه روز اول</span></label><button type="button" class="btn mnIco stadIntClose" id="stadIntClose" title="بستن" aria-label="بستن"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="mnTableWrap" id="stadSegs"></div></div></div><div class="mnTableWrap" id="stadBody"></div>');
+      '</div><div id="stadNote" class="mnMuted"></div><div class="stadIntBtnRow"><button type="button" class="btn mnTextBtn stadTxtBtn" id="stadIntBtn">انترپوله زمانی کارکرد</button><span class="stadModeGrp" role="radiogroup" aria-label="نوع تعدیل" title="نوع تعدیل: فصلی یا رشته‌ای"><label><input type="radio" name="stadMode" value="chap"><span>فصلی</span></label><label><input type="radio" name="stadMode" value="disc"><span>رشته‌ای</span></label></span><button type="button" class="btn mnIco stadWarnBtn" id="stadWarnBtn" hidden title="هشدار محاسبه" aria-label="هشدار محاسبه"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9L2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></button></div><div id="stadErr" class="stadErr" hidden></div><div class="stadIntOv" id="stadIntOv" hidden><div class="stadInt"><div class="stadIntHead"><b>انترپوله زمانی کارکرد</b><label class="mnField"><span class="stadLb">تاریخ شروع بکار</span><input id="stadCs" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۳/۱۱/۳۰"></label><label class="stadChk"><input type="checkbox" id="stadFd"><span>محاسبه روز اول</span></label><button type="button" class="btn mnIco stadIntClose" id="stadIntClose" title="بستن" aria-label="بستن"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="mnTableWrap" id="stadSegs"></div></div></div><div class="mnTableWrap" id="stadBody"></div>');
+    (function(){var r0=document.querySelector('input[name="stadMode"][value="'+(a.adjMode==='disc'?'disc':'chap')+'"]');if(r0)r0.checked=true})();
+    (function(){var wb=$('stadWarnBtn');if(wb)wb.onclick=function(){var e=$('stadErr');e.hidden=!e.hidden}})();
     function fillP(id,y,cur0){var v=periodsFor(y).slice(),el=$(id);if(/^[1-4]$/.test(String(cur0))&&v.indexOf(String(cur0))<0){v.push(String(cur0));v.sort(function(x,z){return (ADJ_PERIOD_ORDER[x]||(x==='AVG'?90:99))-(ADJ_PERIOD_ORDER[z]||(z==='AVG'?90:99))})}el.innerHTML=v.map(function(p){return '<option value="'+esc(p)+'">'+esc(adjPeriodLabel(p,y,null,null))+'</option>'}).join('');el.value=v.indexOf(String(cur0))>=0?String(cur0):(v[0]||'')}
     function fillPv(){var sel=$('stadSt').value;$('stadPv').innerHTML='<option value="0">صورت‌وضعیت شماره ۰ (همه صفر)</option>'+sts.filter(function(x){return x.id!==sel}).map(stOpt).join('');
       $('stadPv').value=sts.some(function(x){return x.id===a.prevId&&x.id!==sel})?a.prevId:'0'}
@@ -15241,13 +15546,13 @@ window.__cplSig=function(){
     $('stadCs').value=a.cStart||'';$('stadFd').checked=!!a.firstDay;
     function recs(){var st=stPick(a.stId,a.stV),pv=a.prevId==='0'?null:(stPick(a.prevId,a.pvV)||null);return {st:st,pv:pv}}
     function draw(){
-      a.no=$('stadNo').value;a.name=adjTitle(a);a.stId=$('stadSt').value;a.prevId=$('stadPv').value;a.stV=$('stadStV').value||'P';a.pvV=a.prevId==='0'?'P':($('stadPvV').value||'P');a.baseY=$('stadBY').value;a.baseP=$('stadBP').value;a.workY=$('stadWY').value;a.workP=$('stadWP').value;a.workDate=toEn($('stadWd').value).trim();a.k=$('stadK').value;a.endDate=toEn($('stadEnd').value).trim();a.eqDisc=$('stadEq').value;a.amtMode=$('stadAmt').value;a.startDate=toEn($('stadSd').value).trim();
+      a.no=$('stadNo').value;a.name=adjTitle(a);a.stId=$('stadSt').value;a.prevId=$('stadPv').value;a.stV=$('stadStV').value||'P';a.pvV=a.prevId==='0'?'P':($('stadPvV').value||'P');a.baseY=$('stadBY').value;a.baseP=$('stadBP').value;a.workY=$('stadWY').value;a.workP=$('stadWP').value;a.workDate=toEn($('stadWd').value).trim();a.k=$('stadK').value;a.endDate=toEn($('stadEnd').value).trim();a.eqDisc=$('stadEq').value;a.amtMode=$('stadAmt').value;var mr=document.querySelector('input[name="stadMode"]:checked');a.adjMode=(mr&&mr.value==='disc')?'disc':'chap';a.startDate=toEn($('stadSd').value).trim();
       a.cStart=toEn($('stadCs').value).trim();a.firstDay=$('stadFd').checked;
       var r=recs();if(!r.st)return;var sp=adjSpec(a,r.st,r.pv);lastSp=sp;var sgx=adjSegs(a,r.st),sdn='';
       if(a.startDate&&jFull(a.startDate)&&jFull(a.workDate)&&jCmp(jFull(a.startDate),jFull(a.workDate))>((a.startManual&&a.startPrev===false)?0:-1))sdn='تاریخ صورت‌وضعیت قبلی بعد از (یا برابر با) تاریخ صورت‌وضعیت فعلی است؛ دوره کارکرد انتخابی استفاده شد. ';
       $('stadNote').textContent=(sgx?'کارکرد از '+faD(jStr(sgx.from))+' تا '+faD(jStr(sgx.to))+' ('+faD(sgx.total)+' روز) بین '+faD(sgx.segs.length)+' دوره تعدیل بر اساس روز تقسیم شد. ':(sdn+workNote(Object.assign({},r.st,{workDate:a.workDate}),a)))+(sp.miss?('برای '+fmt(sp.miss)+' فصل شاخص در دوره‌های انتخاب‌شده پیدا نشد؛ ضریب تعدیل آن‌ها صفر حساب شد.'):'');
       withCur(r.st,function(){$('stadBody').innerHTML=tblHtml(Object.assign({},sp,{extra:[]}))});
-      $('stadSegs').innerHTML=segTbl(sp);$('stadErr').innerHTML=(sp.errs&&sp.errs.length)?('<b>⚠ محاسبه برای برخی ردیف‌ها متوقف شد (ضریب تعدیل آن‌ها صفر است):</b><br>'+sp.errs.map(function(x){return esc(x)}).join('<br>')):'';
+      $('stadSegs').innerHTML=segTbl(sp);var eh=(sp.errs&&sp.errs.length)?('<b>محاسبه برای برخی ردیف‌ها متوقف شد (ضریب تعدیل آن‌ها صفر است):</b><br>'+sp.errs.map(function(x){return esc(x)}).join('<br>')):'';$('stadErr').innerHTML=eh;var wb0=$('stadWarnBtn');if(wb0)wb0.hidden=!eh;if(!eh)$('stadErr').hidden=true;
       $('stadSegs').querySelectorAll('[data-sg]').forEach(function(el){el.onchange=function(){
         var k=el.dataset.sg,f=el.dataset.f,s=(sp.segs||[]).filter(function(x){return x.key===k})[0];if(!s)return;
         var o=a.ov[k]||{};
@@ -15261,7 +15566,7 @@ window.__cplSig=function(){
     $('stadBY').onchange=function(){fillP('stadBP',this.value,'');draw()};$('stadWY').onchange=function(){fillP('stadWP',this.value,'');draw()};
     $('stadSt').onchange=function(){a.prevId='0';a.startManual=false;a.stV='P';a.pvV='P';fillPv();syncVer();var s1=stPick($('stadSt').value,a.stV);if(!NOAUTO){$('stadSd').value=autoStartOf(null);$('stadWd').value=(s1&&s1.workDate)||''}var w1=workFromStatement(s1);if(w1){$('stadWY').value=w1.y;fillP('stadWP',w1.y,w1.p)}draw()};
     function applyWd(norm){var d=parseWd($('stadWd').value);if(d){if(norm)$('stadWd').value=d.s;var w=workFromStatement({workDate:d.s});if(w){$('stadWY').value=w.y;fillP('stadWP',w.y,w.p)}}draw()}
-    $('stadWd').addEventListener('input',function(){applyWd(false)});$('stadWd').addEventListener('blur',function(){applyWd(true)});$('stadK').onchange=draw;$('stadEq').onchange=draw;$('stadAmt').onchange=draw;
+    $('stadWd').addEventListener('input',function(){applyWd(false)});$('stadWd').addEventListener('blur',function(){applyWd(true)});$('stadK').onchange=draw;$('stadEq').onchange=draw;$('stadAmt').onchange=draw;document.querySelectorAll('input[name="stadMode"]').forEach(function(r){r.onchange=draw});
     ['stadBP','stadWP'].forEach(function(i){$(i).onchange=draw});
     $('stadPv').onchange=function(){a.prevId=this.value;a.pvV='P';syncVer();if(!a.startManual&&!NOAUTO)$('stadSd').value=autoStartOf(recs().pv);draw()};
     $('stadStV').onchange=function(){a.stV=this.value;var s1=stPick($('stadSt').value,a.stV);if(!NOAUTO)$('stadWd').value=(s1&&s1.workDate)||'';var w1=workFromStatement(s1);if(w1){$('stadWY').value=w1.y;fillP('stadWP',w1.y,w1.p)}draw()};
@@ -15531,9 +15836,9 @@ window.__cplSig=function(){
   function addItem(){
     var id=$('ciItem').value;if(!id){say('ابتدا یک آیتم انتخاب کن.');return}
     var x=DATA.find(function(d){return String(d.id)===String(id)});if(!x)return;
-    cur.items.push({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
+    cur.items.unshift({uid:uid(),id:x.id,code:typeof displayItemCode==='function'?displayItemCode(x):x.code,desc:x.desc||'',unit:x.unit||'',discipline:x.discipline,chapter:x.chapter,rows:[newRow()]});
     dirty=true;renderItems();
-    var last=document.querySelector('#ciItems .mnItem[data-i="'+(cur.items.length-1)+'"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
+    var last=document.querySelector('#ciItems .mnItem[data-i="0"]');if(last)last.scrollIntoView({block:'nearest',behavior:'smooth'});
   }
 
   function migrateRows(rec){
@@ -16289,7 +16594,7 @@ window.__cplSig=function(){
     var rows=coefKeys().map(function(k){var a=k.split('|');return '<tr><td>'+esc(a[0])+'</td><td>'+esc(chapterLabel(a[0],a[1]))+'</td><td><input class="stCc" data-k="'+esc(k)+'" dir="ltr" inputmode="decimal" value="'+esc((cur.coefs.ch[k]==null||String(cur.coefs.ch[k]).trim()==='')?projCoef():cur.coefs.ch[k])+'"></td></tr>'}).join('');
     shell('ciCoefM','<div class="mnHead"><b>ضرایب هزینه-درآمد</b><div class="mnBtns">'+iconBtns('cico',false)+'<button type="button" class="btn mnTextBtn" id="cicoBack" data-cb="back" title="مرحله قبل" aria-label="مرحله قبل">قبلی</button></div></div><div class="mnTop">'+
       GL.map(function(g){return '<label class="mnField">'+g[1]+'<input class="stCg" data-g="'+g[0]+'" dir="ltr" inputmode="decimal" value="'+esc(cur.coefs[g[0]])+'"></label>'}).join('')+'</div>'+
-      '<div class="mnPick"><label class="mnField">نوع فهرست بها<select id="cicoD">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option>'+d+'</option>'}).join('')+'</select></label><label class="mnField">شماره فصل<input id="cicoC" dir="ltr" inputmode="numeric" placeholder="مثلاً ۰۳"></label><button type="button" class="btn primary mnAddBtn" id="cicoAdd" title="افزودن ضریب فصل">＋</button></div>'+
+      '<div class="mnPick"><label class="mnField">نوع فهرست بها<select id="cicoD">'+(window.selDiscs?window.selDiscs():DISCS).map(function(d){return '<option value="'+d+'">'+d+'</option>'}).join('')+'</select></label><label class="mnField">شماره فصل<input id="cicoC" dir="ltr" inputmode="numeric" placeholder="مثلاً ۰۳"></label><button type="button" class="btn primary mnAddBtn" id="cicoAdd" title="افزودن ضریب فصل">＋</button></div>'+
       '<div class="mnSortBar"><label class="mnLink">ورود از Excel/CSV (نوع فهرست بها، شماره فصل، ضریب): <input type="file" id="cicoFile" accept=".xlsx,.xls,.csv"></label><button type="button" class="btn coefSampleBtn" title="دانلود اکسل نمونه ضرایب" aria-label="دانلود اکسل نمونه ضرایب"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg><span>اکسل نمونه ضرایب</span></button></div>'+
       '<div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>فصل</th><th>ضریب پیشنهادی</th></tr></thead><tbody>'+(rows||'<tr><td colspan="3" class="mnMuted">ضریب فصلی ثبت نشده است.</td></tr>')+'</tbody></table></div>');
     $('cicoBack').onclick=function(){closeShell('ciCoefM');if($('ciCover'))renderFlow()};
@@ -18236,7 +18541,7 @@ document.addEventListener('mousedown',function(e){
   var ICO_BACK=SV+'<path d="M4 12h16M14 6l6 6-6 6"/></svg>';
   var ICO_FWD=SV+'<path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
   var ICO_OK=SV+'<path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  var BACK={stcoBack:1,cicoBack:1,stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
+  var BACK={stTrBack:1,stcoBack:1,cicoBack:1,stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
   function isBack(b){return BACK[b.id]||/BackList$/.test(b.id||'')}
   function isFwd(b){return (/(Next|Ok)$/.test(b.id||'')||b.id==='analysisNext')&&!isBack(b)}
   function mk(src,ico,title,inv){
@@ -19397,6 +19702,44 @@ html:root:root:root body #adminDrawer{padding:0!important;align-items:stretch!im
 html:root:root:root body #adminDrawer .adminPanel{width:100%!important;max-width:none!important;height:100dvh!important;max-height:none!important;border-radius:0!important;border:0!important;padding:0 14px calc(14px + env(safe-area-inset-bottom,0px))!important}
 html:root:root:root body #adminDrawer .adminPanel>div:first-child{padding-top:calc(12px + env(safe-area-inset-top,0px))!important}
 </style>
+<style id="coef-type-row">
+html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow{flex-wrap:wrap}
+html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoefUploadBtn,html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoefType{flex:1 1 130px;min-width:0;width:auto!important;height:auto;min-height:44px;box-sizing:border-box}
+html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoefSampleBtn{flex:1 1 130px;min-height:44px}
+</style>
+<script id="coef-by-type-js">
+(function(){
+  /* ضرایب فصل برای سه نوع: همه آیتم‌ها (chapterCoefficients)، آیتم‌های فهرستی و آیتم‌های ستاره‌دار (در coefByType؛ روی ضرایب «همه» فصل‌به‌فصل اولویت دارند) */
+  window.__coefByType=window.__coefByType||{list:{},star:{}};
+  function nz(o){return o&&typeof o==='object'&&Object.keys(o).length>0}
+  window.__coefMapFor=function(s,kind){
+    var base=(s&&s.chapterCoefficients)||window.__chapterCoefficients||{},t=window.__coefByType||{},ov=kind==='star'?t.star:(kind==='list'?t.list:null);
+    return nz(ov)?Object.assign({},base,ov):base;
+  };
+  window.__coefKindOf=function(m){
+    if(!m)return 'list';
+    if(m.custom)return 'star';
+    try{
+      var arr=Array.isArray(window.__cplCustomItems)?window.__cplCustomItems:[];
+      if(m.code!=null&&arr.some(function(c){return String(c.code)===String(m.code)&&(m.discipline==null||String(c.discipline)===String(m.discipline))}))return 'star';
+    }catch(e){}
+    return 'list';
+  };
+  var prev=window.__cplLoadCustom;
+  if(typeof prev==='function'&&!prev.__cbt){
+    var w=function(d){
+      try{var t=d&&d.coefByType;window.__coefByType={list:(t&&t.list)||{},star:(t&&t.star)||{}}}catch(e){}
+      return prev.apply(this,arguments);
+    };
+    w.__cbt=1;window.__cplLoadCustom=w;
+  }
+  /* دکمه «بارگذاری اکسل» */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#chapterCoefUploadBtn');if(!b)return;
+    var f=document.getElementById('chapterCoefFile');if(f){f.value='';f.click()}
+  });
+})();
+</script>
 <script id="cpl-section-backup-js">
 (function(){
   'use strict';
@@ -20841,5 +21184,48 @@ render();
   }
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov&&ov.classList.contains('open')){e.stopPropagation();close()}},true);
   window.__cplOpenMohandesyar=open;window.__cplCloseMohandesyar=close;
+})();
+</script>
+
+<script id="mz-star-dropdown">
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var esc=function(x){return String(x==null?'':x).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
+  var fa=function(n){try{return new Intl.NumberFormat('fa-IR').format(n)}catch(e){return String(n)}};
+  function hasProject(){return !!(window.__mainProjectId&&(window.__mainProjectSettings||{}).listYear)}
+  function items(){try{if(!hasProject()||typeof starredItems!=='function')return [];return starredItems()||[]}catch(e){return []}}
+  function codeOf(it){try{return String(displayItemCode(it)||it.code||'')}catch(e){return String(it.code||'')}}
+  function openItem(id){
+    var it=items().find(function(x){return String(x.id)===String(id)});if(!it)return;
+    var item=it;try{item=DATA.find(function(x){return x.id===it.id})||it}catch(e){}
+    try{if(window.__cplVer&&window.__cplVer.price&&window.__cplVer.price.openSel&&window.__cplVer.price.openSel(item,function(){}))return}catch(e){}
+    try{analysisOpen(item)}catch(e){console.warn(e)}
+  }
+  /* ---- منوی کشویی صفحهٔ اصلی ---- */
+  function renderHome(){
+    var box=$('mzStarDdList'),cnt=$('mzStarDdCnt');if(!box)return;
+    if(!hasProject()){box.innerHTML='<div class="mzEmpty">برای دیدن آیتم‌های ستاره‌دار، ابتدا یک پروژه انتخاب کن.</div>';if(cnt)cnt.textContent='';return}
+    var a=items();if(cnt)cnt.textContent=a.length?'('+fa(a.length)+')':'';
+    box.innerHTML=a.length?a.map(function(it){return '<button type="button" class="mzStarRow" role="option" data-id="'+esc(it.id)+'" title="'+esc(it.desc||'')+'"><span class="mzCode">'+esc(codeOf(it))+'</span><span class="mzDesc">'+esc(it.desc||'')+'</span></button>'}).join(''):'<div class="mzEmpty">هنوز آیتم ستاره‌داری برای این پروژه ثبت نشده است.</div>';
+  }
+  var dd=null,btn=null;
+  if(btn)btn.addEventListener('click',function(){var o=!dd.classList.contains('open');dd.classList.toggle('open',o);btn.setAttribute('aria-expanded',o?'true':'false');if(o)renderHome()});
+  var lst=$('mzStarDdList');
+  if(lst)lst.addEventListener('click',function(e){var r=e.target.closest&&e.target.closest('.mzStarRow');if(r)openItem(r.dataset.id)});
+  /* ---- منوی کشویی صفحهٔ فهرست بها ---- */
+  var sel=$('mzStarSel');
+  function fillSel(){
+    if(!sel)return;var a=items();
+    sel.innerHTML='<option value="">'+(hasProject()?('★ آیتم‌های ستاره‌دار'+(a.length?' ('+fa(a.length)+')':'')):'★ آیتم‌های ستاره‌دار')+'</option>'+a.map(function(it){var d=String(it.desc||'');return '<option value="'+esc(it.id)+'">'+esc(codeOf(it)+' — '+(d.length>70?d.slice(0,70)+'…':d))+'</option>'}).join('');
+    sel.value='';
+  }
+  if(sel){
+    ['focus','mousedown','touchstart'].forEach(function(ev){sel.addEventListener(ev,fillSel,{passive:true})});
+    sel.addEventListener('change',function(){var v=sel.value;sel.value='';if(v)openItem(v)});
+  }
+  function refresh(){fillSel();if(dd&&dd.classList.contains('open'))renderHome();else{var c=$('mzStarDdCnt');if(c&&hasProject()){var n=items().length;c.textContent=n?'('+fa(n)+')':''}}}
+  document.addEventListener('cpl-star-updated',refresh);
+  document.addEventListener('app-data-ready',refresh);
+  setTimeout(refresh,1500);
 })();
 </script>
