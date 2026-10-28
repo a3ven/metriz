@@ -4279,7 +4279,7 @@ html[data-theme="light"] body .stRowTools .btn svg,html[data-theme="light"] body
 </style>
 <style id="mz-add-css">
 /* ===== ضرایب صورت‌وضعیت: نوع آیتم‌ها + دکمهٔ باز کردن از تعریف پروژه + منوی ستاره‌دارها ===== */
-html body #projectSetup #chapterCoefStBtn{min-height:44px!important;border-radius:var(--sqR3,22px)!important;box-sizing:border-box!important}
+html body #projectSetup #chapterCoefStBtn,html body #projectSetup #orgMgrBtn{min-height:44px!important;height:44px!important;border-radius:var(--sqR3,22px)!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0 10px!important;line-height:1.25!important;font-weight:inherit!important;width:100%!important}
 html body #stImportModal .impType{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;font-size:14px;color:var(--c3,#a7a7a7)}
 html body #stImportModal .impType select{height:44px;box-sizing:border-box;width:100%;font-size:15px;padding:0 10px;border-radius:12px;background:var(--c8,#1c1c1c);color:var(--c2,#f2f2f2);border:1px solid var(--c5,#393939)}
 html body #stCoefM .mnTable input.stCt,html body #stCoefM .mnCovTable input.stCt{width:100%;min-width:56px;box-sizing:border-box;text-align:center}
@@ -4304,7 +4304,7 @@ html body #stCoefM .stcoRow2>.mnField:nth-of-type(3){flex:1.6 1 130px!important}
 html body #stCoefM .stcoRow2 .coefImpBtn{flex:1 1 100%!important}
 
 /* ویرایش اطلاعات پروژه: فونت دکمه‌های اطلاعات قرارداد / فهرست بها و تعدیل / ضرایب صورت‌وضعیت / کل ضرایب پروژه یک سایز بزرگ‌تر */
-html:root body #projectSetup #contractToggleBtn,html:root body #projectSetup #listInfoToggleBtn,html:root body #projectSetup #stCoefToggleBtn,html:root body #projectSetup #chapterCoefStBtn{font-size:16px!important}
+html:root body #projectSetup #contractToggleBtn,html:root body #projectSetup #listInfoToggleBtn,html:root body #projectSetup #stCoefToggleBtn,html:root body #projectSetup #chapterCoefStBtn,html:root body #projectSetup #orgMgrBtn{font-size:16px!important}
 </style><style id="clrIconRed">html body #stClr#stClr#stClr#stClr,html body #mnClr#mnClr#mnClr#mnClr{color:#e5484d!important}html body #stClr#stClr#stClr#stClr svg,html body #mnClr#mnClr#mnClr#mnClr svg{stroke:#e5484d!important;color:#e5484d!important}</style>
 </head><body>
 <script id="v-coef-round4-core">
@@ -7248,7 +7248,7 @@ window.exportRowsData=exportRowsData;
   async function loadHistory(mode='projects', requestedProjectId=null){
     setHistoryTitle(mode); const box=$('projectList');if(!box)return;
     try{
-      const __seq=(window.__histSeq=(window.__histSeq||0)+1);const rows=await fetchProjects();if(__seq!==window.__histSeq)return;
+      const __seq=(window.__histSeq=(window.__histSeq||0)+1);const __stale=(window.__fpCache&&Date.now()-window.__fpCache.t>=8000&&Array.isArray(window.__projectRows)&&window.__projectRows.length)?window.__projectRows:null;const rows=__stale||await fetchProjects();if(__seq!==window.__histSeq)return;if(__stale){const __sig=function(a){return a.map(function(x){return x.id+':'+(x.updated_at||'')+':'+(x.name||'')}).join('|')},__s0=__sig(__stale);fetchProjects().then(function(r){if(__seq===window.__histSeq&&__sig(r)!==__s0)loadHistory(mode,requestedProjectId)}).catch(function(){})}
       if(mode==='calculations'){
         const pid=requestedProjectId||mainProjectId||parentProjectId;
         const projectRow=rows.find(x=>String(x.id)===String(pid||''));
@@ -7263,6 +7263,7 @@ window.exportRowsData=exportRowsData;
         box.innerHTML=''+ (mains.length?mains.map(m=>`<div class="projectItem" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><b>پروژه: ${escP(m.name)}</b><small class="projYear" data-yr="${m.id}">${projYearTxt(m)}</small></div><div class="btns projBtns"><button class="btn primary projIco" data-open="${m.id}" title="باز کردن" aria-label="باز کردن"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2"/><path d="M5 19h12.5a2 2 0 0 0 1.9-1.4L22 11H8.5a2 2 0 0 0-1.9 1.4z"/></svg></button><button class="btn" data-calcs-project="${m.id}">تاریخچه محاسبات</button><button class="btn projIco" data-edit-project="${m.id}" title="ویرایش" aria-label="ویرایش"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button class="btn danger projIco" data-del="${m.id}" title="حذف" aria-label="حذف"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join(''):'<div class="historyEmpty"><b>هنوز پروژه‌ای ذخیره نشده.</b></div>');
         $('historyNewEntry')?.addEventListener('click',()=>{closeHistory();newMainEntry()});
       }
+      try{if(window.__glassScan)window.__glassScan(box)}catch(e){}
       box.querySelectorAll('[data-calcs-project]').forEach(b=>b.addEventListener('click',()=>loadHistory('calculations',b.dataset.calcsProject)));
       box.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openProjectV26(b.dataset.open)));
       box.querySelectorAll('[data-edit-calc]').forEach(b=>b.addEventListener('click',async()=>{await openProjectV26(b.dataset.editCalc);closeHistory();renderHeader();}));
@@ -10527,8 +10528,8 @@ setInterval(bindExports,500);
     var t=sh.querySelector('.pfT'),r=sh.querySelector('.pfS');
     if(t.textContent!==title)t.textContent=title;
     if(r.textContent!==rest)r.textContent=rest;
-    imp(t,'font-size','20px');imp(t,'font-weight','800');imp(t,'line-height','1.5');
-    imp(r,'font-size','15px');imp(r,'opacity','.7');imp(r,'white-space','pre-line');imp(r,'line-height','1.7');
+    imp(t,'font-size','20px');imp(t,'font-weight','800');imp(t,'line-height','1.45');
+    imp(r,'font-weight','400');imp(r,'opacity','.9');imp(r,'white-space','pre-line');imp(r,'line-height','1.45');
     r.style.display=rest?'block':'none';
     if(ob)imp(ob,'display','none');
     if(os)imp(os,'display','none');
@@ -10842,7 +10843,7 @@ setInterval(bindExports,500);
         var sigUrl=null,sigMm=0;
         if(hasSig){
           var sg=d.createElement('div');sg.style.cssText='display:flex;direction:rtl;gap:10px;width:'+W+'px;background:#fff;position:absolute;left:0;top:0;font-family:inherit';
-          ['نماینده پیمانکار','نماینده مشاور','نماینده کارفرما'].forEach(function(t){var x=d.createElement('div');x.style.cssText='flex:1 1 0;border:1px solid #000;box-sizing:border-box;text-align:center;font-weight:700;font-size:12px;line-height:24px;height:26px;color:#000';x.textContent=t;sg.appendChild(x)});
+          window.__cplOrgs.sigNames().forEach(function(t){var x=d.createElement('div');x.style.cssText='flex:1 1 0;border:1px solid #000;box-sizing:border-box;text-align:center;font-weight:700;font-size:12px;line-height:24px;height:26px;color:#000';x.textContent=t;sg.appendChild(x)});
           b.appendChild(sg);var sc2=await window.html2canvas(sg,opt({scale:2}));sigUrl=sc2.toDataURL('image/png');sigMm=26/px;sg.remove();
         }
         var pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:land?'l':'p',compress:true});
@@ -11041,7 +11042,7 @@ setInterval(bindExports,500);
   }
 
   /* ---------- گردش کار صورت‌مجلس: پیمانکار ← مشاور ← کارفرما ← ابلاغ ---------- */
-  var WF_ST=[{k:'contractor',t:'پیمانکار'},{k:'consultant',t:'مشاور'},{k:'employer',t:'کارفرما'},{k:'announced',t:'ابلاغ کارفرما'}];
+  var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
   function faDig(s){return String(s==null?'':s).replace(/\d/g,function(d){return FA[+d]})}
@@ -12082,7 +12083,7 @@ setInterval(bindExports,500);
   var K=window.__cplWfKit;if(!K)return;
   var $=function(id){return document.getElementById(id)};
   var esc=K.esc,faDig=K.faDig,toEn=K.toEn,say=K.say,shell=K.shell,closeShell=K.closeShell;
-  var WF_ST=[{k:'contractor',t:'پیمانکار'},{k:'consultant',t:'مشاور'},{k:'employer',t:'کارفرما'},{k:'announced',t:'ابلاغ کارفرما'}];
+  var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
   function wfDateOf(ts){try{var p=new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(ts||Date.now())),o={};p.forEach(function(q){o[q.type]=q.value});return o.year+'/'+o.month+'/'+o.day}catch(e){return ''}}
@@ -12306,17 +12307,192 @@ setInterval(bindExports,500);
 })();
 </script>
 
+<script id="cpl-orgs-js">
+/* عوامل پروژه: پیمانکار/مشاور/کارفرما + عوامل افزوده‌شده (مثلاً نظارت) با رنگ، ترتیب و امکان حذف — از «مدیریت عوامل پروژه» در تعریف پروژه */
+window.__cplOrgs=(function(){
+  var COLORS=[['مشکی','#000000'],['آبی','#1f4fd1'],['بنفش','#7b2cbf'],['خاکستری','#6b7280'],['سبز','#0a8f3c'],['صورتی','#e8579a'],['قرمز','#d11f1f'],['قهوه‌ای','#7a4a21'],['نارنجی','#f07a10'],['زرد','#e0b400']];
+  var BASE=[{k:'P',name:'پیمانکار',suf:'',color:'#000000',f:'contractor'},{k:'C',name:'مشاور',suf:'__C',color:'#d11f1f',f:'consultant'},{k:'E',name:'کارفرما',suf:'__E',color:'#0a8f3c',f:'employer'}];
+  var WFK={P:'contractor',C:'consultant',E:'employer'};
+  function ct(){var s=window.__mainProjectSettings;return (s&&s.contract)||{}}
+  function cssOf(c){for(var i=0;i<COLORS.length;i++)if(COLORS[i][0]===c)return COLORS[i][1];return /^#[0-9a-f]{6}$/i.test(c||'')?c:'#000000'}
+  function extras(){var a=ct().extraOrgs;return Array.isArray(a)?a.filter(function(o){return o&&o.k&&o.name}):[]}
+  function ordered(){
+    var c=ct(),oc=c.orgColors||{},hid=c.orgHidden||{},ord=Array.isArray(c.orgOrder)?c.orgOrder:[];
+    var all=BASE.map(function(b){return {k:b.k,name:b.name,suf:b.suf,color:oc[b.k]?cssOf(oc[b.k]):b.color,hidden:!!hid[b.k],val:c[b.f]||''}}).concat(extras().map(function(o){return {k:o.k,name:String(o.name),suf:'__'+o.k,color:cssOf(o.color),extra:true,val:o.val||''}}));
+    return all.map(function(o,i){return {o:o,i:i}}).sort(function(a,b){var x=ord.indexOf(a.o.k),y=ord.indexOf(b.o.k);x=x<0?1000+a.i:x;y=y<0?1000+b.i:y;return x-y}).map(function(z){return z.o});
+  }
+  function list(){return ordered().filter(function(o){return !o.hidden})}
+  function find(k){var l=ordered();for(var i=0;i<l.length;i++)if(l[i].k===k)return l[i];return null}
+  function prox(fn){return new Proxy({},{get:function(t,k){return typeof k==='string'?fn(k):undefined}})}
+  var NAME=prox(function(k){var o=find(k);return o?o.name:undefined});
+  var SUF=prox(function(k){var o=find(k);return o?o.suf:undefined});
+  var COL=prox(function(k){var o=find(k);if(!o)return {css:'#000000',x:'FF000000'};return {css:o.color,x:'FF'+o.color.slice(1).toUpperCase()}});
+  var RANK=prox(function(k){var l=ordered();for(var i=0;i<l.length;i++)if(l[i].k===k)return i;return 99});
+  function keys(){return list().map(function(o){return o.k})}
+  function nonP(){return keys().filter(function(k){return k!=='P'})}
+  function bySuf(s){var l=ordered();for(var i=0;i<l.length;i++)if(l[i].suf===(s||''))return l[i].k;return 'P'}
+  function lum(h){var r=parseInt(h.substr(1,2),16),g=parseInt(h.substr(3,2),16),b=parseInt(h.substr(5,2),16);return (r*299+g*587+b*114)/1000}
+  function tagStyle(k){var o=find(k);if(!o||!o.extra)return '';return ' style="background:'+o.color+';color:'+(lum(o.color)>150?'#000':'#fff')+';border-color:'+o.color+'"'}
+  function dot(k){var o=find(k);return '<i style="display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:7px;vertical-align:middle;background:'+(o?o.color:'#000')+';border:1px solid rgba(128,128,128,.5)"></i>'}
+  function wfStages(){return list().map(function(o){return {k:WFK[o.k]||o.k,t:o.name}}).concat([{k:'announced',t:'ابلاغ کارفرما'}])}
+  function sigNames(){return list().map(function(o){return 'نماینده '+o.name})}
+  return {COLORS:COLORS,cssOf:cssOf,extras:extras,list:list,ordered:ordered,keys:keys,nonP:nonP,bySuf:bySuf,NAME:NAME,SUF:SUF,COL:COL,RANK:RANK,tagStyle:tagStyle,dot:dot,wfStages:wfStages,sigNames:sigNames};
+})();
+(function(){
+  'use strict';
+  /* ---- فیلترهای وضعیت (گردش کار) با توجه به عوامل و ترتیبشان ---- */
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function syncFilt(sel){
+    var os=sel.options,hasE=false,all=null,ann=null,i;
+    for(i=0;i<os.length;i++){var v=os[i].value;if(v==='employer')hasE=true;if(v==='all')all=os[i].text;if(v==='announced')ann=os[i].text}
+    if(!hasE&&!sel.dataset.orgf)return;
+    var st=window.__cplOrgs.wfStages().filter(function(x){return x.k!=='announced'}),sig=st.map(function(x){return x.k+x.t}).join('|');
+    if(sel.dataset.orgf===sig)return;
+    var cur=sel.value,h='';
+    if(all!==null)h+='<option value="all">'+esc(all)+'</option>';
+    st.forEach(function(x){h+='<option value="'+esc(x.k)+'">نزد '+esc(x.t)+'</option>'});
+    if(ann!==null)h+='<option value="announced">'+esc(ann)+'</option>';
+    sel.innerHTML=h;sel.dataset.orgf=sig;
+    var ok=false;for(i=0;i<sel.options.length;i++)if(sel.options[i].value===cur)ok=true;
+    sel.value=ok?cur:'all';
+  }
+  var tm=0;function scan(){[].forEach.call(document.querySelectorAll('select'),syncFilt)}
+  window.__cplOrgsScan=scan;
+  try{new MutationObserver(function(){clearTimeout(tm);tm=setTimeout(scan,60)}).observe(document.body,{childList:true,subtree:true})}catch(e){}
+})();
+(function(){
+  'use strict';
+  /* ---- «مدیریت عوامل پروژه» ---- */
+  (function(){var st=document.createElement('style');st.id='cplOrgsCss';st.textContent='html body #projectSetup #contractBox{grid-template-columns:1fr!important}html body #projectSetup #orgMgrBtn,html body #projectSetup #chapterCoefStBtn{background:#fff!important;color:#000!important;border-color:#bbb!important}';document.head.appendChild(st)})();
+  var O=window.__cplOrgs,setup=[],seq=0,cols={P:'مشکی',C:'قرمز',E:'سبز'},hid={},order=['P','C','E'],DEF={P:'مشکی',C:'قرمز',E:'سبز'},BN={P:'پیمانکار',C:'مشاور',E:'کارفرما'},BID={P:'setupContractor',C:'setupConsultant',E:'setupEmployer'};
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function clone(x){return JSON.parse(JSON.stringify(x))}
+  function norm(s){return String(s||'').replace(/\s+/g,' ').trim()}
+  function opts(cur){return O.COLORS.map(function(c){return '<option value="'+c[0]+'"'+(c[0]===cur?' selected':'')+'>'+c[0]+'</option>'}).join('')}
+  function sw(c,cls){return '<span '+(cls||'class="orgSw"')+' style="width:24px;height:24px;flex:0 0 24px;border-radius:8px;border:1px solid rgba(128,128,128,.5);background:'+O.cssOf(c)+'"></span>'}
+  function fixOrder(){var all=['P','C','E'].concat(setup.map(function(o){return o.k})),r=order.filter(function(k){return all.indexOf(k)>=0});all.forEach(function(k){if(r.indexOf(k)<0)r.push(k)});order=r}
+  function nameOf(k){if(BN[k])return BN[k];var o=setup.filter(function(x){return x.k===k})[0];return o?o.name:k}
+  function colOf(k){if(cols[k])return cols[k];var o=setup.filter(function(x){return x.k===k})[0];return o?o.color:'مشکی'}
+  function visCount(){return order.filter(function(k){return !hid[k]}).length}
+  function styleBtn(){
+    var b=document.getElementById('orgMgrBtn');if(!b)return;
+    b.style.width='100%';b.style.boxSizing='border-box';b.style.cursor='pointer';
+  }
+  function lblOf(k){if(BID[k]){var e=document.getElementById(BID[k]);return e&&e.closest('label')}return document.querySelector('#contractBox label[data-orgx="'+k+'"]')}
+  function layout(){
+    var box=document.getElementById('contractBox'),cell=document.getElementById('orgMgrCell');if(!box||!cell)return;
+    [].forEach.call(box.querySelectorAll('label[data-orgx]'),function(l){l.remove()});
+    setup.forEach(function(o){
+      var l=document.createElement('label');l.setAttribute('data-orgx',o.k);
+      l.innerHTML=esc(o.name)+'<input data-orgxin="'+esc(o.k)+'" placeholder="نام '+esc(o.name)+'" autocomplete="off">';
+      l.querySelector('input').value=o.val||'';box.appendChild(l);
+    });
+    fixOrder();
+    var n=0,orgEls=[];
+    order.forEach(function(k){var l=lblOf(k);if(!l)return;
+      if(hid[k]){l.style.display='none';return}
+      l.style.display='';l.style.order=n++;orgEls.push(l);
+    });
+    cell.style.order=n;
+    var j=0;[].forEach.call(box.children,function(c){if(c===cell||orgEls.indexOf(c)>=0||(c.style&&c.style.display==='none'&&c.querySelector&&c.querySelector('[id^="setupCon"]')))return;c.style.order=100+(j++)});
+    styleBtn();
+  }
+  function ensureRow(){
+    if(document.getElementById('orgMgrBtn')){layout();return}
+    var inp=document.getElementById('setupContractNo'),anchor=inp&&inp.closest('label');if(!anchor)return;
+    var cell=document.createElement('div');cell.id='orgMgrCell';cell.style.cssText='align-self:end';
+    cell.innerHTML='<button type="button" class="btn" id="orgMgrBtn" aria-haspopup="dialog">مدیریت عوامل پروژه</button>';
+    anchor.parentNode.insertBefore(cell,anchor);
+    document.getElementById('orgMgrBtn').onclick=openDlg;
+    var box=document.getElementById('contractBox');
+    box.addEventListener('input',function(e){var k=e.target.getAttribute&&e.target.getAttribute('data-orgxin');if(!k)return;setup.forEach(function(o){if(o.k===k)o.val=e.target.value})});
+    var t=document.getElementById('contractToggleBtn');if(t)t.addEventListener('click',function(){setTimeout(styleBtn,0)});
+    layout();
+  }
+  function openDlg(){
+    var old=document.getElementById('cplOrgNew');if(old)old.remove();
+    var ov=document.createElement('div');ov.id='cplOrgNew';ov.className='cplAskOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+    ov.innerHTML='<div class="cplAskBox" style="width:min(520px,100%);max-height:90vh;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="margin:0;line-height:1">مدیریت عوامل پروژه</h3><button type="button" class="btn mnListIco" id="orgClose" aria-label="بستن">✕</button></div><div id="orgRows" style="display:grid;gap:8px"></div>'+
+      '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--c5)"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="orgNewName" placeholder="عامل جدید، مثلاً نظارت" autocomplete="off" style="flex:1 1 100%;min-width:0"><span id="orgNewSwBox" style="display:inline-flex;flex:0 0 auto">'+sw('آبی','id="orgNewSw"')+'</span><select id="orgNewColor" style="flex:1 1 0;min-width:0;width:auto">'+opts('آبی')+'</select><button type="button" class="btn primary" id="orgNewOk">اضافه کردن</button></div><div id="orgNewErr" style="color:#d11f1f;min-height:18px;margin-top:6px"></div></div></div>';
+    document.body.appendChild(ov);
+    var rows=ov.querySelector('#orgRows'),nm=ov.querySelector('#orgNewName'),cl=ov.querySelector('#orgNewColor'),er=ov.querySelector('#orgNewErr');
+    function render(){
+      fixOrder();
+      rows.innerHTML=order.map(function(k,i){
+        var h=!!hid[k],base=!!BN[k];
+        var arr='<button type="button" class="btn mnListIco orgIc" data-mv="-1" data-k="'+esc(k)+'" title="بالا" aria-label="بالا"'+(i===0?' disabled':'')+'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button><button type="button" class="btn mnListIco orgIc" data-mv="1" data-k="'+esc(k)+'" title="پایین" aria-label="پایین"'+(i===order.length-1?' disabled':'')+'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>';
+        var act=h?'<button type="button" class="btn" data-restore="'+esc(k)+'">بازگردانی</button>':'<button type="button" class="btn danger mnListIco orgIc" data-del="'+esc(k)+'" title="حذف" aria-label="حذف"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>';
+        return '<div style="display:flex;gap:6px;align-items:center;'+(h?'opacity:.5':'')+'">'+arr+sw(colOf(k))+'<b title="'+esc(nameOf(k))+'" style="flex:0 0 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'+(h?'text-decoration:line-through':'')+'">'+esc(nameOf(k))+'</b><select data-k="'+esc(k)+'" style="flex:1 1 0;min-width:0;width:auto"'+(h?' disabled':'')+'>'+opts(colOf(k))+'</select>'+act+'</div>';
+      }).join('');
+      var sl=rows.querySelector('select'),h=(sl&&sl.offsetHeight)||34;
+      [].forEach.call(rows.querySelectorAll('.orgIc'),function(b){imp(b,'width:'+h+'px;height:'+h+'px;min-width:'+h+'px;min-height:'+h+'px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 '+h+'px')});
+            var bs=rows.querySelectorAll('b'),mw=0;[].forEach.call(bs,function(x){mw=Math.max(mw,x.offsetWidth)});mw=Math.min(mw,150);[].forEach.call(bs,function(x){x.style.flex='0 0 '+mw+'px'});
+    }
+    function imp(el,css){css.split(';').forEach(function(d){var i=d.indexOf(':');if(i>0)el.style.setProperty(d.slice(0,i).trim(),d.slice(i+1).trim(),'important')})}
+    function apply(){render();layout()}
+    rows.addEventListener('change',function(e){var s=e.target,k=s.getAttribute&&s.getAttribute('data-k');if(!k||s.tagName!=='SELECT')return;
+      if(DEF[k])cols[k]=s.value;else setup.forEach(function(o){if(o.k===k)o.color=s.value});
+      var d=s.parentNode.querySelector('.orgSw');if(d)d.style.background=O.cssOf(s.value)});
+    rows.addEventListener('click',function(e){
+      var t=e.target.closest&&e.target.closest('button');if(!t)return;
+      var mv=t.getAttribute('data-mv'),k=t.getAttribute('data-k');
+      if(mv){var i=order.indexOf(k),j=i+(+mv);if(j<0||j>=order.length)return;var x=order[i];order[i]=order[j];order[j]=x;apply();return}
+      var rs=t.getAttribute('data-restore');if(rs){delete hid[rs];apply();return}
+      var dk=t.getAttribute('data-del');if(!dk)return;
+      if(visCount()<=1){er.textContent='حداقل یک عامل باید بماند.';return}
+      if(!confirm('«'+nameOf(dk)+'» از عوامل پروژه حذف شود؟ نسخه‌های ساخته‌شده‌اش در داده‌ها می‌مانند ولی دیگر نمایش داده نمی‌شوند.'))return;
+      er.textContent='';
+      if(BN[dk])hid[dk]=1;else{setup=setup.filter(function(o){return o.k!==dk});order=order.filter(function(x){return x!==dk})}
+      apply();
+    });
+    function close(){document.removeEventListener('keydown',onKey,true);ov.remove();layout();if(window.__cplOrgsScan)window.__cplOrgsScan()}
+    function onKey(e){if(e.key==='Escape'){e.stopPropagation();close()}}
+    function add(){var n=norm(nm.value);if(!n){er.textContent='نام عامل را وارد کن.';return}
+      var all=order.map(nameOf);
+      if(all.indexOf(n)>=0){er.textContent='این عامل قبلاً تعریف شده است.';return}
+      var mx=seq;setup.forEach(function(o){var q=parseInt(String(o.k).slice(1),10);if(q>mx)mx=q});seq=mx+1;
+      setup.push({k:'X'+seq,name:n,color:cl.value,val:''});order.push('X'+seq);nm.value='';er.textContent='';apply()}
+    cl.onchange=function(){var d=ov.querySelector('#orgNewSw');if(d)d.style.background=O.cssOf(cl.value)};
+    (function(){var ok=ov.querySelector('#orgNewOk'),ref=document.getElementById('contractToggleBtn')||document.getElementById('startProject'),cs=ref?getComputedStyle(ref):null;if(cs){ok.style.fontFamily=cs.fontFamily;ok.style.fontWeight=cs.fontWeight}imp(ok,'border-radius:var(--sqR3,22px);height:'+(cl.offsetHeight||34)+'px;min-height:0;padding:0 18px;white-space:nowrap;flex:0 0 auto')})();
+    ov.querySelector('#orgNewOk').onclick=add;ov.querySelector('#orgClose').onclick=close;
+    nm.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();add()}});
+    ov.addEventListener('click',function(e){if(e.target===ov)close()});
+    document.addEventListener('keydown',onKey,true);render();
+  }
+  var r0=window.readContractFields,f0=window.fillContractFields;
+  if(typeof r0==='function')window.readContractFields=function(){
+    var c=r0.apply(this,arguments)||{};fixOrder();
+    if(setup.length){c.extraOrgs=clone(setup);c.orgSeq=seq}
+    var dc=['P','C','E'].some(function(k){return cols[k]!==DEF[k]});if(dc)c.orgColors=clone(cols);
+    if(order.join()!==['P','C','E'].concat(setup.map(function(o){return o.k})).join())c.orgOrder=order.slice();
+    if(Object.keys(hid).length)c.orgHidden=clone(hid);
+    return c;
+  };
+  if(typeof f0==='function')window.fillContractFields=function(c){
+    var r=f0.apply(this,arguments);
+    setup=Array.isArray(c&&c.extraOrgs)?clone(c.extraOrgs):[];seq=parseInt(c&&c.orgSeq,10)||0;
+    setup.forEach(function(o){var q=parseInt(String(o.k).slice(1),10);if(q>seq)seq=q});
+    cols=Object.assign({},DEF,(c&&c.orgColors)||{});hid=Object.assign({},(c&&c.orgHidden)||{});order=Array.isArray(c&&c.orgOrder)?c.orgOrder.slice():['P','C','E'];
+    ensureRow();layout();
+    return r;
+  };
+  ensureRow();
+})();
+</script>
 <script id="cpl-signature-js">
-/* کادر امضا (راست پیمانکار، وسط مشاور، چپ کارفرما): در Chrome/Edge جدید پایین هر صفحهٔ چاپی از طریق حاشیهٔ صفحه؛ در بقیهٔ مرورگرها انتهای گزارش */
+/* کادر امضا: به ترتیب عوامل پروژه (راست به چپ)؛ تا سه عامل در Chrome/Edge جدید پایین هر صفحهٔ چاپی از طریق حاشیهٔ صفحه؛ در بقیه انتهای گزارش */
 window.__cplSig=function(){
-  var m=/(?:Chrome|Chromium)\/(\d+)/.exec(navigator.userAgent||''),ok=m&&+m[1]>=131&&!/CriOS|FxiOS|EdgiOS|Firefox/.test(navigator.userAgent||'');
+  var ns=window.__cplOrgs.sigNames();
+  var m=/(?:Chrome|Chromium)\/(\d+)/.exec(navigator.userAgent||''),ok=m&&+m[1]>=131&&!/CriOS|FxiOS|EdgiOS|Firefox/.test(navigator.userAgent||'')&&ns.length<=3;
+  var he=function(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')};
   if(ok){
-    var bx=function(pos,t){return '@'+pos+'{content:"'+t+'";border:1px solid #000;box-sizing:border-box;width:60mm;height:6mm;margin-top:3mm;font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif;font-size:12px;font-weight:700;line-height:6mm;text-align:center;vertical-align:top;color:#000;background:#fff}'};
-    var rule=function(sel){return sel+'{margin-bottom:14mm;'+bx('bottom-right','نماینده پیمانکار')+bx('bottom-center','نماینده مشاور')+bx('bottom-left','نماینده کارفرما')+'}'};
+    var pos=['bottom-right','bottom-center','bottom-left'];
+    var bx=function(p,t){return '@'+p+'{content:"'+String(t).replace(/[\"\\\r\n]/g,' ')+'";border:1px solid #000;box-sizing:border-box;width:60mm;height:6mm;margin-top:3mm;font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif;font-size:12px;font-weight:700;line-height:6mm;text-align:center;vertical-align:top;color:#000;background:#fff}'};
+    var rule=function(sel){return sel+'{margin-bottom:14mm;'+ns.map(function(t,i){return bx(pos[i],t)}).join('')+'}'};
     return '<style>'+rule('@page')+rule('@page land')+'</style>';
   }
-  var b=function(t){return '<div style="flex:1 1 0;border:1px solid #000;padding:2px 8px;text-align:center;font-weight:700;font-size:12px;line-height:1.5">'+t+'</div>'};
-  return '<div class="cplSig" dir="rtl" style="display:flex;gap:10px;margin-top:20px;page-break-inside:avoid;break-inside:avoid">'+b('نماینده پیمانکار')+b('نماینده مشاور')+b('نماینده کارفرما')+'</div>';
+  var b=function(t){return '<div style="flex:1 1 0;border:1px solid #000;padding:2px 8px;text-align:center;font-weight:700;font-size:12px;line-height:1.5">'+he(t)+'</div>'};
+  return '<div class="cplSig" dir="rtl" style="display:flex;gap:10px;margin-top:20px;page-break-inside:avoid;break-inside:avoid">'+ns.map(b).join('')+'</div>';
 };
 </script>
 <script id="cpl-ver-js">
@@ -12325,7 +12501,8 @@ window.__cplSig=function(){
   /* سه نسخهٔ هر سند: پیمانکار (اصلی) ← مشاور ← کارفرما. نسخهٔ مشاور/کارفرما در اولین انتخاب: «ایجاد» یا «کپی از نسخهٔ دیگر» */
   var K=window.__cplWfKit;if(!K)return;
   var esc=K.esc;
-  var NAME={P:'پیمانکار',C:'مشاور',E:'کارفرما'},SUF={P:'',C:'__C',E:'__E'};
+  var ORG=window.__cplOrgs,NAME=ORG.NAME,SUF=ORG.SUF;
+  function mkHave(){return new Proxy({},{get:function(t,k){if(typeof k!=='string')return undefined;return t[k]||(t[k]={})}})}
   window.__cplVerCtx=window.__cplVerCtx||{mn:'',st:'',adj:''};
   function clone(x){return JSON.parse(JSON.stringify(x))}
   function parse(md){var d={};try{d=JSON.parse(md.project.data||'{}')}catch(e){}return d}
@@ -12345,21 +12522,21 @@ window.__cplSig=function(){
   async function pickMode(v,noun,have){
     var a=await ask('نسخهٔ '+NAME[v],'برای '+noun+' هنوز نسخهٔ '+NAME[v]+' ساخته نشده است. ایجاد شود یا کپی؟',[{v:'new',t:'ایجاد',cls:'primary'},{v:'copy',t:'کپی'}]);
     if(a!=='copy')return a?{mode:'new'}:null;
-    var others=['P','C','E'].filter(function(x){return x!==v});
+    var others=window.__cplOrgs.keys().filter(function(x){return x!==v});
     var s=await ask('کپی نسخهٔ '+NAME[v],'از کدام نسخه کپی شود؟',others.map(function(x){return {v:x,t:'کپی از '+NAME[x]+(have(x)?'':' (موجود نیست)'),off:!have(x),cls:have(x)?'primary':''}}));
     return s?{mode:'copy',src:s}:null;
   }
   function selHtml(id,cur){
-    return '<select class="mnVerSel" data-ver="'+esc(id)+'" title="نسخه" aria-label="نسخه">'+['P','C','E'].map(function(v){return '<option value="'+v+'"'+(v===cur?' selected':'')+'>'+NAME[v]+'</option>'}).join('')+'</select>';
+    return '<select class="mnVerSel" data-ver="'+esc(id)+'" title="نسخه" aria-label="نسخه">'+window.__cplOrgs.keys().map(function(v){return '<option value="'+v+'"'+(v===cur?' selected':'')+'>'+NAME[v]+'</option>'}).join('')+'</select>';
   }
 
   /* ---- سندهای فهرست‌دار (صورت‌مجلس، صورت‌وضعیت، تعدیل): هر نسخه یک لیست جدا در داده‌ی پروژه با همان id ---- */
   function mkDoc(cfg){
-    var have={C:{},E:{}},sel={},B={};
+    var have=mkHave(),sel={},B={};
     function selOf(id){return sel[id]||'P'}
     async function load(){
-      var o=await getD();have={C:{},E:{}};
-      ['C','E'].forEach(function(v){(Array.isArray(o.d[cfg.key+SUF[v]])?o.d[cfg.key+SUF[v]]:[]).forEach(function(x){have[v][x.id]=1})});
+      var o=await getD();have=mkHave();
+      window.__cplOrgs.nonP().forEach(function(v){(Array.isArray(o.d[cfg.key+SUF[v]])?o.d[cfg.key+SUF[v]]:[]).forEach(function(x){have[v][x.id]=1})});
     }
     async function create(id,v,pm){
       var o=await getD(),base=(o.d[cfg.key]||[]).find(function(x){return x.id===id});
@@ -12393,8 +12570,8 @@ window.__cplSig=function(){
       });
     }
     async function purge(id){
-      try{var o=await getD(),ch=false;['C','E'].forEach(function(v){var k=cfg.key+SUF[v];if(Array.isArray(o.d[k])){var n=o.d[k].filter(function(x){return x.id!==id});if(n.length!==o.d[k].length){o.d[k]=n;ch=true}}});if(ch)await putD(o)}catch(e){}
-      delete have.C[id];delete have.E[id];delete sel[id];
+      try{var o=await getD(),ch=false;window.__cplOrgs.nonP().forEach(function(v){var k=cfg.key+SUF[v];if(Array.isArray(o.d[k])){var n=o.d[k].filter(function(x){return x.id!==id});if(n.length!==o.d[k].length){o.d[k]=n;ch=true}}});if(ch)await putD(o)}catch(e){}
+      ORG.nonP().forEach(function(k){delete have[k][id]});delete sel[id];
     }
     /* ---- دکمهٔ آیکن لیست: پنجرهٔ نسخه‌های ساخته‌شده (انتخاب / باز کردن / ایجاد / حذف) ---- */
     var LIST_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>';
@@ -12403,7 +12580,7 @@ window.__cplSig=function(){
     var TRASH_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
     function verBtn(id){
       var v=selOf(id);
-      return '<button type="button" class="btn mnListIco mnVerBtn" data-vers="'+esc(id)+'" title="نسخه‌ها — '+esc(NAME[v])+'" aria-label="نسخه‌ها">'+LIST_SVG+(v!=='P'?'<i class="mnVerTag">'+esc(NAME[v].charAt(0))+'</i>':'')+'</button>';
+      return '<button type="button" class="btn mnListIco mnVerBtn" data-vers="'+esc(id)+'" title="نسخه‌ها — '+esc(NAME[v])+'" aria-label="نسخه‌ها">'+LIST_SVG+(v!=='P'?'<i class="mnVerTag"'+ORG.tagStyle(v)+'>'+esc(NAME[v].charAt(0))+'</i>':'')+'</button>';
     }
     async function removeVer(id,v){
       var o=await getD(),k=cfg.key+SUF[v];
@@ -12422,10 +12599,10 @@ window.__cplSig=function(){
       var rowsBox=ov.querySelector('.cplVerRows');
       async function render(){
         var o;try{o=await getD()}catch(e){rowsBox.innerHTML='<div class="mnMuted">'+esc(e.message||'خواندن انجام نشد.')+'</div>';return}
-        var recs={};['P','C','E'].forEach(function(v){recs[v]=(Array.isArray(o.d[cfg.key+SUF[v]])?o.d[cfg.key+SUF[v]]:[]).find(function(x){return x.id===id})||null;if(v!=='P'){if(recs[v])have[v][id]=1;else delete have[v][id]}});
+        var recs={};window.__cplOrgs.keys().forEach(function(v){recs[v]=(Array.isArray(o.d[cfg.key+SUF[v]])?o.d[cfg.key+SUF[v]]:[]).find(function(x){return x.id===id})||null;if(v!=='P'){if(recs[v])have[v][id]=1;else delete have[v][id]}});
         if(!recs.P){rowsBox.innerHTML='<div class="mnMuted">'+esc(cfg.noun)+' پیدا نشد.</div>';return}
         var cur=selOf(id);if(cur!=='P'&&!recs[cur]){sel[id]='P';cur='P'}
-        rowsBox.innerHTML=['P','C','E'].map(function(v){
+        rowsBox.innerHTML=window.__cplOrgs.keys().map(function(v){
           var r=recs[v],isSel=(v===cur);
           var sub=r?(v==='P'?'نسخهٔ اصلی':'')+((r.updatedAt||r.createdAt)?((v==='P'?' — ':'')+'آخرین تغییر: '+esc(fmtDate(r.updatedAt||r.createdAt))):''):'ساخته نشده';
           var btns='';
@@ -12433,7 +12610,7 @@ window.__cplSig=function(){
             btns+='<button type="button" class="btn primary mnListIco" data-act="open" data-v="'+v+'" title="باز کردن نسخهٔ '+esc(NAME[v])+'" aria-label="باز کردن نسخهٔ '+esc(NAME[v])+'">'+OPEN_SVG+'</button>';
             if(v!=='P')btns+='<button type="button" class="btn danger mnListIco" data-act="del" data-v="'+v+'" title="حذف نسخهٔ '+esc(NAME[v])+'" aria-label="حذف نسخهٔ '+esc(NAME[v])+'">'+TRASH_SVG+'</button>';
           }else btns+='<button type="button" class="btn mnListIco" data-act="new" data-v="'+v+'" title="ایجاد نسخهٔ '+esc(NAME[v])+'" aria-label="ایجاد نسخهٔ '+esc(NAME[v])+'">'+PLUS_SVG+'</button>';
-          return '<div class="cplVerRow'+(r?' isOpen':' isNone')+'" data-v="'+v+'"><div class="cplVerInfo"><b>'+esc(NAME[v])+'</b></div><div class="cplVerAct">'+btns+'</div></div>';
+          return '<div class="cplVerRow'+(r?' isOpen':' isNone')+'" data-v="'+v+'"><div class="cplVerInfo"><b>'+ORG.dot(v)+esc(NAME[v])+'</b></div><div class="cplVerAct">'+btns+'</div></div>';
         }).join('');
         rowsBox.querySelectorAll('.cplVerRow.isOpen').forEach(function(row){
           row.onclick=async function(e){
@@ -12470,7 +12647,7 @@ window.__cplSig=function(){
       reset:function(){window.__cplVerCtx[cfg.ctx]=''},
       /* اگر نسخهٔ انتخاب‌شده غیر از پیمانکار است، همان را باز می‌کند و true برمی‌گرداند */
       /* اگر نسخهٔ دیگری ساخته شده باشد، به‌جای ورود مستقیم، لیست نسخه‌ها باز می‌شود */
-      openSel:function(id){if(have.C[id]||have.E[id]){openVersions(id);return true}return false},
+      openSel:function(id){if(ORG.nonP().some(function(k){return have[k][id]})){openVersions(id);return true}return false},
       sfx:function(id){var v=selOf(id);return v==='P'?'':'-'+NAME[v]}};
   }
   function blankSimple(base){return {id:base.id,name:base.name||'',no:base.no,createdAt:Date.now(),year:base.year,items:[]}}
@@ -12529,14 +12706,14 @@ window.__cplSig=function(){
     function render(){
       var e=pv[key]||(pv[key]={active:'P',snaps:{}}),act=e.active||'P';
       function exists(x){return x===act||!!(e.snaps&&e.snaps[x])}
-      rowsBox.innerHTML=['P','C','E'].map(function(v){
+      rowsBox.innerHTML=window.__cplOrgs.keys().map(function(v){
         var has=exists(v),btns='';
         var sub=!has?'ساخته نشده':(v===act?'نسخهٔ فعال — همان که در آنالیز دیده می‌شود':'ذخیره‌شده');
         if(has){
           btns+='<button type="button" class="btn primary mnListIco" data-act="open" data-v="'+v+'" title="باز کردن نسخهٔ '+esc(NAME[v])+'" aria-label="باز کردن نسخهٔ '+esc(NAME[v])+'">'+PV_OPEN+'</button>';
           if(v!=='P'&&v!==act)btns+='<button type="button" class="btn danger mnListIco" data-act="del" data-v="'+v+'" title="حذف نسخهٔ '+esc(NAME[v])+'" aria-label="حذف نسخهٔ '+esc(NAME[v])+'">'+PV_TRASH+'</button>';
         }else btns+='<button type="button" class="btn mnListIco" data-act="new" data-v="'+v+'" title="ایجاد نسخهٔ '+esc(NAME[v])+'" aria-label="ایجاد نسخهٔ '+esc(NAME[v])+'">'+PV_PLUS+'</button>';
-        return '<div class="cplVerRow'+(has?' isOpen':' isNone')+(v===act?' isSel':'')+'" data-v="'+v+'"><div class="cplVerInfo"><b>'+esc(NAME[v])+'</b></div><div class="cplVerAct">'+btns+'</div></div>';
+        return '<div class="cplVerRow'+(has?' isOpen':' isNone')+(v===act?' isSel':'')+'" data-v="'+v+'"><div class="cplVerInfo"><b>'+ORG.dot(v)+esc(NAME[v])+'</b></div><div class="cplVerAct">'+btns+'</div></div>';
       }).join('');
       rowsBox.querySelectorAll('button[data-act]').forEach(function(b){
         b.onclick=async function(){
@@ -12581,7 +12758,7 @@ window.__cplSig=function(){
     },
     markup:function(it){
       var v=price.selOf(it);
-      return '<button type="button" class="btn mnListIco mnVerBtn" data-pvers="'+esc(pkey(it))+'" title="نسخه‌ها — '+esc(NAME[v])+'" aria-label="نسخه‌ها">'+PV_LIST+(v!=='P'?'<i class="mnVerTag">'+esc(NAME[v].charAt(0))+'</i>':'')+'</button>';
+      return '<button type="button" class="btn mnListIco mnVerBtn" data-pvers="'+esc(pkey(it))+'" title="نسخه‌ها — '+esc(NAME[v])+'" aria-label="نسخه‌ها">'+PV_LIST+(v!=='P'?'<i class="mnVerTag"'+ORG.tagStyle(v)+'>'+esc(NAME[v].charAt(0))+'</i>':'')+'</button>';
     },
     wire:function(box,items,refresh){
       box.querySelectorAll('button.mnVerBtn[data-pvers]').forEach(function(b){
@@ -12597,13 +12774,13 @@ window.__cplSig=function(){
   };
 
   /* ---------- پسوند نسخه در عنوان (مثلاً «صورت‌مجلس شماره ۱-مشاور») ---------- */
-  function sfxCtx(ctx){var s=(window.__cplVerCtx||{})[ctx]||'';return s==='__C'?'-'+NAME.C:(s==='__E'?'-'+NAME.E:'')}
+  function sfxCtx(ctx){var s=(window.__cplVerCtx||{})[ctx]||'',k=ORG.bySuf(s);return k==='P'?'':'-'+NAME[k]}
 
   /* ---------- گزارش مقایسه‌ای نسخه‌ها: کارفرما سبز، مشاور قرمز، پیمانکار مشکی ---------- */
   var CMP={mn:false,st:false},CMPBUSY=false;
-  var COL={E:{css:'#0a8f3c',x:'FF0A8F3C'},C:{css:'#d11f1f',x:'FFD11F1F'},P:{css:'#000000',x:'FF000000'}};
+  var COL=ORG.COL;
   var CMP_SVG='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M12 2v20"/></svg>';
-  function verOfCtx(ctx){var s=(window.__cplVerCtx||{})[ctx]||'';return s==='__C'?'C':(s==='__E'?'E':'P')}
+  function verOfCtx(ctx){return ORG.bySuf((window.__cplVerCtx||{})[ctx]||'')}
   function cmpBtn(ctx){
     return '';/* دکمهٔ مقایسه از منو حذف شد؛ هنگام گزارش‌گیری پرسیده می‌شود */
     if(verOfCtx(ctx)==='P')return '';
@@ -12615,7 +12792,7 @@ window.__cplSig=function(){
     document.querySelectorAll('.mnCmpBtn[data-cmp="'+c+'"]').forEach(function(x){x.classList.toggle('primary',CMP[c]);x.classList.toggle('on',CMP[c]);x.setAttribute('aria-pressed',CMP[c]?'true':'false')});
     K.say(CMP[c]?'گزارش‌ها با مقایسهٔ نسخه‌ها ساخته می‌شود':'مقایسهٔ نسخه‌ها خاموش شد');
   });
-  var NUMRE=/^[\s‎‏\d۰-۹٠-٩٫٬,.\-−+()%\/]*$/,DIGRE=/[\d۰-۹٠-٩]/,RANK={P:0,C:1,E:2};
+  var NUMRE=/^[\s‎‏\d۰-۹٠-٩٫٬,.\-−+()%\/]*$/,DIGRE=/[\d۰-۹٠-٩]/,RANK=ORG.RANK;
   function isNumTxt(t){return NUMRE.test(t)&&DIGRE.test(t)}
   function cellTxt(c){return (c.textContent||'').replace(/\s+/g,' ').trim()}
   function alignRows(rows,crows,force,keyFn,strict,ckeyFn){
@@ -12927,7 +13104,7 @@ window.__cplSig=function(){
     try{if(/xls/i.test(Function.prototype.toString.call(thunk)))return thunk()}catch(e){}
     var base=cfg.cur();if(!base||!base.id)return thunk();
     var o;try{o=await getD()}catch(e){return thunk()}
-    var order=v==='E'?['E','C','P']:['C','P'],recs=[{v:v,rec:base}];
+    var order=ORG.keys().filter(function(k){return RANK[k]<=RANK[v]}).reverse(),recs=[{v:v,rec:base}];
     order.slice(1).forEach(function(x){
       var r=(Array.isArray(o.d[cfg.key+SUF[x]])?o.d[cfg.key+SUF[x]]:[]).find(function(y){return y.id===base.id});
       if(r&&Array.isArray(r.items)&&r.items.length)recs.push({v:x,rec:clone(r)});
@@ -12955,14 +13132,14 @@ window.__cplSig=function(){
     }
   }
   window.__mnCoverListPdf=async function(){
-    var ch=await ask('گزارش چاپی روکش صورت‌مجالس','کدام نسخهٔ صورت‌مجالس در گزارش بیاید؟',[{v:'L',t:'آخرین نسخه',cls:'primary'},{v:'P',t:NAME.P},{v:'C',t:NAME.C},{v:'E',t:NAME.E}]);
+    var ch=await ask('گزارش چاپی روکش صورت‌مجالس','کدام نسخهٔ صورت‌مجالس در گزارش بیاید؟',[{v:'L',t:'آخرین نسخه',cls:'primary'}].concat(ORG.keys().map(function(k){return {v:k,t:NAME[k]}})));
     if(!ch)return;
     try{
       var o=await getD(),base=Array.isArray(o.d.minutes)?o.d.minutes:[];
       var recs=[],miss=0;
       base.forEach(function(b){
-        var by={P:b};['C','E'].forEach(function(v){by[v]=(Array.isArray(o.d['minutes'+SUF[v]])?o.d['minutes'+SUF[v]]:[]).find(function(x){return x.id===b.id})||null});
-        var v=ch==='L'?(by.E?'E':(by.C?'C':'P')):ch,r=by[v];
+        var by={P:b};window.__cplOrgs.nonP().forEach(function(v){by[v]=(Array.isArray(o.d['minutes'+SUF[v]])?o.d['minutes'+SUF[v]]:[]).find(function(x){return x.id===b.id})||null});
+        var v=ch==='L'?(ORG.keys().filter(function(k){return by[k]}).pop()||'P'):ch,r=by[v];
         if(!r||!Array.isArray(r.items)||!r.items.length){if(!r)miss++;return}
         recs.push({rec:clone(r),ctx:SUF[v]});
       });
@@ -13897,7 +14074,7 @@ window.__cplSig=function(){
     try{var o={};new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});
       if(o.year&&o.month&&o.day)return faD(o.year+'/'+o.month+'/'+o.day)}catch(e){}
     return nowFa()}
-  function stParty(){var c=(window.__cplVerCtx||{}).st||'';return c==='__C'?'مشاور':(c==='__E'?'کارفرما':'پیمانکار')}
+  function stParty(){var c=(window.__cplVerCtx||{}).st||'';return window.__cplOrgs.NAME[window.__cplOrgs.bySuf(c)]}
   function stBaseTitle(t){return String(t||'').replace(/\s*صورت\u200cوضعیت\s*/,' ').replace(/\s*شماره\s.*$/,'').replace(/\s+/g,' ').trim()}
   var stDiscOv=null;
   function stHdrInfo(){
@@ -15498,10 +15675,11 @@ window.__cplSig=function(){
     var sts,L0;try{sts=(await readList()).list;L0=await readKey('adjustments')}catch(e){alert(e.message||'خواندن انجام نشد.');return}
     if(!sts.length){alert('ابتدا یک صورت‌وضعیت ذخیره کن.');return}
     var stsV={P:sts,C:[],E:[]};try{stsV.C=await readKey('statements__C');stsV.E=await readKey('statements__E')}catch(e){}
+    try{var xo=window.__cplOrgs.extras();for(var xi=0;xi<xo.length;xi++){stsV[xo[xi].k]=await readKey('statements__'+xo[xi].k)}}catch(e){}
     var VN=(window.__cplVer&&window.__cplVer.NAME)||{P:'پیمانکار',C:'مشاور',E:'کارفرما'};
     function stRec(id,v){return (stsV[v]||[]).find(function(x){return x.id===id})||null}
     function stPick(id,v){return stRec(id,v)||stRec(id,'P')}
-    function fillVer(selId,id,cur){var el=$(selId),ok=(cur==='P'||!!stRec(id,cur))?cur:'P';el.innerHTML=['P','C','E'].filter(function(v){return v==='P'||stRec(id,v)}).map(function(v){return '<option value="'+v+'">'+esc(VN[v])+'</option>'}).join('');el.value=ok;return ok}
+    function fillVer(selId,id,cur){var el=$(selId),ok=(cur==='P'||!!stRec(id,cur))?cur:'P';el.innerHTML=window.__cplOrgs.keys().filter(function(v){return v==='P'||stRec(id,v)}).map(function(v){return '<option value="'+v+'">'+esc(VN[v])+'</option>'}).join('');el.value=ok;return ok}
     var s=window.__mainProjectSettings||{},by=toEn(s.baseYear||''),
       mx=L0.reduce(function(m,x){var v=parseFloat(toEn(x.no||''));return isNaN(v)?m:Math.max(m,v)},0),
       a=existing||{id:uid(),name:'',no:String(mx+1),createdAt:Date.now(),stId:sts[0].id,prevId:'0',baseY:ADJ_YEARS.indexOf(by)>=0?by:YEARS[YEARS.length-1],baseP:String(s.basePeriod||''),workY:YEARS[0],workP:''};
@@ -19745,7 +19923,7 @@ html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoe
 (function(){
   'use strict';
   /* پشتیبان‌گیری/بازیابی بخشی: صورت‌وضعیت، تعدیل، صورت‌مجلس، قیمت جدید — با انتخاب شماره و نسخه (پیمانکار/مشاور/کارفرما) */
-  var NAME={P:'پیمانکار',C:'مشاور',E:'کارفرما'},SUF={P:'',C:'__C',E:'__E'};
+  var NAME=window.__cplOrgs.NAME,SUF=window.__cplOrgs.SUF;
   var SECS={
     st:{id:'st',kind:'statement',key:'statements',title:'صورت‌وضعیت',one:'صورت‌وضعیت شماره',all:'همه صورت‌وضعیت‌ها'},
     adj:{id:'adj',kind:'adjustment',key:'adjustments',title:'تعدیل',one:'تعدیل شماره',all:'همه تعدیل‌ها'},
@@ -19805,12 +19983,12 @@ html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoe
   /* ---------- جمع‌آوری برای صورت‌وضعیت / تعدیل / صورت‌مجلس ---------- */
   function docIds(d,key){
     var seen={},out=[];
-    ['P','C','E'].forEach(function(v){list(d,key+SUF[v]).forEach(function(r){if(r&&r.id!=null&&!seen[r.id]){seen[r.id]=1;out.push(r)}})});
+    window.__cplOrgs.keys().forEach(function(v){list(d,key+SUF[v]).forEach(function(r){if(r&&r.id!=null&&!seen[r.id]){seen[r.id]=1;out.push(r)}})});
     return out.sort(function(a,b){return numOf(a)-numOf(b)});
   }
   function findRec(d,key,v,id){return list(d,key+SUF[v]).find(function(x){return x&&x.id===id})||null}
   function collectDocs(d,sec,id,ver){
-    var ids=id==='*'?docIds(d,sec.key).map(function(r){return r.id}):[id],vers=ver==='*'?['P','C','E']:[ver],recs=[],bases={};
+    var ids=id==='*'?docIds(d,sec.key).map(function(r){return r.id}):[id],vers=ver==='*'?window.__cplOrgs.keys():[ver],recs=[],bases={};
     ids.forEach(function(i){
       var got=false;
       vers.forEach(function(v){var r=findRec(d,sec.key,v,i);if(r){recs.push({id:i,ver:v,rec:clone(r)});got=true}});
@@ -19845,7 +20023,7 @@ html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoe
   }
   function collectPrice(D,idx,ver){
     var d=D.d,sl=starred(),raw=Array.isArray(window.__cplCustomItems)?window.__cplCustomItems:[],pvAll=(d.priceVers&&typeof d.priceVers==='object')?d.priceVers:{},
-        idxs=idx==='*'?sl.map(function(_,i){return i}):[+idx],vers=ver==='*'?['P','C','E']:[ver],out=[];
+        idxs=idx==='*'?sl.map(function(_,i){return i}):[+idx],vers=ver==='*'?window.__cplOrgs.keys():[ver],out=[];
     idxs.forEach(function(i){
       var it=sl[i],rw=raw[i];if(!it||!rw)return;
       var pk=pkeyOf(it),mk=metaKeyOf(it),e=pvAll[pk]||{active:'P',snaps:{}},act=e.active||'P',vs=[];
@@ -19918,7 +20096,7 @@ html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoe
       var sel=pack.selection||{},other=pack.project&&pack.project.id&&String(pack.project.id)!==String(D.id);
       var warn='';
       if(sec.kind==='adjustment'){
-        var stIds={};['P','C','E'].forEach(function(v){list(D.d,'statements'+SUF[v]).forEach(function(r){stIds[r.id]=1})});
+        var stIds={};window.__cplOrgs.keys().forEach(function(v){list(D.d,'statements'+SUF[v]).forEach(function(r){stIds[r.id]=1})});
         var miss=(pack.records||[]).filter(function(x){return x.rec&&x.rec.stId&&!stIds[x.rec.stId]}).length;
         if(miss)warn='\n\nتوجه: صورت‌وضعیتِ مربوط به '+fd(miss)+' تعدیل در این پروژه نیست؛ برای محاسبه‌ی درست، صورت‌وضعیت‌ها را هم بازیابی کن.';
       }
@@ -20042,7 +20220,7 @@ html:root:root:root body #projectSetup .projectCoeffBox .coefFileRow>#chapterCoe
         }
         function paintVers(){
           var num=nsel.value,cur=vsel.value||'*',o='<option value="*">همه نسخه‌ها</option>';
-          ['P','C','E'].forEach(function(v){
+          window.__cplOrgs.keys().forEach(function(v){
             var ok=num==='*'?true:has(v,num);
             o+='<option value="'+v+'">'+NAME[v]+(num!=='*'&&!ok?' (ثبت نشده)':'')+'</option>';
           });
@@ -21230,3 +21408,18 @@ render();
   setTimeout(refresh,1500);
 })();
 </script>
+
+<style id="subCardFontDesktop">
+/* دسکتاپ: فونت کارت‌های زیرمجموعه (صورت وضعیت و تعدیل / صورت مجلس / قیمت جدید / هزینه-درآمد) مثل کارت‌های صفحه اصلی؛ موبایل بدون تغییر */
+@media (min-width:721px){
+html body #cplHome :is(.cplStView,.cplMinutesView,.cplPriceView,.cplCmpView) .cplGrid .cplCard>b{font-size:20px!important;line-height:1.45!important;font-weight:800!important;opacity:1!important;letter-spacing:0!important}
+html body #cplBase .cbWrap .cbMenu button b{font-size:20px!important;line-height:1.45!important;font-weight:800!important}
+}
+/* دسکتاپ و موبایل: خط دوم کادر پروژه (فهرست بها / مبنا) کوچک و کمی کم‌رنگ‌تر از نام پروژه */
+html body #cplHome .cplCard.pick .pickTxt small,
+html body #cplBase .cbWrap .cbMenu button.cbPick small{font-size:13px!important;font-weight:400!important;color:var(--c3)!important;opacity:.9!important;line-height:1.7!important}
+@media (min-width:721px){
+html body #cplHome .cplCard.pick .pickTxt small,
+html body #cplBase .cbWrap .cbMenu button.cbPick small{font-size:15px!important}
+}
+</style>
