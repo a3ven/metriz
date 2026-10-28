@@ -182,7 +182,8 @@ async function ensureLicenseSchema(env){
       `ALTER TABLE users ADD COLUMN expires_at INTEGER`,
       `ALTER TABLE users ADD COLUMN starts_at INTEGER`,
       `ALTER TABLE users ADD COLUMN notes TEXT`,
-      `ALTER TABLE users ADD COLUMN perms TEXT`
+      `ALTER TABLE users ADD COLUMN perms TEXT`,
+      `ALTER TABLE users ADD COLUMN device_meta TEXT DEFAULT '{}'`
     ];
     const have=new Set(((await env.DB.prepare(`SELECT name FROM pragma_table_info('users')`).all()).results||[]).map(x=>x.name));
     for(const sql of alters){const col=sql.match(/ADD COLUMN (\w+)/)[1];if(have.has(col))continue;try{await env.DB.prepare(sql).run()}catch(e){if(!/duplicate column|already exists/i.test(e.message||'')) throw e;}}
@@ -201,6 +202,13 @@ async function ensureLicenseSchema(env){
   return schemaReady;
 }
 async function isAdmin(user,env){await ensureLicenseSchema(env); const r=await env.DB.prepare(`SELECT role FROM users WHERE id=?`).bind(user.id).first();return r?.role==='admin'}
+/* برچسب خوانا برای دستگاه (از User-Agent): مثلاً «Android · Chrome» */
+function uaLabel(ua){
+  ua=String(ua||'');
+  const os=/iPhone|iPad|iPod/i.test(ua)?'iPhone/iPad':/Android/i.test(ua)?'Android':/Windows/i.test(ua)?'Windows':/Mac OS X|Macintosh/i.test(ua)?'Mac':/Linux/i.test(ua)?'Linux':'نامشخص';
+  const br=/Edg\//i.test(ua)?'Edge':/OPR\/|Opera/i.test(ua)?'Opera':/SamsungBrowser/i.test(ua)?'Samsung':/Firefox|FxiOS/i.test(ua)?'Firefox':/Chrome|CriOS/i.test(ua)?'Chrome':/Safari/i.test(ua)?'Safari':'مرورگر';
+  return os+' · '+br;
+}
 function deviceFrom(body){return String(body?.deviceId||'').trim().slice(0,180)}
 function isUnlimitedAdmin(u){return String(u?.role||'').toLowerCase()==='admin' || String(u?.name||'').trim().toLowerCase()==='amir' || String(u?.code||'').trim().toLowerCase()==='amir'}
 
@@ -316,9 +324,24 @@ async function api(request,env,url){
         if(!deviceId) return json({error:'شناسه دستگاه ارسال نشد؛ صفحه را رفرش کنید و دوباره وارد شوید.'},400);
         let ids=[]; try{ids=JSON.parse(u.device_ids||'[]')}catch{}
         if(!ids.length && u.device_id) ids=[u.device_id];
-        if(!ids.includes(deviceId) && ids.length>=Math.max(1,Number(u.max_devices||1))) return json({error:'ظرفیت دستگاه این حساب تکمیل است. از مدیر بخواهید ظرفیت را افزایش دهد یا دستگاه قبلی را آزاد کند.'},403);
+        let meta={}; try{meta=JSON.parse(u.device_meta||'{}')||{}}catch{}
+        /* کاربر (با رمز درست) یکی از دستگاه‌های قبلی خودش را آزاد می‌کند */
+        const rid=String(body.releaseDeviceId||'').trim().slice(0,180);
+        if(rid && rid!==deviceId && ids.includes(rid)){
+          ids=ids.filter(x=>String(x)!==rid); delete meta[rid];
+          await env.DB.batch([
+            env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,device_meta=? WHERE id=?').bind(ids[0]||null,JSON.stringify(ids),JSON.stringify(meta),u.id),
+            env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND device_id=?').bind(u.id,rid)
+          ]);
+        }
+        if(!ids.includes(deviceId) && ids.length>=Math.max(1,Number(u.max_devices||1))){
+          return json({error:'ظرفیت دستگاه این حساب تکمیل است. یکی از دستگاه‌های قبلی را آزاد کنید.',deviceLimit:true,
+            devices:ids.map((id,i)=>({id,label:(meta[id]&&meta[id].ua)||('دستگاه '+(i+1)),last:(meta[id]&&meta[id].at)||null}))},403);
+        }
         if(!ids.includes(deviceId)) ids.push(deviceId);
-        await env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,last_login=? WHERE id=?').bind(ids[0]||null,JSON.stringify(ids),Date.now(),u.id).run();
+        meta[deviceId]={ua:uaLabel(request.headers.get('User-Agent')),at:Date.now()};
+        for(const k of Object.keys(meta)) if(!ids.includes(k)) delete meta[k];
+        await env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,device_meta=?,last_login=? WHERE id=?').bind(ids[0]||null,JSON.stringify(ids),JSON.stringify(meta),Date.now(),u.id).run();
         /* هر دستگاه فقط یک نشست فعال دارد */
         await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND device_id=?').bind(u.id,deviceId).run();
       } else await env.DB.prepare('UPDATE users SET last_login=? WHERE id=?').bind(Date.now(),u.id).run();
