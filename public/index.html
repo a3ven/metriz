@@ -6330,9 +6330,49 @@ async function api(path,opt={}){
   if(window.__offline&&!window.DEMO_MODE&&String(path).startsWith('/api/projects'))return window.__offline.request(path,opt);
   const r=await fetch(path,{credentials:'same-origin',headers:{'content-type':'application/json',...(opt.headers||{})},...opt});
   let d={}; try{d=await r.json()}catch{}
-  if(!r.ok) throw new Error(d.error||'خطا در ارتباط با سرور');
+  if(!r.ok){
+    /* سقف دستگاه پر است: لیست دستگاه‌ها باز می‌شود؛ بعد از آزاد کردن یکی، ورود دوباره خودکار انجام می‌شود */
+    if(d&&d.deviceLimit&&String(path)==='/api/login'&&typeof window.__deviceLimitDialog==='function'){
+      let b0={};try{b0=JSON.parse(opt.body||'{}')}catch{}
+      const rid=await window.__deviceLimitDialog(d.devices||[]);
+      if(rid)return api(path,{...opt,body:JSON.stringify({...b0,releaseDeviceId:rid})});
+    }
+    throw new Error(d.error||'خطا در ارتباط با سرور');
+  }
   return d;
 }
+window.__deviceLimitDialog=function(devices){
+  return new Promise(function(resolve){
+    var old=document.getElementById('devLimitOv');if(old)old.remove();
+    var ov=document.createElement('div');ov.id='devLimitOv';
+    ov.style.cssText='position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:16px;direction:rtl';
+    var box=document.createElement('div');
+    box.style.cssText='width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--c4,#1c1c1f);color:var(--c2,#e8e8ea);border:1px solid var(--c5,#333);border-radius:20px;padding:18px;font-family:inherit;box-shadow:0 14px 50px rgba(0,0,0,.5)';
+    var h=document.createElement('div');h.style.cssText='font-weight:800;font-size:18px;margin-bottom:6px';h.textContent='ظرفیت دستگاه‌های این حساب پر است';
+    var p=document.createElement('div');p.style.cssText='font-size:14px;line-height:1.8;color:var(--c3,#a7a7a7);margin-bottom:12px';p.textContent='برای ورود از این دستگاه، یکی از دستگاه‌های قبلی را آزاد کنید:';
+    box.appendChild(h);box.appendChild(p);
+    function done(v){ov.remove();resolve(v)}
+    function fmt(t){try{return t?new Date(Number(t)).toLocaleString('fa-IR',{dateStyle:'short',timeStyle:'short'}):''}catch(e){return ''}}
+    devices.forEach(function(dv){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;margin-bottom:8px;border:1px solid var(--c5,#333);border-radius:14px;background:var(--c8,#18181a)';
+      var tx=document.createElement('div');tx.style.cssText='min-width:0;flex:1';
+      var a=document.createElement('div');a.style.cssText='font-weight:700;font-size:15px';a.textContent=dv.label||'دستگاه';
+      var b=document.createElement('div');b.style.cssText='font-size:12px;color:var(--c3,#a7a7a7);margin-top:2px';b.textContent=dv.last?('آخرین ورود: '+fmt(dv.last)):'';
+      tx.appendChild(a);if(b.textContent)tx.appendChild(b);
+      var btn=document.createElement('button');btn.type='button';btn.textContent='آزاد کردن';
+      btn.style.cssText='flex:0 0 auto;height:38px;padding:0 16px;border-radius:12px;border:1px solid var(--c5,#444);background:var(--c9,#2a2a2e);color:var(--c2,#fff);font:inherit;font-size:14px;font-weight:700;cursor:pointer';
+      btn.onclick=function(){btn.disabled=true;btn.textContent='...';done(dv.id)};
+      row.appendChild(tx);row.appendChild(btn);box.appendChild(row);
+    });
+    var c=document.createElement('button');c.type='button';c.textContent='انصراف';
+    c.style.cssText='width:100%;height:42px;margin-top:4px;border-radius:12px;border:1px solid var(--c5,#444);background:transparent;color:var(--c2,#fff);font:inherit;font-size:15px;cursor:pointer';
+    c.onclick=function(){done(null)};
+    box.appendChild(c);ov.appendChild(box);
+    ov.addEventListener('click',function(e){if(e.target===ov)done(null)});
+    document.body.appendChild(ov);
+  });
+};
 
 let meter=JSON.parse(localStorage.getItem('fehrestMeterV3')||localStorage.getItem('fehrestMeterV2')||'[]');
 // مهاجرت نسخه قبلی: x قبلی = اثر تابع؛ مقدار اضافه‌بها از مقدار آیتم ارث می‌برد.
