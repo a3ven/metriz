@@ -21005,6 +21005,11 @@ th,td{border-bottom:1px solid var(--line)}
 html[data-theme="light"] .menu-select{background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%2720%27 viewBox=%270 0 20 20%27 fill=%27none%27%3E%3Cpath d=%27M5 7.5 10 12.5 15 7.5%27 stroke=%27%231f2f42%27 stroke-width=%271.8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E")}
 html[data-theme="light"] .menu-select-wrap .menu-select{background-image:none}
 .ref-card th,.ref-card td{border-bottom:1px solid var(--line)}
+/* فونت مهندس‌یار: همه‌چیز (منوها، کشوها، جدول‌ها، داده‌ها، فرم‌ها) B Nazanin؛ فقط تیتر B Yekan با یک سایز بزرگ‌تر.
+   فونت نازنین تعبیه‌شده فقط زیرمجموعهٔ حروف است (حروف لاتین ندارد)، پس فایل کامل BNazanin.ttf اول می‌آید. */
+@font-face{font-family:'BNazaninMY';src:url('__NAZANIN_URL__') format('truetype'),local('B Nazanin'),local('BNazanin');font-weight:400;font-style:normal;font-display:swap}
+html body,html body *,html body *::before,html body *::after,html body option,html body optgroup,html body select,html body input,html body textarea,html body button,html body table,html body th,html body td,html body summary,html body input::placeholder,html body textarea::placeholder,html body .support-email,html body .support-email bdi{font-family:'BNazaninMY','B Nazanin',Tahoma,Arial,sans-serif!important}
+html body .brand p .yk,html body .yk{font-family:'BYekanMY','B Yekan',Tahoma,sans-serif!important;font-size:20px!important;line-height:1.7}
 /style>
 script>(function(){function ap(l){if(l)document.documentElement.setAttribute("data-theme","light");else document.documentElement.removeAttribute("data-theme")}try{ap(parent.document.documentElement.getAttribute("data-theme")==="light")}catch(e){}window.addEventListener("message",function(e){var d=e&&e.data;if(d&&d.cplTheme)ap(d.cplTheme==="light")})})();/script>
 /head>
@@ -21444,7 +21449,7 @@ render();
     fr=ov.querySelector('iframe');
     fr.addEventListener('load',syncTheme);
     try{new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
-    var html=holder.textContent.replace(/\uE000/g,'<').replace(/__YEKAN_URL__/g,new URL('./BYekan__Bold.ttf',location.href).href);
+    var html=holder.textContent.replace(/\uE000/g,'<').replace(/__YEKAN_URL__/g,new URL('./BYekan__Bold.ttf',location.href).href).replace(/__NAZANIN_URL__/g,new URL('./BNazanin.ttf',location.href).href);
     blobUrl=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
     fr.src=blobUrl;
     ov.querySelector('#cplMyClose').addEventListener('click',close);
