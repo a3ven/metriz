@@ -5154,6 +5154,8 @@ window.__glassScan=scan;
         <label>شماره قرارداد<input id="setupContractNo" placeholder="شماره قرارداد" autocomplete="off" style="text-align:right"></label>
         <label>تاریخ قرارداد<input id="setupContractDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" placeholder="۱۴۰۴/۰۵/۳۱"></label>
         <label><span class="cdTitle">مدت قرارداد <span id="setupContractDurationLbl">(ماه)</span></span><input id="setupContractDuration" type="text" inputmode="numeric" maxlength="4" dir="ltr" autocomplete="off" placeholder="۱۲" style="text-align:right"></label>
+        <label>مبلغ اولیه پیمان (ریال)<input id="setupContractAmount" type="text" inputmode="numeric" dir="ltr" autocomplete="off" placeholder="مثلاً ۱۰,۰۰۰,۰۰۰,۰۰۰" style="text-align:right"></label>
+        <label>مبلغ کل تجهیز (ریال)<input id="setupContractEquip" type="text" inputmode="numeric" dir="ltr" autocomplete="off" placeholder="مثلاً ۱,۰۰۰,۰۰۰,۰۰۰" style="text-align:right"></label>
       </div>
       <div class="wide contractToggleRow"><button type="button" class="btn" id="listInfoToggleBtn" data-lbl="اطلاعات فهرست بها و تعدیل" aria-expanded="false" aria-controls="listInfoBox">＋ اطلاعات فهرست بها و تعدیل</button></div>
       <div class="wide contractBox" id="listInfoBox" hidden>
@@ -7416,9 +7418,13 @@ window.exportRowsData=exportRowsData;
     const bp=$('setupBasePeriod');if(bp){const cur=(window.__setupWant&&window.__setupWant.basePeriod)||bp.value||(window.__mainProjectSettings||{}).basePeriod||'';const y=by?.value||'';const rows=ADJUSTMENT_INDEX_DATA.filter(r=>String(r[1])===String(y));const quarters=[...new Set(rows.map(r=>String(r[2])).filter(p=>['1','2','3','4'].includes(p)))].sort((a,b)=>Number(a)-Number(b));const monthly=[...new Set(rows.map(r=>String(r[2])).filter(p=>ADJ_MONTHS.includes(p)))].sort((a,b)=>(ADJ_PERIOD_ORDER[a]||99)-(ADJ_PERIOD_ORDER[b]||99));const vals=adjOrderP([...quarters,...monthly]);if(monthly.length)vals.push('AVG');bp.innerHTML=vals.map(v=>'<option value="'+escP(v)+'">'+escP(adjPeriodLabel(v,y,null,window.__mainProjectSettings?.listType||'ابنیه')||v)+'</option>').join('');if(cur&&vals.includes(cur))bp.value=cur;else if(vals.length)bp.value=vals[0];}
     const lyv=ly?.value||'';const byv=by?.value||'';if(lyv&&$('year'))$('year').value=lyv;if(byv&&$('adjBaseYear'))$('adjBaseYear').value=byv;if(byv&&typeof fillAdjustmentPeriods==='function')fillAdjustmentPeriods('adjBasePeriod',byv,bp?.value||'1');
   }
-  const CONTRACT_IDS={employer:'setupEmployer',contractor:'setupContractor',consultant:'setupConsultant',no:'setupContractNo',date:'setupContractDate',duration:'setupContractDuration'};
-  window.readContractFields=function(){const c={};Object.keys(CONTRACT_IDS).forEach(k=>{c[k]=String($(CONTRACT_IDS[k])?.value||'').trim()});return c};
-  window.fillContractFields=function(c){c=c||{};Object.keys(CONTRACT_IDS).forEach(k=>{const e=$(CONTRACT_IDS[k]);if(e)e.value=c[k]||''});
+  const CONTRACT_IDS={employer:'setupEmployer',contractor:'setupContractor',consultant:'setupConsultant',no:'setupContractNo',date:'setupContractDate',duration:'setupContractDuration',amount:'setupContractAmount',equip:'setupContractEquip'};
+  const MONEY_KEYS=['amount','equip'];
+  const moneyDigits=v=>String(v||'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\D/g,'');
+  const moneyFmt=v=>moneyDigits(v).replace(/^0+(?=\d)/,'').replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  document.addEventListener('input',function(e){const t=e.target;if(t&&(t.id==='setupContractAmount'||t.id==='setupContractEquip')){const f=moneyFmt(t.value);if(t.value!==f)t.value=f}});
+  window.readContractFields=function(){const c={};Object.keys(CONTRACT_IDS).forEach(k=>{c[k]=String($(CONTRACT_IDS[k])?.value||'').trim();if(MONEY_KEYS.includes(k))c[k]=moneyDigits(c[k])});return c};
+  window.fillContractFields=function(c){c=c||{};Object.keys(CONTRACT_IDS).forEach(k=>{const e=$(CONTRACT_IDS[k]);if(e)e.value=MONEY_KEYS.includes(k)?moneyFmt(c[k]):(c[k]||'')});
     const box=$('contractBox'),b=$('contractToggleBtn');if(box&&b){const has=Object.values(c).some(v=>String(v||'').trim());box.hidden=!has;b.setAttribute('aria-expanded',has?'true':'false');b.textContent=(has?'− ':'＋ ')+'اطلاعات قرارداد'}};
   document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('#listInfoToggleBtn,#stCoefToggleBtn');if(!b)return;const box=$(b.getAttribute('aria-controls'));if(!box)return;box.hidden=!box.hidden;b.setAttribute('aria-expanded',box.hidden?'false':'true');b.textContent=(box.hidden?'＋ ':'− ')+(b.dataset.lbl||'')});
   document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('#contractToggleBtn');if(!b)return;const box=$('contractBox');if(!box)return;box.hidden=!box.hidden;b.setAttribute('aria-expanded',box.hidden?'false':'true');b.textContent=(box.hidden?'＋ ':'− ')+'اطلاعات قرارداد'});
@@ -12704,10 +12710,10 @@ window.__cplOrgs=(function(){
     var n=0,orgEls=[];
     order.forEach(function(k){var l=lblOf(k);if(!l)return;
       if(hid[k]){l.style.display='none';return}
-      l.style.display='';l.style.order=n++;orgEls.push(l);
+      l.style.display='';l.style.order=100+(n++);orgEls.push(l);
     });
-    cell.style.order=n;
-    var j=0;[].forEach.call(box.children,function(c){if(c===cell||orgEls.indexOf(c)>=0||(c.style&&c.style.display==='none'&&c.querySelector&&c.querySelector('[id^="setupCon"]')))return;c.style.order=100+(j++)});
+    cell.style.order=100+n;
+    var j=0;[].forEach.call(box.children,function(c){if(c===cell||orgEls.indexOf(c)>=0||(c.style&&c.style.display==='none'&&c.querySelector&&c.querySelector('[id^="setupCon"]')))return;c.style.order=(j++)});
     styleBtn();
   }
   function ensureRow(){
@@ -21669,5 +21675,52 @@ html body #projectDrawer #projectList .projectItem[style*="display:block"] .btns
 html body #projectDrawer #projectList .projectItem[style*="display:block"] .btns.projBtns .btn.projIco{width:38px!important;height:38px!important;min-height:38px!important;border-radius:12px!important}
 html body #projectDrawer .projectPanel>#subInfoLine{margin-top:12px!important}
 html body #projectDrawer .projectPanel>div.muted:last-child{margin-top:12px!important;padding-top:10px;border-top:1px solid var(--c5)}
+}
+</style>
+<style id="setup-fullscreen-v1">
+/* ===== ویرایش/تعریف اطلاعات پروژه: تمام‌صفحه و واکنش‌گرا ===== */
+html body #projectSetup{padding:0!important;align-items:stretch!important;justify-content:stretch!important;overflow:hidden!important;background:var(--c35)!important}
+html body #projectSetup .projectSetupPanel{--sw:1200px;--sgut:max(16px,calc((100% - var(--sw))/2));width:100%!important;max-width:none!important;height:100%;max-height:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0 0 calc(env(safe-area-inset-bottom,0px) + 24px)!important;background:var(--c35)!important;overflow-y:auto!important;overflow-x:hidden!important}
+html body #projectSetup .projectSetupPanel .setupTitleRow{position:sticky;top:0;z-index:30;margin:0!important;padding:calc(env(safe-area-inset-top,0px) + 12px) var(--sgut) 12px!important;background:var(--c35)!important;border-bottom:1px solid var(--c37)!important;gap:10px!important}
+html body #projectSetup .projectSetupPanel .setupTitleRow h2{font-size:clamp(18px,2.2vw,26px)!important;font-weight:800}
+html body #projectSetup .projectSetupPanel .setupTitleRow .btn{box-sizing:border-box!important;width:46px!important;min-width:46px!important;height:46px!important;min-height:46px!important;border-radius:16px!important;box-shadow:none!important}
+html body #projectSetup .projectSetupPanel>.muted{padding:0 var(--sgut)!important}
+html body #projectSetup .projectSetupPanel .projectSetupGrid{width:auto!important;margin:18px var(--sgut) 0!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+html body #projectSetup .projectSetupPanel .projectSetupGrid>.wide{grid-column:1/-1!important}
+html body #projectSetup .projectSetupPanel .projectSetupGrid label{gap:7px!important;font-size:15px!important;color:var(--c17)}
+html body #projectSetup .projectSetupPanel .projectSetupGrid :is(input:not([type=file]),select){box-sizing:border-box;width:100%;height:48px;min-height:48px;padding:0 14px;border-radius:var(--sqR3,22px);background:var(--sqIn,var(--c8));border:1px solid var(--sqBd,var(--c5));font-size:var(--fs-input,16px);box-shadow:none}
+html body #projectSetup .projectSetupPanel .projectSetupGrid :is(input,select):focus{border-color:var(--c2);outline:none}
+html body #projectSetup .projectSetupPanel .contractToggleRow .btn{height:50px;border-radius:var(--sqR3,22px);font-size:calc(var(--fs-btn,14px) + 1px);font-weight:700;box-shadow:none;justify-content:flex-start;padding:0 18px}
+html body #projectSetup .projectSetupPanel .contractBox{padding:16px!important;border-radius:22px!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important;gap:12px!important;overflow:visible}
+html body #projectSetup .projectSetupPanel #contractBox{grid-template-columns:1fr!important}
+html body #projectSetup .projectSetupPanel #listInfoBox{grid-template-columns:1fr!important}
+html body #projectSetup .projectSetupPanel #stCoefBox{grid-template-columns:1fr 1fr!important}
+html body #projectSetup .projectSetupPanel .projectSetupError{margin:10px var(--sgut) 0!important;font-size:15px!important}
+html body #projectSetup .projectSetupPanel .projectSetupActions{margin:12px var(--sgut) 0!important}
+html body #projectSetup .projectSetupPanel .projectSetupActions:not(:has(button)){display:none!important}
+/* تبلت و دسکتاپ: بخش‌ها همیشه باز و به‌صورت کارت */
+@media (min-width:720px){
+  html body #projectSetup .projectSetupPanel{--sw:860px}
+  html body #projectSetup .projectSetupPanel .contractToggleRow{display:none!important}
+  html body #projectSetup .projectSetupPanel .contractBox[hidden]{display:grid!important}
+  html body #projectSetup .projectSetupPanel .contractBox::before{grid-column:1/-1;font-size:18px;font-weight:800;color:var(--c2);padding-bottom:2px}
+  html body #projectSetup .projectSetupPanel #contractBox::before{content:'اطلاعات قرارداد'}
+  html body #projectSetup .projectSetupPanel #listInfoBox::before{content:'اطلاعات فهرست بها و تعدیل'}
+  html body #projectSetup .projectSetupPanel #stCoefBox::before{content:'ضرایب صورت‌وضعیت'}
+  html body #projectSetup .projectSetupPanel #contractBox{grid-template-columns:1fr 1fr!important}
+  html body #projectSetup .projectSetupPanel #listInfoBox{grid-template-columns:1fr 1fr!important}
+  html body #projectSetup .projectSetupPanel #listInfoBox .setupListsBox{grid-column:1/-1}
+  html body #projectSetup .projectSetupPanel #contractBox #orgMgrCell{grid-column:1/-1}
+  html body #projectSetup .projectSetupPanel #stCoefBox{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+/* دسکتاپ: سه کارت کنار هم در سطر دوم، کل صفحه */
+@media (min-width:1100px){
+  html body #projectSetup .projectSetupPanel{--sw:1400px}
+  html body #projectSetup .projectSetupPanel .projectSetupGrid{grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:18px!important;margin-top:22px!important}
+  html body #projectSetup .projectSetupPanel #contractBox{grid-column:span 7!important}
+  html body #projectSetup .projectSetupPanel #listInfoBox{grid-column:span 5!important;grid-template-columns:1fr!important;align-content:start}
+  html body #projectSetup .projectSetupPanel #stCoefBox{grid-column:1/-1!important}
+  html body #projectSetup .projectSetupPanel #contractBox{grid-template-columns:repeat(3,minmax(0,1fr))!important;align-content:start}
+  html body #projectSetup .projectSetupPanel #contractBox #orgMgrCell{grid-column:1/-1}
 }
 </style>
