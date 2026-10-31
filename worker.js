@@ -197,7 +197,7 @@ async function ensureLicenseSchema(env){
     await env.DB.prepare(`UPDATE users SET password_enc=NULL WHERE password_enc IS NOT NULL`).run();
     const admin=await env.DB.prepare(`SELECT id FROM users WHERE role='admin' LIMIT 1`).first();
     if(!admin){const first=await env.DB.prepare(`SELECT id FROM users ORDER BY created_at ASC LIMIT 1`).first();if(first) await env.DB.prepare(`UPDATE users SET role='admin' WHERE id=?`).bind(first.id).run();}
-    const amir=await env.DB.prepare(`SELECT id FROM users WHERE LOWER(name)='amir' OR LOWER(code)='amir' LIMIT 1`).first(); if(amir) await env.DB.prepare(`UPDATE users SET role='admin',device_id=NULL,max_devices=0,device_ids='[]' WHERE id=? AND (role IS NOT 'admin' OR device_id IS NOT NULL OR max_devices IS NOT 0 OR device_ids IS NOT '[]')`).bind(amir.id).run();
+    const amir=await env.DB.prepare(`SELECT id FROM users WHERE LOWER(name)='amir' OR LOWER(code)='amir' LIMIT 1`).first(); if(amir) await env.DB.prepare(`UPDATE users SET role='admin',max_devices=0 WHERE id=? AND (role IS NOT 'admin' OR max_devices IS NOT 0)`).bind(amir.id).run();
   })().catch(e=>{schemaReady=null;throw e});
   return schemaReady;
 }
@@ -325,6 +325,14 @@ async function api(request,env,url){
         let ids=[]; try{ids=JSON.parse(u.device_ids||'[]')}catch{}
         if(!ids.length && u.device_id) ids=[u.device_id];
         let meta={}; try{meta=JSON.parse(u.device_meta||'{}')||{}}catch{}
+        /* کاربر (با رمز درست) همه‌ی دستگاه‌های قبلی خودش را یک‌جا آزاد می‌کند */
+        if(body.releaseAll===true && ids.length){
+          ids=[]; meta={};
+          await env.DB.batch([
+            env.DB.prepare("UPDATE users SET device_id=NULL,device_ids='[]',device_meta='{}' WHERE id=?").bind(u.id),
+            env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(u.id)
+          ]);
+        }
         /* کاربر (با رمز درست) یکی از دستگاه‌های قبلی خودش را آزاد می‌کند */
         const rid=String(body.releaseDeviceId||'').trim().slice(0,180);
         if(rid && rid!==deviceId && ids.includes(rid)){
@@ -344,13 +352,25 @@ async function api(request,env,url){
         await env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,device_meta=?,last_login=? WHERE id=?').bind(ids[0]||null,JSON.stringify(ids),JSON.stringify(meta),Date.now(),u.id).run();
         /* هر دستگاه فقط یک نشست فعال دارد */
         await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND device_id=?').bind(u.id,deviceId).run();
-      } else await env.DB.prepare('UPDATE users SET last_login=? WHERE id=?').bind(Date.now(),u.id).run();
+      } else {
+        /* مدیر نامحدود: سقفی ندارد ولی دستگاه‌هایش هم برای نمایش/آزادسازی ثبت می‌شود */
+        if(deviceId){
+          let ids=[]; try{ids=JSON.parse(u.device_ids||'[]')}catch{}
+          let meta={}; try{meta=JSON.parse(u.device_meta||'{}')||{}}catch{}
+          if(body.releaseAll===true){ids=[];meta={};await env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(u.id).run();}
+          if(!ids.includes(deviceId)) ids.push(deviceId);
+          meta[deviceId]={ua:uaLabel(request.headers.get('User-Agent')),at:Date.now()};
+          for(const k of Object.keys(meta)) if(!ids.includes(k)) delete meta[k];
+          await env.DB.prepare('UPDATE users SET device_ids=?,device_meta=?,last_login=? WHERE id=?').bind(JSON.stringify(ids),JSON.stringify(meta),Date.now(),u.id).run();
+          await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND device_id=?').bind(u.id,deviceId).run();
+        } else await env.DB.prepare('UPDATE users SET last_login=? WHERE id=?').bind(Date.now(),u.id).run();
+      }
       await env.DB.prepare('DELETE FROM login_attempts WHERE k=?').bind(rlKeys[0][0]).run();
       await env.DB.prepare('DELETE FROM sessions WHERE expires_at<?').bind(Date.now()).run();
       await env.DB.prepare('DELETE FROM login_attempts WHERE reset_at<?').bind(Date.now()).run();
       await env.DB.prepare('DELETE FROM data_access WHERE day<?').bind(Math.floor(Date.now()/DAY_MS)-30).run();
       const sid=rand(32), sh=await sha256(sid);
-      await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at,device_id) VALUES(?,?,?,?)').bind(sh,u.id,Date.now()+2592000000,unlimited?null:deviceId).run();
+      await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at,device_id) VALUES(?,?,?,?)').bind(sh,u.id,Date.now()+2592000000,deviceId||null).run();
       return json({ok:true,code:u.code,name:u.name,role:u.role||'user',perms:parsePerms(u.perms,u),sub:subInfo(u)},200,{'Set-Cookie':cookie('sid',sid)});
     }
     const user=await userFrom(request,env);
@@ -394,7 +414,7 @@ async function api(request,env,url){
         const sess=await env.DB.prepare('SELECT user_id FROM sessions WHERE token_hash=?').bind(sh).first();
         if(sess?.user_id && deviceId){
           const u=await env.DB.prepare('SELECT role,device_id,device_ids FROM users WHERE id=?').bind(sess.user_id).first();
-          if(u && !isUnlimitedAdmin(u)){
+          if(u){
             let ids=[]; try{ids=JSON.parse(u.device_ids||'[]')}catch{}
             if(!ids.length && u.device_id) ids=[u.device_id];
             ids=ids.filter(x=>String(x)!==String(deviceId));
@@ -409,7 +429,7 @@ async function api(request,env,url){
     if(user.sub_expired){
       const p=url.pathname, m=request.method;
       const readOk=m==='GET'&&(p==='/api/projects'||/^\/api\/projects\/[^/]+(\/analysis)?$/.test(p));
-      if(!readOk&&p!=='/api/me/password') return json({error:SUB_EXPIRED_WRITE_MSG,expired:true},403);
+      if(!readOk&&p!=='/api/me/password'&&!p.startsWith('/api/me/devices')) return json({error:SUB_EXPIRED_WRITE_MSG,expired:true},403);
     }
     if(url.pathname==='/api/me/password' && request.method==='PUT'){
       const body=await request.json(); const password=String(body.password||'');
@@ -420,6 +440,56 @@ async function api(request,env,url){
       const cur=await sha256(getSession(request));
       await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(user.id,cur).run();
       return json({ok:true});
+    }
+    /* ---- مدیریت دستگاه‌های خودِ کاربر ---- */
+    const dvm=url.pathname.match(/^\/api\/me\/devices(?:\/([^/]+))?$/);
+    if(dvm){
+      const readDev=async()=>{
+        const u=await env.DB.prepare('SELECT role,name,code,device_id,device_ids,device_meta,max_devices FROM users WHERE id=?').bind(user.id).first();
+        let ids=[]; try{ids=JSON.parse(u?.device_ids||'[]')}catch{}
+        if(!ids.length && u?.device_id) ids=[u.device_id];
+        let meta={}; try{meta=JSON.parse(u?.device_meta||'{}')||{}}catch{}
+        return {u,ids,meta};
+      };
+      const curTok=await sha256(getSession(request));
+      const curRow=await env.DB.prepare('SELECT device_id FROM sessions WHERE token_hash=?').bind(curTok).first();
+      let cur=String(curRow?.device_id||'');
+      let {u,ids,meta}=await readDev();
+      /* حساب‌هایی که قبل از این قابلیت وارد شده‌اند (مثلاً مدیر): دستگاه فعلی هنگام اولین باز شدن لیست ثبت می‌شود */
+      const hint=String(url.searchParams.get('d')||'').trim().slice(0,180);
+      if(!cur && hint && request.method==='GET' && isUnlimitedAdmin(u)){
+        cur=hint; if(!ids.includes(cur)) ids.push(cur);
+        meta[cur]={ua:uaLabel(request.headers.get('User-Agent')),at:Date.now()};
+        await env.DB.batch([
+          env.DB.prepare('UPDATE users SET device_ids=?,device_meta=? WHERE id=?').bind(JSON.stringify(ids),JSON.stringify(meta),user.id),
+          env.DB.prepare('UPDATE sessions SET device_id=? WHERE token_hash=?').bind(cur,curTok)
+        ]);
+      }
+      const save=async(nids,nmeta,dropIds)=>{
+        for(const k of Object.keys(nmeta)) if(!nids.includes(k)) delete nmeta[k];
+        const st=[env.DB.prepare('UPDATE users SET device_id=?,device_ids=?,device_meta=? WHERE id=?').bind(nids[0]||null,JSON.stringify(nids),JSON.stringify(nmeta),user.id)];
+        for(const d of dropIds) st.push(env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND device_id=?').bind(user.id,d));
+        await env.DB.batch(st);
+      };
+      if(request.method==='GET' && !dvm[1]){
+        return json({devices:ids.map((id,i)=>({id,label:(meta[id]&&meta[id].ua)||('دستگاه '+(i+1)),last:(meta[id]&&meta[id].at)||null,current:id===cur})),max:isUnlimitedAdmin(u)?0:Math.max(1,Number(u.max_devices||1)),current:cur},200,{'Cache-Control':'no-store'});
+      }
+      if(request.method==='DELETE' && dvm[1]){
+        const rid=safeDecode(dvm[1]).slice(0,180);
+        if(rid===cur) return json({error:'دستگاه فعلی را نمی‌توانید از همین‌جا آزاد کنید؛ از گزینه‌ی خروج استفاده کنید.'},400);
+        if(!ids.includes(rid)) return json({error:'دستگاه پیدا نشد.'},404);
+        await save(ids.filter(x=>x!==rid),meta,[rid]);
+        return json({ok:true});
+      }
+      if(request.method==='DELETE' && !dvm[1]){
+        /* همه‌ی دستگاه‌ها به‌جز دستگاه فعلی (که از روی نشست تشخیص داده می‌شود) */
+        const keep=ids.filter(x=>x===cur), drop=ids.filter(x=>x!==cur);
+        await save(keep,meta,drop);
+        /* نشست‌های بدون دستگاه ثبت‌شده هم بسته شوند، به‌جز نشست فعلی */
+        await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>? AND (device_id IS NULL OR device_id<>?)').bind(user.id,await sha256(getSession(request)),cur).run();
+        return json({ok:true,released:drop.length});
+      }
+      return json({error:'متد نامعتبر است.'},405);
     }
     if(url.pathname==='/api/admin/usage' && request.method==='GET'){
       if(!(await isAdmin(user,env))) return json({error:'دسترسی مدیر لازم است.'},403);
@@ -480,7 +550,7 @@ async function api(request,env,url){
       else await env.DB.prepare('UPDATE users SET name=?,max_devices=? WHERE id=?').bind(name,maxDevices,id).run();
       if(b.perms!==undefined&&!isUnlimitedAdmin(target)) await env.DB.prepare('UPDATE users SET perms=? WHERE id=?').bind(cleanPerms(b.perms),id).run();
       if(b.notes!==undefined) await env.DB.prepare('UPDATE users SET notes=? WHERE id=?').bind(String(b.notes||'').trim().slice(0,2000)||null,id).run();
-      if(name.toLowerCase()==='amir') await env.DB.prepare("UPDATE users SET role='admin',device_id=NULL,max_devices=0,device_ids='[]' WHERE id=?").bind(id).run();
+      if(name.toLowerCase()==='amir') await env.DB.prepare("UPDATE users SET role='admin',max_devices=0 WHERE id=?").bind(id).run();
       /* اشتراک (برای مدیر اعمال نمی‌شود):
          start = تاریخ شروع (YYYY-MM-DD میلادی؛ خالی = از روز ساخت حساب)
          end   = آخرین روز اشتراک (YYYY-MM-DD) — هر کاربری (حتی نامحدود) را محدود می‌کند
