@@ -15,7 +15,7 @@ html body #authGate .authBox .brandEn{font-size:72px!important;line-height:1.1!i
 html body #cplHome .cplHomeHead .brandEn{font-size:92px!important;line-height:1.1!important;letter-spacing:.015em!important;text-indent:0!important;white-space:nowrap;margin:0 0 -16px!important}
 html body .brandEn .mzs{letter-spacing:.015em!important}
 html body .brandFa,html body .brandFa .brandYz{letter-spacing:.09em!important}
-html body #stCover .stModeBar #stfC76{font-size:18px!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 14px!important;gap:6px!important;border-radius:9px!important}
+html body #stCover .stModeBar :is(#stfC76,#stfCmp){font-size:18px!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 14px!important;gap:6px!important;border-radius:9px!important}
 html body #stCover .stModeBar{align-items:center;gap:12px;flex-wrap:wrap}
 #stCover #stfBar:empty{display:none}
 html body #stCover #stfBar{max-width:100%;overflow:hidden}
@@ -2601,7 +2601,7 @@ html body #stEditor#stEditor#stEditor#stEditor#stEditor#stEditor .mnRow4.mnRow3>
 <!-- theme/layout styles moved here from <body> so the final look applies on first paint -->
 <style id="ui-match-v2">
 /* ۱) دکمه و کادر بخشنامه ۷۶۵۷۴ (صورت‌وضعیت) هم‌شکل بقیه دکمه‌ها */
-html body #stCover[id] .stModeBar #stfC76{font-size:var(--fs-btn)!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 16px!important;border-radius:18px!important}
+html body #stCover[id] .stModeBar :is(#stfC76,#stfCmp){font-size:var(--fs-btn)!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 16px!important;border-radius:18px!important}
 html body #stCover[id] .c76Sec{border-radius:var(--sqR2,24px)!important;background:var(--sqBg,var(--c8))!important;border:1px solid var(--sqBd,var(--c5))!important;box-shadow:none!important;padding:8px 14px!important;gap:10px!important}
 html body #stCover[id] .stModeBar label.c76ChkLbl,html body #stCover[id] .c76Sec .c76ModeLbl{font-size:var(--fs-btn)!important;font-weight:700!important}
 html body #stCover[id] .c76Sec .c76ModeLbl select{height:38px!important;min-height:38px!important;border-radius:var(--sqR3,22px)!important;font-size:var(--fs-input)!important}
@@ -3626,7 +3626,7 @@ html body #ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro#ciChapIntro#ciChapInt
 /* بخشنامه ۷۶۵۷۴ */
 html body :is(#stC76 .mnSortBar,#stC76Est .c76ImpBar) .btn{font-size:18px!important;height:42px!important;min-height:42px!important}
 html body #stC76 .c76ApplyLbl{font-size:19px!important}
-html body #stCover[id] .stModeBar #stfC76{font-size:20px!important;height:46px!important;min-height:46px!important;padding:0 20px!important}
+html body #stCover[id] .stModeBar :is(#stfC76,#stfCmp){font-size:20px!important;height:46px!important;min-height:46px!important;padding:0 20px!important}
 html body #stCover[id] .stModeBar label.c76ChkLbl,html body #stCover[id] .c76Sec .c76ModeLbl{font-size:20px!important}
 html body #stCover[id] .stModeBar label.c76ChkLbl input{width:24px!important;height:24px!important}
 html body #stCover[id] .c76Sec .c76ModeLbl select{font-size:19px!important;height:46px!important;min-height:46px!important;width:170px!important}
@@ -3884,8 +3884,15 @@ html body #projectSetup #chapterCoefEditor td,html body #projectSetup #chapterCo
 /* ===== بخشنامه 76574: کمی کوچک‌تر + دکمه‌های ورود برآورد هم‌ظاهر بقیه پروژه ===== */
 html body #stCover[id] .stModeBar label.c76ChkLbl,html body #stCover[id] .c76Sec .c76ModeLbl{font-size:18px!important}
 html body #stCover[id] .c76Sec .c76ModeLbl select{font-size:17px!important;height:40px!important;min-height:40px!important;width:150px!important}
-html body #stCover[id] .c76Sec #stfC76{height:40px!important;min-height:40px!important;font-size:16px!important;padding:0 12px!important}
+html body #stCover[id] .c76Sec :is(#stfC76,#stfCmp){height:40px!important;min-height:40px!important;font-size:16px!important;padding:0 12px!important}
 html body #stCover[id] .c76Sec input[type=checkbox]{width:20px!important;height:20px!important}
+/* مقایسهٔ صورت‌وضعیت‌ها (فصول / دفترچه‌ها) */
+html body #stCover .c76Grp{display:inline-flex;align-items:center;gap:12px;margin-inline-start:auto;flex-wrap:wrap}
+html body #stCmp .stCmpBoxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 12px 10px}
+html body #stCmp .stCmpBox{display:flex;flex-direction:column;gap:6px;padding:8px 14px;box-sizing:border-box;border-radius:var(--sqR2,24px);background:var(--sqBg,var(--c8));border:1px solid var(--sqBd,var(--c5));font-size:var(--fs-btn,16px);font-weight:700}
+html body #stCmp .stCmpBox select{width:100%;min-width:0;height:40px;min-height:40px;border-radius:var(--sqR3,22px);font-size:var(--fs-input,16px)}
+html body #stCmp .stCmpMsg{margin:8px 12px;line-height:1.9}
+@media (max-width:760px){html body #stCmp .stCmpBoxes{grid-template-columns:repeat(2,minmax(0,1fr))}}
 html body #stCover .c76ImpBar .btn,html body #stCover #stC76Imp{height:44px!important;min-height:44px!important;border-radius:var(--sqR3,22px)!important;background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;color:var(--surfaceText)!important;font-size:16px!important;font-weight:600!important;padding:0 16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px;box-shadow:none!important}
 html body #stCover .c76ImpBar .btn.danger{color:#ff7b78!important}
 html body #stCover .c76ImpBar .btn svg,html body #stCover #stC76Imp svg{width:22px!important;height:22px!important;stroke-width:1.5!important}
@@ -4447,7 +4454,7 @@ var BYID={cplHomeMenuBtn:'dots',cplMenuBtn:'dots',cplHomeQuickBtn:'home',cplPric
  newProject:'plus',newCalculation:'calc',openProjects:'clock',openCalculations:'clock',
  mnAdd:'plus',cplAddItemBtn:'plus',starredItemsBtn:'star',stAdd:'plus',ciAdd:'plus',stcoAdd:'plus',cicoAdd:'plus',closeProjects:'close',closeAdmin:'close'};
 var NEXTIDS={nextStage:1,goAdjustment:1,goAdjustmentResult:1,goComparison:1,goComparisonResult:1,analysisNext:1,mnNext:1,stNext:1,ciNext:1,stfNext:1,cifNext:1,exNext:1};
-var BACKIDS={stC76Back:1,stC76EstBack:1,backFromSummary:1,backFromAdjustment:1,backFromAdjustmentResult:1,backFromComparison:1,backFromComparisonResult:1,backFromAnalysisPage:1,backFromAnalysisModal:1,mnCovBack:1,stfBack:1,cifBack:1,exBack:1};
+var BACKIDS={stCmpBack:1,stC76Back:1,stC76EstBack:1,backFromSummary:1,backFromAdjustment:1,backFromAdjustmentResult:1,backFromComparison:1,backFromComparisonResult:1,backFromAnalysisPage:1,backFromAnalysisModal:1,mnCovBack:1,stfBack:1,cifBack:1,exBack:1};
 var SMALL=/\b(mnItemDel|mnInfoBtn|mnListIco|projIco|mnDescBtn|mnRowDel|analysisDeleteRow|starredAnalysisBtn|mnRowAdd)\b/;
 var FRAME=/\b(mnInfoBtn|cbActBtn|mnStarDefBtn|mnSrchBtn|stTrBtn|exportIconBtn|projectIconBtn|mnIco|mnSortBtn|mnChapIntroBtn|mnListIco|projIco|mnDescBtn|finalSaveIcon|analysisSaveIcon|coefIconBtn|setupSaveIcon|clearIconBtn|mnAddBtn|analysisPageSave)\b/;
 function txt(b){return (b.textContent||'').replace(/\s+/g,' ').trim()}
@@ -14896,7 +14903,7 @@ window.__cplSig=function(){
       (rb?'<div style="margin:14px 12px 4px;font-weight:700">ردیف‌های دارای سهم از مازاد</div><div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>آیتم</th><th>شرح</th><th>مقدار برآوردی</th><th>مقدار فعلی</th><th>مبلغ افزایش</th><th>سهم مازاد</th><th>ضریب فصل مؤثر</th><th>وضعیت</th></tr></thead><tbody>'+rb+'</tbody></table></div>':'');
   }
   function c76Refresh(){var b=$('stC76Body');if(b)b.innerHTML=c76Panel();var bt=$('stfC76');if(bt)bt.classList.toggle('c76On',!!(cur&&cur.c76&&cur.c76.on));if($('stfBody'))renderFlow()}
-  function c76Bar(st){if(st===0)return '';var on=!!(cur&&cur.c76&&cur.c76.on);var md=(st===1||st===2)?'<label class="c76ModeLbl">نوع مبالغ<select id="stMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>':'';return '<div class="stModeBar c76Sec">'+'<button type="button" class="btn mnTextBtn'+(on?' c76On':'')+'" id="stfC76" title="بخشنامه ۷۶۵۷۴" aria-label="بخشنامه ۷۶۵۷۴"><span>بخشنامه 76574</span></button>'+'<label class="c76ChkLbl"><input type="checkbox" id="stfC76On"'+(on?' checked':'')+'><span>اعمال بخشنامه 76574</span></label>'+md+'</div>'}
+  function c76Bar(st){if(st===0)return '';var on=!!(cur&&cur.c76&&cur.c76.on);var md=(st===1||st===2)?'<label class="c76ModeLbl">نوع مبالغ<select id="stMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>':'';return '<div class="stModeBar c76Sec">'+'<button type="button" class="btn mnTextBtn'+(on?' c76On':'')+'" id="stfC76" title="بخشنامه ۷۶۵۷۴" aria-label="بخشنامه ۷۶۵۷۴"><span>بخشنامه 76574</span></button>'+'<label class="c76ChkLbl"><input type="checkbox" id="stfC76On"'+(on?' checked':'')+'><span>اعمال بخشنامه 76574</span></label>'+(md?'<span class="c76Grp"><button type="button" class="btn mnTextBtn" id="stfCmp" title="مقایسه صورت‌وضعیت‌ها" aria-label="مقایسه صورت‌وضعیت‌ها"><span>مقایسه</span></button>'+md+'</span>':'')+'</div>'}
   var C76_SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
   var C76_HOME='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg>';
   function C76_SAVE(p){return '<button type="button" class="btn mnIco mnSaveBtn" id="'+p+'Save" title="ذخیره" aria-label="ذخیره">'+ICO_SAVE+'</button>'}
@@ -15644,7 +15651,84 @@ window.__cplSig=function(){
     var br=$('stfBar');if(br)br.innerHTML=c76Bar(step);b.innerHTML=tblHtml(sp);
     var mo=$('stMode');if(mo){mo.value=chMode();mo.onchange=function(){cur.chMode=mo.value==='wc'?'wc':'net';dirty=true;renderFlow()}}
     var c76b=$('stfC76');if(c76b)c76b.onclick=openC76;
+    var cmb=$('stfCmp');if(cmb)cmb.onclick=function(){openStCmp(step)};
   }
+  /* ---------- مقایسهٔ صورت‌وضعیت‌ها: فصول (صفحه ۳) / دفترچه‌ها (صفحه ۴) ---------- */
+  function cmpsCalc(rec,kind,wc){
+    var o=cur;cur=rec;C76_CACHE=null;
+    try{
+      var val=wc?amountWC:amount,m={},out=[];
+      sortedItems().forEach(function(it){
+        if(kind===1){var ec=effCh(it),k=it.discipline+'|'+p2(ec);if(!m[k]){m[k]={d:it.discipline,c:ec,t:0};out.push(m[k])}m[k].t+=val(it)}
+        else{var d=it.discipline;if(!m[d]){m[d]={d:d,t:equipOf(d)};out.push(m[d])}m[d].t+=val(it)}
+      });
+      return out;
+    }finally{cur=o;C76_CACHE=null}
+  }
+  function cmpsNoTxt(s){var n=String(s.no==null?'':s.no).trim();return n?faD(toEn(n)):(s.name||'بدون نام')}
+  async function cmpsLoadAll(){
+    var md=await api('/api/projects/'+window.__mainProjectId),d={};try{d=JSON.parse(md.project.data||'{}')}catch(e){}
+    var O=window.__cplOrgs,ST={};
+    O.keys().forEach(function(v){
+      (Array.isArray(d['statements'+O.SUF[v]])?d['statements'+O.SUF[v]]:[]).forEach(function(r){
+        if(!r||!r.id||!Array.isArray(r.items))return;
+        var s=ST[r.id]||(ST[r.id]={id:r.id,no:r.no,name:r.name,vers:{}});s.vers[v]=r;
+        if(s.no==null||String(s.no).trim()==='')s.no=r.no;
+      });
+    });
+    /* نسخهٔ بازِ فعلی (حتی ذخیره‌نشده) به‌جای نسخهٔ ذخیره‌شده */
+    var cv=O.bySuf((window.__cplVerCtx||{}).st||''),cid=cur.id||'__cur';
+    var c=ST[cid]||(ST[cid]={id:cid,no:cur.no,name:cur.name,vers:{}});c.vers[cv]=cur;c.no=cur.no;c.name=cur.name;
+    return {ST:ST,cid:cid,cv:cv};
+  }
+  function openStCmp(kind){
+    if(!cur||(kind!==1&&kind!==2))return;
+    var wc=chMode()==='wc';
+    shell('stCmp','<div class="mnHead"><b>'+esc(stTitle(cur)+' ('+(kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها')+')')+'</b><div class="mnBtns">'+
+      '<button type="button" class="btn mnIco" id="stCmpBack" title="مرحله قبل" aria-label="مرحله قبل"></button></div></div>'+
+      '<div id="stCmpBody"><div class="mnMuted stCmpMsg">در حال خواندن صورت‌وضعیت‌ها…</div></div>');
+    $('stCmpBack').onclick=function(){closeShell('stCmp')};
+    cmpsLoadAll().then(function(D){
+      var body=$('stCmpBody');if(!body)return;
+      var O=window.__cplOrgs,ST=D.ST,ids=Object.keys(ST).sort(function(a,b){
+        var x=parseFloat(toEn(ST[a].no||'')),y=parseFloat(toEn(ST[b].no||''));x=isNaN(x)?1e9:x;y=isNaN(y)?1e9:y;return x-y});
+      var other=null;
+      /* پیش‌فرض کادر دوم: همین صورت‌وضعیت در نسخهٔ دیگر؛ وگرنه صورت‌وضعیت قبلی در همین نسخه */
+      var vs=O.keys().filter(function(v){return ST[D.cid].vers[v]&&v!==D.cv});
+      if(vs.length)other={id:D.cid,v:vs.indexOf('P')>=0?'P':vs[0]};
+      else{var i0=ids.indexOf(D.cid);for(var j=i0-1;j>=0&&!other;j--){var sv=ST[ids[j]].vers;if(sv[D.cv])other={id:ids[j],v:D.cv};else{var kk=O.keys().filter(function(v){return sv[v]});if(kk.length)other={id:ids[j],v:kk[0]}}}}
+      if(!other)other={id:D.cid,v:D.cv};
+      function numOpts(sel){return ids.map(function(id){return '<option value="'+esc(id)+'"'+(id===sel?' selected':'')+'>'+esc(cmpsNoTxt(ST[id]))+'</option>'}).join('')}
+      function verOpts(id,sel){var ks=O.keys().filter(function(v){return ST[id].vers[v]});if(ks.indexOf(sel)<0)sel=ks[0];return ks.map(function(v){return '<option value="'+esc(v)+'"'+(v===sel?' selected':'')+'>'+esc(O.NAME[v])+'</option>'}).join('')}
+      body.innerHTML='<div class="stCmpBoxes">'+
+        '<label class="stCmpBox">صورت‌وضعیت اول<select id="stCmpN1">'+numOpts(D.cid)+'</select></label>'+
+        '<label class="stCmpBox">نسخه صورت‌وضعیت اول<select id="stCmpV1">'+verOpts(D.cid,D.cv)+'</select></label>'+
+        '<label class="stCmpBox">صورت‌وضعیت دوم<select id="stCmpN2">'+numOpts(other.id)+'</select></label>'+
+        '<label class="stCmpBox">نسخه صورت‌وضعیت دوم<select id="stCmpV2">'+verOpts(other.id,other.v)+'</select></label></div>'+
+        '<div class="mnSortBar" style="justify-content:flex-start"><span class="mnMuted">نوع مبالغ: '+(wc?'با ضرایب':'خالص')+'</span></div>'+
+        '<div class="mnTableWrap" id="stCmpTbl"></div>';
+      function pick(n){return ST[$('stCmpN'+n).value].vers[$('stCmpV'+n).value]}
+      function render(){
+        var a=pick(1),b=pick(2),t=$('stCmpTbl');if(!a||!b||!t){if(t)t.innerHTML='<div class="mnMuted stCmpMsg">نسخه‌ای برای مقایسه پیدا نشد.</div>';return}
+        var ta=cmpsCalc(a,kind,wc),tb=cmpsCalc(b,kind,wc),m={},keys=[];
+        function add(x,w){var k=kind===1?x.d+'|'+p2(x.c):x.d;if(!m[k]){m[k]={d:x.d,c:x.c,a:0,b:0};keys.push(k)}m[k][w]+=x.t}
+        ta.forEach(function(x){add(x,'a')});tb.forEach(function(x){add(x,'b')});
+        keys.sort(function(p,q){var P=m[p],Q=m[q];return DISCS.indexOf(P.d)-DISCS.indexOf(Q.d)||(kind===1?parseFloat(P.c)-parseFloat(Q.c):0)});
+        var na=stTitle(a)+' — '+O.NAME[$('stCmpV1').value],nb=stTitle(b)+' — '+O.NAME[$('stCmpV2').value];
+        var rows=keys.map(function(k){var r=m[k];return (kind===1?[r.d,chapterLabel(r.d,r.c)]:[r.d]).concat([r.a,r.b,r.b-r.a])});
+        var sa=sum(keys,function(k){return m[k].a}),sb=sum(keys,function(k){return m[k].b});
+        var sp=kind===1?{band:1,cols:['نوع فهرست بها','فصل',na,nb,'اختلاف (دوم − اول)'],rows:rows,foot:['جمع کل','',sa,sb,sb-sa]}
+                       :{cols:['نوع فهرست بها',na,nb,'اختلاف (دوم − اول)'],rows:rows,foot:['جمع کل',sa,sb,sb-sa]};
+        t.innerHTML=rows.length?tblHtml(sp):'<div class="mnMuted stCmpMsg">آیتمی برای مقایسه نیست.</div>';
+      }
+      [1,2].forEach(function(n){
+        $('stCmpN'+n).onchange=function(){$('stCmpV'+n).innerHTML=verOpts(this.value,$('stCmpV'+n).value);render()};
+        $('stCmpV'+n).onchange=render;
+      });
+      render();
+    }).catch(function(e){var body=$('stCmpBody');if(body)body.innerHTML='<div class="impMsg err stCmpMsg">'+esc((e&&e.message)||'خواندن صورت‌وضعیت‌ها انجام نشد.')+'</div>'});
+  }
+
   document.addEventListener('input',function(e){
     var t=e.target;if(!cur||!t.classList)return;
     if(t.classList.contains('stIn')){var it=cur.items[+t.dataset.u];if(!it)return;var k=t.dataset.k;
@@ -17771,7 +17855,7 @@ window.__cplSig=function(){
 </script>
 <script id="v212-header-menu">
 (function(){
-  var NAV={mnNext:1,stNext:1,stfNext:1,stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,stcoBack:1,ciNext:1,cifNext:1,cifBack:1,cicoBack:1,exNext:1,exBack:1},CLOSE={mnClose:1,stClose:1,stadX:1,ciClose:1,exClose:1,mnWfClose:1,mnWfAllClose:1,stfHome:1,cifHome:1};
+  var NAV={mnNext:1,stNext:1,stfNext:1,stfBack:1,stCmpBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,stcoBack:1,ciNext:1,cifNext:1,cifBack:1,cicoBack:1,exNext:1,exBack:1},CLOSE={mnClose:1,stClose:1,stadX:1,ciClose:1,exClose:1,mnWfClose:1,mnWfAllClose:1,stfHome:1,cifHome:1};
   var SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
   var ICO_MENU=SV+'<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
   var ICO_HOME=SV+'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>';
@@ -17831,7 +17915,7 @@ window.__cplSig=function(){
     /* «بستن» همیشه آخرین گزینهٔ منو */
     Array.prototype.slice.call(panel.children).forEach(function(b){if(CLOSE[b.id])panel.appendChild(b)});
     var home=document.createElement('button');home.type='button';home.className='btn mnIco mnHomeBtn';home.title='صفحه اصلی';home.setAttribute('aria-label','صفحه اصلی');home.innerHTML=ICO_HOME;
-    home.addEventListener('click',function(e){e.preventDefault();closeAll();if(/^(stC76|stC76Est|stC76Info)$/.test(ov.id||'')){ov.remove();return}goHome()});
+    home.addEventListener('click',function(e){e.preventDefault();closeAll();if(/^(stC76|stC76Est|stC76Info|stCmp)$/.test(ov.id||'')){ov.remove();return}goHome()});
     var mb=document.createElement('button');mb.type='button';mb.className='btn mnIco mnMenuBtn';mb.title='منو';mb.setAttribute('aria-label','منو');mb.setAttribute('aria-expanded','false');mb.innerHTML=ICO_MENU;
     mb.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();closeAll(panel);
@@ -19224,7 +19308,7 @@ document.addEventListener('mousedown',function(e){
   var ICO_BACK=SV+'<path d="M4 12h16M14 6l6 6-6 6"/></svg>';
   var ICO_FWD=SV+'<path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
   var ICO_OK=SV+'<path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  var BACK={stTrBack:1,stcoBack:1,cicoBack:1,stfBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
+  var BACK={stTrBack:1,stcoBack:1,cicoBack:1,stfBack:1,stCmpBack:1,stC76Back:1,stC76EstBack:1,mnCovBack:1,cifBack:1,exBack:1,backFromAnalysisPage:1};
   function isBack(b){return BACK[b.id]||/BackList$/.test(b.id||'')}
   function isFwd(b){return (/(Next|Ok)$/.test(b.id||'')||b.id==='analysisNext')&&!isBack(b)}
   function mk(src,ico,title,inv){
@@ -19491,7 +19575,7 @@ document.addEventListener('mousedown',function(e){
 (function(){
   /* سوایپ از لبهٔ چپ به راست = بازگشت در همهٔ صفحه‌ها و پنجره‌ها (مثل iOS) */
   var EDGE=26, MIN_DX=60, MAX_DY=70;
-  var BACK=/^(stfBack|stC76Back|stC76EstBack|mnCovBack|cifBack|exBack|backFrom[A-Za-z]*|[a-z]+BackList|cplPriceBack|historyBackProjects)$/;
+  var BACK=/^(stfBack|stCmpBack|stC76Back|stC76EstBack|mnCovBack|cifBack|exBack|backFrom[A-Za-z]*|[a-z]+BackList|cplPriceBack|historyBackProjects)$/;
   var CLOSE=/^(close[A-Za-z]*|[A-Za-z]+Close|[A-Za-z]+ListClose|cplCancel|stnCancel)$/;
   var SKIP=/^(supportCloseBtn|cplHome[A-Za-z]*)$/;
   function shown(el){
