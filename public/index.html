@@ -15698,17 +15698,21 @@ window.__cplSig=function(){
       if(vs.length)other={id:D.cid,v:vs.indexOf('P')>=0?'P':vs[0]};
       else{var i0=ids.indexOf(D.cid);for(var j=i0-1;j>=0&&!other;j--){var sv=ST[ids[j]].vers;if(sv[D.cv])other={id:ids[j],v:D.cv};else{var kk=O.keys().filter(function(v){return sv[v]});if(kk.length)other={id:ids[j],v:kk[0]}}}}
       if(!other)other={id:D.cid,v:D.cv};
+      var first={id:D.cid,v:D.cv},sv=window.__stCmpSel;
+      /* انتخاب‌های صفحهٔ فصول و دفترچه‌ها مشترک است */
+      if(sv&&sv.cid===D.cid&&ST[sv.n1]&&ST[sv.n1].vers[sv.v1]&&ST[sv.n2]&&ST[sv.n2].vers[sv.v2]){first={id:sv.n1,v:sv.v1};other={id:sv.n2,v:sv.v2}}
       function numOpts(sel){return ids.map(function(id){return '<option value="'+esc(id)+'"'+(id===sel?' selected':'')+'>'+esc(cmpsNoTxt(ST[id]))+'</option>'}).join('')}
       function verOpts(id,sel){var ks=O.keys().filter(function(v){return ST[id].vers[v]});if(ks.indexOf(sel)<0)sel=ks[0];return ks.map(function(v){return '<option value="'+esc(v)+'"'+(v===sel?' selected':'')+'>'+esc(O.NAME[v])+'</option>'}).join('')}
       body.innerHTML='<div class="stCmpBoxes">'+
-        '<label class="stCmpBox">صورت‌وضعیت اول<select id="stCmpN1">'+numOpts(D.cid)+'</select></label>'+
-        '<label class="stCmpBox">نسخه صورت‌وضعیت اول<select id="stCmpV1">'+verOpts(D.cid,D.cv)+'</select></label>'+
+        '<label class="stCmpBox">صورت‌وضعیت اول<select id="stCmpN1">'+numOpts(first.id)+'</select></label>'+
+        '<label class="stCmpBox">نسخه صورت‌وضعیت اول<select id="stCmpV1">'+verOpts(first.id,first.v)+'</select></label>'+
         '<label class="stCmpBox">صورت‌وضعیت دوم<select id="stCmpN2">'+numOpts(other.id)+'</select></label>'+
         '<label class="stCmpBox">نسخه صورت‌وضعیت دوم<select id="stCmpV2">'+verOpts(other.id,other.v)+'</select></label></div>'+
         '<div class="mnSortBar" style="justify-content:flex-start"><span class="mnMuted">نوع مبالغ: '+(wc?'با ضرایب':'خالص')+'</span></div>'+
         '<div class="mnTableWrap" id="stCmpTbl"></div>';
       function pick(n){return ST[$('stCmpN'+n).value].vers[$('stCmpV'+n).value]}
       function render(){
+        window.__stCmpSel={cid:D.cid,n1:$('stCmpN1').value,v1:$('stCmpV1').value,n2:$('stCmpN2').value,v2:$('stCmpV2').value};
         var a=pick(1),b=pick(2),t=$('stCmpTbl');if(!a||!b||!t){if(t)t.innerHTML='<div class="mnMuted stCmpMsg">نسخه‌ای برای مقایسه پیدا نشد.</div>';return}
         var ta=cmpsCalc(a,kind,wc),tb=cmpsCalc(b,kind,wc),m={},keys=[];
         function add(x,w){var k=kind===1?x.d+'|'+p2(x.c):x.d;if(!m[k]){m[k]={d:x.d,c:x.c,a:0,b:0};keys.push(k)}m[k][w]+=x.t}
