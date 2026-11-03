@@ -14896,7 +14896,7 @@ window.__cplSig=function(){
       (rb?'<div style="margin:14px 12px 4px;font-weight:700">ردیف‌های دارای سهم از مازاد</div><div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>آیتم</th><th>شرح</th><th>مقدار برآوردی</th><th>مقدار فعلی</th><th>مبلغ افزایش</th><th>سهم مازاد</th><th>ضریب فصل مؤثر</th><th>وضعیت</th></tr></thead><tbody>'+rb+'</tbody></table></div>':'');
   }
   function c76Refresh(){var b=$('stC76Body');if(b)b.innerHTML=c76Panel();var bt=$('stfC76');if(bt)bt.classList.toggle('c76On',!!(cur&&cur.c76&&cur.c76.on));if($('stfBody'))renderFlow()}
-  function c76Bar(st){if(st===0)return '';var on=!!(cur&&cur.c76&&cur.c76.on);var md=(st===1||st===2)?'<label class="c76ModeLbl">نوع مبالغ<select id="stMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>':'';return '<div class="stModeBar c76Sec">'+'<button type="button" class="btn mnTextBtn'+(on?' c76On':'')+'" id="stfC76" title="بخشنامه ۷۶۵۷۴" aria-label="بخشنامه ۷۶۵۷۴"><span>بخشنامه 76574</span></button>'+'<button type="button" class="btn mnTextBtn" id="stfCmp" title="مقایسه با صورت‌وضعیت دیگر" aria-label="مقایسه با صورت‌وضعیت دیگر"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M12 2v20"/></svg><span>مقایسه</span></button>'+'<label class="c76ChkLbl"><input type="checkbox" id="stfC76On"'+(on?' checked':'')+'><span>اعمال بخشنامه 76574</span></label>'+md+'</div>'}
+  function c76Bar(st){if(st===0)return '';var on=!!(cur&&cur.c76&&cur.c76.on);var md=(st===1||st===2)?'<label class="c76ModeLbl">نوع مبالغ<select id="stMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>':'';return '<div class="stModeBar c76Sec">'+'<button type="button" class="btn mnTextBtn'+(on?' c76On':'')+'" id="stfC76" title="بخشنامه ۷۶۵۷۴" aria-label="بخشنامه ۷۶۵۷۴"><span>بخشنامه 76574</span></button>'+'<label class="c76ChkLbl"><input type="checkbox" id="stfC76On"'+(on?' checked':'')+'><span>اعمال بخشنامه 76574</span></label>'+md+'</div>'}
   var C76_SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
   var C76_HOME='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg>';
   function C76_SAVE(p){return '<button type="button" class="btn mnIco mnSaveBtn" id="'+p+'Save" title="ذخیره" aria-label="ذخیره">'+ICO_SAVE+'</button>'}
@@ -15644,61 +15644,6 @@ window.__cplSig=function(){
     var br=$('stfBar');if(br)br.innerHTML=c76Bar(step);b.innerHTML=tblHtml(sp);
     var mo=$('stMode');if(mo){mo.value=chMode();mo.onchange=function(){cur.chMode=mo.value==='wc'?'wc':'net';dirty=true;renderFlow()}}
     var c76b=$('stfC76');if(c76b)c76b.onclick=openC76;
-    var cmpb=$('stfCmp');if(cmpb)cmpb.onclick=function(){openStCompare(step)};
-  }
-  /* ---------- مقایسهٔ فصول (مرحلهٔ ۳) / دفترچه‌ها (مرحلهٔ ۴) بین دو صورت‌وضعیت دلخواه ---------- */
-  function stCmpSpec(rec,st,mode){
-    var r=Object.assign({},rec);if(!r.coefs)r.coefs=defaultCoefs();r.chMode=mode;r.items=r.items||[];
-    var o=cur;cur=r;C76_CACHE=null;
-    try{return st===1?chapSpec():bookSpec()}finally{cur=o;C76_CACHE=null}
-  }
-  function stCmpNum(l){var m=toEn(String(l||'')).match(/\d+(\.\d+)?/);return m?parseFloat(m[0]):0}
-  function stCmpTable(recA,recB,st,mode){
-    var A=stCmpSpec(recA,st,mode),B=stCmpSpec(recB,st,mode),keyed={},order=[];
-    function put(sp,side){sp.rows.forEach(function(r){
-      var d=r[0],lab=st===1?r[1]:'',k=d+'|'+lab,v=r[r.length-1];
-      if(!keyed[k]){keyed[k]={d:d,lab:lab,a:0,b:0};order.push(keyed[k])}
-      keyed[k][side]+=Number(v)||0})}
-    put(A,'a');put(B,'b');
-    order.sort(function(x,y){return DISCS.indexOf(x.d)-DISCS.indexOf(y.d)||stCmpNum(x.lab)-stCmpNum(y.lab)});
-    function pct(a,b){return a?faD((Math.round((b-a)/a*1000)/10).toString().replace('.','٫'))+'٪':'—'}
-    var tA=0,tB=0;
-    var rows=order.map(function(x){tA+=x.a;tB+=x.b;
-      var base=st===1?[x.d,x.lab]:[x.d];
-      return base.concat([x.a,x.b,x.b-x.a,pct(x.a,x.b)])});
-    var cols=(st===1?['نوع فهرست بها','فصل']:['نوع فهرست بها']).concat([stTitle(recA)+' (ریال)',stTitle(recB)+' (ریال)','اختلاف (ریال)','درصد تغییر']);
-    var foot=(st===1?['جمع کل','']:['جمع کل']).concat([tA,tB,tB-tA,pct(tA,tB)]);
-    var sp={t:st===1?'مقایسه فصول':'مقایسه دفترچه‌ها',cols:cols,rows:rows,foot:foot};
-    if(st===1)sp.band=1;
-    return sp;
-  }
-  async function openStCompare(st){
-    if(!cur)return;
-    var list=[];try{list=(await readList()).list}catch(e){list=[]}
-    var seen={},all=[cur];seen[cur.id]=1;
-    list.forEach(function(x){if(x&&x.id&&!seen[x.id]){seen[x.id]=1;all.push(x)}});
-    if(all.length<2){alert('برای مقایسه حداقل دو صورت‌وضعیت لازم است. ابتدا صورت‌وضعیت دیگری ایجاد و ذخیره کن.');return}
-    all.sort(function(a,b){return (parseFloat(toEn(a.no))||0)-(parseFloat(toEn(b.no))||0)||(a.createdAt||0)-(b.createdAt||0)});
-    var curI=all.indexOf(cur),prevI=curI>0?curI-1:(curI+1);
-    var opts=function(sel){return all.map(function(x,i){return '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+esc(stTitle(x))+' — '+fmt((x.items||[]).length)+' آیتم</option>'}).join('')};
-    var nm=st===1?'فصول':'دفترچه‌ها';
-    shell('stCmpM','<div class="mnHead"><b>'+esc('مقایسه '+nm+' — '+docTitle('صورت‌وضعیت'))+'</b><div class="mnBtns"><button type="button" class="btn mnCloseBtn" id="stcmpBack">→ بازگشت</button></div></div>'+
-      '<div class="mnSortBar stCmpSel" style="justify-content:flex-start;gap:12px;flex-wrap:wrap;align-items:flex-end">'+
-        '<label class="mnField">صورت‌وضعیت اول (مبنا)<select id="stcmpA">'+opts(prevI)+'</select></label>'+
-        '<label class="mnField">صورت‌وضعیت دوم<select id="stcmpB">'+opts(curI)+'</select></label>'+
-        '<label class="mnField">نوع مبالغ<select id="stcmpMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>'+
-      '</div><div class="mnMuted" style="margin:0 0 8px;font-size:13px">اختلاف = دوم − اول</div>'+
-      '<div class="mnTableWrap" id="stcmpBody"></div>');
-    $('stcmpMode').value=chMode();
-    function draw(){
-      var a=all[+$('stcmpA').value],b=all[+$('stcmpB').value],body=$('stcmpBody');
-      if(!a||!b||!body)return;
-      try{body.innerHTML=tblHtml(stCmpTable(a,b,st,$('stcmpMode').value))}
-      catch(e){body.innerHTML='<div class="mnMuted" style="margin:14px">'+esc('خطا در مقایسه: '+(e&&e.message||e))+'</div>'}
-    }
-    ['stcmpA','stcmpB','stcmpMode'].forEach(function(id){$(id).addEventListener('change',draw)});
-    $('stcmpBack').onclick=function(){closeShell('stCmpM')};
-    draw();
   }
   document.addEventListener('input',function(e){
     var t=e.target;if(!cur||!t.classList)return;
@@ -19200,15 +19145,7 @@ document.addEventListener('mousedown',function(e){
   function doPdf(c,m){
     var rows=scrape(m);if(!rows.length){alert('لیست خالی است.');return}
     var w=window.open('','_blank','width=900,height=700');if(!w){alert('پنجره گزارش توسط مرورگر مسدود شده است.');return}
-    w.document.write('<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>'+esc(c.title)+'</title><style>body{font-family:Tahoma,sans-serif;padding:20px}h3{margin:0 0 12px}table{font-size:13px}th{background:#eee}</style><style id="stfCmpBtnCss">
-html body #stCover .stModeBar #stfCmp{font-size:18px!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 14px!important;gap:6px!important;border-radius:9px!important}
-html body #stCover[id] .stModeBar #stfCmp{font-size:var(--fs-btn)!important;font-weight:700!important;height:38px!important;min-height:38px!important;padding:0 16px!important;border-radius:18px!important}
-html body #stCover[id] .c76Sec #stfCmp{height:40px!important;min-height:40px!important;font-size:16px!important;padding:0 12px!important;border-radius:18px!important}
-html body #stCover .stModeBar #stfCmp svg{width:22px;height:22px;flex:0 0 22px}
-html body #stCmpM .stCmpSel{display:flex;margin:6px 0 8px}
-html body #stCmpM .stCmpSel select{height:42px;min-height:42px;min-width:190px;border-radius:14px;padding:0 10px}
-</style>
-</head><body><h3>'+esc(c.title)+'</h3>'+tableHtml(c,rows)+'</body></html>');
+    w.document.write('<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>'+esc(c.title)+'</title><style>body{font-family:Tahoma,sans-serif;padding:20px}h3{margin:0 0 12px}table{font-size:13px}th{background:#eee}</style></head><body><h3>'+esc(c.title)+'</h3>'+tableHtml(c,rows)+'</body></html>');
     w.document.close();setTimeout(function(){try{w.focus();w.print()}catch(e){}},400);
   }
   function mkBtn(cls,title,html){var b=document.createElement('button');b.type='button';b.className=cls;b.title=title;b.setAttribute('aria-label',title);b.innerHTML=html;return b}
