@@ -4847,7 +4847,7 @@ window.__glassScan=scan;
     document.head.appendChild(st);
     var b=document.createElement('div');b.id='demoBadge';b.textContent='نسخه آزمایشی - بدون ذخیره اطلاعات؛ با خروج، داده‌ها حذف می‌شوند.';
     document.body.appendChild(b);
-    function place(){try{var tb=document.getElementById('cplTabBar');var r=tb&&tb.getBoundingClientRect();var vis=tb&&getComputedStyle(tb).display!=='none'&&r.height>0;b.style.bottom=vis?(document.documentElement.clientHeight-r.top+8)+'px':''}catch(_){}}
+    function place(){try{var tb=document.getElementById('cplTabBar');var r=tb&&tb.getBoundingClientRect();var vis=tb&&getComputedStyle(tb).display!=='none'&&r.height>0;b.style.bottom=vis?'calc('+Math.round(r.height+18)+'px + env(safe-area-inset-bottom,0px))':''}catch(_){}}
     place();setInterval(place,400);window.addEventListener('resize',place);
   }
 
@@ -19850,8 +19850,6 @@ document.addEventListener('keydown',function(e){
 <style id="cpl-tabbar-css">
 #cplTabBar{position:fixed;z-index:29150;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));width:min(760px,calc(100% - 32px));box-sizing:border-box;display:none;flex-direction:row;direction:rtl;gap:0;padding:3px;background:var(--c8);border:1px solid var(--c5);border-radius:24px;box-shadow:none;-webkit-tap-highlight-color:transparent}
 #cplTabBar.on{display:flex}
-/* پیغام‌ها (toast) در موبایل بالاتر از داک پایین بمانند */
-@media (max-width:700px){body:has(#cplTabBar.on) #cplToast,body:has(#cplTabBar.on) #analysisSaveToast,body:has(#cplTabBar.on) #subToast{bottom:calc(98px + env(safe-area-inset-bottom,0px))!important}}
 #cplTabBar .cplTab{appearance:none;-webkit-appearance:none;flex:1 1 0;min-width:0;height:68px;padding:5px 0;margin:0;border:0;border-radius:19px;background:transparent;color:var(--c3);font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:background .12s ease,color .12s ease,transform .12s ease}
 #cplTabBar .cplTab svg{width:26px;height:26px;flex:0 0 26px;display:block}
 #cplTabBar .cplTab span{font-size:12.5px;font-weight:800;line-height:1.3;text-align:center;max-width:100%;text-wrap:balance;padding:0 2px}
