@@ -15681,32 +15681,59 @@ window.__cplSig=function(){
   }
   async function openStCompare(st){
     if(!cur)return;
-    var list=[];try{list=(await readList()).list}catch(e){list=[]}
-    var seen={},all=[cur];seen[cur.id]=1;
-    list.forEach(function(x){if(x&&x.id&&!seen[x.id]){seen[x.id]=1;all.push(x)}});
-    if(all.length<2){alert('برای مقایسه حداقل دو صورت‌وضعیت لازم است. ابتدا صورت‌وضعیت دیگری ایجاد و ذخیره کن.');return}
-    all.sort(function(a,b){return (parseFloat(toEn(a.no))||0)-(parseFloat(toEn(b.no))||0)||(a.createdAt||0)-(b.createdAt||0)});
-    var curI=all.indexOf(cur),prevI=curI>0?curI-1:(curI+1);
-    var opts=function(sel){return all.map(function(x,i){return '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+esc(stTitle(x))+' — '+fmt((x.items||[]).length)+' آیتم</option>'}).join('')};
+    var ORGS=window.__cplOrgs,vkeys=ORGS?ORGS.keys():['P'],curV=ORGS?ORGS.bySuf((window.__cplVerCtx||{}).st||''):'P';
+    var d={};
+    try{var md=await api('/api/projects/'+window.__mainProjectId);d=JSON.parse(md.project.data||'{}')}catch(e){d={}}
+    var docs={};/* id → {no,name,v:{کلید نسخه: رکورد}} */
+    vkeys.forEach(function(k){
+      var key='statements'+(ORGS?ORGS.SUF[k]:'');
+      (Array.isArray(d[key])?d[key]:[]).forEach(function(x){if(!x||!x.id)return;var o=docs[x.id]||(docs[x.id]={id:x.id,v:{}});o.v[k]=x;o.rec=o.rec||x});
+    });
+    var oc=docs[cur.id]||(docs[cur.id]={id:cur.id,v:{}});oc.v[curV]=cur;oc.rec=oc.rec||cur;
+    var arr=Object.keys(docs).map(function(k){return docs[k]});
+    var combos=0;arr.forEach(function(o){combos+=Object.keys(o.v).length});
+    if(combos<2){alert('برای مقایسه حداقل دو صورت‌وضعیت یا دو نسخه لازم است.');return}
+    arr.sort(function(a,b){return (parseFloat(toEn(a.rec.no))||0)-(parseFloat(toEn(b.rec.no))||0)||(a.rec.createdAt||0)-(b.rec.createdAt||0)});
+    function numLbl(o){var n=String(o.rec.no!=null?o.rec.no:'').trim();return n?'شماره '+faD(toEn(n)):(o.rec.name||'بدون نام')}
+    var ci=arr.indexOf(oc),pi=-1;
+    /* پیش‌فرض اول: صورت‌وضعیت قبلی در همین نسخه؛ وگرنه همین صورت‌وضعیت در نسخهٔ دیگر */
+    for(var i=ci-1;i>=0;i--){if(arr[i].v[curV]){pi=i;break}}
+    var firstDoc=pi>=0?pi:ci,firstV=pi>=0?curV:(Object.keys(oc.v).filter(function(k){return k!==curV})[0]||curV);
+    var docOpts=function(sel){return arr.map(function(o,i){return '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+esc(numLbl(o))+'</option>'}).join('')};
     var nm=st===1?'فصول':'دفترچه‌ها';
-    shell('stCmpM','<div class="mnHead"><b>'+esc('مقایسه '+nm+' — '+docTitle('صورت‌وضعیت'))+'</b><div class="mnBtns"><button type="button" class="btn mnIco" id="stcmpHome" title="بستن" aria-label="بستن"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg></button>'+(st<2?'<button type="button" class="btn mnTextBtn" id="stcmpNext">مرحله بعد ◂</button>':'')+'<button type="button" class="btn mnCloseBtn" id="stcmpBack">→ مرحله قبل</button></div></div>'+
+    shell('stCmpM','<div class="mnHead"><b>'+esc(docTitle('صورت‌وضعیت')+' (مقایسه '+nm+')')+'</b><div class="mnBtns">'+
+      '<button type="button" class="btn mnIco" id="stcmpHome" title="بازگشت" aria-label="بازگشت"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg></button>'+
+      '<button type="button" class="btn mnCloseBtn" id="stcmpBack">→ مرحله قبل</button></div></div>'+
       '<div class="mnSortBar stCmpSel" style="justify-content:flex-start;gap:12px;flex-wrap:wrap;align-items:flex-end">'+
-        '<label class="mnField">صورت‌وضعیت اول (مبنا)<select id="stcmpA">'+opts(prevI)+'</select></label>'+
-        '<label class="mnField">صورت‌وضعیت دوم<select id="stcmpB">'+opts(curI)+'</select></label>'+
+        '<label class="mnField">شماره صورت‌وضعیت اول<select id="stcmpA">'+docOpts(firstDoc)+'</select></label>'+
+        '<label class="mnField">نسخهٔ اول<select id="stcmpAV"></select></label>'+
+        '<label class="mnField">شماره صورت‌وضعیت دوم<select id="stcmpB">'+docOpts(ci)+'</select></label>'+
+        '<label class="mnField">نسخهٔ دوم<select id="stcmpBV"></select></label>'+
         '<label class="mnField">نوع مبالغ<select id="stcmpMode"><option value="net">خالص</option><option value="wc">با ضرایب</option></select></label>'+
       '</div><div class="mnMuted" style="margin:0 0 8px;font-size:13px">اختلاف = دوم − اول</div>'+
       '<div class="mnTableWrap" id="stcmpBody"></div>');
     $('stcmpMode').value=chMode();
+    function fillV(dsel,vsel,want){
+      var o=arr[+$(dsel).value],ks=vkeys.filter(function(k){return o&&o.v[k]});
+      $(vsel).innerHTML=ks.map(function(k){return '<option value="'+k+'">'+esc(ORGS?ORGS.NAME[k]:'پیمانکار')+'</option>'}).join('');
+      $(vsel).value=ks.indexOf(want)>=0?want:(ks[0]||'');
+    }
+    fillV('stcmpA','stcmpAV',firstV);fillV('stcmpB','stcmpBV',curV);
     function draw(){
-      var a=all[+$('stcmpA').value],b=all[+$('stcmpB').value],body=$('stcmpBody');
-      if(!a||!b||!body)return;
-      try{body.innerHTML=tblHtml(stCmpTable(a,b,st,$('stcmpMode').value))}
+      var oa=arr[+$('stcmpA').value],ob=arr[+$('stcmpB').value],body=$('stcmpBody');
+      if(!oa||!ob||!body)return;
+      var va=$('stcmpAV').value,vb=$('stcmpBV').value,a=oa.v[va],b=ob.v[vb];
+      if(!a||!b)return;
+      var lab=function(o,v){return stTitle(o)+(ORGS&&vkeys.length>1?' — '+ORGS.NAME[v]:'')};
+      try{var sp=stCmpTable(a,b,st,$('stcmpMode').value);
+        var n=sp.cols.length;sp.cols[n-4]=lab(a,va)+' (ریال)';sp.cols[n-3]=lab(b,vb)+' (ریال)';
+        body.innerHTML=tblHtml(sp)}
       catch(e){body.innerHTML='<div class="mnMuted" style="margin:14px">'+esc('خطا در مقایسه: '+(e&&e.message||e))+'</div>'}
     }
-    ['stcmpA','stcmpB','stcmpMode'].forEach(function(id){$(id).addEventListener('change',draw)});
-    $('stcmpHome').onclick=function(){closeShell('stCmpM')};
-    if($('stcmpNext'))$('stcmpNext').onclick=function(){closeShell('stCmpM');step=2;renderFlow();openStCompare(2)};
-    $('stcmpBack').onclick=function(){closeShell('stCmpM');if(st>1){step=1;renderFlow();openStCompare(1)}};
+    $('stcmpA').addEventListener('change',function(){fillV('stcmpA','stcmpAV',$('stcmpAV').value);draw()});
+    $('stcmpB').addEventListener('change',function(){fillV('stcmpB','stcmpBV',$('stcmpBV').value);draw()});
+    ['stcmpAV','stcmpBV','stcmpMode'].forEach(function(id){$(id).addEventListener('change',draw)});
+    $('stcmpHome').onclick=$('stcmpBack').onclick=function(){closeShell('stCmpM')};
     draw();
   }
   document.addEventListener('input',function(e){
