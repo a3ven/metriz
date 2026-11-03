@@ -15685,9 +15685,15 @@ window.__cplSig=function(){
     if(!cur||(kind!==1&&kind!==2))return;
     var wc=chMode()==='wc';
     shell('stCmp','<div class="mnHead"><b>'+esc(stTitle(cur)+' ('+(kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها')+')')+'</b><div class="mnBtns">'+
-      '<button type="button" class="btn mnIco" id="stCmpBack" title="مرحله قبل" aria-label="مرحله قبل"></button></div></div>'+
+      '<button type="button" class="btn mnIco" id="stCmpBack" title="مرحله قبل" aria-label="مرحله قبل"></button>'+
+      '<button type="button" class="btn mnTextBtn" id="stCmpExcel" title="گزارش اکسل" aria-label="گزارش اکسل">'+ICO_XLS+'<span>گزارش اکسل</span></button>'+
+      '<button type="button" class="btn mnTextBtn" id="stCmpPrint" title="گزارش چاپی" aria-label="گزارش چاپی">'+ICO_PDF+'<span>گزارش چاپی</span></button></div></div>'+
       '<div id="stCmpBody"><div class="mnMuted stCmpMsg">در حال خواندن صورت‌وضعیت‌ها…</div></div>');
     $('stCmpBack').onclick=function(){closeShell('stCmp')};
+    var lastSp=null,rptName=kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها';
+    function needSp(){if(!lastSp){say('ابتدا صورت‌وضعیت‌ها را انتخاب کن.');return false}return true}
+    $('stCmpExcel').onclick=function(){if(needSp())dlBlob(buildXlsxMulti([specSheet(lastSp)]),fileName(rptName+' صورت‌وضعیت','xlsx'))};
+    $('stCmpPrint').onclick=function(){if(needSp())openPdf(pdfDoc(docTitle(rptName+' صورت‌وضعیت'),'<h3 style="margin:6px 0;font-size:16px;text-align:right">'+esc(lastSp.title)+'</h3>'+tblHtml(lastSp,true)))};
     cmpsLoadAll().then(function(D){
       var body=$('stCmpBody');if(!body)return;
       var O=window.__cplOrgs,ST=D.ST,ids=Object.keys(ST).sort(function(a,b){
@@ -15723,6 +15729,7 @@ window.__cplSig=function(){
         var sa=sum(keys,function(k){return m[k].a}),sb=sum(keys,function(k){return m[k].b});
         var sp=kind===1?{band:1,cols:['نوع فهرست بها','فصل',na,nb,'اختلاف (دوم − اول)'],rows:rows,foot:['جمع کل','',sa,sb,sb-sa]}
                        :{cols:['نوع فهرست بها',na,nb,'اختلاف (دوم − اول)'],rows:rows,foot:['جمع کل',sa,sb,sb-sa]};
+        sp.t=rptName;sp.title=stTitle(cur)+' ('+rptName+')';sp.w=kind===1?[12,40,22,22,22]:[16,24,24,24];lastSp=rows.length?sp:null;
         t.innerHTML=rows.length?tblHtml(sp):'<div class="mnMuted stCmpMsg">آیتمی برای مقایسه نیست.</div>';
       }
       [1,2].forEach(function(n){
