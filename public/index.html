@@ -2402,7 +2402,7 @@ html body #mnEditor .mnRow4 .mnChapWrap{padding:0;margin:0}
 </style>
 
 <script>(function(){var d=document,h=d.documentElement;function ok(){h.classList.add('brandFontReady')}try{if(d.fonts&&d.fonts.load){d.fonts.load("30px AGhasemWeb","متریز").then(ok,ok)}else{ok()}}catch(e){ok()}})();</script>
-<script>try{if(localStorage.getItem('cplTheme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<script>try{var __ct=localStorage.getItem('cplTheme');if(__ct==='light'||__ct==='sheet'){document.documentElement.setAttribute('data-theme','light');if(__ct==='sheet')document.documentElement.setAttribute('data-palette','sheet');}}catch(e){}</script>
 <script id="cpl-icon-theme">
 (function(){
   var V='204-icon-'+Date.now().toString(36); /* هر بار بارگذاری نسخهٔ تازه تا آیکن‌های جایگزین‌شده کش نشوند */
@@ -4324,6 +4324,23 @@ html:root body #projectSetup #contractToggleBtn,html:root body #projectSetup #li
 #cplHome button:not([data-gl]):not(.cplCard)>svg,#projectBar button:not([data-gl]):not(.cplCard)>svg{visibility:hidden}
 button[data-gl="icon"]>svg:not(.glI),button[data-gl="nav"]>svg:not(.glI){display:none!important}
 .clearIconBtn svg{width:24px;height:24px;display:block}
+</style><style id="sheet-theme">/* پوسته‌ی رنگیِ روشن (شبیه اکسل / گوگل‌شیت) — با data-theme="light" + data-palette="sheet" */
+html[data-theme="light"][data-palette="sheet"]{--c1:#f2f4ef;--c29:#f2f4ef;--c4:#fafbf8;--c20:#fafbf8;--c22:#fafbf8;--c35:#fafbf8;--c42:#fafbf8;--c66:#fafbf8;--c68:#fafbf8;--c71:#fafbf8;--c8:#ffffff;--c13:#f2f5ee;--c41:#f2f5ee;--c16:#f0f3ec;--c24:#f0f3ec;--c72:#f0f3ec;--c18:#edf1e7;--c28:#edf1e7;--c31:#edf1e7;--c43:#edf1e7;--c76:#edf1e7;--c34:#eef2e9;--c65:#eef2e9;--c70:#eef2e9;--c80:#eef2e9;--c54:#e9eee3;--c73:#e8eee2;--c9:#e5ebdf;--c36:#e5ebdf;--c53:#e5ebdf;--c75:#e5ebdf;--c5:#d6dcce;--c12:#d6dcce;--c21:#d6dcce;--c27:#d6dcce;--c32:#d6dcce;--c37:#d6dcce;--c40:#d6dcce;--c51:#d6dcce;--c59:#d6dcce;--c62:#d6dcce;--c69:#d6dcce;--c44:#d9dfd1;--c45:#d3dacb;--c46:#d3dacb;--c77:#d3dacb;--c47:#d8ded0;--c49:#d8ded0;--c74:#d2d9ca;--c79:#cfd6c7;--c6:#c3ccb9;--c23:#c9d1c0;--c30:#adb8a3;--c58:rgba(242,244,239,.88);--c2:#1f2a24;--c63:#1f2a24;--c33:#2f3a34;--c3:#34413a;--c7:#34403a;--c10:#37433c;--c11:#39453e;--c14:#3b4740;--c78:#3b4740;--c55:#36423b;--c17:#3d4942;--c19:#3d4942;--c26:#3d4942;--c61:#3d4942;--c64:#3d4942;--c67:#3d4942;--c81:#3d4942;--c82:#3f4b44;--c52:#3d4a2f;--c56:#a23b3b;--c57:#2f5f8a;--surfaceText:#1f2a24;--btnPrimaryBg:#2d6a4e;--btnPrimaryText:#ffffff;--headerBlur:rgba(250,251,248,.94);--pageOverlay96:rgba(242,244,239,.97);--pageOverlay98:rgba(242,244,239,.98);--fwdBg:#d4dfcd;--fwdFg:#1f2a24;--fwdBd:#a9b79f;--glBg:#f7f9f4;--glFg:#1f2a24;--glBd:rgba(45,70,50,.14);--glHi:rgba(255,255,255,.9);--glSh:rgba(40,60,45,.14);--glFill:rgba(60,100,70,.05);--sqIn:#e5ebdf;color-scheme:light;accent-color:#2d6a4e}
+html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn.primary,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:hover,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:active,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:focus,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn img,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn.primary,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:hover,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:active,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:focus,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon img{background:#ffffff!important;border-color:#cdd5c3!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard{background:#fff!important;border-color:#d6dcce!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard .listHead{background:#e3eadc!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList{background:#fff!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRow{background:#fff!important;border-top-color:#e1e7da!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRelated{background:#f4f7f0!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRel{background:transparent!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRelSubTotal{background:transparent!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard .meterActions{background:#fff!important}
+html[data-theme="light"][data-palette="sheet"] .card,html[data-theme="light"][data-palette="sheet"] .analysisPanel,html[data-theme="light"][data-palette="sheet"] .item{box-shadow:0 1px 2px rgba(50,70,50,.09)!important}
+html[data-theme="light"][data-palette="sheet"] body input[type="checkbox"]:focus-visible{box-shadow:0 0 0 3px rgba(45,106,78,.28)}
+html[data-theme="light"][data-palette="sheet"] ::selection{background:#cfe3d6;color:#1f2a24}
+html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn:hover{background:#e5ebdf!important;color:#1f2a24!important;border:1px solid #d6dcce!important}
+html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on svg{stroke:#1f2a24!important;color:#1f2a24!important}
+html[data-theme="light"][data-palette="sheet"] #cplHelpOv .hFeat{background:#2d6a4e;color:#fff;border-color:#2d6a4e}
 </style></head><body><script id="v500-glass-js">
 (function(){
 'use strict';
@@ -5044,8 +5061,8 @@ window.__glassScan=scan;
       if(h!==null)b.innerHTML=h;
     }
   }
-  function themeLabel(){return document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن'}
-  var NAMES={'تغییر پوسته':1,'تم روشن':1,'تم تاریک':1};
+  function themeLabel(){var h=document.documentElement;return h.getAttribute('data-theme')==='light'?(h.getAttribute('data-palette')==='sheet'?'تم تاریک':'تم رنگی'):'تم روشن'}
+  var NAMES={'تغییر پوسته':1,'تم روشن':1,'تم تاریک':1,'تم رنگی':1};
   function fixTheme(rt){
     var lab=themeLabel();
     var w=document.createTreeWalker(rt||document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
@@ -5054,7 +5071,7 @@ window.__glassScan=scan;
       return NAMES[n.nodeValue.trim()]?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
     var nodes=[],n;while((n=w.nextNode()))nodes.push(n);
     nodes.forEach(function(x){if(x.nodeValue.trim()!==lab)x.nodeValue=x.nodeValue.replace(x.nodeValue.trim(),lab)});
-    (rt&&rt.querySelectorAll?rt:document).querySelectorAll('[title="تغییر پوسته"],[aria-label="تغییر پوسته"],[title="تم روشن"],[title="تم تاریک"]').forEach(function(e){
+    (rt&&rt.querySelectorAll?rt:document).querySelectorAll('[title="تغییر پوسته"],[aria-label="تغییر پوسته"],[title="تم روشن"],[title="تم تاریک"],[title="تم رنگی"]').forEach(function(e){
       if(e.getAttribute('title'))e.setAttribute('title',lab);
       if(e.getAttribute('aria-label'))e.setAttribute('aria-label',lab);
     });
@@ -5063,14 +5080,14 @@ window.__glassScan=scan;
   function run(){tmr=null;try{fixButtons();fixTheme()}catch(e){}}
   function sched(){if(!tmr)tmr=setTimeout(run,60)}
   /* برچسب تم را همان لحظهٔ ساخته‌شدن منو (قبل از اولین رندر) درست می‌کند تا چشمک «تغییر پوسته» دیده نشود */
-  var THRE=/تغییر پوسته|تم روشن|تم تاریک/;
+  var THRE=/تغییر پوسته|تم روشن|تم تاریک|تم رنگی/;
   new MutationObserver(function(ms){
     try{for(var i=0;i<ms.length;i++){var a=ms[i].addedNodes;for(var j=0;j<a.length;j++){var n=a[j];
       if(n.nodeType===1){if(THRE.test(n.textContent||'')||(n.querySelector&&n.querySelector('[title="تغییر پوسته"],[aria-label="تغییر پوسته"]')))fixTheme(n)}
       else if(n.nodeType===3&&n.parentNode&&NAMES[n.nodeValue.trim()])fixTheme(n.parentNode)}}}catch(e){}
     sched();
   }).observe(document.body,{childList:true,subtree:true,characterData:true});
-  new MutationObserver(sched).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  new MutationObserver(sched).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','data-palette']});
   run();
 })();
 </script>
@@ -10307,18 +10324,22 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function setSaved(v){
     try{ localStorage.setItem(STORAGE_KEY, v); }catch(e){}
   }
+  var ICON_SHEET='<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line>';
   function applyTheme(theme){
-    if(theme==='light') document.documentElement.setAttribute('data-theme','light');
-    else document.documentElement.removeAttribute('data-theme');
+    var de=document.documentElement;
+    if(theme==='sheet') de.setAttribute('data-palette','sheet'); else de.removeAttribute('data-palette');
+    if(theme==='light' || theme==='sheet') de.setAttribute('data-theme','light');
+    else de.removeAttribute('data-theme');
     var metaTc=document.querySelector('meta[name="theme-color"]');
-    if(metaTc) metaTc.setAttribute('content', theme==='light' ? '#f3f4f6' : '#000000');
+    if(metaTc) metaTc.setAttribute('content', theme==='sheet' ? '#f2f4ef' : (theme==='light' ? '#f3f4f6' : '#000000'));
     var icon=document.getElementById('themeToggleIcon');
-    if(icon) icon.innerHTML = theme==='light' ? ICON_MOON : ICON_SUN;
+    if(icon) icon.innerHTML = theme==='dark' ? ICON_SUN : (theme==='light' ? ICON_SHEET : ICON_MOON);
     var btn=document.getElementById('themeToggleBtn');
-    if(btn) btn.title = theme==='light' ? 'تغییر به پوسته تیره' : 'تغییر به پوسته روشن';
+    if(btn) btn.title = theme==='dark' ? 'تغییر به پوسته روشن' : (theme==='light' ? 'تغییر به پوسته رنگی' : 'تغییر به پوسته تیره');
   }
   function currentTheme(){
-    return getSaved()==='light' ? 'light' : 'dark';
+    var v=getSaved();
+    return v==='sheet' ? 'sheet' : (v==='light' ? 'light' : 'dark');
   }
   function bind(){
     applyTheme(currentTheme());
@@ -10326,7 +10347,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(btn && !btn._themeBound){
       btn._themeBound=true;
       btn.addEventListener('click', function(){
-        var next = (document.documentElement.getAttribute('data-theme')==='light') ? 'dark' : 'light';
+        var de0=document.documentElement;
+        var live = de0.getAttribute('data-theme')==='light' ? (de0.getAttribute('data-palette')==='sheet' ? 'sheet' : 'light') : 'dark';
+        var next = live==='dark' ? 'light' : (live==='light' ? 'sheet' : 'dark');
         setSaved(next);
         applyTheme(next);
       }, true);
@@ -18174,7 +18197,7 @@ window.__cplSig=function(){
   function head(title,showBack){
     var ICO_SUP=SV+'<path d="M4 13a8 8 0 0 1 16 0"/><path d="M19 13v4a2 2 0 0 1-2 2h-1"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><path d="M12 19v1a2 2 0 0 1-2 2H9"/></svg>';
     return '<div class="cbHead"><button type="button" class="btn cbMenuBtn" data-cb="menu" aria-label="منو" title="منو" aria-haspopup="true" aria-expanded="false">'+ICO_MENU+'</button><b>'+E(title)+'</b><button type="button" class="btn" data-cb="home" aria-label="بازگشت به صفحه قبل" title="بازگشت به صفحه قبل">'+ICO_HOME+'</button>'+
-      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(document.documentElement.getAttribute('data-theme')==='light'?'تم تاریک':'تم روشن')+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
+      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(function(h){return h.getAttribute('data-theme')==='light'?(h.getAttribute('data-palette')==='sheet'?'تم تاریک':'تم رنگی'):'تم روشن'})(document.documentElement)+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
   }
   /* ---------- منوی هدر: تم، گزارش اکسل، گزارش چاپی، بستن ---------- */
   function closeMenu(){
@@ -21056,6 +21079,7 @@ textarea {
 /* ===== ظاهر جدید مهندس‌یار — هماهنگ با بقیه‌ی برنامه (گوشه‌گرد، رنگ‌های خنثی، پوسته روشن/تیره) ===== */
 html{--bg:#000;--card:#1b1b1b;--card2:#161616;--line:#393939;--line2:#888;--tx:#f2f2f2;--tx2:#a7a7a7;--tx3:#8c8c8c;--btn:#ededed;--btnTx:#111;--acc:#8ec5ff;--ok:#7fcf9c;--warn:#e0a35a;--hov:#333;color-scheme:dark}
 html[data-theme="light"]{--bg:#ecedef;--card:#ebecee;--card2:#e1e2e4;--line:#dbdcde;--line2:#9a9ca0;--tx:#1f2f42;--tx2:#3a4552;--tx3:#5d6672;--btn:#182430;--btnTx:#f2f3f5;--acc:#135296;--ok:#1d7a46;--warn:#9a5b12;--hov:#dbdcde;color-scheme:light}
+html[data-theme="light"][data-palette="sheet"]{--bg:#f2f4ef;--card:#ffffff;--card2:#f1f5ec;--line:#d6dcce;--line2:#adb8a3;--tx:#1f2a24;--tx2:#34413a;--tx3:#55635a;--btn:#2d6a4e;--btnTx:#ffffff;--acc:#2d6a4e;--ok:#1d7a46;--warn:#9a5b12;--hov:#e5ebdf;color-scheme:light}
 html,body{background:var(--bg);color:var(--tx)}
 .app{max-width:1250px;padding:14px 14px 80px}
 .head{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 18px;margin-bottom:14px}
@@ -21093,7 +21117,7 @@ html[data-theme="light"] .menu-select-wrap .menu-select{background-image:none}
 html body,html body *,html body *::before,html body *::after,html body option,html body optgroup,html body select,html body input,html body textarea,html body button,html body table,html body th,html body td,html body summary,html body input::placeholder,html body textarea::placeholder,html body .support-email,html body .support-email bdi{font-family:'BNazaninMY','B Nazanin',Tahoma,Arial,sans-serif!important}
 html body .brand p .yk,html body .yk{font-family:'BYekanMY','B Yekan',Tahoma,sans-serif!important;font-size:20px!important;line-height:1.7}
 /style>
-script>(function(){function ap(l){if(l)document.documentElement.setAttribute("data-theme","light");else document.documentElement.removeAttribute("data-theme")}try{ap(parent.document.documentElement.getAttribute("data-theme")==="light")}catch(e){}window.addEventListener("message",function(e){var d=e&&e.data;if(d&&d.cplTheme)ap(d.cplTheme==="light")})})();/script>
+script>(function(){function ap(l,p){var h=document.documentElement;if(l)h.setAttribute("data-theme","light");else h.removeAttribute("data-theme");if(l&&p)h.setAttribute("data-palette","sheet");else h.removeAttribute("data-palette")}try{var P=parent.document.documentElement;ap(P.getAttribute("data-theme")==="light",P.getAttribute("data-palette")==="sheet")}catch(e){}window.addEventListener("message",function(e){var d=e&&e.data;if(d&&d.cplTheme)ap(d.cplTheme==="light"||d.cplTheme==="sheet",d.cplTheme==="sheet")})})();/script>
 /head>
 body>div class="app">
 div class="head">div class="brand">h1>مهندس‌یار/h1>p>span class="yk">مهندس‌یار/span> span class="support-email">ایمیل پشتیبانی: bdi dir="ltr">Siadati7@gmail.com/bdi>/span>/p>/div>/div>
@@ -21516,9 +21540,9 @@ render();
     var light=document.documentElement.getAttribute('data-theme')==='light';
     try{
       var d=fr&&fr.contentDocument&&fr.contentDocument.documentElement;
-      if(d){if(light)d.setAttribute('data-theme','light');else d.removeAttribute('data-theme')}
+      if(d){if(light)d.setAttribute('data-theme','light');else d.removeAttribute('data-theme');if(light&&document.documentElement.getAttribute('data-palette')==='sheet')d.setAttribute('data-palette','sheet');else d.removeAttribute('data-palette')}
     }catch(e){}
-    try{if(fr&&fr.contentWindow)fr.contentWindow.postMessage({cplTheme:light?'light':'dark'},'*')}catch(e){}
+    try{if(fr&&fr.contentWindow)fr.contentWindow.postMessage({cplTheme:light?(document.documentElement.getAttribute('data-palette')==='sheet'?'sheet':'light'):'dark'},'*')}catch(e){}
   }
   function build(){
     if(ov)return true;
@@ -21530,7 +21554,7 @@ render();
     document.body.appendChild(ov);
     fr=ov.querySelector('iframe');
     fr.addEventListener('load',syncTheme);
-    try{new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+    try{new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','data-palette']})}catch(e){}
     var html=holder.textContent.replace(/\uE000/g,'<').replace(/__YEKAN_URL__/g,new URL('./BYekan__Bold.ttf',location.href).href).replace(/__NAZANIN_URL__/g,new URL('./BNazanin.ttf',location.href).href);
     blobUrl=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
     fr.src=blobUrl;
