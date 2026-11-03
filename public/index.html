@@ -4324,23 +4324,40 @@ html:root body #projectSetup #contractToggleBtn,html:root body #projectSetup #li
 #cplHome button:not([data-gl]):not(.cplCard)>svg,#projectBar button:not([data-gl]):not(.cplCard)>svg{visibility:hidden}
 button[data-gl="icon"]>svg:not(.glI),button[data-gl="nav"]>svg:not(.glI){display:none!important}
 .clearIconBtn svg{width:24px;height:24px;display:block}
-</style><style id="sheet-theme">/* پوسته‌ی رنگیِ روشن (شبیه اکسل / گوگل‌شیت) — با data-theme="light" + data-palette="sheet" */
-html[data-theme="light"][data-palette="sheet"]{--c1:#f2f4ef;--c29:#f2f4ef;--c4:#fafbf8;--c20:#fafbf8;--c22:#fafbf8;--c35:#fafbf8;--c42:#fafbf8;--c66:#fafbf8;--c68:#fafbf8;--c71:#fafbf8;--c8:#ffffff;--c13:#f2f5ee;--c41:#f2f5ee;--c16:#f0f3ec;--c24:#f0f3ec;--c72:#f0f3ec;--c18:#edf1e7;--c28:#edf1e7;--c31:#edf1e7;--c43:#edf1e7;--c76:#edf1e7;--c34:#eef2e9;--c65:#eef2e9;--c70:#eef2e9;--c80:#eef2e9;--c54:#e9eee3;--c73:#e8eee2;--c9:#e5ebdf;--c36:#e5ebdf;--c53:#e5ebdf;--c75:#e5ebdf;--c5:#d6dcce;--c12:#d6dcce;--c21:#d6dcce;--c27:#d6dcce;--c32:#d6dcce;--c37:#d6dcce;--c40:#d6dcce;--c51:#d6dcce;--c59:#d6dcce;--c62:#d6dcce;--c69:#d6dcce;--c44:#d9dfd1;--c45:#d3dacb;--c46:#d3dacb;--c77:#d3dacb;--c47:#d8ded0;--c49:#d8ded0;--c74:#d2d9ca;--c79:#cfd6c7;--c6:#c3ccb9;--c23:#c9d1c0;--c30:#adb8a3;--c58:rgba(242,244,239,.88);--c2:#1f2a24;--c63:#1f2a24;--c33:#2f3a34;--c3:#34413a;--c7:#34403a;--c10:#37433c;--c11:#39453e;--c14:#3b4740;--c78:#3b4740;--c55:#36423b;--c17:#3d4942;--c19:#3d4942;--c26:#3d4942;--c61:#3d4942;--c64:#3d4942;--c67:#3d4942;--c81:#3d4942;--c82:#3f4b44;--c52:#3d4a2f;--c56:#a23b3b;--c57:#2f5f8a;--surfaceText:#1f2a24;--btnPrimaryBg:#2d6a4e;--btnPrimaryText:#ffffff;--headerBlur:rgba(250,251,248,.94);--pageOverlay96:rgba(242,244,239,.97);--pageOverlay98:rgba(242,244,239,.98);--fwdBg:#d4dfcd;--fwdFg:#1f2a24;--fwdBd:#a9b79f;--glBg:#f7f9f4;--glFg:#1f2a24;--glBd:rgba(45,70,50,.14);--glHi:rgba(255,255,255,.9);--glSh:rgba(40,60,45,.14);--glFill:rgba(60,100,70,.05);--sqIn:#e5ebdf;color-scheme:light;accent-color:#2d6a4e}
-html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn.primary,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:hover,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:active,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:focus,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn img,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn.primary,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:hover,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:active,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:focus,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon img{background:#ffffff!important;border-color:#cdd5c3!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard{background:#fff!important;border-color:#d6dcce!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard .listHead{background:#e3eadc!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard #meterList{background:#fff!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRow{background:#fff!important;border-top-color:#e1e7da!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRelated{background:#f4f7f0!important}
+</style><style id="sheet-theme">/* پوسته‌ی رنگیِ روشن با رنگ‌های نود (شبیه اکسل / گوگل‌شیت) — data-theme="light" + data-palette="sheet" */
+html[data-theme="light"][data-palette="sheet"]{--c1:#f3eee3;--c29:#f3eee3;--c4:#faf6ee;--c20:#faf6ee;--c22:#faf6ee;--c35:#faf6ee;--c42:#faf6ee;--c66:#faf6ee;--c68:#faf6ee;--c71:#faf6ee;--c8:#fffdf8;--c13:#f7f2e8;--c41:#f7f2e8;--c16:#f5efe3;--c24:#f5efe3;--c72:#f5efe3;--c18:#e6ecdb;--c28:#e6ecdb;--c31:#e6ecdb;--c43:#e6ecdb;--c76:#e6ecdb;--c34:#efe9dc;--c65:#efe9dc;--c70:#efe9dc;--c80:#efe9dc;--c54:#ebe4d5;--c73:#eae3d3;--c9:#e5dcc9;--c36:#e5dcc9;--c53:#e5dcc9;--c75:#e5dcc9;--c5:#dcd3bf;--c12:#dcd3bf;--c21:#dcd3bf;--c37:#dcd3bf;--c40:#dcd3bf;--c51:#dcd3bf;--c59:#dcd3bf;--c62:#dcd3bf;--c69:#dcd3bf;--c27:#c5d0b5;--c32:#c5d0b5;--c44:#e0d7c4;--c45:#dad1bd;--c46:#dad1bd;--c77:#dad1bd;--c47:#ded5c2;--c49:#ded5c2;--c74:#d8cfba;--c79:#d3c9b3;--c6:#cbc0a9;--c23:#d0c6af;--c30:#b8ac92;--c58:rgba(243,238,227,.88);--c2:#26291f;--c63:#26291f;--c33:#33362b;--c3:#3d4034;--c7:#3c3f33;--c10:#40443a;--c11:#42463c;--c14:#44483e;--c78:#44483e;--c55:#3e4237;--c17:#464a3f;--c19:#464a3f;--c26:#464a3f;--c61:#464a3f;--c64:#464a3f;--c67:#464a3f;--c81:#464a3f;--c82:#494d42;--c52:#4a4a2c;--c56:#a3443f;--c57:#35607f;--surfaceText:#26291f;--btnPrimaryBg:#3b7357;--btnPrimaryText:#ffffff;--headerBlur:rgba(250,246,238,.94);--pageOverlay96:rgba(243,238,227,.97);--pageOverlay98:rgba(243,238,227,.98);--fwdBg:#ecd9c4;--fwdFg:#3a2e22;--fwdBd:#c8a98a;--glBg:#f8f3e9;--glFg:#26291f;--glBd:rgba(90,75,45,.16);--glHi:rgba(255,255,255,.9);--glSh:rgba(80,65,40,.14);--glFill:rgba(120,100,60,.05);--sqIn:#e9e1cf;color-scheme:light;accent-color:#3b7357}
+html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn.btn.primary,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:hover,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:active,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn:focus,html[data-theme="light"][data-palette="sheet"] #projectBar .projectRow .projectIconBtn img,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon.btn.primary,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:hover,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:active,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon:focus,html[data-theme="light"][data-palette="sheet"] #adjustmentResultPage .exportActions .finalSaveIcon img{background:#e6ecdb!important;border-color:#c5d0b5!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard{background:#fffdf8!important;border-color:#dcd3bf!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard .listHead{background:#dfe8d3!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList{background:#fffdf8!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRow{background:#fffdf8!important;border-top-color:#ece4d3!important}
+html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRelated{background:#f7f1e5!important}
 html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRel{background:transparent!important}
 html[data-theme="light"][data-palette="sheet"] #meterCard #meterList .listRelSubTotal{background:transparent!important}
-html[data-theme="light"][data-palette="sheet"] #meterCard .meterActions{background:#fff!important}
-html[data-theme="light"][data-palette="sheet"] .card,html[data-theme="light"][data-palette="sheet"] .analysisPanel,html[data-theme="light"][data-palette="sheet"] .item{box-shadow:0 1px 2px rgba(50,70,50,.09)!important}
-html[data-theme="light"][data-palette="sheet"] body input[type="checkbox"]:focus-visible{box-shadow:0 0 0 3px rgba(45,106,78,.28)}
-html[data-theme="light"][data-palette="sheet"] ::selection{background:#cfe3d6;color:#1f2a24}
-html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn:hover{background:#e5ebdf!important;color:#1f2a24!important;border:1px solid #d6dcce!important}
-html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on svg{stroke:#1f2a24!important;color:#1f2a24!important}
-html[data-theme="light"][data-palette="sheet"] #cplHelpOv .hFeat{background:#2d6a4e;color:#fff;border-color:#2d6a4e}
+html[data-theme="light"][data-palette="sheet"] #meterCard .meterActions{background:#fffdf8!important}
+html[data-theme="light"][data-palette="sheet"] .card,html[data-theme="light"][data-palette="sheet"] .analysisPanel,html[data-theme="light"][data-palette="sheet"] .item{box-shadow:0 1px 2px rgba(90,75,45,.10)!important}
+html[data-theme="light"][data-palette="sheet"] body input[type="checkbox"]:focus-visible{box-shadow:0 0 0 3px rgba(59,115,87,.30)}
+html[data-theme="light"][data-palette="sheet"] ::selection{background:#d7e4d0;color:#26291f}
+html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn:hover{background:#e6ecdb!important;color:#26291f!important;border:1px solid #c5d0b5!important}
+html[data-theme="light"][data-palette="sheet"] body .stRowTools .btn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn svg,html[data-theme="light"][data-palette="sheet"] body .mnChapWrap .mnSortBtn.on svg{stroke:#26291f!important;color:#26291f!important}
+html[data-theme="light"][data-palette="sheet"] #cplHelpOv .hFeat{background:#3b7357;color:#fff;border-color:#3b7357}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplPickProject{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoStatement{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoMinutes{background:#f0dcd2!important;border-color:color-mix(in srgb,#f0dcd2 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoPrice{background:#d8e3e6!important;border-color:color-mix(in srgb,#d8e3e6 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoCost{background:#efe7c6!important;border-color:color-mix(in srgb,#efe7c6 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoCmp{background:#e4dde8!important;border-color:color-mix(in srgb,#e4dde8 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplPriceAdd{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplMinNew{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplStNew{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplAdjNew{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplCiNew{background:#dde8d3!important;border-color:color-mix(in srgb,#dde8d3 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplPriceStar{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplMinList{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplStList{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplAdjList{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard#cplCiList{background:#efe2cd!important;border-color:color-mix(in srgb,#efe2cd 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] .cplCard[id]:active{filter:brightness(.96)}
 </style></head><body><script id="v500-glass-js">
 (function(){
 'use strict';
@@ -5061,7 +5078,7 @@ window.__glassScan=scan;
       if(h!==null)b.innerHTML=h;
     }
   }
-  function themeLabel(){var h=document.documentElement;return h.getAttribute('data-theme')==='light'?(h.getAttribute('data-palette')==='sheet'?'تم تاریک':'تم رنگی'):'تم روشن'}
+  function themeLabel(){return 'تغییر پوسته'}
   var NAMES={'تغییر پوسته':1,'تم روشن':1,'تم تاریک':1,'تم رنگی':1};
   function fixTheme(rt){
     var lab=themeLabel();
@@ -10324,34 +10341,89 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function setSaved(v){
     try{ localStorage.setItem(STORAGE_KEY, v); }catch(e){}
   }
-  var ICON_SHEET='<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line>';
+  var ICON_PALETTE='<path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.4-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"></path><circle cx="7.5" cy="11" r="1"></circle><circle cx="10.5" cy="7" r="1"></circle><circle cx="15.5" cy="7" r="1"></circle>';
+  var OPTS=[
+    {k:'dark', t:'تیره', sw:'linear-gradient(135deg,#050505 50%,#4a4a4a 50%)'},
+    {k:'light',t:'روشن', sw:'linear-gradient(135deg,#ecedef 50%,#1f2f42 50%)'},
+    {k:'sheet',t:'رنگی', sw:'linear-gradient(135deg,#f3eee3 50%,#3b7357 50%)'}
+  ];
   function applyTheme(theme){
     var de=document.documentElement;
     if(theme==='sheet') de.setAttribute('data-palette','sheet'); else de.removeAttribute('data-palette');
     if(theme==='light' || theme==='sheet') de.setAttribute('data-theme','light');
     else de.removeAttribute('data-theme');
     var metaTc=document.querySelector('meta[name="theme-color"]');
-    if(metaTc) metaTc.setAttribute('content', theme==='sheet' ? '#f2f4ef' : (theme==='light' ? '#f3f4f6' : '#000000'));
+    if(metaTc) metaTc.setAttribute('content', theme==='sheet' ? '#f3eee3' : (theme==='light' ? '#f3f4f6' : '#000000'));
     var icon=document.getElementById('themeToggleIcon');
-    if(icon) icon.innerHTML = theme==='dark' ? ICON_SUN : (theme==='light' ? ICON_SHEET : ICON_MOON);
+    if(icon) icon.innerHTML = ICON_PALETTE;
     var btn=document.getElementById('themeToggleBtn');
-    if(btn) btn.title = theme==='dark' ? 'تغییر به پوسته روشن' : (theme==='light' ? 'تغییر به پوسته رنگی' : 'تغییر به پوسته تیره');
+    if(btn){ btn.title='تغییر پوسته'; btn.setAttribute('aria-haspopup','menu'); }
   }
   function currentTheme(){
     var v=getSaved();
     return v==='sheet' ? 'sheet' : (v==='light' ? 'light' : 'dark');
+  }
+  function liveTheme(){
+    var de=document.documentElement;
+    return de.getAttribute('data-theme')==='light' ? (de.getAttribute('data-palette')==='sheet' ? 'sheet' : 'light') : 'dark';
+  }
+  function injectCss(){
+    if(document.getElementById('themeMenuCss')) return;
+    var st=document.createElement('style'); st.id='themeMenuCss';
+    st.textContent='#themeMenuBd{position:fixed;inset:0;z-index:2147483000;background:transparent}'
+    +'#themeMenuBd.tmDim{background:rgba(0,0,0,.35)}'
+    +'#themeMenu{position:fixed;z-index:2147483001;min-width:176px;box-sizing:border-box;background:var(--c8,#fff);color:var(--c2,#111);border:1px solid var(--c5,#ccc);border-radius:14px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.28);direction:rtl;font-family:inherit}'
+    +'#themeMenu.tmCenter{top:50%;left:50%;transform:translate(-50%,-50%)}'
+    +'#themeMenu button{all:unset;box-sizing:border-box;display:flex!important;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:10px;cursor:pointer;font:inherit!important;font-size:16px!important;color:var(--c2,#111)!important;background:transparent!important;border:0!important;-webkit-tap-highlight-color:transparent}'
+    +'#themeMenu button:hover,#themeMenu button:focus-visible{background:var(--c9,#eee)!important}'
+    +'#themeMenu button[aria-checked="true"]{font-weight:700!important}'
+    +'#themeMenu .tmSw{width:22px;height:22px;border-radius:50%;border:1px solid var(--c6,#999);flex:none;display:inline-block}'
+    +'#themeMenu .tmCk{margin-inline-start:auto;width:18px;height:18px;opacity:0;flex:none}'
+    +'#themeMenu button[aria-checked="true"] .tmCk{opacity:1}';
+    document.head.appendChild(st);
+  }
+  function onKey(e){ if(e.key==='Escape'){ closeMenu(); } }
+  function closeMenu(){
+    var m=document.getElementById('themeMenu'); if(m) m.remove();
+    var bd=document.getElementById('themeMenuBd'); if(bd) bd.remove();
+    document.removeEventListener('keydown',onKey,true);
+  }
+  function openMenu(btn){
+    closeMenu(); injectCss();
+    var cur=liveTheme();
+    var anchored=false, r=btn.getBoundingClientRect();
+    if(r.width>0 && r.height>0){
+      var el=document.elementFromPoint(r.left+r.width/2, r.top+r.height/2);
+      anchored=!!el && (el===btn || btn.contains(el));
+    }
+    var bd=document.createElement('div'); bd.id='themeMenuBd'; if(!anchored) bd.className='tmDim';
+    bd.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); closeMenu(); });
+    var m=document.createElement('div'); m.id='themeMenu'; m.setAttribute('role','menu');
+    if(!anchored) m.className='tmCenter';
+    OPTS.forEach(function(o){
+      var b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio');
+      b.setAttribute('aria-checked', o.k===cur ? 'true' : 'false');
+      b.innerHTML='<i class="tmSw" style="background:'+o.sw+'"></i><span>'+o.t+'</span><svg class="tmCk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); setSaved(o.k); applyTheme(o.k); closeMenu(); });
+      m.appendChild(b);
+    });
+    document.body.appendChild(bd); document.body.appendChild(m);
+    if(anchored){
+      var mw=m.offsetWidth, mh=m.offsetHeight;
+      var left=Math.min(Math.max(8, r.left+r.width/2-mw/2), window.innerWidth-mw-8);
+      var top=r.bottom+6; if(top+mh>window.innerHeight-8) top=Math.max(8, r.top-mh-6);
+      m.style.left=left+'px'; m.style.top=top+'px';
+    }
+    document.addEventListener('keydown',onKey,true);
+    var sel=m.querySelector('[aria-checked="true"]'); if(sel){ try{ sel.focus({preventScroll:true}); }catch(e){} }
   }
   function bind(){
     applyTheme(currentTheme());
     var btn=document.getElementById('themeToggleBtn');
     if(btn && !btn._themeBound){
       btn._themeBound=true;
-      btn.addEventListener('click', function(){
-        var de0=document.documentElement;
-        var live = de0.getAttribute('data-theme')==='light' ? (de0.getAttribute('data-palette')==='sheet' ? 'sheet' : 'light') : 'dark';
-        var next = live==='dark' ? 'light' : (live==='light' ? 'sheet' : 'dark');
-        setSaved(next);
-        applyTheme(next);
+      btn.addEventListener('click', function(e){
+        if(document.getElementById('themeMenu')) closeMenu(); else openMenu(btn);
       }, true);
     }
   }
@@ -18197,7 +18269,7 @@ window.__cplSig=function(){
   function head(title,showBack){
     var ICO_SUP=SV+'<path d="M4 13a8 8 0 0 1 16 0"/><path d="M19 13v4a2 2 0 0 1-2 2h-1"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><path d="M12 19v1a2 2 0 0 1-2 2H9"/></svg>';
     return '<div class="cbHead"><button type="button" class="btn cbMenuBtn" data-cb="menu" aria-label="منو" title="منو" aria-haspopup="true" aria-expanded="false">'+ICO_MENU+'</button><b>'+E(title)+'</b><button type="button" class="btn" data-cb="home" aria-label="بازگشت به صفحه قبل" title="بازگشت به صفحه قبل">'+ICO_HOME+'</button>'+
-      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+(function(h){return h.getAttribute('data-theme')==='light'?(h.getAttribute('data-palette')==='sheet'?'تم تاریک':'تم رنگی'):'تم روشن'})(document.documentElement)+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
+      '<div class="cbMenuPanel" role="menu"><button type="button" class="btn" data-cb="theme">'+ICO_THEME+'<span>'+'تغییر پوسته'+'</span></button>'+(ST.view==='menu'?'':'<button type="button" class="btn" data-cb="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn" data-cb="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button>')+'<button type="button" class="btn" data-cb="support">'+ICO_SUP+'<span>پشتیبانی</span></button><button type="button" class="btn" data-cb="mclose">'+ICO_X+'<span>بستن</span></button></div></div>'+'';
   }
   /* ---------- منوی هدر: تم، گزارش اکسل، گزارش چاپی، بستن ---------- */
   function closeMenu(){
@@ -21079,7 +21151,7 @@ textarea {
 /* ===== ظاهر جدید مهندس‌یار — هماهنگ با بقیه‌ی برنامه (گوشه‌گرد، رنگ‌های خنثی، پوسته روشن/تیره) ===== */
 html{--bg:#000;--card:#1b1b1b;--card2:#161616;--line:#393939;--line2:#888;--tx:#f2f2f2;--tx2:#a7a7a7;--tx3:#8c8c8c;--btn:#ededed;--btnTx:#111;--acc:#8ec5ff;--ok:#7fcf9c;--warn:#e0a35a;--hov:#333;color-scheme:dark}
 html[data-theme="light"]{--bg:#ecedef;--card:#ebecee;--card2:#e1e2e4;--line:#dbdcde;--line2:#9a9ca0;--tx:#1f2f42;--tx2:#3a4552;--tx3:#5d6672;--btn:#182430;--btnTx:#f2f3f5;--acc:#135296;--ok:#1d7a46;--warn:#9a5b12;--hov:#dbdcde;color-scheme:light}
-html[data-theme="light"][data-palette="sheet"]{--bg:#f2f4ef;--card:#ffffff;--card2:#f1f5ec;--line:#d6dcce;--line2:#adb8a3;--tx:#1f2a24;--tx2:#34413a;--tx3:#55635a;--btn:#2d6a4e;--btnTx:#ffffff;--acc:#2d6a4e;--ok:#1d7a46;--warn:#9a5b12;--hov:#e5ebdf;color-scheme:light}
+html[data-theme="light"][data-palette="sheet"]{--bg:#f3eee3;--card:#fffdf8;--card2:#f5efe3;--line:#dcd3bf;--line2:#b8ac92;--tx:#26291f;--tx2:#3f4236;--tx3:#5c5f50;--btn:#3b7357;--btnTx:#ffffff;--acc:#3b7357;--ok:#1d7a46;--warn:#9a5b12;--hov:#e5dcc9;color-scheme:light}
 html,body{background:var(--bg);color:var(--tx)}
 .app{max-width:1250px;padding:14px 14px 80px}
 .head{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 18px;margin-bottom:14px}
