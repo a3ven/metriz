@@ -15722,8 +15722,11 @@ window.__cplSig=function(){
         t.innerHTML=rows.length?tblHtml(sp):'<div class="mnMuted stCmpMsg">آیتمی برای مقایسه نیست.</div>';
       }
       [1,2].forEach(function(n){
-        $('stCmpN'+n).onchange=function(){$('stCmpV'+n).innerHTML=verOpts(this.value,$('stCmpV'+n).value);render()};
-        $('stCmpV'+n).onchange=render;
+        /* اگر هر دو کادر یک صورت‌وضعیتِ یک نسخه شدند، کادر دیگر به نسخهٔ دیگری می‌رود */
+        function sync(){var o=3-n;if($('stCmpN'+o).value===$('stCmpN'+n).value&&$('stCmpV'+o).value===$('stCmpV'+n).value){
+          var alt=Array.prototype.map.call($('stCmpV'+o).options,function(x){return x.value}).filter(function(v){return v!==$('stCmpV'+n).value})[0];if(alt)$('stCmpV'+o).value=alt}}
+        $('stCmpN'+n).onchange=function(){$('stCmpV'+n).innerHTML=verOpts(this.value,$('stCmpV'+n).value);sync();render()};
+        $('stCmpV'+n).onchange=function(){sync();render()};
       });
       render();
     }).catch(function(e){var body=$('stCmpBody');if(body)body.innerHTML='<div class="impMsg err stCmpMsg">'+esc((e&&e.message)||'خواندن صورت‌وضعیت‌ها انجام نشد.')+'</div>'});
