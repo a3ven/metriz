@@ -12528,11 +12528,9 @@ setInterval(bindExports,500);
   function openPack(){
     if(!cur||needItems())return;
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
-    window.__cplRptPack.open({key:'mn',title:'بسته گزارش‌گیری صورت‌مجلس',sub:docTitle('صورت‌مجلس'),parts:packParts(),cmp:true,
+    window.__cplRptPack.open({key:'mn',title:'بسته گزارش‌گیری صورت‌مجلس',sub:docTitle('صورت‌مجلس'),parts:packParts(),cmp:true,sig:true,
       run:function(kind,sel,o){
-        window.__cplCmpPre=o&&o.prev;
-        var r=(kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)});
-        Promise.resolve(r).then(function(){window.__cplCmpPre=undefined},function(){window.__cplCmpPre=undefined});
+        window.__cplRptPack.wrap(o,function(){return (kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)})});
       }});
   }
 
@@ -12605,20 +12603,20 @@ setInterval(bindExports,500);
   st.textContent=
   '.rpBox{width:min(520px,100%)!important;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);display:flex;flex-direction:column}'+
   '.rpBox p{margin:0 0 10px!important}'+
-  '.rpTools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;margin:0 0 8px;font-size:var(--fs-small,13px);opacity:.9}'+
+  '.rpTools{font-size:15px!important;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;margin:0 0 8px;font-size:var(--fs-small,13px);opacity:.9}'+
   '.rpCnt{white-space:nowrap}.rpTools button{background:none;border:0;color:inherit;cursor:pointer;text-decoration:underline;font:inherit;padding:4px 2px}'+
   '.rpList{overflow:auto;display:flex;flex-direction:column;gap:6px;margin:0 0 14px;padding:2px;min-height:0;overscroll-behavior:contain}'+
-  '.rpRow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--c5,#393939);border-radius:12px;background:rgba(127,127,127,.10);user-select:none;-webkit-user-select:none}'+
+  '.rpRow{font-size:17px;display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--c5,#393939);border-radius:12px;background:rgba(127,127,127,.10);user-select:none;-webkit-user-select:none}'+
   '.rpRow.rpOff{opacity:.55}'+
   '.rpRow.rpDrag{opacity:1;position:relative;z-index:2;box-shadow:0 8px 24px rgba(0,0,0,.45);border-color:var(--c2,#f2f2f2);background:rgba(127,127,127,.22)}'+
   '.rpNum{flex:0 0 auto;min-width:22px;text-align:center;font-size:13px;opacity:.65}'+
   '.rpLbl{flex:1;min-width:0;display:flex;align-items:center;gap:10px;cursor:pointer}'+
-  '.rpLbl input{width:20px;height:20px;flex:0 0 auto;margin:0;cursor:pointer}'+
+  '.rpLbl input{width:22px;height:22px;flex:0 0 auto;margin:0;cursor:pointer}'+
   '.rpTxt{min-width:0;line-height:1.6}'+
   '.rpTxt small{display:block;opacity:.65;font-size:12px}'+
   '.rpHandle{flex:0 0 auto;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:inherit;cursor:grab;touch-action:none;border-radius:8px;opacity:.8;padding:0}'+
   '.rpHandle:focus-visible{outline:2px solid currentColor}'+
-  '.rpDragging,.rpDragging *{cursor:grabbing!important}'+'.rpPrev{display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:8px 10px;border:1px dashed var(--c5,#393939);border-radius:12px;cursor:pointer;line-height:1.7}.rpPrev input{width:20px;height:20px;margin:2px 0 0;flex:0 0 auto}.rpPrev small{display:block;opacity:.65;font-size:12px}'+
+  '.rpDragging,.rpDragging *{cursor:grabbing!important}'+'.rpScroll{overflow:auto;min-height:0;flex:1 1 auto;margin:0 0 14px;overscroll-behavior:contain}.rpScroll .rpList{overflow:visible;margin:0}.rpOpts{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}.rpOpt{border:1px solid var(--c5,#393939);border-radius:12px;padding:10px 12px;font-size:16px;line-height:1.8;background:rgba(127,127,127,.06)}.rpOpt>b{display:block;font-size:16px;margin:0 0 4px}.rpModeRow{display:flex;align-items:center;justify-content:space-between;gap:10px}.rpModeRow>b{margin:0}.rpSeg{display:inline-flex;gap:14px}.rpSeg label,.rpChk{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:16px}.rpSeg input,.rpChk input{width:22px;height:22px;margin:0;flex:0 0 auto;cursor:pointer}.rpSigList{display:flex;flex-direction:column;gap:2px;max-height:150px;overflow:auto}'+'.rpPrev{display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:8px 10px;border:1px dashed var(--c5,#393939);border-radius:12px;cursor:pointer;line-height:1.7}.rpPrev input{width:20px;height:20px;margin:2px 0 0;flex:0 0 auto}.rpPrev small{display:block;opacity:.65;font-size:12px}'+
   'html body .cplAskBtns .btn.rpRun{display:inline-flex;align-items:center;gap:8px}'+
   'html body .cplAskBtns .btn.rpRun[disabled]{opacity:.45;pointer-events:none}';
   (document.head||document.documentElement).appendChild(st);
@@ -12635,19 +12633,24 @@ setInterval(bindExports,500);
     var order=[];
     (sv.o||[]).forEach(function(k){if(by[k]&&order.indexOf(k)<0)order.push(k)});
     parts.forEach(function(p){if(order.indexOf(p.k)<0)order.push(p.k)});
+    var sigAll=(cfg.sig&&window.__cplOrgs&&window.__cplOrgs.sigNames)?window.__cplOrgs.sigNames():[],sigOff={};(sv.g||[]).forEach(function(n){sigOff[n]=1});
     var off={},known={},defOff={};(sv.o||[]).forEach(function(k){known[k]=1});(sv.x||[]).forEach(function(k){off[k]=1});parts.forEach(function(p){if(p.off){defOff[p.k]=1;if(!known[p.k])off[p.k]=1}});
 
     var ov=document.createElement('div');ov.className='cplAskOv';ov.style.zIndex='2147483600';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+    var optHtml='';
+    if(cfg.mode)optHtml+='<div class="rpOpt rpModeRow"><b>نوع مبالغ</b><span class="rpSeg"><label><input type="radio" name="rpMode" value="net"'+(cfg.mode==='net'?' checked':'')+'><span>خالص</span></label><label><input type="radio" name="rpMode" value="wc"'+(cfg.mode==='wc'?' checked':'')+'><span>با ضرایب</span></label></span></div>';
+    if(cfg.cmp)optHtml+='<label class="rpOpt rpChk"><input type="checkbox" class="rpPrevIn"'+(sv.p?' checked':'')+'><span>همراه با نسخه‌های قبلی (پیمانکار / مشاور)</span></label>';
+    if(sigAll.length)optHtml+='<div class="rpOpt rpSigBox"><b>امضاها — پایین گزارش چاپی</b><div class="rpSigList">'+sigAll.map(function(n){return '<label class="rpChk"><input type="checkbox" class="rpSigIn" value="'+esc(n)+'"'+(sigOff[n]?'':' checked')+'><span>'+esc(n)+'</span></label>'}).join('')+'</div></div>';
     ov.innerHTML='<div class="cplAskBox rpBox"><h3>'+esc(cfg.title||'بسته گزارش‌گیری')+'</h3>'+
-      '<p>'+esc(cfg.sub||'')+(cfg.sub?' — ':'')+'مراحل مورد نیاز را تیک بزنید و با گرفتن دستگیره (⋮⋮) ترتیب آن‌ها را عوض کنید.</p>'+
+      '<div class="rpScroll">'+(optHtml?'<div class="rpOpts">'+optHtml+'</div>':'')+
       '<div class="rpTools"><span class="rpCnt"></span><span><button type="button" data-a="all">انتخاب همه</button> · <button type="button" data-a="none">هیچ‌کدام</button> · <button type="button" data-a="def">ترتیب پیش‌فرض</button></span></div>'+
-      '<div class="rpList" role="list"></div>'+(cfg.cmp?'<label class="rpPrev"><input type="checkbox"'+(sv.p?' checked':'')+'><span>همراه با نسخه‌های قبلی (پیمانکار / مشاور)<small>فقط برای گزارش چاپی؛ اگر نسخه قبلی نباشد اثری ندارد</small></span></label>':'')+
+      '<div class="rpList" role="list"></div></div>'+
       '<div class="cplAskBtns"><button type="button" class="btn primary rpRun" data-r="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn rpRun" data-r="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button><button type="button" class="btn" data-r="x">انصراف</button></div></div>';
     var list=ov.querySelector('.rpList'),cnt=ov.querySelector('.rpCnt');
 
     function rowHtml(p,on){
       return '<div class="rpRow'+(on?'':' rpOff')+'" role="listitem" data-k="'+esc(p.k)+'"><span class="rpNum"></span>'+
-        '<label class="rpLbl"><input type="checkbox"'+(on?' checked':'')+'><span class="rpTxt">'+esc(p.t)+(p.s?'<small>'+esc(p.s)+'</small>':'')+'</span></label>'+
+        '<label class="rpLbl"><input type="checkbox"'+(on?' checked':'')+'><span class="rpTxt">'+esc(p.t)+'</span></label>'+
         '<button type="button" class="rpHandle" aria-label="جابجایی «'+esc(p.t)+'» — با کلیدهای بالا و پایین" title="بکشید تا ترتیب عوض شود">'+ICO_GRIP+'</button></div>';
     }
     function paint(ord,offMap){list.innerHTML=ord.map(function(k){return rowHtml(by[k],!offMap[k])}).join('');refresh()}
@@ -12680,7 +12683,7 @@ setInterval(bindExports,500);
         var y=ev.clientY,sibs=rows().filter(function(r){return r!==row}),before=null;
         for(var i=0;i<sibs.length;i++){var b=sibs[i].getBoundingClientRect();if(y<b.top+b.height/2){before=sibs[i];break}}
         if(before){if(row.nextSibling!==before)list.insertBefore(row,before)}else if(list.lastChild!==row)list.appendChild(row);
-        var lr=list.getBoundingClientRect();if(y<lr.top+28)list.scrollTop-=14;else if(y>lr.bottom-28)list.scrollTop+=14;
+        var sc=ov.querySelector('.rpScroll'),lr=sc.getBoundingClientRect();if(y<lr.top+28)sc.scrollTop-=14;else if(y>lr.bottom-28)sc.scrollTop+=14;
         refresh();
       }
       function up(ev){
@@ -12707,9 +12710,9 @@ setInterval(bindExports,500);
       if(r==='x'){close();return}
       if(r==='xls'||r==='pdf'){
         var s=state();if(!s.sel.length)return;
-        var pv=ov.querySelector('.rpPrev input'),prev=!!(pv&&pv.checked);
-        lsSet(sk,{o:s.o,x:s.x,p:prev});close();
-        try{cfg.run(r,s.sel,{prev:cfg.cmp?prev:undefined})}catch(err){console.error(err);alert('ساخت گزارش انجام نشد: '+(err&&err.message||err))}
+        var pv=ov.querySelector('.rpPrevIn'),prev=!!(pv&&pv.checked),mr=ov.querySelector('input[name=rpMode]:checked'),sg=[].filter.call(ov.querySelectorAll('.rpSigIn'),function(c){return c.checked}).map(function(c){return c.value}),sgOff=[].filter.call(ov.querySelectorAll('.rpSigIn'),function(c){return !c.checked}).map(function(c){return c.value});
+        lsSet(sk,{o:s.o,x:s.x,p:prev,g:sgOff});close();
+        try{cfg.run(r,s.sel,{prev:cfg.cmp?prev:undefined,mode:mr?mr.value:undefined,sig:sigAll.length?sg:null})}catch(err){console.error(err);alert('ساخت گزارش انجام نشد: '+(err&&err.message||err))}
       }
     });
     ov._k=function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}};
@@ -12717,7 +12720,13 @@ setInterval(bindExports,500);
     document.body.appendChild(ov);openOv=ov;
     var f=ov.querySelector('.rpRun[data-r="xls"]');if(f)f.focus();
   }
-  window.__cplRptPack={open:open,close:close,ICO:ICO_PACK};
+  function wrap(o,fn){
+    o=o||{};window.__cplCmpPre=o.prev;window.__cplSigSel=Array.isArray(o.sig)?o.sig:null;window.__cplPkMode=o.mode||null;
+    function clr(){window.__cplCmpPre=undefined;window.__cplSigSel=null;window.__cplPkMode=null}
+    var r;try{r=fn()}catch(e){clr();throw e}
+    Promise.resolve(r).then(clr,clr);
+  }
+  window.__cplRptPack={open:open,close:close,wrap:wrap,ICO:ICO_PACK};
 })();
 </script>
 
@@ -12980,7 +12989,7 @@ window.__cplOrgs=(function(){
   function tagStyle(k){var o=find(k);if(!o||!o.extra)return '';return ' style="background:'+o.color+';color:'+(lum(o.color)>150?'#000':'#fff')+';border-color:'+o.color+'"'}
   function dot(k){var o=find(k);return '<i style="display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:7px;vertical-align:middle;background:'+(o?o.color:'#000')+';border:1px solid rgba(128,128,128,.5)"></i>'}
   function wfStages(){return list().map(function(o){return {k:WFK[o.k]||o.k,t:o.name}}).concat([{k:'announced',t:'ابلاغ کارفرما'}])}
-  function sigNames(){return list().map(function(o){return 'نماینده '+o.name})}
+  function sigNames(){var a=list().map(function(o){return 'نماینده '+o.name}),f=window.__cplSigSel;return Array.isArray(f)?a.filter(function(n){return f.indexOf(n)>=0}):a}
   return {COLORS:COLORS,cssOf:cssOf,extras:extras,list:list,ordered:ordered,keys:keys,nonP:nonP,bySuf:bySuf,NAME:NAME,SUF:SUF,COL:COL,RANK:RANK,tagStyle:tagStyle,dot:dot,wfStages:wfStages,sigNames:sigNames};
 })();
 (function(){
@@ -13128,6 +13137,7 @@ window.__cplOrgs=(function(){
 /* کادر امضا: به ترتیب عوامل پروژه (راست به چپ)؛ تا سه عامل در Chrome/Edge جدید پایین هر صفحه چاپی از طریق حاشیه صفحه؛ در بقیه انتهای گزارش */
 window.__cplSig=function(){
   var ns=window.__cplOrgs.sigNames();
+  if(!ns.length)return '';
   var m=/(?:Chrome|Chromium)\/(\d+)/.exec(navigator.userAgent||''),ok=m&&+m[1]>=131&&!/CriOS|FxiOS|EdgiOS|Firefox/.test(navigator.userAgent||'')&&ns.length<=3;
   var he=function(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')};
   if(ok){
@@ -15349,7 +15359,7 @@ window.__cplSig=function(){
     if(p2(b.chapter)==='41')return 'pay';
     return 'list';
   }
-  function chMode(){return cur&&cur.chMode==='wc'?'wc':'net'}
+  function chMode(){if(window.__cplPkMode==='wc'||window.__cplPkMode==='net')return window.__cplPkMode;return cur&&cur.chMode==='wc'?'wc':'net'}
   function chapSpec(){
     var wc=chMode()==='wc',val=wc?amountWC:amount,m={},o=[],has={list:1};
     sortedItems().forEach(function(it){
@@ -15452,12 +15462,10 @@ window.__cplSig=function(){
   function openPack(){
     if(!cur||needItems())return;
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
-    window.__cplRptPack.open({key:'st',title:'بسته گزارش‌گیری صورت‌وضعیت',sub:docTitle('صورت‌وضعیت'),parts:packParts(),cmp:true,
+    window.__cplRptPack.open({key:'st',title:'بسته گزارش‌گیری صورت‌وضعیت',sub:docTitle('صورت‌وضعیت'),parts:packParts(),cmp:true,sig:true,mode:chMode(),
       run:function(kind,sel,o){
         if((sel.indexOf('tr')>=0||sel.indexOf('c76')>=0)&&!window.__DATA_READY){say('فهرست بها هنوز بارگذاری نشده است؛ چند لحظه بعد دوباره تلاش کن.');return}
-        window.__cplCmpPre=o&&o.prev;
-        var r=(kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)});
-        Promise.resolve(r).then(function(){window.__cplCmpPre=undefined},function(){window.__cplCmpPre=undefined});
+        window.__cplRptPack.wrap(o,function(){return (kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)})});
       }});
   }
   /* عدد با جداکننده هزارگان (ویرگول) — ورودی بهای واحد برگه مالی */
@@ -17381,7 +17389,7 @@ window.__cplSig=function(){
 
   /* ---------- PDF (پنجره چاپ/ذخیره به‌صورت PDF) ---------- */
   function pdfDoc(title,body,raw){
-    return '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>'+esc(title)+'</title><style>@font-face{font-family:BNazaninRpt;src:url("'+location.href.substring(0,location.href.lastIndexOf('/')+1)+'BNazanin.ttf") format("truetype")}@page{size:A4;margin:12mm}html,body,table,th,td,button{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif}body{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif;color:#111;background:#fff;margin:0;padding:14px;padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));font-size:14px}h1{font-size:18px;margin:0 0 4px}.prj{font-size:28px;font-weight:900;margin:0 0 8px;color:#000;border-bottom:3px solid #000;padding-bottom:5px;line-height:1.5}.pgBrk{page-break-before:always;break-before:page}.pgL{page:land}@page land{size:A4 landscape;margin:12mm}.meta{color:#444;margin-bottom:12px}table{width:100%;border-collapse:collapse;margin-bottom:14px}tr{page-break-inside:avoid}th,td{border:1px solid #777;padding:4px 6px;text-align:center;vertical-align:middle}th{background:#e6ebf5}td.r{text-align:right;line-height:1.7}.band td{background:#f0f0f0;font-weight:700;text-align:right;line-height:1.7}.tot td{font-weight:900;background:#f0f0f0}tfoot td,tfoot th{font-weight:900!important;background:#f0f0f0}.v75ReportBar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;position:relative;z-index:2}.v75ReportBar button{padding:9px 20px;font-size:14px;font-family:inherit;border-radius:7px;border:none;cursor:pointer}.v75ReportBar .v75Dl{background:#2e7d32;color:#fff}.v75ReportBar .v75Cl{background:#b71c1c;color:#fff}@media print{.v75ReportBar{display:none}body{padding:0!important}}</style></head><body><div class="v75ReportBar noPrint"><button type="button" class="v75Dl" onclick="window.print()">دانلود گزارش</button><button type="button" class="v75Cl" onclick="window.close()">بستن گزارش</button></div>'+(raw?'':prjHtml()+'<h1>'+esc(title)+'</h1><div class="meta">'+esc(metaLine()).replace(/ {3,}/g,' — ')+'</div>')+body+'</body></html>';
+    return '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>'+esc(title)+'</title><style>@font-face{font-family:BNazaninRpt;src:url("'+location.href.substring(0,location.href.lastIndexOf('/')+1)+'BNazanin.ttf") format("truetype")}@page{size:A4;margin:12mm}html,body,table,th,td,button{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif}body{font-family:BNazaninRpt,"B Nazanin",BNazanin,Tahoma,Arial,sans-serif;color:#111;background:#fff;margin:0;padding:14px;padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));font-size:14px}h1{font-size:18px;margin:0 0 4px}.prj{font-size:28px;font-weight:900;margin:0 0 8px;color:#000;border-bottom:3px solid #000;padding-bottom:5px;line-height:1.5}.pgBrk{page-break-before:always;break-before:page}.pgL{page:land}@page land{size:A4 landscape;margin:12mm}.meta{color:#444;margin-bottom:12px}table{width:100%;border-collapse:collapse;margin-bottom:14px}tr{page-break-inside:avoid}th,td{border:1px solid #777;padding:4px 6px;text-align:center;vertical-align:middle}th{background:#e6ebf5}td.r{text-align:right;line-height:1.7}.band td{background:#f0f0f0;font-weight:700;text-align:right;line-height:1.7}.tot td{font-weight:900;background:#f0f0f0}tfoot td,tfoot th{font-weight:900!important;background:#f0f0f0}.v75ReportBar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;position:relative;z-index:2}.v75ReportBar button{padding:9px 20px;font-size:14px;font-family:inherit;border-radius:7px;border:none;cursor:pointer}.v75ReportBar .v75Dl{background:#2e7d32;color:#fff}.v75ReportBar .v75Cl{background:#b71c1c;color:#fff}@media print{.v75ReportBar{display:none}body{padding:0!important}}</style></head><body><div class="v75ReportBar noPrint"><button type="button" class="v75Dl" onclick="window.print()">دانلود گزارش</button><button type="button" class="v75Cl" onclick="window.close()">بستن گزارش</button></div>'+(raw?'':prjHtml()+'<h1>'+esc(title)+'</h1><div class="meta">'+esc(metaLine()).replace(/ {3,}/g,' — ')+'</div>')+body+(Array.isArray(window.__cplSigSel)&&window.__cplSig?window.__cplSig():'')+'</body></html>';
   }
   function openPdf(html){
     var w=window.open('','_blank');
@@ -17488,8 +17496,8 @@ window.__cplSig=function(){
   function openPack(){
     if(!cur||needItems())return;
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
-    window.__cplRptPack.open({key:'ci',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'هزینه-درآمد',parts:packParts(),
-      run:function(kind,sel){if(kind==='xls')xlsAll(sel);else pdfAll(sel)}});
+    window.__cplRptPack.open({key:'ci',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'هزینه-درآمد',parts:packParts(),sig:true,
+      run:function(kind,sel,o){window.__cplRptPack.wrap(o,function(){if(kind==='xls')xlsAll(sel);else pdfAll(sel)})}});
   }
   var ANA_CSS='<style>.anaS{margin-top:7px;page-break-inside:avoid}.anaS h3{margin:0;padding:4px 6px;background:#e6e6e6;border:1px solid #555;text-align:right;font-size:14px}.anaS table{width:100%;border-collapse:collapse;table-layout:fixed;margin:0}.anaS th,.anaS td{border:1px solid #555;padding:3px 4px;text-align:center;line-height:1.15}.anaS th{background:#f0f0f0;font-weight:bold}.anaS td.nm{text-align:right;width:36%}.anaS tfoot td{font-weight:bold;background:#f0f0f0}.anaGrand{margin-top:9px;border:2px solid #333;padding:7px;text-align:center;font-size:14px;font-weight:bold}</style>';
   function anaDec(v){return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:4}).format(Number(v)||0)}
@@ -17957,7 +17965,7 @@ window.__cplSig=function(){
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
     var p=[{k:'cmp',t:'مقایسه هزینه با درآمد',s:'صفحه مقایسه'},{k:'ana',t:'آنالیز هزینه',s:'جدول آنالیز بهای هزینه'}];
     if(cur.ciId)p=p.concat([{k:'i4',t:'درآمد — مجموع آیتم‌ها و تعدیل'},{k:'i3',t:'درآمد — تعدیل آیتم‌ها'},{k:'i0',t:'درآمد — برگه مالی'},{k:'imin',t:'درآمد — ریزمتره'}]);
-    window.__cplRptPack.open({key:'ex',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'مقایسه هزینه با درآمد',parts:p,run:function(kind,sel){doExport(kind,true,sel)}});
+    window.__cplRptPack.open({key:'ex',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'مقایسه هزینه با درآمد',parts:p,sig:true,run:function(kind,sel,o){window.__cplRptPack.wrap(o,function(){return doExport(kind,true,sel)})}});
   }
   async function doExport(kind,all,sel){
     if(!cur)return;
