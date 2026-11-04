@@ -19549,10 +19549,17 @@ document.addEventListener('mousedown',function(e){
   };
   var BTNS=[['info','اطلاعات آیتم','مشاهده اطلاعات بیشتر درباره آیتم.'],['star','آیتم‌های ستاره‌دار','مشاهده و ویرایش آیتم‌های ستاره‌دار.'],['truck','حمل مصالح','مشاهده و محاسبه هزینه حمل مصالح.'],['coef','ضرایب پروژه','مشاهده و ویرایش ضرایب پروژه.'],['filt','فیلتر','نمایش آیتم‌ها بر اساس نوع آن‌ها؛ فهرستی، ستاره‌دار یا فاکتوری.'],['sort','مرتب‌سازی','تغییر ترتیب نمایش آیتم‌ها.'],['search','جستجو','پیدا کردن آیتم بر اساس شماره، شرح یا مشخصات آن.'],['clear','پاک کردن','حذف تمام آیتم‌ها و ردیف‌های ریزمتره پروژه.']];
   function ciBody(){
-    var P='style="flex:none;width:auto;min-width:44px;padding:0 12px;border-radius:22px;font-size:13px;font-weight:700;white-space:nowrap"';
-    function row(ic,b,t,pill){return '<div class="sgRow"><span class="sgIc"'+(pill?' '+P:'')+'>'+ic+'</span><span class="t"><b>'+b+':</b>'+t+'</span></div>'}
-    var SAVE=SV+'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3"/><path d="M8 21v-7h8v7"/></svg>';
-    var HOME=SV+'<path d="M4 11.5 12 4l8 7.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>';
+    function row(ic,b,t,sty){return '<div class="sgRow"><span class="sgIc"'+(sty?' style="'+sty+'"':'')+'>'+ic+'</span><span class="t"><b>'+b+':</b>'+t+'</span></div>'}
+    /* آیکن‌ها دقیقاً همان آیکن‌های صفحهٔ ریزمتره هزینه-درآمد (ICO_SAVE / ICO_XLS / ICO_PDF / ICO_BY_ID / ICO_HOME / ICO_BACK / ICO_FWD) */
+    var SAVE=SV+'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>';
+    var XLSI='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg>';
+    var PDFI='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg>';
+    var QUOTE=SV+'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14h6m0 0-2.5-2.5M15 14l-2.5 2.5"/></svg>';
+    var COEF=SV+'<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M15.5 8.5l-7 7"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/></svg>';
+    var BACK=SV+'<path d="M4 12h16M14 6l6 6-6 6"/></svg>';
+    var FWD=SV+'<path d="M20 12H4M10 6l-6 6 6 6"/></svg>';
+    var FWDSTY='background:var(--fwdBg);color:var(--fwdFg);border-color:var(--fwdBd)';
+    var HOME=SV+'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>';
     var MENU=SV+'<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
     return '<h4>این صفحه چه کاری انجام می‌دهد؟</h4>'+
       '<p style="margin:0">این مرحلهٔ اول «هزینه-درآمد» یعنی <b>ریزمتره</b> است: مقدار کارهای انجام‌شده را آیتم به آیتم ثبت می‌کنید. این مقادیر مبنای محاسبهٔ «درآمد» هستند؛ در مراحل بعد با قیمت فهرست‌بها، ضرایب و تعدیل، درآمد هر آیتم به‌دست می‌آید و در پایان با «هزینهٔ» واقعی همان کار مقایسه می‌شود.</p>'+
@@ -19566,12 +19573,12 @@ document.addEventListener('mousedown',function(e){
       row(IC.sort,'ترتیب نمایش','ترتیب آیتم‌ها را بر اساس زمان افزودن (نزولی یا صعودی) یا شمارهٔ آیتم تغییر می‌دهد.')+
       '<h4>معرفی دکمه‌ها</h4>'+
       row(SAVE,'ذخیره','هزینه-درآمد را در پروژه ذخیره می‌کند.')+
-      row('XLS','گزارش اکسل','خروجی اکسل ریزمتره.',1)+
-      row('PDF','گزارش چاپی','خروجی چاپی ریزمتره.',1)+
-      row('نقل','نقل از صورت‌مجالس','ردیف‌های متره را از صورت‌مجلس‌های پروژه وارد می‌کند تا دوباره تایپ نکنید.',1)+
-      row(IC.coef,'ضرایب','مشاهده و ویرایش ضرایب پروژه (ضریب فصل، طبقات، منطقه، بالاسری و ...) که روی درآمد اعمال می‌شوند.')+
-      row('← لیست','لیست','بازگشت به لیست هزینه-درآمدها.',1)+
-      row('بعد ◂','مرحله بعد','رفتن به برگهٔ مالی؛ محاسبهٔ مبالغ و ضرایب آیتم‌ها.',1)+
+      row(XLSI,'گزارش اکسل','خروجی اکسل ریزمتره.')+
+      row(PDFI,'گزارش چاپی','خروجی چاپی ریزمتره.')+
+      row(QUOTE,'نقل از صورت‌مجالس','ردیف‌های متره را از صورت‌مجلس‌های پروژه وارد می‌کند تا دوباره تایپ نکنید.')+
+      row(COEF,'ضرایب','مشاهده و ویرایش ضرایب پروژه (ضریب فصل، طبقات، منطقه، بالاسری و ...) که روی درآمد اعمال می‌شوند.')+
+      row(BACK,'بازگشت به لیست','بازگشت به لیست هزینه-درآمدها.')+
+      row(FWD,'مرحله بعد','رفتن به برگهٔ مالی؛ محاسبهٔ مبالغ و ضرایب آیتم‌ها.',FWDSTY)+
       row('<span style="color:#e5484d;font-size:18px">✕</span>','حذف آیتم','دکمهٔ ✕ کنار هر آیتم، همان آیتم را از ریزمتره حذف می‌کند.')+
       row(HOME,'صفحه اصلی','بازگشت به صفحهٔ اصلی برنامه.')+
       row(MENU,'منو','تغییر پوسته، گزارش‌ها، بستن صفحه و همین راهنما در منو قرار دارند.')+
