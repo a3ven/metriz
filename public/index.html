@@ -19533,7 +19533,7 @@ document.addEventListener('mousedown',function(e){
 <script id="st-guide-js">
 (function(){
   'use strict';
-  var CFG={stEditor:{key:'cplStGuideHide',title:'راهنمای بخش صورت‌وضعیت پروژه',menu:'راهنمای صورت وضعیت',close:'stClose',skip:[]},mnEditor:{key:'cplMnGuideHide',title:'راهنمای بخش صورت‌مجلس پروژه',menu:'راهنمای صورت مجلس',close:'mnClose',skip:['truck','coef']}},SV='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  var CFG={stEditor:{key:'cplStGuideHide',title:'راهنمای بخش صورت‌وضعیت پروژه',menu:'راهنمای صورت وضعیت',close:'stClose',skip:[]},mnEditor:{key:'cplMnGuideHide',title:'راهنمای بخش صورت‌مجلس پروژه',menu:'راهنمای صورت مجلس',close:'mnClose',skip:['truck','coef']},ciEditor:{key:'cplCiGuideHide',title:'راهنمای بخش هزینه و درآمد پروژه',menu:'راهنمای هزینه-درآمد',close:'ciClose',skip:[],body:function(){return ciBody()}}},SV='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
   var IC={
     info:'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="6.8" r="1.7" fill="currentColor"/><rect x="10.8" y="10" width="2.4" height="8" rx="1.1" fill="currentColor"/></svg>',
     star:SV+'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',
@@ -19548,6 +19548,35 @@ document.addEventListener('mousedown',function(e){
     help:SV+'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.2.9-1.2 1.7"/><path d="M12 16.8h.01"/></svg>'
   };
   var BTNS=[['info','اطلاعات آیتم','مشاهده اطلاعات بیشتر درباره آیتم.'],['star','آیتم‌های ستاره‌دار','مشاهده و ویرایش آیتم‌های ستاره‌دار.'],['truck','حمل مصالح','مشاهده و محاسبه هزینه حمل مصالح.'],['coef','ضرایب پروژه','مشاهده و ویرایش ضرایب پروژه.'],['filt','فیلتر','نمایش آیتم‌ها بر اساس نوع آن‌ها؛ فهرستی، ستاره‌دار یا فاکتوری.'],['sort','مرتب‌سازی','تغییر ترتیب نمایش آیتم‌ها.'],['search','جستجو','پیدا کردن آیتم بر اساس شماره، شرح یا مشخصات آن.'],['clear','پاک کردن','حذف تمام آیتم‌ها و ردیف‌های ریزمتره پروژه.']];
+  function ciBody(){
+    var P='style="flex:none;width:auto;min-width:44px;padding:0 12px;border-radius:22px;font-size:13px;font-weight:700;white-space:nowrap"';
+    function row(ic,b,t,pill){return '<div class="sgRow"><span class="sgIc"'+(pill?' '+P:'')+'>'+ic+'</span><span class="t"><b>'+b+':</b>'+t+'</span></div>'}
+    var SAVE=SV+'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3"/><path d="M8 21v-7h8v7"/></svg>';
+    var HOME=SV+'<path d="M4 11.5 12 4l8 7.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>';
+    var MENU=SV+'<path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+    return '<h4>این صفحه چه کاری انجام می‌دهد؟</h4>'+
+      '<p style="margin:0">این مرحلهٔ اول «هزینه-درآمد» یعنی <b>ریزمتره</b> است: مقدار کارهای انجام‌شده را آیتم به آیتم ثبت می‌کنید. این مقادیر مبنای محاسبهٔ «درآمد» هستند؛ در مراحل بعد با قیمت فهرست‌بها، ضرایب و تعدیل، درآمد هر آیتم به‌دست می‌آید و در پایان با «هزینهٔ» واقعی همان کار مقایسه می‌شود.</p>'+
+      '<ul><li>ترتیب مراحل: ریزمتره ← برگه مالی ← تعدیل آیتم‌ها ← مجموع آیتم‌ها و تعدیل (درآمد) ← آنالیز هزینه ← مقایسهٔ هزینه با درآمد.</li></ul>'+
+      '<h4>کادرهای بالای صفحه</h4><ul>'+
+      '<li><b>نام:</b> نام دلخواه این هزینه-درآمد؛ در لیست با همین نام دیده می‌شود.</li>'+
+      '<li><b>تاریخ دوره کارکرد:</b> دورهٔ کار در مرحلهٔ تعدیل از روی همین تاریخ تعیین می‌شود؛ حتماً آن را وارد کنید.</li>'+
+      '<li><b>نوع فهرست بها و شماره فصل:</b> دفترچه (ابنیه، مکانیک، برق) و فصل آیتم موردنظر. دکمهٔ «مقدمه فصل» توضیحات همان فصل را نشان می‌دهد.</li>'+
+      '<li><b>جستجوی آیتم و آیتم:</b> با شماره یا شرح، آیتم را پیدا و انتخاب کنید.</li></ul>'+
+      row(IC.plus,'افزودن آیتم','آیتم انتخاب‌شده را به ریزمتره اضافه می‌کند؛ سپس مقدار یا ابعاد را در ردیف‌های همان آیتم وارد کنید.')+
+      row(IC.sort,'ترتیب نمایش','ترتیب آیتم‌ها را بر اساس زمان افزودن (نزولی یا صعودی) یا شمارهٔ آیتم تغییر می‌دهد.')+
+      '<h4>معرفی دکمه‌ها</h4>'+
+      row(SAVE,'ذخیره','هزینه-درآمد را در پروژه ذخیره می‌کند.')+
+      row('XLS','گزارش اکسل','خروجی اکسل ریزمتره.',1)+
+      row('PDF','گزارش چاپی','خروجی چاپی ریزمتره.',1)+
+      row('نقل','نقل از صورت‌مجالس','ردیف‌های متره را از صورت‌مجلس‌های پروژه وارد می‌کند تا دوباره تایپ نکنید.',1)+
+      row(IC.coef,'ضرایب','مشاهده و ویرایش ضرایب پروژه (ضریب فصل، طبقات، منطقه، بالاسری و ...) که روی درآمد اعمال می‌شوند.')+
+      row('← لیست','لیست','بازگشت به لیست هزینه-درآمدها.',1)+
+      row('بعد ◂','مرحله بعد','رفتن به برگهٔ مالی؛ محاسبهٔ مبالغ و ضرایب آیتم‌ها.',1)+
+      row('<span style="color:#e5484d;font-size:18px">✕</span>','حذف آیتم','دکمهٔ ✕ کنار هر آیتم، همان آیتم را از ریزمتره حذف می‌کند.')+
+      row(HOME,'صفحه اصلی','بازگشت به صفحهٔ اصلی برنامه.')+
+      row(MENU,'منو','تغییر پوسته، گزارش‌ها، بستن صفحه و همین راهنما در منو قرار دارند.')+
+      '<div class="sgNote"><b>نکته:</b> پیش از رفتن به مرحلهٔ بعد، تاریخ دوره کارکرد و مقدار آیتم‌ها را بررسی کنید. با دکمهٔ «ذخیره» می‌توانید بعداً از لیست دوباره به همین صفحه برگردید.</div>';
+  }
   function get(k){try{return localStorage.getItem(k)==='1'}catch(e){return false}}
   function set(k,v){try{if(v)localStorage.setItem(k,'1');else localStorage.removeItem(k)}catch(e){}}
   function css(){
@@ -19591,6 +19620,7 @@ document.addEventListener('mousedown',function(e){
       '<h4>معرفی دکمه‌ها</h4>'+BTNS.filter(function(b){return cfg.skip.indexOf(b[0])<0}).map(function(b){return '<div class="sgRow"><span class="sgIc'+(b[0]==='clear'?' danger':'')+'">'+IC[b[0]]+'</span><span class="t"><b>'+b[1]+':</b>'+b[2]+'</span></div>'}).join('')+
       '<div class="sgNote"><b>نکته:</b> قبل از استفاده از گزینه «پاک کردن»، مطمئن شوید که قصد حذف تمام ردیف‌های ریزمتره را دارید.</div></div>'+
       '</div>';
+    if(cfg.body){var sbd=ov.querySelector('.sgBody');if(sbd)sbd.innerHTML=cfg.body()}
     ov.addEventListener('click',function(e){if(e.target===ov||(e.target.closest&&e.target.closest('#stGuideX,#stGuideOk')))close()});
     document.body.appendChild(ov);document.addEventListener('keydown',onKey,true);
   }
@@ -20142,8 +20172,8 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
       tip:'با تغییر مقدار یا قیمت در تحلیل، مبلغ نهایی آیتم به‌صورت خودکار محاسبه می‌شود.'
     },
     cmp:{
-      title:'هزینه-درآمد',
-      intro:'برای مقایسهٔ درآمد و هزینهٔ کار انجام‌شده است: مقدار آیتم‌ها را در ریزمتره می‌نویسید، با ضرایب و تعدیل «درآمد» به‌دست می‌آید، سپس آنالیز «هزینه» را وارد می‌کنید و اختلاف و درصد اختلاف را می‌بینید.',
+      title:'هزینه و درآمد پروژه',
+      intro:'این بخش با هدف تحلیل اقتصادی آیتم‌های اجرایی پروژه و مقایسه درآمد حاصل از اجرای هر آیتم با هزینه واقعی انجام آن طراحی شده است. در این فرآیند، درآمد حاصل از ردیف‌های فهرست‌بهایی با احتساب ضرایب پیمان و تعدیل، در مقابل هزینه‌های واقعی شامل تأمین مصالح، نیروی انسانی، حمل‌ونقل و ماشین‌آلات قرار می‌گیرد تا میزان سود یا زیان هر آیتم مشخص شود.\nبه زبان ساده: چقدر از کارفرما دریافت می‌کنیم و اجرای همان کار چقدر برای ما هزینه دارد؟',
       items:[
         ['انتخاب پروژه','ابتدا پروژه را انتخاب کنید؛ هزینه-درآمدها داخل همین پروژه ذخیره می‌شوند.'],
         ['هزینه-درآمد جدید','مراحل: ریزمتره ← برگه مالی ← تعدیل آیتم‌ها ← مجموع آیتم‌ها و تعدیل (درآمد) ← آنالیز هزینه ← مقایسهٔ هزینه با درآمد.'],
@@ -20218,7 +20248,7 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
       });
       body.scrollTop=0;return;
     }
-    if(d.intro)body.appendChild(el('p','',d.intro));
+    if(d.intro)String(d.intro).split('\n').forEach(function(tx){if(tx.trim())body.appendChild(el('p','',tx))});
     (d.items||[]).forEach(function(it){
       var box=el('div','hItem');box.appendChild(el('b','',it[0]));var sp=el('span','');
       String(it[1]).split(/(\*\*[^*]+\*\*)/).forEach(function(s){if(/^\*\*[^*]+\*\*$/.test(s)){var bb=document.createElement('strong');bb.style.fontWeight='800';bb.style.color='var(--c2)';bb.textContent=s.slice(2,-2);sp.appendChild(bb)}else if(s)sp.appendChild(document.createTextNode(s))});
