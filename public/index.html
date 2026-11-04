@@ -12528,8 +12528,12 @@ setInterval(bindExports,500);
   function openPack(){
     if(!cur||needItems())return;
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
-    window.__cplRptPack.open({key:'mn',title:'بسته گزارش‌گیری صورت‌مجلس',sub:docTitle('صورت‌مجلس'),parts:packParts(),
-      run:function(kind,sel){if(kind==='xls')cmpEntry(function(){xlsAll(sel)});else cmpEntry(function(){pdfAll(sel)})}});
+    window.__cplRptPack.open({key:'mn',title:'بسته گزارش‌گیری صورت‌مجلس',sub:docTitle('صورت‌مجلس'),parts:packParts(),cmp:true,
+      run:function(kind,sel,o){
+        window.__cplCmpPre=o&&o.prev;
+        var r=(kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)});
+        Promise.resolve(r).then(function(){window.__cplCmpPre=undefined},function(){window.__cplCmpPre=undefined});
+      }});
   }
 
   /* گزارش چاپی روکش همه صورت‌مجالس (هر صورت‌مجلس یک بخش) — recs: [{rec,ctx}] */
@@ -12614,7 +12618,7 @@ setInterval(bindExports,500);
   '.rpTxt small{display:block;opacity:.65;font-size:12px}'+
   '.rpHandle{flex:0 0 auto;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:inherit;cursor:grab;touch-action:none;border-radius:8px;opacity:.8;padding:0}'+
   '.rpHandle:focus-visible{outline:2px solid currentColor}'+
-  '.rpDragging,.rpDragging *{cursor:grabbing!important}'+
+  '.rpDragging,.rpDragging *{cursor:grabbing!important}'+'.rpPrev{display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:8px 10px;border:1px dashed var(--c5,#393939);border-radius:12px;cursor:pointer;line-height:1.7}.rpPrev input{width:20px;height:20px;margin:2px 0 0;flex:0 0 auto}.rpPrev small{display:block;opacity:.65;font-size:12px}'+
   'html body .cplAskBtns .btn.rpRun{display:inline-flex;align-items:center;gap:8px}'+
   'html body .cplAskBtns .btn.rpRun[disabled]{opacity:.45;pointer-events:none}';
   (document.head||document.documentElement).appendChild(st);
@@ -12631,13 +12635,13 @@ setInterval(bindExports,500);
     var order=[];
     (sv.o||[]).forEach(function(k){if(by[k]&&order.indexOf(k)<0)order.push(k)});
     parts.forEach(function(p){if(order.indexOf(p.k)<0)order.push(p.k)});
-    var off={};(sv.x||[]).forEach(function(k){off[k]=1});
+    var off={},known={},defOff={};(sv.o||[]).forEach(function(k){known[k]=1});(sv.x||[]).forEach(function(k){off[k]=1});parts.forEach(function(p){if(p.off){defOff[p.k]=1;if(!known[p.k])off[p.k]=1}});
 
     var ov=document.createElement('div');ov.className='cplAskOv';ov.style.zIndex='2147483600';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
     ov.innerHTML='<div class="cplAskBox rpBox"><h3>'+esc(cfg.title||'بسته گزارش‌گیری')+'</h3>'+
       '<p>'+esc(cfg.sub||'')+(cfg.sub?' — ':'')+'مراحل مورد نیاز را تیک بزنید و با گرفتن دستگیره (⋮⋮) ترتیب آن‌ها را عوض کنید.</p>'+
       '<div class="rpTools"><span class="rpCnt"></span><span><button type="button" data-a="all">انتخاب همه</button> · <button type="button" data-a="none">هیچ‌کدام</button> · <button type="button" data-a="def">ترتیب پیش‌فرض</button></span></div>'+
-      '<div class="rpList" role="list"></div>'+
+      '<div class="rpList" role="list"></div>'+(cfg.cmp?'<label class="rpPrev"><input type="checkbox"'+(sv.p?' checked':'')+'><span>همراه با نسخه‌های قبلی (پیمانکار / مشاور)<small>فقط برای گزارش چاپی؛ اگر نسخه قبلی نباشد اثری ندارد</small></span></label>':'')+
       '<div class="cplAskBtns"><button type="button" class="btn primary rpRun" data-r="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn rpRun" data-r="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button><button type="button" class="btn" data-r="x">انصراف</button></div></div>';
     var list=ov.querySelector('.rpList'),cnt=ov.querySelector('.rpCnt');
 
@@ -12699,12 +12703,13 @@ setInterval(bindExports,500);
       var t=e.target.closest&&e.target.closest('button[data-a],button[data-r]');if(!t)return;
       var a=t.getAttribute('data-a'),r=t.getAttribute('data-r');
       if(a==='all'||a==='none'){rows().forEach(function(x){x.querySelector('input').checked=(a==='all')});refresh();return}
-      if(a==='def'){paint(parts.map(function(p){return p.k}),{});return}
+      if(a==='def'){paint(parts.map(function(p){return p.k}),defOff);return}
       if(r==='x'){close();return}
       if(r==='xls'||r==='pdf'){
         var s=state();if(!s.sel.length)return;
-        lsSet(sk,{o:s.o,x:s.x});close();
-        try{cfg.run(r,s.sel)}catch(err){console.error(err);alert('ساخت گزارش انجام نشد: '+(err&&err.message||err))}
+        var pv=ov.querySelector('.rpPrev input'),prev=!!(pv&&pv.checked);
+        lsSet(sk,{o:s.o,x:s.x,p:prev});close();
+        try{cfg.run(r,s.sel,{prev:cfg.cmp?prev:undefined})}catch(err){console.error(err);alert('ساخت گزارش انجام نشد: '+(err&&err.message||err))}
       }
     });
     ov._k=function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}};
@@ -13750,7 +13755,7 @@ window.__cplSig=function(){
       if(r&&Array.isArray(r.items)&&r.items.length)recs.push({v:x,rec:clone(r)});
     });
     if(recs.length<2)return thunk();
-    var want=await askCmp();
+    var want=(window.__cplCmpPre===true||window.__cplCmpPre===false)?window.__cplCmpPre:await askCmp();
     if(want===null)return;
     if(!want)return thunk();
     CMPBUSY=true;var outs=[];
@@ -14905,6 +14910,8 @@ window.__cplSig=function(){
     var stages=[];
     sel.forEach(function(k){
       if(PK_SPEC.hasOwnProperty(k)){var sp=specN(PK_SPEC[k]);stages.push({t:docTitle(sp.t+' صورت‌وضعیت'),b:tblHtml(sp,true),land:(sp.land&&!sp.finP)||0})}
+      else if(k==='tr'){trState();trPages().forEach(function(g){stages.push({t:g.t,b:g.b,land:0,d:g.d})})}
+      else if(k==='c76')stages.push({t:docTitle('بخشنامه 76574 صورت‌وضعیت'),b:c76Body(),land:1});
       else if(String(k).indexOf('min:')===0){var d=String(k).slice(4);stages.push({t:docTitle(TITLE_MIN),b:minBody(d),land:0,d:d})}
     });
     if(!stages.length)return;
@@ -15079,13 +15086,18 @@ window.__cplSig=function(){
     var s2=rows2.length?{t:'ردیف‌های دارای سهم از مازاد',title:'بخشنامه ۷۶۵۷۴ — ردیف‌های دارای سهم از مازاد',land:1,band:1,cols:['نوع فهرست بها','آیتم','شرح','مقدار برآوردی','مقدار فعلی','مبلغ افزایش','سهم مازاد','ضریب فصل مؤثر','وضعیت'],w:[12,14,50,14,14,18,16,14,24],rows:rows2}:null;
     return {s1:s1,s2:s2};
   }
+  function c76Sheets(){var sp=c76Specs(),sh=[specSheet(sp.s1)];if(sp.s2)sh.push(specSheet(sp.s2));return sh}
   function c76Xls(){
-    if(!cur)return;var sp=c76Specs(),sh=[specSheet(sp.s1)];if(sp.s2)sh.push(specSheet(sp.s2));
-    dlBlob(buildXlsxMulti(sh),fileName('بخشنامه 76574 صورت‌وضعیت','xlsx'));
+    if(!cur)return;
+    dlBlob(buildXlsxMulti(c76Sheets()),fileName('بخشنامه 76574 صورت‌وضعیت','xlsx'));
+  }
+  function c76Body(){
+    var sp=c76Specs();
+    return '<h3 style="margin:6px 0;font-size:16px;text-align:right">بخشنامه ۷۶۵۷۴</h3>'+tblHtml(sp.s1,true)+(sp.s2?'<h3 style="margin:18px 0 6px;font-size:16px;text-align:right">'+esc(sp.s2.t)+'</h3>'+tblHtml(sp.s2,true):'');
   }
   function c76Pdf(){
-    if(!cur)return;var sp=c76Specs();
-    var body='<h3 style="margin:6px 0;font-size:16px;text-align:right">بخشنامه ۷۶۵۷۴</h3>'+tblHtml(sp.s1,true)+(sp.s2?'<h3 style="margin:18px 0 6px;font-size:16px;text-align:right">'+esc(sp.s2.t)+'</h3>'+tblHtml(sp.s2,true):'');
+    if(!cur)return;
+    var body=c76Body();
     var h=pdfDoc(docTitle('بخشنامه 76574 صورت‌وضعیت'),body);h=h.replace('size:A4','size:A4 landscape');openPdf(h);
   }
   function openC76(){
@@ -15425,22 +15437,28 @@ window.__cplSig=function(){
   function packParts(){
     var p=[{k:'book',t:'دفترچه‌ها',s:'جمع انواع فهرست بها'},{k:'chap',t:'فصول',s:'جمع هر فصل با ضرایب'},{k:'fin',t:'برگه مالی',s:'آیتم‌ها با بهای واحد و ضرایب'}];
     minDiscs().forEach(function(d){p.push({k:'min:'+d,t:'ریزمتره — '+d,s:'برگه‌های متره آیتم‌های این نوع فهرست بها'})});
+    p.push({k:'tr',t:'محاسبات حمل',s:'برگه‌های مصرف مصالح و خلاصه حمل (فصل ۲۸)',off:true},{k:'c76',t:'بخشنامه ۷۶۵۷۴',s:'جدول فصول و ردیف‌های دارای سهم از مازاد',off:true});
     return p;
   }
-  function packDef(){return packParts().map(function(p){return p.k})}
+  function packDef(){return packParts().filter(function(p){return !p.off}).map(function(p){return p.k})}
   function xlsAll(sel){
     if(needItems())return;
     sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
     var shs=[];
-    sel.forEach(function(k){if(PK_SPEC.hasOwnProperty(k))shs.push(specSheet(specN(PK_SPEC[k])));else if(String(k).indexOf('min:')===0)shs.push(minSheet(String(k).slice(4)))});
+    sel.forEach(function(k){if(k==='tr'){trState();trSheets().forEach(function(x){shs.push(x)})}else if(k==='c76')c76Sheets().forEach(function(x){shs.push(x)});else if(PK_SPEC.hasOwnProperty(k))shs.push(specSheet(specN(PK_SPEC[k])));else if(String(k).indexOf('min:')===0)shs.push(minSheet(String(k).slice(4)))});
     if(!shs.length)return;
     dlBlob(buildXlsxMulti(shs),fileName('صورت‌وضعیت - همه مراحل','xlsx'));
   }
   function openPack(){
     if(!cur||needItems())return;
     if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
-    window.__cplRptPack.open({key:'st',title:'بسته گزارش‌گیری صورت‌وضعیت',sub:docTitle('صورت‌وضعیت'),parts:packParts(),
-      run:function(kind,sel){if(kind==='xls')cmpEntry(function(){xlsAll(sel)});else cmpEntry(function(){pdfAll(sel)})}});
+    window.__cplRptPack.open({key:'st',title:'بسته گزارش‌گیری صورت‌وضعیت',sub:docTitle('صورت‌وضعیت'),parts:packParts(),cmp:true,
+      run:function(kind,sel,o){
+        if((sel.indexOf('tr')>=0||sel.indexOf('c76')>=0)&&!window.__DATA_READY){say('فهرست بها هنوز بارگذاری نشده است؛ چند لحظه بعد دوباره تلاش کن.');return}
+        window.__cplCmpPre=o&&o.prev;
+        var r=(kind==='xls')?cmpEntry(function(){xlsAll(sel)}):cmpEntry(function(){pdfAll(sel)});
+        Promise.resolve(r).then(function(){window.__cplCmpPre=undefined},function(){window.__cplCmpPre=undefined});
+      }});
   }
   /* عدد با جداکننده هزارگان (ویرگول) — ورودی بهای واحد برگه مالی */
   function grpNum(s){var t=toEn(s).replace(/[٬,،\s]/g,'').replace(/٫/g,'.').replace(/[^\d.\-]/g,'');var ng=t.charAt(0)==='-';t=t.replace(/-/g,'');
@@ -15762,7 +15780,7 @@ window.__cplSig=function(){
     say(sel.length?('ردیف‌های حمل ('+fmt(sel.length)+' گروه مصالح، '+fk(trTotal(sel),2)+' تن‌کیلومتر) '+(olds.length?'به‌روزرسانی شد':'به ریزمتره اضافه شد')):'ردیف‌های حمل قبلی حذف شد.');
   }
 
-  function trExcel(){
+  function trSheets(){
     var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists,t),sel=trSelected(full,t),tonkm=trTotal(sel);
     var pr=trPricing(t,full,sel),amt=pr.reduce(function(a,x){return a+x.amt},0),shs=[],used={};
     function nm(s){s=String(s).replace(/[\\\/\?\*\[\]:]/g,' ').slice(0,28);var b=s,k=2;while(used[s])s=b.slice(0,26)+' '+(k++);used[s]=1;return s}
@@ -15779,9 +15797,10 @@ window.__cplSig=function(){
         rows:g.lines.map(function(l,i){return [i+1,String(l.code),String(l.it.desc||''),l.it.unit||'',l.k[1]==null?'':l.k[1],l.k[2]==null?'':l.k[2],l.k[3]==null?'':l.k[3],l.k[4]==null?'':l.k[4],l.k[0],l.q,l.c]}),
         foot:['جمع '+g.title+' مصرفی (تن)','','','','','','','','','',g.sum]}));
     });
-    dlBlob(buildXlsxMulti(shs),fileName('محاسبات حمل صورت‌وضعیت','xlsx'));
+    return shs;
   }
-  function trPrint(){
+  function trExcel(){dlBlob(buildXlsxMulti(trSheets()),fileName('محاسبات حمل صورت‌وضعیت','xlsx'))}
+  function trPages(){
     var t=cur.tr,full=trCompute(t.year,t.dist,cur.items,t.dists,t),eff=full.eff,sel=trSelected(full,t),tonkm=trTotal(sel);
     var pr=trPricing(t,full,sel),amt=pr.reduce(function(a,x){return a+x.amt},0);
     var meta=esc(metaLine()).replace(/ {3,}/g,' — ');
@@ -15802,6 +15821,10 @@ window.__cplSig=function(){
       pr.map(function(x){var g=x.g;return '<tr><td class="r">'+esc(g.label)+'</td><td>'+fk(g.sum,3)+'</td><td>'+fk(g.dist)+'</td><td>'+fk(g.eff)+'</td><td>'+fk(g.tk,2)+'</td><td>'+(x.rec?esc(faD(toEn(String(x.rec.code).replace(/\*$/,'')))):'—')+'</td><td>'+(x.rec?fk(x.price,0):'—')+'</td><td>'+fk(x.amt,0)+'</td></tr>'}).join('')+
       '<tr class="tot"><td>جمع</td><td></td><td></td><td></td><td>'+fk(tonkm,2)+'</td><td></td><td></td><td>'+fk(amt,0)+'</td></tr></tbody></table>'+
       '<table><tbody><tr><th style="width:30%">مسافت قابل محاسبه</th><td>پس از کسر ۳۰ کیلومتر برای هر مصالح</td></tr><tr><th>سال فهرست بها</th><td>'+faD(full.year)+'</td></tr><tr class="tot"><th>مبلغ حمل</th><td>'+fk(amt,0)+' ریال</td></tr></tbody></table>'});
+    return pages;
+  }
+  function trPrint(){
+    var pages=trPages();
     var body=pages.map(function(g,i){return '<div class="pgS'+(i?' pgBrk':'')+'">'+stPgWrap(g.t,g.b,g.d)+'</div>'}).join('');
     openPdf(pdfDoc(docTitle('محاسبات حمل صورت‌وضعیت'),body,true));
   }
