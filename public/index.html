@@ -12504,21 +12504,32 @@ setInterval(bindExports,500);
 
   /* گزارش کل صورت‌مجلس: روکش + ریزمتره */
   var TITLE_ALL='گزارش کل صورت‌مجلس';
-  function xlsAll(){
+  function packIco(){return window.__cplRptPack?window.__cplRptPack.ICO:''}
+  /* ---- بسته گزارش‌گیری صورت‌مجلس: روکش / ریزمتره به ترتیب انتخابی ---- */
+  function packParts(){return [{k:'cover',t:'روکش صورت‌مجلس',s:'فهرست آیتم‌ها و مقدار کل هر کدام'},{k:'min',t:'ریزمتره صورت‌مجلس',s:'برگه‌های متره آیتم‌ها'}]}
+  function packDef(){return packParts().map(function(p){return p.k})}
+  function xlsAll(sel){
     if(needItems())return;
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
     var cap;window.__mnCap=[];
-    try{xlsCover();xlsMin()}finally{cap=window.__mnCap;window.__mnCap=null}
-    if(!cap||cap.length<2)return;
+    try{sel.forEach(function(k){if(k==='cover')xlsCover();else if(k==='min')xlsMin()})}finally{cap=window.__mnCap;window.__mnCap=null}
+    if(!cap||!cap.length)return;
     dlBlob(buildXlsxMulti(cap),fileName(TITLE_ALL,'xlsx'));
   }
-  function pdfAll(){
+  function pdfAll(sel){
     if(needItems())return;
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
     var cap;window.__mnPdfCap=[];
-    try{pdfCover();pdfMin()}finally{cap=window.__mnPdfCap;window.__mnPdfCap=null}
-    if(!cap||cap.length<2)return;
-    var body=cap[0][1]+
-      '<div class="pgBrk">'+cap[1][1]+'</div>';
+    try{sel.forEach(function(k){if(k==='cover')pdfCover();else if(k==='min')pdfMin()})}finally{cap=window.__mnPdfCap;window.__mnPdfCap=null}
+    if(!cap||!cap.length)return;
+    var body=cap.map(function(c,i){return i?'<div class="pgBrk">'+c[1]+'</div>':c[1]}).join('');
     openPdf(pdfDoc(docTitle(TITLE_ALL),body,true));
+  }
+  function openPack(){
+    if(!cur||needItems())return;
+    if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
+    window.__cplRptPack.open({key:'mn',title:'بسته گزارش‌گیری صورت‌مجلس',sub:docTitle('صورت‌مجلس'),parts:packParts(),
+      run:function(kind,sel){if(kind==='xls')cmpEntry(function(){xlsAll(sel)});else cmpEntry(function(){pdfAll(sel)})}});
   }
 
   /* گزارش چاپی روکش همه صورت‌مجالس (هر صورت‌مجلس یک بخش) — recs: [{rec,ctx}] */
@@ -12551,7 +12562,7 @@ setInterval(bindExports,500);
   function openCover(){
     if(!cur||needItems())return;
     shell('mnCover',
-      '<div class="mnHead"><b>'+esc(docTitle('صورت‌مجلس')+' — '+TITLE_COV)+'</b><div class="mnBtns">'+iconBtns('mnCov',true)+'<button type="button" class="btn mnTextBtn" id="mnCovAllXls" title="گزارش اکسل صورت‌مجلس (روکش + ریزمتره)" aria-label="گزارش اکسل صورت‌مجلس (روکش + ریزمتره)">'+ICO_XLS+'<span>کل</span></button><button type="button" class="btn mnTextBtn" id="mnCovAllPdf" title="گزارش چاپی صورت‌مجلس (روکش + ریزمتره)" aria-label="گزارش چاپی صورت‌مجلس (روکش + ریزمتره)">'+ICO_PDF+'<span>کل</span></button><button type="button" class="btn mnTextBtn" id="mnCovBack">→ مرحله قبل</button></div></div>'+
+      '<div class="mnHead"><b>'+esc(docTitle('صورت‌مجلس')+' — '+TITLE_COV)+'</b><div class="mnBtns">'+iconBtns('mnCov',true)+'<button type="button" class="btn mnTextBtn" id="mnCovPack" title="بسته گزارش‌گیری صورت‌مجلس — انتخاب مراحل، ترتیب و خروجی اکسل / چاپی" aria-label="بسته گزارش‌گیری صورت‌مجلس">'+packIco()+'<span>بسته گزارش‌گیری صورت‌مجلس</span></button><button type="button" class="btn mnTextBtn" id="mnCovBack">→ مرحله قبل</button></div></div>'+
       '<div class="mnSortBar"><span class="mnMuted" style="margin-left:auto">'+esc(docName()||'بدون عنوان')+' — سال فهرست بها '+esc(toEn(cur.year||''))+'</span><span class="mnSortField"><button type="button" class="btn mnSortBtn" data-sel="mnCovSort" title="ترتیب نمایش" aria-label="ترتیب نمایش"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3.5-3.5M7 20l3.5-3.5"/><path d="M17 20V4M17 4l-3.5 3.5M17 4l3.5 3.5"/></svg></button><select id="mnCovSort" hidden><option value="added">ترتیب افزودن — نزولی</option><option value="added_asc">ترتیب افزودن — صعودی</option><option value="code">شماره آیتم</option></select></span></div>'+
       '<div class="mnTableWrap"><table class="mnCovTable"><thead><tr><th>نوع فهرست بها</th><th>شماره آیتم</th><th>شرح ردیف</th><th>مقدار</th><th>واحد</th></tr></thead><tbody id="mnCovBody"></tbody></table></div>');
     [['mnCovXls','گزارش اکسل روکش'],['mnCovPdf','گزارش چاپی روکش']].forEach(function(x){var b=$(x[0]);if(b){b.title=x[1];b.setAttribute('aria-label',x[1])}});
@@ -12564,13 +12575,147 @@ setInterval(bindExports,500);
     $('mnCovSave').addEventListener('click',save);
     $('mnCovPdf').addEventListener('click',function(){cmpEntry(function(){pdfCover()})});
     $('mnCovXls').addEventListener('click',function(){cmpEntry(function(){xlsCover()})});
-    $('mnCovAllPdf').addEventListener('click',function(){cmpEntry(function(){pdfAll()})});$('mnCovAllXls').addEventListener('click',function(){cmpEntry(function(){xlsAll()})});
+    $('mnCovPack').addEventListener('click',openPack);
   }
 
   window.__cplWfKit={shell:shell,closeShell:closeShell,say:say,esc:esc,faDig:faDig,toEn:toEn,buildXlsx:buildXlsx,prjRow:prjRow,pdfDoc:pdfDoc,openPdf:openPdf,nowFa:nowFa,dlBlob:dlBlob,safeFile:safeFile,iconBtns:iconBtns,ICO_SAVE:ICO_SAVE,confirm:wfConfirm};
   document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var d=$('mnDescModal');if(d){d._close&&d._close();return}if($('mnCover')){closeShell('mnCover');return}if($('mnEditor')&&!$('mnListModal')){closeEditor()}});
 })();
 </script>
+<script id="cpl-rptpack-js">
+(function(){
+  'use strict';
+  /* بسته گزارش‌گیری: انتخاب مراحل + ترتیب (درگ‌ودراپ) + خروجی اکسل / چاپی — مشترک بین صورت‌وضعیت، صورت‌مجلس، هزینه-درآمد */
+  var SV='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+  var ICO_PACK=SV+'<path d="M12 3 3 7.5 12 12l9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5 12 21l9-4.5"/></svg>';
+  var ICO_GRIP='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
+  var ICO_XLS='<svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#1a7f4e"></path><path d="M14 2v5h5" fill="#146840"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle">XLS</text></svg>';
+  var ICO_PDF='<svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V3.5A1.5 1.5 0 0 1 6.5 2z" fill="#d9342b"></path><path d="M14 2v5h5" fill="#ac2a23"></path><text x="12.5" y="17.5" font-family="Arial,Helvetica,sans-serif" font-size="6.6" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg>';
+  var FA='۰۱۲۳۴۵۶۷۸۹';
+  function fa(n){return String(n).replace(/\d/g,function(d){return FA[+d]})}
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+  function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+  var st=document.createElement('style');
+  st.textContent=
+  '.rpBox{width:min(520px,100%)!important;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);display:flex;flex-direction:column}'+
+  '.rpBox p{margin:0 0 10px!important}'+
+  '.rpTools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;margin:0 0 8px;font-size:var(--fs-small,13px);opacity:.9}'+
+  '.rpCnt{white-space:nowrap}.rpTools button{background:none;border:0;color:inherit;cursor:pointer;text-decoration:underline;font:inherit;padding:4px 2px}'+
+  '.rpList{overflow:auto;display:flex;flex-direction:column;gap:6px;margin:0 0 14px;padding:2px;min-height:0;overscroll-behavior:contain}'+
+  '.rpRow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--c5,#393939);border-radius:12px;background:rgba(127,127,127,.10);user-select:none;-webkit-user-select:none}'+
+  '.rpRow.rpOff{opacity:.55}'+
+  '.rpRow.rpDrag{opacity:1;position:relative;z-index:2;box-shadow:0 8px 24px rgba(0,0,0,.45);border-color:var(--c2,#f2f2f2);background:rgba(127,127,127,.22)}'+
+  '.rpNum{flex:0 0 auto;min-width:22px;text-align:center;font-size:13px;opacity:.65}'+
+  '.rpLbl{flex:1;min-width:0;display:flex;align-items:center;gap:10px;cursor:pointer}'+
+  '.rpLbl input{width:20px;height:20px;flex:0 0 auto;margin:0;cursor:pointer}'+
+  '.rpTxt{min-width:0;line-height:1.6}'+
+  '.rpTxt small{display:block;opacity:.65;font-size:12px}'+
+  '.rpHandle{flex:0 0 auto;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:inherit;cursor:grab;touch-action:none;border-radius:8px;opacity:.8;padding:0}'+
+  '.rpHandle:focus-visible{outline:2px solid currentColor}'+
+  '.rpDragging,.rpDragging *{cursor:grabbing!important}'+
+  'html body .cplAskBtns .btn.rpRun{display:inline-flex;align-items:center;gap:8px}'+
+  'html body .cplAskBtns .btn.rpRun[disabled]{opacity:.45;pointer-events:none}';
+  (document.head||document.documentElement).appendChild(st);
+
+  var openOv=null;
+  function close(){if(!openOv)return;var o=openOv;openOv=null;document.removeEventListener('keydown',o._k,true);o.remove()}
+
+  /* cfg: {key,title,sub,parts:[{k,t,s}],run:function(kind,selKeys)} */
+  function open(cfg){
+    close();
+    var parts=cfg.parts||[];if(!parts.length)return;
+    var sk='cplRptPack:'+(cfg.key||'x'),sv=lsGet(sk)||{},by={};
+    parts.forEach(function(p){by[p.k]=p});
+    var order=[];
+    (sv.o||[]).forEach(function(k){if(by[k]&&order.indexOf(k)<0)order.push(k)});
+    parts.forEach(function(p){if(order.indexOf(p.k)<0)order.push(p.k)});
+    var off={};(sv.x||[]).forEach(function(k){off[k]=1});
+
+    var ov=document.createElement('div');ov.className='cplAskOv';ov.style.zIndex='2147483600';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+    ov.innerHTML='<div class="cplAskBox rpBox"><h3>'+esc(cfg.title||'بسته گزارش‌گیری')+'</h3>'+
+      '<p>'+esc(cfg.sub||'')+(cfg.sub?' — ':'')+'مراحل مورد نیاز را تیک بزنید و با گرفتن دستگیره (⋮⋮) ترتیب آن‌ها را عوض کنید.</p>'+
+      '<div class="rpTools"><span class="rpCnt"></span><span><button type="button" data-a="all">انتخاب همه</button> · <button type="button" data-a="none">هیچ‌کدام</button> · <button type="button" data-a="def">ترتیب پیش‌فرض</button></span></div>'+
+      '<div class="rpList" role="list"></div>'+
+      '<div class="cplAskBtns"><button type="button" class="btn primary rpRun" data-r="xls">'+ICO_XLS+'<span>گزارش اکسل</span></button><button type="button" class="btn rpRun" data-r="pdf">'+ICO_PDF+'<span>گزارش چاپی</span></button><button type="button" class="btn" data-r="x">انصراف</button></div></div>';
+    var list=ov.querySelector('.rpList'),cnt=ov.querySelector('.rpCnt');
+
+    function rowHtml(p,on){
+      return '<div class="rpRow'+(on?'':' rpOff')+'" role="listitem" data-k="'+esc(p.k)+'"><span class="rpNum"></span>'+
+        '<label class="rpLbl"><input type="checkbox"'+(on?' checked':'')+'><span class="rpTxt">'+esc(p.t)+(p.s?'<small>'+esc(p.s)+'</small>':'')+'</span></label>'+
+        '<button type="button" class="rpHandle" aria-label="جابجایی «'+esc(p.t)+'» — با کلیدهای بالا و پایین" title="بکشید تا ترتیب عوض شود">'+ICO_GRIP+'</button></div>';
+    }
+    function paint(ord,offMap){list.innerHTML=ord.map(function(k){return rowHtml(by[k],!offMap[k])}).join('');refresh()}
+    function rows(){return [].slice.call(list.children)}
+    function refresh(){
+      var n=0,t=0;
+      rows().forEach(function(r,i){
+        r.querySelector('.rpNum').textContent=fa(i+1);
+        var on=r.querySelector('input').checked;r.classList.toggle('rpOff',!on);t++;if(on)n++;
+      });
+      cnt.textContent=fa(n)+' از '+fa(t)+' مرحله انتخاب شده';
+      [].forEach.call(ov.querySelectorAll('.rpRun[data-r]'),function(b){b.disabled=!n});
+    }
+    function state(){
+      var o=[],x=[],sel=[];
+      rows().forEach(function(r){var k=r.getAttribute('data-k');o.push(k);if(r.querySelector('input').checked)sel.push(k);else x.push(k)});
+      return {o:o,x:x,sel:sel};
+    }
+    paint(order,off);
+
+    list.addEventListener('change',refresh);
+
+    /* درگ‌ودراپ (ماوس و لمس) */
+    list.addEventListener('pointerdown',function(e){
+      var h=e.target.closest&&e.target.closest('.rpHandle');if(!h||(e.button!=null&&e.button>0))return;
+      var row=h.closest('.rpRow');e.preventDefault();
+      try{list.setPointerCapture(e.pointerId)}catch(_){}
+      row.classList.add('rpDrag');document.body.classList.add('rpDragging');
+      function mv(ev){
+        var y=ev.clientY,sibs=rows().filter(function(r){return r!==row}),before=null;
+        for(var i=0;i<sibs.length;i++){var b=sibs[i].getBoundingClientRect();if(y<b.top+b.height/2){before=sibs[i];break}}
+        if(before){if(row.nextSibling!==before)list.insertBefore(row,before)}else if(list.lastChild!==row)list.appendChild(row);
+        var lr=list.getBoundingClientRect();if(y<lr.top+28)list.scrollTop-=14;else if(y>lr.bottom-28)list.scrollTop+=14;
+        refresh();
+      }
+      function up(ev){
+        list.removeEventListener('pointermove',mv);list.removeEventListener('pointerup',up);list.removeEventListener('pointercancel',up);
+        try{list.releasePointerCapture(ev.pointerId)}catch(_){}
+        row.classList.remove('rpDrag');document.body.classList.remove('rpDragging');refresh();
+      }
+      list.addEventListener('pointermove',mv);list.addEventListener('pointerup',up);list.addEventListener('pointercancel',up);
+    });
+    /* جابجایی با کیبورد */
+    list.addEventListener('keydown',function(e){
+      var h=e.target.closest&&e.target.closest('.rpHandle');if(!h)return;
+      var row=h.closest('.rpRow');
+      if(e.key==='ArrowUp'&&row.previousElementSibling){e.preventDefault();list.insertBefore(row,row.previousElementSibling);h.focus();refresh()}
+      else if(e.key==='ArrowDown'&&row.nextElementSibling){e.preventDefault();list.insertBefore(row.nextElementSibling,row);h.focus();refresh()}
+    });
+
+    ov.addEventListener('click',function(e){
+      if(e.target===ov){close();return}
+      var t=e.target.closest&&e.target.closest('button[data-a],button[data-r]');if(!t)return;
+      var a=t.getAttribute('data-a'),r=t.getAttribute('data-r');
+      if(a==='all'||a==='none'){rows().forEach(function(x){x.querySelector('input').checked=(a==='all')});refresh();return}
+      if(a==='def'){paint(parts.map(function(p){return p.k}),{});return}
+      if(r==='x'){close();return}
+      if(r==='xls'||r==='pdf'){
+        var s=state();if(!s.sel.length)return;
+        lsSet(sk,{o:s.o,x:s.x});close();
+        try{cfg.run(r,s.sel)}catch(err){console.error(err);alert('ساخت گزارش انجام نشد: '+(err&&err.message||err))}
+      }
+    });
+    ov._k=function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}};
+    document.addEventListener('keydown',ov._k,true);
+    document.body.appendChild(ov);openOv=ov;
+    var f=ov.querySelector('.rpRun[data-r="xls"]');if(f)f.focus();
+  }
+  window.__cplRptPack={open:open,close:close,ICO:ICO_PACK};
+})();
+</script>
+
 <script id="cpl-wf-js">
 (function(){
   'use strict';
@@ -14754,11 +14899,15 @@ window.__cplSig=function(){
     }).join('');
   }
   function pdfMin(){if(needItems())return;var t=docTitle(TITLE_MIN),b=minDiscs().map(function(d,i){return '<div class="pgS'+(i?' pgBrk':'')+'">'+stPgWrap(t,minBody(d),d)+'</div>'}).join('');openPdf(pdfDoc(t,b,true))}
-  function pdfAll(){
+  function pdfAll(sel){
     if(needItems())return;
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
     var stages=[];
-    [2,1,0].forEach(function(s){var sp=specN(s);stages.push({t:docTitle(sp.t+' صورت‌وضعیت'),b:tblHtml(sp,true),land:(sp.land&&!sp.finP)||0})});
-    minDiscs().forEach(function(d){stages.push({t:docTitle(TITLE_MIN),b:minBody(d),land:0,d:d})});
+    sel.forEach(function(k){
+      if(PK_SPEC.hasOwnProperty(k)){var sp=specN(PK_SPEC[k]);stages.push({t:docTitle(sp.t+' صورت‌وضعیت'),b:tblHtml(sp,true),land:(sp.land&&!sp.finP)||0})}
+      else if(String(k).indexOf('min:')===0){var d=String(k).slice(4);stages.push({t:docTitle(TITLE_MIN),b:minBody(d),land:0,d:d})}
+    });
+    if(!stages.length)return;
     var meta=esc(metaLine()).replace(/ {3,}/g,' — ');
     var body=stages.map(function(g,i){return '<div class="pgS'+(g.land?' pgL':'')+(i?' pgBrk':'')+'">'+stPgWrap(g.t,g.b,g.d)+'</div>'}).join('');
     openPdf(pdfDoc(docTitle('صورت‌وضعیت')+' - همه مراحل',body,true));
@@ -15270,9 +15419,28 @@ window.__cplSig=function(){
     return {name:sp.t,rows:rows,widths:sp.w,merges:mg,land:sp.land};
   }
   function xlsSpec(sp){var sh=[specSheet(sp)];dlBlob(buildXlsxMulti(sh),fileName(sp.t+' صورت‌وضعیت','xlsx'))}
-  function xlsAll(){
+  function packIco(){return window.__cplRptPack?window.__cplRptPack.ICO:''}
+  /* ---- بسته گزارش‌گیری صورت‌وضعیت: مراحل قابل انتخاب و مرتب‌سازی ---- */
+  var PK_SPEC={book:2,chap:1,fin:0};
+  function packParts(){
+    var p=[{k:'book',t:'دفترچه‌ها',s:'جمع انواع فهرست بها'},{k:'chap',t:'فصول',s:'جمع هر فصل با ضرایب'},{k:'fin',t:'برگه مالی',s:'آیتم‌ها با بهای واحد و ضرایب'}];
+    minDiscs().forEach(function(d){p.push({k:'min:'+d,t:'ریزمتره — '+d,s:'برگه‌های متره آیتم‌های این نوع فهرست بها'})});
+    return p;
+  }
+  function packDef(){return packParts().map(function(p){return p.k})}
+  function xlsAll(sel){
     if(needItems())return;
-    var shs=[specSheet(specN(2))];shs.push(specSheet(specN(1)),specSheet(specN(0)));minDiscs().forEach(function(d){shs.push(minSheet(d))});dlBlob(buildXlsxMulti(shs),fileName('صورت‌وضعیت - همه مراحل','xlsx'));
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
+    var shs=[];
+    sel.forEach(function(k){if(PK_SPEC.hasOwnProperty(k))shs.push(specSheet(specN(PK_SPEC[k])));else if(String(k).indexOf('min:')===0)shs.push(minSheet(String(k).slice(4)))});
+    if(!shs.length)return;
+    dlBlob(buildXlsxMulti(shs),fileName('صورت‌وضعیت - همه مراحل','xlsx'));
+  }
+  function openPack(){
+    if(!cur||needItems())return;
+    if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
+    window.__cplRptPack.open({key:'st',title:'بسته گزارش‌گیری صورت‌وضعیت',sub:docTitle('صورت‌وضعیت'),parts:packParts(),
+      run:function(kind,sel){if(kind==='xls')cmpEntry(function(){xlsAll(sel)});else cmpEntry(function(){pdfAll(sel)})}});
   }
   /* عدد با جداکننده هزارگان (ویرگول) — ورودی بهای واحد برگه مالی */
   function grpNum(s){var t=toEn(s).replace(/[٬,،\s]/g,'').replace(/٫/g,'.').replace(/[^\d.\-]/g,'');var ng=t.charAt(0)==='-';t=t.replace(/-/g,'');
@@ -15643,8 +15811,8 @@ window.__cplSig=function(){
   var step=0;
   function openCover(){
     if(!cur||needItems())return;step=0;
-    shell('stCover','<div class="mnHead"><b id="stfTitle"></b><div class="mnBtns">'+ICO_HOME_BTN+iconBtns('stf',true)+'<button type="button" class="btn mnTextBtn" id="stfEst" title="ورود برآورد از اکسل — مقدار برآورد آیتم‌های برگه مالی" aria-label="ورود برآورد"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود برآورد</span></button><button type="button" class="btn mnTextBtn" id="stfEstView" title="مشاهده برآوردهای واردشده" aria-label="مشاهده برآورد">'+C76_SV+'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>مشاهده برآورد</span></button><button type="button" class="btn mnTextBtn stHid" id="stfAllXls" title="گزارش اکسل کل مراحل — جمع انواع فهرست بها تا ریزمتره (هر مرحله در یک شیت)" aria-label="گزارش اکسل صورت‌وضعیت">'+ICO_XLS+'<span>صورت‌وضعیت</span></button><button type="button" class="btn mnTextBtn stHid" id="stfAllPdf" title="گزارش چاپی کل مراحل — جمع انواع فهرست بها تا ریزمتره (هر مرحله در یک صفحه)" aria-label="گزارش چاپی صورت‌وضعیت">'+ICO_PDF+'<span>صورت‌وضعیت</span></button><button type="button" class="btn mnTextBtn" id="stfNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="stfBack">→ مرحله قبل</button></div></div><div class="mnSortBar" style="justify-content:flex-start"><span class="mnMuted" id="stfSub"></span></div><div id="stfBar"></div><div class="mnTableWrap" id="stfBody"></div>');
-    $('stfHome').onclick=function(){closeShell('stCover')};$('stfEst').onclick=openEst;$('stfEstView').onclick=openC76Est;$('stfSave').onclick=save;$('stfXls').onclick=function(){cmpEntry(function(){xlsSpec(specN(step))})};$('stfPdf').onclick=function(){cmpEntry(function(){pdfSpec(specN(step))})};$('stfAllPdf').onclick=function(){cmpEntry(function(){pdfAll()})};$('stfAllXls').onclick=function(){cmpEntry(function(){xlsAll()})};
+    shell('stCover','<div class="mnHead"><b id="stfTitle"></b><div class="mnBtns">'+ICO_HOME_BTN+iconBtns('stf',true)+'<button type="button" class="btn mnTextBtn" id="stfEst" title="ورود برآورد از اکسل — مقدار برآورد آیتم‌های برگه مالی" aria-label="ورود برآورد"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span>ورود برآورد</span></button><button type="button" class="btn mnTextBtn" id="stfEstView" title="مشاهده برآوردهای واردشده" aria-label="مشاهده برآورد">'+C76_SV+'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>مشاهده برآورد</span></button><button type="button" class="btn mnTextBtn stHid" id="stfPack" title="بسته گزارش‌گیری صورت‌وضعیت — انتخاب مراحل، ترتیب و خروجی اکسل / چاپی" aria-label="بسته گزارش‌گیری صورت‌وضعیت">'+packIco()+'<span>بسته گزارش‌گیری صورت‌وضعیت</span></button><button type="button" class="btn mnTextBtn" id="stfNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="stfBack">→ مرحله قبل</button></div></div><div class="mnSortBar" style="justify-content:flex-start"><span class="mnMuted" id="stfSub"></span></div><div id="stfBar"></div><div class="mnTableWrap" id="stfBody"></div>');
+    $('stfHome').onclick=function(){closeShell('stCover')};$('stfEst').onclick=openEst;$('stfEstView').onclick=openC76Est;$('stfSave').onclick=save;$('stfXls').onclick=function(){cmpEntry(function(){xlsSpec(specN(step))})};$('stfPdf').onclick=function(){cmpEntry(function(){pdfSpec(specN(step))})};$('stfPack').onclick=openPack;
     $('stfNext').onclick=function(){if(step<2){step++;renderFlow()}};
     $('stfBack').onclick=function(){if(step>0){step--;renderFlow()}else closeShell('stCover')};
     renderFlow();
@@ -15655,7 +15823,7 @@ window.__cplSig=function(){
     (function(){var nm=['برگه مالی','فصول','دفترچه‌ها'][step];if(!nm)return;
       [['stfXls','گزارش اکسل '],['stfPdf','گزارش چاپی ']].forEach(function(x){var bt=$(x[0]);if(!bt)return;var t=x[1]+nm;bt.title=t;bt.setAttribute('aria-label',t);var l=bt.querySelector('.mnMenuLbl');if(l)l.textContent=t})})();
     $('stfSub').textContent='سال فهرست بها '+toEn(cur.year||'')+(cur.workDate?' — دوره کارکرد '+faD(toEn(cur.workDate)):'');
-    $('stfNext').classList.toggle('stHid',step>=2);$('stfEst').classList.toggle('stHid',step!==0);$('stfEstView').classList.toggle('stHid',step!==0);$('stfAllPdf').classList.toggle('stHid',step!==2);$('stfAllXls').classList.toggle('stHid',step!==2);
+    $('stfNext').classList.toggle('stHid',step>=2);$('stfEst').classList.toggle('stHid',step!==0);$('stfEstView').classList.toggle('stHid',step!==0);$('stfPack').classList.toggle('stHid',step!==2);
     var br=$('stfBar');if(br)br.innerHTML=c76Bar(step);b.innerHTML=tblHtml(sp);
     var mo=$('stMode');if(mo){mo.value=chMode();mo.onchange=function(){cur.chMode=mo.value==='wc'?'wc':'net';dirty=true;renderFlow()}}
     var c76b=$('stfC76');if(c76b)c76b.onclick=openC76;
@@ -17208,11 +17376,15 @@ window.__cplSig=function(){
     }).join('');
   }
   function pdfMin(){if(needItems())return;var t=docTitle(TITLE_MIN);openPdf(pdfDoc(t,'<style>.rptWrap{width:100%;table-layout:fixed;border-collapse:collapse;margin:0!important}.rptWrap>thead{display:table-header-group}.rptWrap>thead>tr>td,.rptWrap>tbody>tr>td{border:0!important;background:none!important;padding:0!important;text-align:right;vertical-align:top}.rptWrap>thead>tr,.rptWrap>tbody>tr{page-break-inside:auto!important;break-inside:auto!important}</style><table class="rptWrap"><thead><tr><td>'+prjHtml()+'<h1>'+esc(t)+'</h1><div class="meta">'+esc(metaLine()).replace(/ {3,}/g,' — ')+'</div></td></tr></thead><tbody><tr><td>'+minBody()+'</td></tr></tbody></table>',true))}
-  function pdfAll(){
+  function pdfAll(sel){
     if(needItems())return;
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
     var stages=[];
-    [4,3,0].forEach(function(s){var sp=specN(s);stages.push({t:docTitle(sp.t),b:tblHtml(sp,true),land:sp.land})});
-    stages.push({t:docTitle(TITLE_MIN),b:minBody(),land:0});
+    sel.forEach(function(k){
+      if(PK_SPEC.hasOwnProperty(k)){var sp=specN(PK_SPEC[k]);stages.push({t:docTitle(sp.t),b:tblHtml(sp,true),land:sp.land})}
+      else if(k==='min')stages.push({t:docTitle(TITLE_MIN),b:minBody(),land:0});
+    });
+    if(!stages.length)return;
     var meta=esc(metaLine()).replace(/ {3,}/g,' — ');
     var body=stages.map(function(g,i){return '<div class="pgS'+(g.land?' pgL':'')+(i?' pgBrk':'')+'">'+prjHtml()+'<h1>'+esc(g.t)+'</h1><div class="meta">'+meta+'</div>'+g.b+'</div>'}).join('');
     openPdf(pdfDoc(docTitle('هزینه-درآمد')+' - همه مراحل',body,true));
@@ -17277,9 +17449,24 @@ window.__cplSig=function(){
     return {name:sp.t,rows:rows,widths:sp.w,merges:mg,land:sp.land};
   }
   function xlsSpec(sp){dlBlob(buildXlsxMulti([specSheet(sp)]),fileName(sp.t,'xlsx'))}
-  function xlsAll(){
+  function packIco(){return window.__cplRptPack?window.__cplRptPack.ICO:''}
+  /* ---- بسته گزارش‌گیری هزینه-درآمد ---- */
+  var PK_SPEC={adj:4,adjit:3,fin:0};
+  function packParts(){return [{k:'adj',t:'مجموع آیتم‌ها و تعدیل',s:'جمع انواع فهرست بها پس از تعدیل'},{k:'adjit',t:'تعدیل آیتم‌ها',s:'تعدیل هر آیتم'},{k:'fin',t:'برگه مالی',s:'آیتم‌ها با بهای واحد و ضرایب'},{k:'min',t:'ریزمتره',s:'برگه‌های متره آیتم‌ها'}]}
+  function packDef(){return packParts().map(function(p){return p.k})}
+  function xlsAll(sel){
     if(needItems())return;
-    dlBlob(buildXlsxMulti([specSheet(specN(4)),specSheet(specN(3)),specSheet(specN(0)),minSheet()]),fileName('هزینه-درآمد - همه مراحل','xlsx'));
+    sel=(Array.isArray(sel)&&sel.length)?sel:packDef();
+    var shs=[];
+    sel.forEach(function(k){if(PK_SPEC.hasOwnProperty(k))shs.push(specSheet(specN(PK_SPEC[k])));else if(k==='min')shs.push(minSheet())});
+    if(!shs.length)return;
+    dlBlob(buildXlsxMulti(shs),fileName('هزینه-درآمد - همه مراحل','xlsx'));
+  }
+  function openPack(){
+    if(!cur||needItems())return;
+    if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
+    window.__cplRptPack.open({key:'ci',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'هزینه-درآمد',parts:packParts(),
+      run:function(kind,sel){if(kind==='xls')xlsAll(sel);else pdfAll(sel)}});
   }
   var ANA_CSS='<style>.anaS{margin-top:7px;page-break-inside:avoid}.anaS h3{margin:0;padding:4px 6px;background:#e6e6e6;border:1px solid #555;text-align:right;font-size:14px}.anaS table{width:100%;border-collapse:collapse;table-layout:fixed;margin:0}.anaS th,.anaS td{border:1px solid #555;padding:3px 4px;text-align:center;line-height:1.15}.anaS th{background:#f0f0f0;font-weight:bold}.anaS td.nm{text-align:right;width:36%}.anaS tfoot td{font-weight:bold;background:#f0f0f0}.anaGrand{margin-top:9px;border:2px solid #333;padding:7px;text-align:center;font-size:14px;font-weight:bold}</style>';
   function anaDec(v){return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:4}).format(Number(v)||0)}
@@ -17325,8 +17512,8 @@ window.__cplSig=function(){
   }
   function openCover(){
     if(!cur||needItems())return;step=0;
-    shell('ciCover','<div class="mnHead"><b id="cifTitle"></b><div class="mnBtns">'+ICO_HOME_BTN+iconBtns('cif',true)+'<button type="button" class="btn mnTextBtn stHid" id="cifAllXls" title="گزارش اکسل کل مراحل — جمع انواع فهرست بها تا ریزمتره (هر مرحله در یک شیت)" aria-label="گزارش اکسل هزینه-درآمد">'+ICO_XLS+'<span>هزینه-درآمد</span></button><button type="button" class="btn mnTextBtn stHid" id="cifAllPdf" title="گزارش چاپی کل مراحل — جمع انواع فهرست بها تا ریزمتره (هر مرحله در یک صفحه)" aria-label="گزارش چاپی درآمد">'+ICO_PDF+'<span>گزارش چاپی درآمد</span></button><button type="button" class="btn mnTextBtn" id="cifNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="cifBack">→ مرحله قبل</button></div></div><div class="mnSortBar"><span class="mnMuted" id="cifSub" style="margin-left:auto"></span></div><div id="cifPanel"></div><div class="mnTableWrap" id="cifBody"></div>');
-    $('cifHome').onclick=function(){closeShell('ciCover')};$('cifSave').onclick=save;$('cifXls').onclick=function(){xlsSpec(specN(step))};$('cifPdf').onclick=function(){pdfSpec(specN(step))};$('cifAllPdf').onclick=pdfAll;$('cifAllXls').onclick=xlsAll;
+    shell('ciCover','<div class="mnHead"><b id="cifTitle"></b><div class="mnBtns">'+ICO_HOME_BTN+iconBtns('cif',true)+'<button type="button" class="btn mnTextBtn stHid" id="cifPack" title="بسته گزارش‌گیری هزینه-درآمد — انتخاب مراحل، ترتیب و خروجی اکسل / چاپی" aria-label="بسته گزارش‌گیری هزینه-درآمد">'+packIco()+'<span>بسته گزارش‌گیری هزینه-درآمد</span></button><button type="button" class="btn mnTextBtn" id="cifNext">مرحله بعد ◂</button><button type="button" class="btn mnCloseBtn" id="cifBack">→ مرحله قبل</button></div></div><div class="mnSortBar"><span class="mnMuted" id="cifSub" style="margin-left:auto"></span></div><div id="cifPanel"></div><div class="mnTableWrap" id="cifBody"></div>');
+    $('cifHome').onclick=function(){closeShell('ciCover')};$('cifSave').onclick=save;$('cifXls').onclick=function(){xlsSpec(specN(step))};$('cifPdf').onclick=function(){pdfSpec(specN(step))};$('cifPack').onclick=openPack;
     $('cifNext').onclick=function(){var i=FLOW.indexOf(step);if(i>=0&&i<FLOW.length-1){if(FLOW[i+1]===5){autoOpenEx();return}step=FLOW[i+1];renderFlow()}};
     $('cifBack').onclick=function(){var i=FLOW.indexOf(step);if(i>0){step=FLOW[i-1];renderFlow()}else closeShell('ciCover')};
     renderFlow();
@@ -17349,7 +17536,7 @@ window.__cplSig=function(){
     var isEx=step===5;
     if(step>=3&&step<5){try{window.__cplEx&&window.__cplEx.prefetch&&window.__cplEx.prefetch()}catch(e){}}
     $('cifNext').classList.toggle('stHid',step>=5);
-    $('cifAllPdf').classList.toggle('stHid',step!==4);$('cifAllXls').classList.toggle('stHid',step!==4);
+    $('cifPack').classList.toggle('stHid',step!==4);
     $('cifPdf').classList.toggle('stHid',isEx);$('cifXls').classList.toggle('stHid',isEx);
     if(isEx){
       $('cifTitle').textContent='محاسبات هزینه — ایجاد هزینه';
@@ -17531,21 +17718,31 @@ window.__cplSig=function(){
       });
     },
     /* خروجی کل مراحل: هزینه + صفحه‌های درآمد (جمع انواع فهرست بها تا برگه مالی و ریزمتره) */
-    exportFull:async function(kind,specs,base,name,incId){
+    exportFull:async function(kind,specs,base,name,incId,order){
       var rec={name:name||'',year:projectYear()},inc=null;
       if(incId){try{var rl=await readList();var f=(rl.list||[]).find(function(x){return x.id===incId});if(f){inc=clone(f);if(!inc.year)inc.year=projectYear();if(!inc.coefs)inc.coefs=defaultCoefs()}}catch(e){}}
       if(inc&&!(inc.items&&inc.items.length))inc=null;
+      /* order: کلیدهای انتخاب‌شده به ترتیب دلخواه — cmp/ana = صفحه‌های هزینه، i4/i3/i0/imin = صفحه‌های درآمد */
+      var ORD=(Array.isArray(order)&&order.length)?order:['cmp','ana','i4','i3','i0','imin'],IN={i4:4,i3:3,i0:0};
       if(kind==='xls'){
-        var sh=withCur(rec,function(){return specs.map(specSheet)});
-        if(inc)sh=sh.concat(withCur(inc,function(){return [specSheet(specN(4)),specSheet(specN(3)),specSheet(specN(0)),minSheet()]}));
+        var sh=[];
+        ORD.forEach(function(k){
+          if(k==='cmp'||k==='ana'){var sp=specs[k==='cmp'?0:1];if(sp)sh.push(withCur(rec,function(){return specSheet(sp)}))}
+          else if(inc&&(k==='imin'||IN.hasOwnProperty(k)))sh.push(withCur(inc,function(){return k==='imin'?minSheet():specSheet(specN(IN[k]))}));
+        });
+        if(!sh.length)return;
         dlBlob(buildXlsxMulti(sh),fileName(base+' - همه مراحل','xlsx'));return;
       }
-      var pages=withCur(rec,function(){var meta=esc(metaLine()).replace(/ {3,}/g,' — '),ph=prjHtml();return specs.map(function(sp){return {land:sp.land&&!sp.finP,h:ph+'<h1>'+esc(docTitle(sp.t))+'</h1><div class="meta">'+meta+'</div>'+tblHtml(sp,true)}})});
-      if(inc)pages=pages.concat(withCur(inc,function(){
-        var meta=esc(metaLine()).replace(/ {3,}/g,' — '),ph=prjHtml(),o=[];
-        [4,3,0].forEach(function(n){var sp=specN(n);o.push({land:sp.land&&!sp.finP,h:ph+'<h1>'+esc(docTitle(sp.t))+'</h1><div class="meta">'+meta+'</div>'+tblHtml(sp,true)})});
-        o.push({land:0,h:ph+'<h1>'+esc(docTitle(TITLE_MIN))+'</h1><div class="meta">'+meta+'</div>'+minBody()});
-        return o}));
+      var pages=[];
+      ORD.forEach(function(k){
+        if(k==='cmp'||k==='ana'){var sp=specs[k==='cmp'?0:1];if(sp)pages.push(withCur(rec,function(){var meta=esc(metaLine()).replace(/ {3,}/g,' — '),ph=prjHtml();return {land:sp.land&&!sp.finP,h:ph+'<h1>'+esc(docTitle(sp.t))+'</h1><div class="meta">'+meta+'</div>'+tblHtml(sp,true)}}))}
+        else if(inc&&(k==='imin'||IN.hasOwnProperty(k)))pages.push(withCur(inc,function(){
+          var meta=esc(metaLine()).replace(/ {3,}/g,' — '),ph=prjHtml();
+          if(k==='imin')return {land:0,h:ph+'<h1>'+esc(docTitle(TITLE_MIN))+'</h1><div class="meta">'+meta+'</div>'+minBody()};
+          var sp=specN(IN[k]);return {land:sp.land&&!sp.finP,h:ph+'<h1>'+esc(docTitle(sp.t))+'</h1><div class="meta">'+meta+'</div>'+tblHtml(sp,true)};
+        }));
+      });
+      if(!pages.length)return;
       var body=pages.map(function(g,i){return '<div class="pgS'+(g.land?' pgL':'')+(i?' pgBrk':'')+'">'+g.h+'</div>'}).join('');
       openPdf(pdfDoc(docTitle(base)+' - همه مراحل',body,true));
     },
@@ -17670,8 +17867,7 @@ window.__cplSig=function(){
       '<button type="button" class="btn primary mnIco" id="exSave" title="ذخیره" aria-label="ذخیره">'+ICO_SAVE+'</button>'+
       '<button type="button" class="btn primary exportIconBtn mnIco" id="exXls" title="گزارش اکسل" aria-label="گزارش اکسل">'+ICO_XLS+'</button>'+
       '<button type="button" class="btn exportIconBtn mnIco" id="exPdf" title="گزارش چاپی" aria-label="گزارش چاپی">'+ICO_PDF+'</button>'+
-      '<button type="button" class="btn mnTextBtn stHid" id="exAllXls" title="گزارش اکسل مقایسه هزینه با درآمد — همه صفحه‌ها (از آخر به اول)" aria-label="گزارش اکسل مقایسه هزینه با درآمد">'+ICO_XLS+'<span>مقایسه هزینه با درآمد</span></button>'+
-      '<button type="button" class="btn mnTextBtn stHid" id="exAllPdf" title="گزارش چاپی مقایسه هزینه با درآمد — همه صفحه‌ها (از آخر به اول)" aria-label="گزارش چاپی مقایسه هزینه با درآمد">'+ICO_PDF+'<span>مقایسه هزینه با درآمد</span></button>'+
+      '<button type="button" class="btn mnTextBtn stHid" id="exPack" title="بسته گزارش‌گیری هزینه-درآمد — انتخاب مراحل، ترتیب و خروجی اکسل / چاپی" aria-label="بسته گزارش‌گیری هزینه-درآمد">'+packIco()+'<span>بسته گزارش‌گیری هزینه-درآمد</span></button>'+
       '<button type="button" class="btn mnTextBtn" id="exNext">مرحله بعد ◂</button>'+
       '<button type="button" class="btn mnTextBtn" id="exBack">→ مرحله قبل</button>'+
       '<button type="button" class="btn mnCloseBtn" id="exClose">✕</button></div></div>'+
@@ -17679,7 +17875,7 @@ window.__cplSig=function(){
     syncName();
     $('exSave').onclick=save;
     $('exXls').onclick=function(){doExport('xls',false)};$('exPdf').onclick=function(){doExport('pdf',false)};
-    $('exAllXls').onclick=function(){doExport('xls',true)};$('exAllPdf').onclick=function(){doExport('pdf',true)};
+    $('exPack').onclick=openPack;
     $('exNext').onclick=function(){step=2;paint()};
     $('exBack').onclick=function(){if(step===2){step=1;paint()}else closeEditor()};
     $('exClose').onclick=closeEditor;
@@ -17732,14 +17928,22 @@ window.__cplSig=function(){
     }else{rows=[['هزینه',Math.round(cost)]];notes=[['درآمدی برای مقایسه پیدا نشد.']]}
     return {t:'مقایسه هزینه با درآمد',cols:['شرح','مبلغ (ریال)'],w:[42,24],rows:rows,extra:notes};
   }
-  async function doExport(kind,all){
+  function packIco(){return window.__cplRptPack?window.__cplRptPack.ICO:''}
+  function openPack(){
+    if(!cur)return;
+    if(!window.__cplRptPack){alert('بسته گزارش‌گیری در دسترس نیست.');return}
+    var p=[{k:'cmp',t:'مقایسه هزینه با درآمد',s:'صفحه مقایسه'},{k:'ana',t:'آنالیز هزینه',s:'جدول آنالیز بهای هزینه'}];
+    if(cur.ciId)p=p.concat([{k:'i4',t:'درآمد — مجموع آیتم‌ها و تعدیل'},{k:'i3',t:'درآمد — تعدیل آیتم‌ها'},{k:'i0',t:'درآمد — برگه مالی'},{k:'imin',t:'درآمد — ریزمتره'}]);
+    window.__cplRptPack.open({key:'ex',title:'بسته گزارش‌گیری هزینه-درآمد',sub:'مقایسه هزینه با درآمد',parts:p,run:function(kind,sel){doExport(kind,true,sel)}});
+  }
+  async function doExport(kind,all,sel){
     if(!cur)return;
     var api2=window.__cplCi;if(!api2||!api2.exportSpecs){alert('خروجی در دسترس نیست.');return}
     var specs,base;
     if(step===2){
       if(!ciCache){try{ciCache=await loadCi()}catch(e){}}
       base='مقایسه هزینه با درآمد';
-      if(all&&api2.exportFull){try{await api2.exportFull(kind,[compareSpec(),analysisSpec()],base,cur.name||'',cur.ciId)}catch(e){console.error(e);alert('ساخت خروجی انجام نشد.')}return}
+      if(all&&api2.exportFull){try{await api2.exportFull(kind,[compareSpec(),analysisSpec()],base,cur.name||'',cur.ciId,sel)}catch(e){console.error(e);alert('ساخت خروجی انجام نشد.')}return}
       specs=all?[compareSpec(),analysisSpec()]:[compareSpec()];
     }else{specs=[analysisSpec()];base='آنالیز هزینه'}
     try{api2.exportSpecs(kind,specs,base,cur.name||'')}catch(e){console.error(e);alert('ساخت خروجی انجام نشد.')}
@@ -17760,7 +17964,7 @@ window.__cplSig=function(){
     var t=$('exTitle'),nx=$('exNext'),bk=$('exBack');if(!t)return;
     var _b=step===1?'آنالیز هزینه':'مقایسه هزینه با درآمد',_n=String((cur&&cur.name)||'').trim();t.textContent='هزینه-درآمد — '+_b;
     nx.classList.toggle('stHid',step!==1);bk.classList.remove('stHid');
-    var ap=$('exAllPdf'),ax=$('exAllXls');if(ap)ap.classList.toggle('stHid',step!==2);if(ax)ax.classList.toggle('stHid',step!==2);
+    var ap=$('exPack');if(ap)ap.classList.toggle('stHid',step!==2);
     if(step===1)renderAnalysis();else renderCompare();
     var o=$('exEditor');if(o)o.scrollTop=0;
   }
