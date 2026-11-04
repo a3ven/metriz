@@ -3888,11 +3888,17 @@ html body #stCover[id] .c76Sec :is(#stfC76,#stfCmp){height:40px!important;min-he
 html body #stCover[id] .c76Sec input[type=checkbox]{width:20px!important;height:20px!important}
 /* مقایسهٔ صورت‌وضعیت‌ها (فصول / دفترچه‌ها) */
 html body #stCover .c76Grp{display:inline-flex;align-items:center;gap:12px;margin-inline-start:auto;flex-wrap:wrap}
-html body #stCmp .stCmpBoxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 12px 10px}
-html body #stCmp .stCmpBox{display:flex;flex-direction:column;gap:6px;padding:8px 14px;box-sizing:border-box;border-radius:var(--sqR2,24px);background:var(--sqBg,var(--c8));border:1px solid var(--sqBd,var(--c5));font-size:var(--fs-btn,16px);font-weight:700}
-html body #stCmp .stCmpBox select{width:100%;min-width:0;height:40px;min-height:40px;border-radius:var(--sqR3,22px);font-size:var(--fs-input,16px)}
+html body #stCmp .stCmpBoxes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 12px 10px}
+html body #stCmp .stCmpBox{display:flex;flex-direction:row;align-items:center;gap:10px;padding:8px 14px;box-sizing:border-box;border-radius:var(--sqR2,24px);background:var(--sqBg,var(--c8));border:1px solid var(--sqBd,var(--c5));font-size:var(--fs-btn,16px);font-weight:700}
+html body #stCmp .stCmpBox>span{flex:0 0 auto;white-space:nowrap}html body #stCmp .stCmpBox select{flex:1 1 0;width:auto;min-width:0;height:40px;min-height:40px;border-radius:var(--sqR3,22px);font-size:var(--fs-input,16px)}
 html body #stCmp .stCmpMsg{margin:8px 12px;line-height:1.9}
-@media (max-width:760px){html body #stCmp .stCmpBoxes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){html body #stCmp .stCmpBoxes{grid-template-columns:minmax(0,1fr)}}
+html body #stCmp .stCmpModeRow{margin:8px 12px 0}
+html body #stCmp .stCmpModeGrp{display:inline-flex;align-items:stretch;border:1px solid var(--c5,rgba(127,140,155,.4));border-radius:19px;overflow:hidden;height:38px}
+html body #stCmp .stCmpModeGrp label{display:flex;margin:0;cursor:pointer}
+html body #stCmp .stCmpModeGrp input{position:absolute;opacity:0;pointer-events:none}
+html body #stCmp .stCmpModeGrp span{display:flex;align-items:center;padding:0 14px;font-size:calc(var(--fs-btn) + 1px);font-weight:700;white-space:nowrap}
+html body #stCmp .stCmpModeGrp input:checked+span{background:#fff!important;color:#000!important}
 html body #stCover .c76ImpBar .btn,html body #stCover #stC76Imp{height:44px!important;min-height:44px!important;border-radius:var(--sqR3,22px)!important;background:var(--glBg,#1a1a1d)!important;border:1px solid var(--glBd,rgba(255,255,255,.08))!important;color:var(--surfaceText)!important;font-size:16px!important;font-weight:600!important;padding:0 16px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px;box-shadow:none!important}
 html body #stCover .c76ImpBar .btn.danger{color:#ff7b78!important}
 html body #stCover .c76ImpBar .btn svg,html body #stCover #stC76Imp svg{width:22px!important;height:22px!important;stroke-width:1.5!important}
@@ -15686,7 +15692,7 @@ window.__cplSig=function(){
   function openStCmp(kind){
     if(!cur||(kind!==1&&kind!==2))return;
     var wc=chMode()==='wc';
-    shell('stCmp','<div class="mnHead"><b>'+esc(stTitle(cur)+' ('+(kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها')+')')+'</b><div class="mnBtns">'+
+    shell('stCmp','<div class="mnHead"><b id="stCmpTtl">'+esc(stTitle(cur)+' ('+(kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها')+')')+'</b><div class="mnBtns">'+
       '<button type="button" class="btn mnIco" id="stCmpBack" title="مرحله قبل" aria-label="مرحله قبل"></button>'+
       '<button type="button" class="btn mnTextBtn" id="stCmpExcel" title="گزارش اکسل" aria-label="گزارش اکسل">'+ICO_XLS+'<span>گزارش اکسل</span></button>'+
       '<button type="button" class="btn mnTextBtn" id="stCmpPrint" title="گزارش چاپی" aria-label="گزارش چاپی">'+ICO_PDF+'<span>گزارش چاپی</span></button></div></div>'+
@@ -15711,11 +15717,12 @@ window.__cplSig=function(){
       if(sv&&sv.cid===D.cid&&ST[sv.n1]&&ST[sv.n1].vers[sv.v1]&&ST[sv.n2]&&ST[sv.n2].vers[sv.v2]){first={id:sv.n1,v:sv.v1};other={id:sv.n2,v:sv.v2}}
       function numOpts(sel){return ids.map(function(id){return '<option value="'+esc(id)+'"'+(id===sel?' selected':'')+'>'+esc(cmpsNoTxt(ST[id]))+'</option>'}).join('')}
       function verOpts(id,sel){var ks=O.keys().filter(function(v){return ST[id].vers[v]});if(ks.indexOf(sel)<0)sel=ks[0];return ks.map(function(v){return '<option value="'+esc(v)+'"'+(v===sel?' selected':'')+'>'+esc(O.NAME[v])+'</option>'}).join('')}
-      body.innerHTML='<div class="stCmpBoxes">'+
-        '<label class="stCmpBox">صورت‌وضعیت اول<select id="stCmpN1">'+numOpts(first.id)+'</select></label>'+
-        '<label class="stCmpBox">نسخه صورت‌وضعیت اول<select id="stCmpV1">'+verOpts(first.id,first.v)+'</select></label>'+
-        '<label class="stCmpBox">صورت‌وضعیت دوم<select id="stCmpN2">'+numOpts(other.id)+'</select></label>'+
-        '<label class="stCmpBox">نسخه صورت‌وضعیت دوم<select id="stCmpV2">'+verOpts(other.id,other.v)+'</select></label></div>'+
+      body.innerHTML='<div class="stCmpModeRow"><span class="stCmpModeGrp" role="radiogroup" aria-label="نوع مقایسه"><label><input type="radio" name="stCmpMode" value="1"'+(kind===1?' checked':'')+'><span>مقایسه فصول</span></label><label><input type="radio" name="stCmpMode" value="2"'+(kind===2?' checked':'')+'><span>مقایسه دفترچه‌ها</span></label></span></div>'+
+        '<div class="stCmpBoxes">'+
+        '<label class="stCmpBox"><span>صورت‌وضعیت اول</span><select id="stCmpN1">'+numOpts(first.id)+'</select></label>'+
+        '<label class="stCmpBox"><span>نسخه صورت‌وضعیت اول</span><select id="stCmpV1">'+verOpts(first.id,first.v)+'</select></label>'+
+        '<label class="stCmpBox"><span>صورت‌وضعیت دوم</span><select id="stCmpN2">'+numOpts(other.id)+'</select></label>'+
+        '<label class="stCmpBox"><span>نسخه صورت‌وضعیت دوم</span><select id="stCmpV2">'+verOpts(other.id,other.v)+'</select></label></div>'+
         '<div class="mnSortBar" style="justify-content:flex-start"><span class="mnMuted">نوع مبالغ: '+(wc?'با ضرایب':'خالص')+'</span></div>'+
         '<div class="mnTableWrap" id="stCmpTbl"></div>';
       function pick(n){return ST[$('stCmpN'+n).value].vers[$('stCmpV'+n).value]}
@@ -15741,6 +15748,10 @@ window.__cplSig=function(){
         $('stCmpN'+n).onchange=function(){$('stCmpV'+n).innerHTML=verOpts(this.value,$('stCmpV'+n).value);sync();render()};
         $('stCmpV'+n).onchange=function(){sync();render()};
       });
+      /* جابه‌جایی بین مقایسه فصول و دفترچه‌ها بدون خروج از صفحه */
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="stCmpMode"]'),function(r){r.onchange=function(){
+        if(!r.checked)return;kind=+r.value;rptName=kind===1?'مقایسه فصول':'مقایسه دفترچه‌ها';
+        var tt=$('stCmpTtl');if(tt)tt.textContent=stTitle(cur)+' ('+rptName+')';render()}});
       render();
     }).catch(function(e){var body=$('stCmpBody');if(body)body.innerHTML='<div class="impMsg err stCmpMsg">'+esc((e&&e.message)||'خواندن صورت‌وضعیت‌ها انجام نشد.')+'</div>'});
   }
