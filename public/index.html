@@ -11544,14 +11544,16 @@ setInterval(bindExports,500);
   var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
+  function wfMig(w){if(!w||w.v===2||!w.status)return w;var c=JSON.parse(JSON.stringify(w)),o=c.stages||{},si=wfIdx(c.status),n={},i;if(si===0){n=o}else{for(i=0;i<si;i++){var q=WF_ST[i+1]&&o[WF_ST[i+1].k];if(q)n[WF_ST[i].k]=q}if(c.status==='announced'&&o.announced)n.announced=o.announced}c.stages=n;c.v=2;return c}
+  function wfCur(w){var h=w.history||[],l=h[h.length-1];if(l)return {date:l.date||'',letterNo:l.letterNo||''};return (w.stages&&w.stages[w.status])||{}}
   function faDig(s){return String(s==null?'':s).replace(/\d/g,function(d){return FA[+d]})}
   function wfDateOf(ts){try{var p=new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(ts||Date.now())),o={};p.forEach(function(q){o[q.type]=q.value});return o.year+'/'+o.month+'/'+o.day}catch(e){return ''}}
   function wfOf(x){
-    if(x.wf&&x.wf.status)return x.wf;
+    if(x.wf&&x.wf.status)return wfMig(x.wf);
     var ts=x.createdAt||x.updatedAt||Date.now(),d=wfDateOf(ts);
-    return {status:'contractor',updatedAt:ts,stages:{contractor:{date:d,letterNo:''}},history:[{ts:ts,type:'create',from:'',to:'contractor',date:d,letterNo:'',note:'ایجاد صورت‌مجلس توسط پیمانکار'}]};
+    return {v:2,status:'contractor',updatedAt:ts,stages:{contractor:{date:d,letterNo:''}},history:[{ts:ts,type:'create',from:'',to:'contractor',date:d,letterNo:'',note:'ایجاد صورت‌مجلس توسط پیمانکار'}]};
   }
-  function wfStatusLine(x){var w=wfOf(x),st=w.stages&&w.stages[w.status],s='آخرین وضعیت: '+(w.status==='announced'?'':'نزد ')+wfName(w.status);if(st&&st.date&&(st.letterNo||w.status!=='contractor')){s+=' — تاریخ '+faDig(st.date);if(st.letterNo)s+=' — شماره نامه '+faDig(st.letterNo)}return s}
+  function wfStatusLine(x){var w=wfOf(x),st=wfCur(w),s='آخرین وضعیت: '+(w.status==='announced'?'':'نزد ')+wfName(w.status);if(st&&st.date&&(st.letterNo||w.status!=='contractor')){s+=' — تاریخ '+faDig(st.date);if(st.letterNo)s+=' — شماره نامه '+faDig(st.letterNo)}return s}
   async function wfCommit(id,fn){
     var r=await readList(),list=r.list,i=list.findIndex(function(y){return y.id===id});
     if(i<0)throw new Error('صورت‌مجلس پیدا نشد.');
@@ -11579,7 +11581,7 @@ setInterval(bindExports,500);
   /* ---------- گزارش لیست گردش کار صورت‌مجالس (اکسل / چاپی) ---------- */
   var TITLE_WF='گزارش گردش کار صورت‌مجالس';
   function wfInfo(x){
-    var w=wfOf(x),st=w.stages&&w.stages[w.status]||{};
+    var w=wfOf(x),st=wfCur(w);
     var showD=!!(st.date&&(st.letterNo||w.status!=='contractor'));
     return {status:(w.status==='announced'?'':'نزد ')+wfName(w.status),date:showD?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):''};
   }
@@ -11683,8 +11685,8 @@ setInterval(bindExports,500);
       if(si<WF_ST.length-1){
         var nx=WF_ST[si+1];
         act='<div class="mnWfForm"><div class="mnWfFHead">'+(nx.k==='announced'?'ابلاغ توسط کارفرما':'ارسال به '+nx.t)+'</div>'+
-          '<label class="mnField">تاریخ<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
-          '<label class="mnField">شماره نامه<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
+          '<label class="mnField">تاریخ نامه '+esc(WF_ST[si].t)+'<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
+          '<label class="mnField">شماره نامه '+esc(WF_ST[si].t)+'<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
           '<label class="mnField mnWfWide">توضیحات (اختیاری)<input id="mnWfNote" autocomplete="off" value="'+esc(dr?dr.t:'')+'" placeholder="توضیحات"></label>'+
           '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(si>0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button>':'')+'</div></div>';
       }else{
@@ -11707,7 +11709,7 @@ setInterval(bindExports,500);
         var v=read();
         if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
         var from=w.status,to=WF_ST[si+1].k;fb.disabled=true;
-        try{await wfCommit(id,function(z){delete z.draft;z.stages=z.stages||{};z.stages[to]={date:v.d,letterNo:v.n};z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'forward',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+        try{await wfCommit(id,function(z){delete z.draft;z.stages=z.stages||{};z.stages[from]={date:v.d,letterNo:v.n};if(to==='announced')z.stages[to]={date:v.d,letterNo:v.n};z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'forward',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
           say(to==='announced'?'ابلاغ ثبت شد':'به '+wfName(to)+' ارسال شد');paint()}
         catch(e){alert(e.message||'ثبت انجام نشد.');fb.disabled=false}
       };
@@ -11722,7 +11724,7 @@ setInterval(bindExports,500);
         if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
         if(!(await wfConfirm('عودت به '+WF_ST[si-1].t,'صورت‌مجلس به «'+WF_ST[si-1].t+'» عودت داده شود؟','عودت')))return;
         var from=w.status,to=WF_ST[si-1].k;bb.disabled=true;
-        try{await wfCommit(id,function(z){delete z.draft;if(z.stages)delete z.stages[from];z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+        try{await wfCommit(id,function(z){delete z.draft;if(z.stages){delete z.stages[from];delete z.stages[to]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
           say('به '+wfName(to)+' عودت داده شد');paint()}
         catch(e){alert(e.message||'ثبت انجام نشد.');bb.disabled=false}
       };
@@ -12748,6 +12750,8 @@ setInterval(bindExports,500);
   var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
+  function wfMig(w){if(!w||w.v===2||!w.status)return w;var c=JSON.parse(JSON.stringify(w)),o=c.stages||{},si=wfIdx(c.status),n={},i;if(si===0){n=o}else{for(i=0;i<si;i++){var q=WF_ST[i+1]&&o[WF_ST[i+1].k];if(q)n[WF_ST[i].k]=q}if(c.status==='announced'&&o.announced)n.announced=o.announced}c.stages=n;c.v=2;return c}
+  function wfCur(w){var h=w.history||[],l=h[h.length-1];if(l)return {date:l.date||'',letterNo:l.letterNo||''};return (w.stages&&w.stages[w.status])||{}}
   function wfDateOf(ts){try{var p=new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(ts||Date.now())),o={};p.forEach(function(q){o[q.type]=q.value});return o.year+'/'+o.month+'/'+o.day}catch(e){return ''}}
   var ICO_WF='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="butt" stroke-linejoin="round" aria-hidden="true"><rect x="2.1" y="1.8" width="7" height="4.2" rx="1" fill="currentColor" stroke="none"/><rect x="8.4" y="9.6" width="7" height="4.2" rx="1" fill="currentColor" stroke="none"/><rect x="14.9" y="17.4" width="7" height="4.2" rx="1" fill="currentColor" stroke="none"/><path d="M10.7 3.9H18.5a2.7 2.7 0 0 1 2.7 2.7V9.5a2.2 2.2 0 0 1-2.2 2.2H18M18.2 11.4l2.2 2.2"/><path d="M7 11.7H5.4a2.5 2.5 0 0 0-2.5 2.5V16.7a2.5 2.5 0 0 0 2.5 2.5H12.4M12.3 19.2l-2.4 2.3"/></svg>';
   var FILT_OPTS='<option value="all">همه وضعیت‌ها</option><option value="contractor">نزد پیمانکار</option><option value="consultant">نزد مشاور</option><option value="employer">نزد کارفرما</option><option value="announced">ابلاغ کارفرما</option>';
@@ -12760,11 +12764,11 @@ setInterval(bindExports,500);
     function find(id){return list().find(function(y){return cfg.idOf(y)===id})}
     function wfOf(x,d){
       var w=cfg.wfFrom?cfg.wfFrom(x,d):x.wf;
-      if(w&&w.status)return w;
+      if(w&&w.status)return wfMig(w);
       var ts=x.createdAt||x.updatedAt||Date.now(),dt=wfDateOf(ts);
-      return {status:'contractor',updatedAt:ts,stages:{contractor:{date:dt,letterNo:''}},history:[{ts:ts,type:'create',from:'',to:'contractor',date:dt,letterNo:'',note:'ایجاد '+cfg.noun+' توسط پیمانکار'}]};
+      return {v:2,status:'contractor',updatedAt:ts,stages:{contractor:{date:dt,letterNo:''}},history:[{ts:ts,type:'create',from:'',to:'contractor',date:dt,letterNo:'',note:'ایجاد '+cfg.noun+' توسط پیمانکار'}]};
     }
-    function line(x){var w=wfOf(x),st=w.stages&&w.stages[w.status],s='آخرین وضعیت: '+(w.status==='announced'?'':'نزد ')+wfName(w.status);if(st&&st.date&&(st.letterNo||w.status!=='contractor')){s+=' — تاریخ '+faDig(st.date);if(st.letterNo)s+=' — شماره نامه '+faDig(st.letterNo)}return s}
+    function line(x){var w=wfOf(x),st=wfCur(w),s='آخرین وضعیت: '+(w.status==='announced'?'':'نزد ')+wfName(w.status);if(st&&st.date&&(st.letterNo||w.status!=='contractor')){s+=' — تاریخ '+faDig(st.date);if(st.letterNo)s+=' — شماره نامه '+faDig(st.letterNo)}return s}
     function pass(x){return F==='all'||wfOf(x).status===F}
     function title(x){return cfg.title(x)}
     async function commit(id,fn){
@@ -12782,7 +12786,7 @@ setInterval(bindExports,500);
     function histRows(w){return (w.history||[]).slice().reverse().map(function(h){
       return '<div class="mnWfH"><b>'+esc(evtText(h))+'</b><div class="mnMuted">تاریخ: '+esc(faDig(h.date||'—'))+(h.letterNo?' — شماره نامه: '+esc(faDig(h.letterNo)):'')+(h.note&&h.type!=='create'?' — '+esc(h.note):'')+'</div></div>';
     }).join('')}
-    function info(x){var w=wfOf(x),st=w.stages&&w.stages[w.status]||{};var showD=!!(st.date&&(st.letterNo||w.status!=='contractor'));return {status:(w.status==='announced'?'':'نزد ')+wfName(w.status),date:showD?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):''}}
+    function info(x){var w=wfOf(x),st=wfCur(w);var showD=!!(st.date&&(st.letterNo||w.status!=='contractor'));return {status:(w.status==='announced'?'':'نزد ')+wfName(w.status),date:showD?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):''}}
     function shown(){return B&&B.shown?B.shown():list().filter(pass)}
     function needList(){
       if(!list().length){alert(cfg.emptyMsg);return true}
@@ -12869,8 +12873,8 @@ setInterval(bindExports,500);
         if(si<WF_ST.length-1){
           var nx=WF_ST[si+1];
           act='<div class="mnWfForm"><div class="mnWfFHead">'+(nx.k==='announced'?'ابلاغ توسط کارفرما':'ارسال به '+nx.t)+'</div>'+
-            '<label class="mnField">تاریخ<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
-            '<label class="mnField">شماره نامه<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
+            '<label class="mnField">تاریخ نامه '+esc(WF_ST[si].t)+'<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
+            '<label class="mnField">شماره نامه '+esc(WF_ST[si].t)+'<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
             '<label class="mnField mnWfWide">توضیحات (اختیاری)<input id="mnWfNote" autocomplete="off" value="'+esc(dr?dr.t:'')+'" placeholder="توضیحات"></label>'+
             '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(si>0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button>':'')+'</div></div>';
         }else{
@@ -12893,7 +12897,7 @@ setInterval(bindExports,500);
           var v=read();
           if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
           var from=w.status,to=WF_ST[si+1].k;fb.disabled=true;
-          try{await commit(id,function(z){delete z.draft;z.stages=z.stages||{};z.stages[to]={date:v.d,letterNo:v.n};z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'forward',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+          try{await commit(id,function(z){delete z.draft;z.stages=z.stages||{};z.stages[from]={date:v.d,letterNo:v.n};if(to==='announced')z.stages[to]={date:v.d,letterNo:v.n};z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'forward',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
             say(to==='announced'?'ابلاغ ثبت شد':'به '+wfName(to)+' ارسال شد');paint()}
           catch(e){alert(e.message||'ثبت انجام نشد.');fb.disabled=false}
         };
@@ -12908,7 +12912,7 @@ setInterval(bindExports,500);
           if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
           if(!(await K.confirm('عودت به '+WF_ST[si-1].t,esc0(cfg.noun)+' به «'+WF_ST[si-1].t+'» عودت داده شود؟','عودت')))return;
           var from=w.status,to=WF_ST[si-1].k;bb.disabled=true;
-          try{await commit(id,function(z){delete z.draft;if(z.stages)delete z.stages[from];z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+          try{await commit(id,function(z){delete z.draft;if(z.stages){delete z.stages[from];delete z.stages[to]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
             say('به '+wfName(to)+' عودت داده شد');paint()}
           catch(e){alert(e.message||'ثبت انجام نشد.');bb.disabled=false}
         };
