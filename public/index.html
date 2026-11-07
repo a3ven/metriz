@@ -13201,8 +13201,10 @@ window.__cplSigFoot=function(){
     if(!ns||!ns.length)return '';
     var F='&"B Nazanin,Bold"&12',q=function(t){return String(t).replace(/&/g,'&&')},P=['&R','&C','&L'],n=ns.length,out='';
     if(n<=3)return P.slice(0,n).map(function(p,i){return p+F+q(ns[i])}).join('');
-    var base=Math.floor(n/3),ex=n%3,at=0;
-    P.forEach(function(p,g){var k=base+(g<ex?1:0);out+=p+F+ns.slice(at,at+k).map(q).join('   ');at+=k});
+    var sd=Math.floor(n/3),ce=n-2*sd,sp=function(c){return new Array(c+1).join(' ')},gap=sp(ce>1?Math.max(8,Math.round(50/(ce-1))):0);
+    out+='&R'+F+ns.slice(0,sd).map(q).join('      ');
+    out+='&C'+F+ns.slice(sd,sd+ce).map(q).join(gap);
+    out+='&L'+F+ns.slice(sd+ce).map(q).join('      ');
     return out;
   }catch(e){return ''}
 };
