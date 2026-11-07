@@ -3300,6 +3300,7 @@ html body .mnListItem button,html body .projectItem button{cursor:pointer}
 #mnWfModal .mnWfStep b{font-size:14px;color:var(--c55)}
 #mnWfModal .mnWfStep.done{color:var(--c2)}#mnWfModal .mnWfStep.done b{color:var(--c2)}
 #mnWfModal .mnWfStep.now{border-color:var(--c2);color:var(--c2)}#mnWfModal .mnWfStep.now b{color:var(--c2)}
+#mnWfModal .mnWfStep.ann{border-color:#2e7d32;background:rgba(46,125,50,.14);color:#2e7d32}#mnWfModal .mnWfStep.ann b{color:#2e7d32}
 #mnWfModal .mnWfForm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end}
 #mnWfModal .mnWfForm[hidden]{display:none}
 #mnWfModal .mnWfFHead{grid-column:1/-1;font-weight:700}
@@ -11544,6 +11545,7 @@ setInterval(bindExports,500);
   var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
+  function wfBk(si){return si===WF_ST.length-1?si-2:si-1}
   function wfMig(w){if(!w||w.v===2||!w.status)return w;var c=JSON.parse(JSON.stringify(w)),o=c.stages||{},si=wfIdx(c.status),n={},i;if(si===0){n=o}else{for(i=0;i<si;i++){var q=WF_ST[i+1]&&o[WF_ST[i+1].k];if(q)n[WF_ST[i].k]=q}if(c.status==='announced'&&o.announced)n.announced=o.announced}c.stages=n;c.v=2;return c}
   function wfCur(w){var h=w.history||[],l=h[h.length-1];if(l)return {date:l.date||'',letterNo:l.letterNo||''};return (w.stages&&w.stages[w.status])||{}}
   function faDig(s){return String(s==null?'':s).replace(/\d/g,function(d){return FA[+d]})}
@@ -11623,7 +11625,7 @@ setInterval(bindExports,500);
   function wfEvtText(h){return h.type==='create'?'ایجاد — پیمانکار':(h.type==='back'?'عودت: '+wfName(h.from)+' ← '+wfName(h.to):(h.to==='announced'?'ابلاغ توسط کارفرما':'ارسال: '+wfName(h.from)+' ← '+wfName(h.to)))}
   function wfOneData(x){
     var w=wfOf(x),si=wfIdx(w.status);
-    var steps=WF_ST.map(function(t,i){var st=(w.stages&&w.stages[t.k])||{};return {t:t.t,date:st.date?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):'',st:i<si?'طی شده':(i===si?'مرحله جاری':'')}});
+    var steps=WF_ST.slice(0,-1).map(function(t,i){var st=(w.stages&&w.stages[t.k])||{},an=(si===WF_ST.length-1&&i===si-1);return {t:an?WF_ST[si].t:t.t,date:st.date?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):'',st:an?'ابلاغ شده':(i<si?'طی شده':(i===si?'مرحله جاری':''))}});
     var hist=(w.history||[]).slice().reverse().map(function(h){return {t:wfEvtText(h),date:h.date?faDig(h.date):'',no:h.letterNo?faDig(h.letterNo):'',note:(h.note&&h.type!=='create')?h.note:''}});
     return {title:wfTitle(x),line:wfStatusLine(x),steps:steps,hist:hist};
   }
@@ -11677,9 +11679,9 @@ setInterval(bindExports,500);
         var o=openSec===k;
         return '<div class="mnWfSec'+(o?' open':'')+'"><button type="button" class="mnWfHd" data-sec="'+k+'" aria-expanded="'+(o?'true':'false')+'"><span class="mnWfT">'+title+'</span><span class="mnWfS">'+sum+'</span><svg class="mnWfCh" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="mnWfBd"'+(o?'':' hidden')+'>'+inner+'</div></div>';
       }
-      var steps='<div class="mnWfSteps">'+WF_ST.map(function(s,i){
-        var st=w.stages&&w.stages[s.k],cls=i<si?' done':(i===si?' now':'');
-        return '<div class="mnWfStep'+cls+'"><b>'+s.t+'</b><span>'+(st&&st.date?faDig(st.date):'—')+'</span><span>'+(st&&st.letterNo?'شماره نامه: '+esc(faDig(st.letterNo)):'—')+'</span></div>';
+      var steps='<div class="mnWfSteps" style="grid-template-columns:repeat('+(WF_ST.length-1)+',minmax(0,1fr))">'+WF_ST.slice(0,-1).map(function(s,i){
+        var st=w.stages&&w.stages[s.k],cls=(si===WF_ST.length-1&&i===si-1)?' ann':(i<si?' done':(i===si?' now':''));
+        return '<div class="mnWfStep'+cls+'"><b>'+(cls===' ann'?WF_ST[si].t:s.t)+'</b><span>'+(st&&st.date?faDig(st.date):'—')+'</span><span>'+(st&&st.letterNo?'شماره نامه: '+esc(faDig(st.letterNo)):'—')+'</span></div>';
       }).join('')+'</div>';
       var act='',dr=(w.draft&&w.draft.status===w.status)?w.draft:null;
       if(si<WF_ST.length-1){
@@ -11688,9 +11690,9 @@ setInterval(bindExports,500);
           '<label class="mnField">تاریخ نامه '+esc(WF_ST[si].t)+'<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
           '<label class="mnField">شماره نامه '+esc(WF_ST[si].t)+'<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
           '<label class="mnField mnWfWide">توضیحات (اختیاری)<input id="mnWfNote" autocomplete="off" value="'+esc(dr?dr.t:'')+'" placeholder="توضیحات"></label>'+
-          '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(si>0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button>':'')+'</div></div>';
+          '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(wfBk(si)>=0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[wfBk(si)].t+'</button>':'')+'</div></div>';
       }else{
-        act='<div class="mnWfDone">این صورت‌مجلس ابلاغ شده است.</div><div class="mnWfActs"><button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button></div>'+
+        act='<div class="mnWfDone">این صورت‌مجلس ابلاغ شده است.</div><div class="mnWfActs"><button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[wfBk(si)].t+'</button></div>'+
           '<div class="mnWfForm mnWfBackForm" id="mnWfBackForm" hidden></div>';
       }
       var hist=wfHistRows(w);
@@ -11722,9 +11724,9 @@ setInterval(bindExports,500);
           return;
         }
         if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
-        if(!(await wfConfirm('عودت به '+WF_ST[si-1].t,'صورت‌مجلس به «'+WF_ST[si-1].t+'» عودت داده شود؟','عودت')))return;
-        var from=w.status,to=WF_ST[si-1].k;bb.disabled=true;
-        try{await wfCommit(id,function(z){delete z.draft;if(z.stages){delete z.stages[from];delete z.stages[to]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+        if(!(await wfConfirm('عودت به '+WF_ST[wfBk(si)].t,'صورت‌مجلس به «'+WF_ST[wfBk(si)].t+'» عودت داده شود؟','عودت')))return;
+        var from=w.status,to=WF_ST[wfBk(si)].k;bb.disabled=true;
+        try{await wfCommit(id,function(z){delete z.draft;if(z.stages){for(var q=wfIdx(to);q<=wfIdx(from);q++)delete z.stages[WF_ST[q].k]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
           say('به '+wfName(to)+' عودت داده شد');paint()}
         catch(e){alert(e.message||'ثبت انجام نشد.');bb.disabled=false}
       };
@@ -12750,6 +12752,7 @@ setInterval(bindExports,500);
   var WF_ST=(function(){var t=[];return new Proxy(t,{get:function(a,k,r){var q=window.__cplOrgs.wfStages();a.length=0;q.forEach(function(x){a.push(x)});return Reflect.get(a,k,r)}})})();
   function wfIdx(k){for(var i=0;i<WF_ST.length;i++)if(WF_ST[i].k===k)return i;return 0}
   function wfName(k){return WF_ST[wfIdx(k)].t}
+  function wfBk(si){return si===WF_ST.length-1?si-2:si-1}
   function wfMig(w){if(!w||w.v===2||!w.status)return w;var c=JSON.parse(JSON.stringify(w)),o=c.stages||{},si=wfIdx(c.status),n={},i;if(si===0){n=o}else{for(i=0;i<si;i++){var q=WF_ST[i+1]&&o[WF_ST[i+1].k];if(q)n[WF_ST[i].k]=q}if(c.status==='announced'&&o.announced)n.announced=o.announced}c.stages=n;c.v=2;return c}
   function wfCur(w){var h=w.history||[],l=h[h.length-1];if(l)return {date:l.date||'',letterNo:l.letterNo||''};return (w.stages&&w.stages[w.status])||{}}
   function wfDateOf(ts){try{var p=new Intl.DateTimeFormat('en-u-ca-persian-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(ts||Date.now())),o={};p.forEach(function(q){o[q.type]=q.value});return o.year+'/'+o.month+'/'+o.day}catch(e){return ''}}
@@ -12811,7 +12814,7 @@ setInterval(bindExports,500);
     /* ---- گزارش یک مورد ---- */
     function oneData(x){
       var w=wfOf(x),si=wfIdx(w.status);
-      var steps=WF_ST.map(function(t,i){var st=(w.stages&&w.stages[t.k])||{};return {t:t.t,date:st.date?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):'',st:i<si?'طی شده':(i===si?'مرحله جاری':'')}});
+      var steps=WF_ST.slice(0,-1).map(function(t,i){var st=(w.stages&&w.stages[t.k])||{},an=(si===WF_ST.length-1&&i===si-1);return {t:an?WF_ST[si].t:t.t,date:st.date?faDig(st.date):'',no:st.letterNo?faDig(st.letterNo):'',st:an?'ابلاغ شده':(i<si?'طی شده':(i===si?'مرحله جاری':''))}});
       var hist=(w.history||[]).slice().reverse().map(function(h){return {t:evtText(h),date:h.date?faDig(h.date):'',no:h.letterNo?faDig(h.letterNo):'',note:(h.note&&h.type!=='create')?h.note:''}});
       return {title:title(x),line:line(x),steps:steps,hist:hist};
     }
@@ -12865,9 +12868,9 @@ setInterval(bindExports,500);
           var o=openSec===k;
           return '<div class="mnWfSec'+(o?' open':'')+'"><button type="button" class="mnWfHd" data-sec="'+k+'" aria-expanded="'+(o?'true':'false')+'"><span class="mnWfT">'+t+'</span><span class="mnWfS">'+sum+'</span><svg class="mnWfCh" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="mnWfBd"'+(o?'':' hidden')+'>'+inner+'</div></div>';
         }
-        var steps='<div class="mnWfSteps">'+WF_ST.map(function(s,i){
-          var st=w.stages&&w.stages[s.k],cls=i<si?' done':(i===si?' now':'');
-          return '<div class="mnWfStep'+cls+'"><b>'+s.t+'</b><span>'+(st&&st.date?faDig(st.date):'—')+'</span><span>'+(st&&st.letterNo?'شماره نامه: '+esc(faDig(st.letterNo)):'—')+'</span></div>';
+        var steps='<div class="mnWfSteps" style="grid-template-columns:repeat('+(WF_ST.length-1)+',minmax(0,1fr))">'+WF_ST.slice(0,-1).map(function(s,i){
+          var st=w.stages&&w.stages[s.k],cls=(si===WF_ST.length-1&&i===si-1)?' ann':(i<si?' done':(i===si?' now':''));
+          return '<div class="mnWfStep'+cls+'"><b>'+(cls===' ann'?WF_ST[si].t:s.t)+'</b><span>'+(st&&st.date?faDig(st.date):'—')+'</span><span>'+(st&&st.letterNo?'شماره نامه: '+esc(faDig(st.letterNo)):'—')+'</span></div>';
         }).join('')+'</div>';
         var act='',dr=(w.draft&&w.draft.status===w.status)?w.draft:null;
         if(si<WF_ST.length-1){
@@ -12876,9 +12879,9 @@ setInterval(bindExports,500);
             '<label class="mnField">تاریخ نامه '+esc(WF_ST[si].t)+'<input id="mnWfDate" dir="ltr" inputmode="numeric" maxlength="10" data-wdmask="1" autocomplete="off" value="'+esc((dr&&dr.d)||wfDateOf(Date.now()))+'"></label>'+
             '<label class="mnField">شماره نامه '+esc(WF_ST[si].t)+'<input id="mnWfNo" dir="ltr" inputmode="text" autocomplete="off" value="'+esc(dr?dr.n:'')+'" placeholder="شماره نامه"></label>'+
             '<label class="mnField mnWfWide">توضیحات (اختیاری)<input id="mnWfNote" autocomplete="off" value="'+esc(dr?dr.t:'')+'" placeholder="توضیحات"></label>'+
-            '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(si>0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button>':'')+'</div></div>';
+            '<div class="mnWfActs"><button type="button" class="btn primary" id="mnWfFwd">'+(nx.k==='announced'?'ثبت ابلاغ':'ثبت و ارسال به '+nx.t)+'</button>'+(wfBk(si)>=0?'<button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[wfBk(si)].t+'</button>':'')+'</div></div>';
         }else{
-          act='<div class="mnWfDone">این '+esc(cfg.noun)+' ابلاغ شده است.</div><div class="mnWfActs"><button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[si-1].t+'</button></div>'+
+          act='<div class="mnWfDone">این '+esc(cfg.noun)+' ابلاغ شده است.</div><div class="mnWfActs"><button type="button" class="btn danger" id="mnWfBack">عودت به '+WF_ST[wfBk(si)].t+'</button></div>'+
             '<div class="mnWfForm mnWfBackForm" id="mnWfBackForm" hidden></div>';
         }
         var hist=histRows(w);
@@ -12910,9 +12913,9 @@ setInterval(bindExports,500);
             return;
           }
           if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(v.d)){alert('تاریخ را به‌صورت ۱۴۰۴/۰۵/۳۱ وارد کن.');return}
-          if(!(await K.confirm('عودت به '+WF_ST[si-1].t,esc0(cfg.noun)+' به «'+WF_ST[si-1].t+'» عودت داده شود؟','عودت')))return;
-          var from=w.status,to=WF_ST[si-1].k;bb.disabled=true;
-          try{await commit(id,function(z){delete z.draft;if(z.stages){delete z.stages[from];delete z.stages[to]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
+          if(!(await K.confirm('عودت به '+WF_ST[wfBk(si)].t,esc0(cfg.noun)+' به «'+WF_ST[wfBk(si)].t+'» عودت داده شود؟','عودت')))return;
+          var from=w.status,to=WF_ST[wfBk(si)].k;bb.disabled=true;
+          try{await commit(id,function(z){delete z.draft;if(z.stages){for(var q=wfIdx(to);q<=wfIdx(from);q++)delete z.stages[WF_ST[q].k]}z.v=2;z.status=to;z.updatedAt=Date.now();z.history=z.history||[];z.history.push({ts:z.updatedAt,type:'back',from:from,to:to,date:v.d,letterNo:v.n,note:v.t})});
             say('به '+wfName(to)+' عودت داده شد');paint()}
           catch(e){alert(e.message||'ثبت انجام نشد.');bb.disabled=false}
         };
