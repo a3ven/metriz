@@ -6178,7 +6178,7 @@ function analysisExportXlsx(item){
   allRows.push(['','','','','','قیمت نهایی آنالیز',__tr.length?{f:__tr.map(n=>'G'+n).join('+'),v:grand}:grand]);
   const widths=[9,52,18,14,18,13,20].concat(anyN?[40]:[]), esc=xlsxXmlEsc;
   let sh='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><dimension ref="A1:G12"/><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>';widths.forEach((w,i)=>sh+='<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>');sh+='</cols><sheetData>';
-  allRows.forEach((row,ri)=>{const rr=ri+1,isTitle=ri===0,isHeads=row.length===NC&&row.join('|')===heads.join('|'),isSection=row.length===1&&ANALYSIS_CATS.includes(String(row[0])),isGrand=row[5]==='قیمت نهایی آنالیز',isTotal=typeof row[5]==='string'&&String(row[5]).startsWith('جمع ');sh+='<row r="'+rr+'">';for(let ci=0;ci<NC;ci++){const v=row[ci]??'',ref=xlsxCol(ci)+rr,isF=!!(v&&typeof v==='object'&&v.f),isNum=isF||(typeof v==='number'&&Number.isFinite(v));let style=isTitle?1:(isSection?2:(isHeads?3:(isGrand?5:(isTotal?4:((ci===4||ci===6)&&isNum?4:(ci===5&&isNum?6:((ci===1||ci===7)?7:0)))))));if(isF){const hv=Number.isFinite(v.v);sh+='<c r="'+ref+'" s="'+style+'"'+(hv?' t="n"':'')+'><f>'+esc(v.f)+'</f>'+(hv?'<v>'+v.v+'</v>':'')+'</c>'}else if(isNum)sh+='<c r="'+ref+'" s="'+style+'" t="n"><v>'+v+'</v></c>';else sh+='<c r="'+ref+'" s="'+style+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>'}sh+='</row>'});const __LC=xlsxCol(NC-1),__mg=['A1:'+__LC+'1','B2:'+__LC+'2','B3:'+__LC+'3','B4:'+__LC+'4'];allRows.forEach((row,ri)=>{if(row.length===1&&ANALYSIS_CATS.includes(String(row[0])))__mg.push('A'+(ri+1)+':'+__LC+(ri+1))});sh+='</sheetData><mergeCells count="'+__mg.length+'">'+__mg.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells><pageSetup orientation="portrait" fitToWidth="1" fitToHeight="0"/></worksheet>';
+  allRows.forEach((row,ri)=>{const rr=ri+1,isTitle=ri===0,isHeads=row.length===NC&&row.join('|')===heads.join('|'),isSection=row.length===1&&ANALYSIS_CATS.includes(String(row[0])),isGrand=row[5]==='قیمت نهایی آنالیز',isTotal=typeof row[5]==='string'&&String(row[5]).startsWith('جمع ');sh+='<row r="'+rr+'">';for(let ci=0;ci<NC;ci++){const v=row[ci]??'',ref=xlsxCol(ci)+rr,isF=!!(v&&typeof v==='object'&&v.f),isNum=isF||(typeof v==='number'&&Number.isFinite(v));let style=isTitle?1:(isSection?2:(isHeads?3:(isGrand?5:(isTotal?4:((ci===4||ci===6)&&isNum?4:(ci===5&&isNum?6:((ci===1||ci===7)?7:0)))))));if(isF){const hv=Number.isFinite(v.v);sh+='<c r="'+ref+'" s="'+style+'"'+(hv?' t="n"':'')+'><f>'+esc(v.f)+'</f>'+(hv?'<v>'+v.v+'</v>':'')+'</c>'}else if(isNum)sh+='<c r="'+ref+'" s="'+style+'" t="n"><v>'+v+'</v></c>';else sh+='<c r="'+ref+'" s="'+style+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>'}sh+='</row>'});const __LC=xlsxCol(NC-1),__mg=['A1:'+__LC+'1','B2:'+__LC+'2','B3:'+__LC+'3','B4:'+__LC+'4'];allRows.forEach((row,ri)=>{if(row.length===1&&ANALYSIS_CATS.includes(String(row[0])))__mg.push('A'+(ri+1)+':'+__LC+(ri+1))});sh+='</sheetData><mergeCells count="'+__mg.length+'">'+__mg.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells><pageSetup orientation="portrait" fitToWidth="1" fitToHeight="0"/>'+(window.__cplFootXml?window.__cplFootXml():'')+'</worksheet>';
   const wb='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets><sheet name="آنالیز" sheetId="1" r:id="rId1"/></sheets><calcPr calcMode="auto" fullCalcOnLoad="1"/></workbook>';
   const rel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
   const wrel='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
@@ -6470,7 +6470,7 @@ function exportAnalysisPageXlsx(onlyId){
     }
     sh+='</row>';
   }
-  sh+='</sheetData><mergeCells count="'+merges.length+'">'+merges.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells><printOptions horizontalCentered="1"/><pageMargins left="0.28" right="0.28" top="0.3" bottom="0.3" header="0" footer="0"/><pageSetup paperSize="9" orientation="portrait" fitToWidth="1" fitToHeight="1"/></worksheet>';
+  sh+='</sheetData><mergeCells count="'+merges.length+'">'+merges.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells><printOptions horizontalCentered="1"/><pageMargins left="0.28" right="0.28" top="0.3" bottom="'+((window.__cplFootXml?window.__cplFootXml():'')?'0.6':'0.3')+'" header="0" footer="'+((window.__cplFootXml?window.__cplFootXml():'')?'0.25':'0')+'"/><pageSetup paperSize="9" orientation="portrait" fitToWidth="1" fitToHeight="1"/>'+(window.__cplFootXml?window.__cplFootXml():'')+'</worksheet>';
   const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+(nfs.length?'<numFmts count="'+nfs.length+'">'+nfs.map((f,i)=>'<numFmt numFmtId="'+(164+i)+'" formatCode="'+enc(f)+'"/>').join('')+'</numFmts>':'')+'<fonts count="'+fonts.length+'">'+fonts.join('')+'</fonts><fills count="'+fills.length+'">'+fills.join('')+'</fills><borders count="'+borders.length+'">'+borders.join('')+'</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="'+xfs.length+'">'+xfs.join('')+'</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
   const wb='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets><sheet name="گزارش آنالیز" sheetId="1" r:id="rId1"/></sheets></workbook>';
   /* رفع باگ اصلی: نوع رابطه شیت باید worksheet باشد، نه officeDocument؛ وگرنه اکسل فایل را خالی/خراب می‌بیند */
@@ -6506,7 +6506,7 @@ function exportStarredXlsx(){
   sh+='<row r="1" ht="28" customHeight="1">'+cell(1,0,'گزارش آیتم‌های ستاره‌دار',5)+[1,2,3,4,5,6].map(c=>'<c r="'+xlsxCol(c)+'1" s="5"/>').join('')+'</row>';
   sh+='<row r="2" ht="26" customHeight="1">'+heads.map((h,c)=>cell(2,c,h,1)).join('')+'</row>';
   rows.forEach((r,i)=>{const n=i+3;sh+='<row r="'+n+'">'+r.map((v,c)=>cell(n,c,v,c===2?2:(c===6?4:3))).join('')+'</row>'});
-  sh+='</sheetData><mergeCells count="1"><mergeCell ref="A1:G1"/></mergeCells><pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0" footer="0"/><pageSetup paperSize="9" orientation="landscape"/></worksheet>';
+  sh+='</sheetData><mergeCells count="1"><mergeCell ref="A1:G1"/></mergeCells><pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0" footer="'+((window.__cplFootXml?window.__cplFootXml():'')?'0.2':'0')+'"/><pageSetup paperSize="9" orientation="landscape"/>'+(window.__cplFootXml?window.__cplFootXml():'')+'</worksheet>';
   const font=(b,sz)=>'<font>'+(b?'<b/>':'')+'<sz val="'+sz+'"/><name val="B Nazanin"/><family val="2"/></font>';
   const edge='<border><left style="thin"><color rgb="FF444444"/></left><right style="thin"><color rgb="FF444444"/></right><top style="thin"><color rgb="FF444444"/></top><bottom style="thin"><color rgb="FF444444"/></bottom><diagonal/></border>';
   const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="3">'+font(0,11)+font(1,11)+font(1,14)+'</fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFEEEEEE"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>'+edge+'</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="3" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf></cellXfs></styleSheet>';
@@ -6606,7 +6606,7 @@ function exportPriceCoverAllXlsx(coverOnly){
   const build=(data,widths,merges,orient)=>{
     let sh=H+'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+widths.map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join('')+'</cols><sheetData>';
     data.forEach((row,ri)=>{const rr=ri+1;sh+='<row r="'+rr+'">';row.forEach((c,ci)=>{const v=c[0],st=c[1],ref=xlsxCol(ci)+rr;if(v&&typeof v==='object'&&v.f){const hv=Number.isFinite(v.v);sh+='<c r="'+ref+'" s="'+st+'"'+(hv?' t="n"':'')+'><f>'+esc(v.f)+'</f>'+(hv?'<v>'+v.v+'</v>':'')+'</c>'}else if(typeof v==='number'&&Number.isFinite(v))sh+='<c r="'+ref+'" s="'+st+'" t="n"><v>'+v+'</v></c>';else sh+='<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v==null?'':v)+'</t></is></c>'});sh+='</row>'});
-    sh+='</sheetData>'+(merges.length?'<mergeCells count="'+merges.length+'">'+merges.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells>':'')+'<pageSetup orientation="'+(orient||'landscape')+'" fitToWidth="1" fitToHeight="0"/></worksheet>';
+    sh+='</sheetData>'+(merges.length?'<mergeCells count="'+merges.length+'">'+merges.map(m=>'<mergeCell ref="'+m+'"/>').join('')+'</mergeCells>':'')+'<pageSetup orientation="'+(orient||'landscape')+'" fitToWidth="1" fitToHeight="0"/>'+(window.__cplFootXml?window.__cplFootXml():'')+'</worksheet>';
     return sh;
   };
   /* ---- آنالیز هر آیتم با فرمول زنده: بهای کل = مقدار×بهای واحد×ضریب ، جمع‌ها = SUM ، قیمت نهایی = جمع بخش‌ها ---- */
@@ -12352,17 +12352,8 @@ setInterval(bindExports,500);
       {name:'xl/styles.xml',data:X_STYLES}
     ]);
   }
-  /* فوتر چاپی اکسل: امضاهای عوامل (مثل گزارش چاپی) — راست: اولین عامل، وسط: دومین، چپ: سومین */
-  function sigFoot(){
-    try{
-      var ns=(window.__cplOrgs&&window.__cplOrgs.sigNames)?window.__cplOrgs.sigNames():[];
-      if(!ns||!ns.length)return '';
-      var F='&"B Nazanin,Bold"&12',q=function(t){return String(t).replace(/&/g,'&&')};
-      if(ns.length>3)return '&C'+F+ns.map(q).join('     ');
-      return ['&R','&C','&L'].slice(0,ns.length).map(function(p,i){return p+F+q(ns[i])}).join('');
-    }catch(e){return ''}
-  }
-  function footXml(f){return f?'<headerFooter><oddFooter>'+xEsc(f)+'</oddFooter></headerFooter>':''}
+  function sigFoot(){return window.__cplSigFoot?window.__cplSigFoot():''}
+  function footXml(f){return window.__cplFootXml?window.__cplFootXml(f):''}
   function sheetXml(rows,widths,merges,land,foot){
     var sh='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" rightToLeft="1"/></sheetViews><cols>'+
       widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join('')+'</cols><sheetData>';
@@ -13202,6 +13193,22 @@ window.__cplSig=function(){
   }
   var b=function(t){return '<div style="flex:1 1 0;border:1px solid #000;padding:2px 8px;text-align:center;font-weight:700;font-size:12px;line-height:1.5">'+he(t)+'</div>'};
   return '<div class="cplSig" dir="rtl" style="display:flex;gap:10px;margin-top:20px;page-break-inside:avoid;break-inside:avoid">'+ns.map(b).join('')+'</div>';
+};
+/* فوتر چاپی اکسل با همان امضاهای عوامل: تا سه عامل راست/وسط/چپ؛ بیشتر از سه عامل در کل عرض صفحه پخش می‌شود */
+window.__cplSigFoot=function(){
+  try{
+    var ns=(window.__cplOrgs&&window.__cplOrgs.sigNames)?window.__cplOrgs.sigNames():[];
+    if(!ns||!ns.length)return '';
+    var F='&"B Nazanin,Bold"&12',q=function(t){return String(t).replace(/&/g,'&&')},P=['&R','&C','&L'],n=ns.length,out='';
+    if(n<=3)return P.slice(0,n).map(function(p,i){return p+F+q(ns[i])}).join('');
+    var base=Math.floor(n/3),ex=n%3,at=0;
+    P.forEach(function(p,g){var k=base+(g<ex?1:0);out+=p+F+ns.slice(at,at+k).map(q).join('   ');at+=k});
+    return out;
+  }catch(e){return ''}
+};
+window.__cplFootXml=function(f){
+  if(f==null)f=window.__cplSigFoot?window.__cplSigFoot():'';
+  return f?'<headerFooter scaleWithDoc="0"><oddFooter>'+String(f).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')+'</oddFooter></headerFooter>':'';
 };
 </script>
 <script id="cpl-ver-js">
@@ -14870,7 +14877,7 @@ window.__cplSig=function(){
       });
       sh+='</row>';
     });
-    sh+='</sheetData>'+(merges.length?'<mergeCells count="'+merges.length+'">'+merges.map(function(m){return '<mergeCell ref="'+m+'"/>'}).join('')+'</mergeCells>':'')+'<pageSetup orientation="'+(land?'landscape':'portrait')+'" fitToWidth="1" fitToHeight="0"/></worksheet>';
+    sh+='</sheetData>'+(merges.length?'<mergeCells count="'+merges.length+'">'+merges.map(function(m){return '<mergeCell ref="'+m+'"/>'}).join('')+'</mergeCells>':'')+'<pageSetup orientation="'+(land?'landscape':'portrait')+'" fitToWidth="1" fitToHeight="0"/>'+(window.__cplFootXml?window.__cplFootXml():'')+'</worksheet>';
     return sh;
   }
   function sheetName(n,used){
