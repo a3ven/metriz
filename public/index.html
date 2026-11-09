@@ -19102,7 +19102,7 @@ window.__cplFootXml=function(f){
           clearTimeout(tm);
           if(r.ok)return r.json();
           return r.json().catch(function(){return {}}).then(function(j){
-            var e=new Error((j&&j.error)||'دریافت اطلاعات ناموفق بود.');
+            var e=new Error(((j&&j.error)||'دریافت اطلاعات ناموفق بود.')+' ['+f+' — '+r.status+']');
             e.fatal=(r.status===401||r.status===403||r.status===404);
             throw e;
           });
@@ -19119,23 +19119,30 @@ window.__cplFootXml=function(f){
     return attempt(0);
   }
   function rtRefresh(){if(root&&root.classList.contains('show')&&ST.view==='rates')rtPaint()}
+  /* جداسازی دمو و کاربر واردشده: داده‌ی لودشده‌ی یکی هیچ‌وقت در دیگری نشان داده نشود */
+  function rtSync(){
+    var m=window.DEMO_MODE?'demo':'user';
+    if(RT.mode===m)return;
+    RT.mode=m;RT.idx=null;RT.files={};RT.fbusy={};RT.ferr={};RT.pf=0;RT.err='';RT.busy=false;RT.y='';RT.p='';RT.g='';RT.gen=(RT.gen||0)+1;
+  }
   function rtLoadIdx(){
+    rtSync();
     if(RT.idx||RT.busy)return;
     RT.busy=true;RT.err='';
-    rtJson('rates-index-v1.json').then(function(j){RT.idx=j},function(e){RT.err=e.message}).then(function(){RT.busy=false;rtRefresh();if(RT.idx)rtPrefetch()});
+    var gen=RT.gen;rtJson('rates-index-v1.json').then(function(j){if(gen===RT.gen)RT.idx=j},function(e){if(gen===RT.gen)RT.err=e.message}).then(function(){if(gen!==RT.gen)return;RT.busy=false;rtRefresh();if(RT.idx)rtPrefetch()});
   }
   function rtLoadFile(f){
     if(RT.files[f]||RT.fbusy[f])return;
-    RT.fbusy[f]=1;delete RT.ferr[f];
-    rtJson(f).then(function(j){RT.files[f]=j},function(e){RT.ferr[f]=e.message}).then(function(){delete RT.fbusy[f];rtRefresh()});
+    RT.fbusy[f]=1;delete RT.ferr[f];var gen=RT.gen;
+    rtJson(f).then(function(j){if(gen===RT.gen)RT.files[f]=j},function(e){if(gen===RT.gen)RT.ferr[f]=e.message}).then(function(){if(gen!==RT.gen)return;delete RT.fbusy[f];rtRefresh()});
   }
   /* همان اول همه‌ی دوره‌ها (حدود ۲۰۰ کیلوبایت) در پس‌زمینه لود می‌شوند تا انتخاب کشوها فوری باشد */
   function rtPrefetch(){
     if(!RT.idx||RT.pf)return;RT.pf=1;
     var q=[];RT.idx.years.forEach(function(Y){Y.p.forEach(function(P){q.push(P.f)})});
     function next(){var f=q.shift();if(!f)return;if(RT.files[f]||RT.fbusy[f]){next();return}
-      RT.fbusy[f]=1;
-      rtJson(f).then(function(j){RT.files[f]=j},function(){}).then(function(){delete RT.fbusy[f];var sf=rtFind();if(RT.q.trim()||(sf.P&&sf.P.f===f))rtRefresh();next()});
+      RT.fbusy[f]=1;var gen=RT.gen;
+      rtJson(f).then(function(j){if(gen===RT.gen)RT.files[f]=j},function(){}).then(function(){if(gen!==RT.gen)return;delete RT.fbusy[f];var sf=rtFind();if(RT.q.trim()||(sf.P&&sf.P.f===f))rtRefresh();next()});
     }
     next();next();
   }
