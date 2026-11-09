@@ -3,10 +3,7 @@
 ساخت جدول «نرخ عوامل» برای نسخه‌ی آزمایشی (دمو) در public/demo-data/
 
 قوانین دمو:
-  - همه‌ی سال‌ها
-  - حداکثر ۲ دوره از هر سال (به‌صورت تصادفی)
-  - همه‌ی گروه‌های هر دوره (کامل)
-  - ۵۰٪ ردیف‌های (عوامل) هر گروه
+  - همه‌ی سال‌ها، همه‌ی دوره‌ها، همه‌ی گروه‌ها و همه‌ی ردیف‌ها (کامل)
   - در هر ردیف فقط یکی از «حداقل / حداکثر / متوسط» (تصادفی) می‌ماند؛ دو تای دیگر خالی (—)
 اجرا (فقط فایل‌های rates-* را می‌سازد و به بقیه‌ی demo-data دست نمی‌زند):
     python3 tools/make-demo-rates.py
@@ -17,7 +14,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'public', 'data')
 DST = os.path.join(ROOT, 'public', 'demo-data')
 SEED = 1405
-PERIODS_PER_YEAR = 2
 
 
 def load(p):
@@ -33,22 +29,12 @@ def dump(obj, p):
 def main():
     rnd = random.Random(SEED)
     os.makedirs(DST, exist_ok=True)
-    # دوره‌های انتخاب‌شده‌ی قبلی حفظ می‌شود تا با هر اجرا عوض نشود
-    prev = {}
-    try:
-        for Y in load(os.path.join(DST, 'rates-index-v1.json'))['years']:
-            prev[Y['y']] = set(p['k'] for p in Y['p'])
-    except Exception:
-        pass
     for old in glob.glob(os.path.join(DST, 'rates-*.json')):
         os.remove(old)
     idx = load(os.path.join(SRC, 'rates-index-v1.json'))
     out_years = []
     for Y in idx['years']:
         periods = Y['p']
-        if len(periods) > PERIODS_PER_YEAR:
-            pick = prev.get(Y['y']) or set(p['k'] for p in rnd.sample(periods, PERIODS_PER_YEAR))
-            periods = [p for p in periods if p['k'] in pick]
         files = {p['k']: load(os.path.join(SRC, p['f'])) for p in periods}
         # تصمیم تصادفی ردیف‌ها و ستون باقی‌مانده یک‌بار برای هر ردیف (در دوره‌ها یکسان نیست؛ مستقل)
         out_p = []
@@ -57,8 +43,7 @@ def main():
             groups = []
             for g in F['g']:
                 rows = g['r']
-                keep_n = max(1, round(len(rows) * 0.5))
-                keep = sorted(rnd.sample(range(len(rows)), keep_n))
+                keep = range(len(rows))
                 new_rows = []
                 for i in keep:
                     r = list(rows[i])
