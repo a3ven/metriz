@@ -91,7 +91,7 @@ async function dataGate(request, env, url) {
   }
   const demo = /(?:^|;\s*)cplDemo=1(?:;|$)/.test(request.headers.get('Cookie') || '');
   if (demo) {
-    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.shard.test(p) || DATA_RULES.analysis.test(p)) {
+    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.rates.test(p) || DATA_RULES.shard.test(p) || DATA_RULES.analysis.test(p)) {
       const r = await env.ASSETS.fetch(new Request(new URL('/demo-data/' + p.slice('/data/'.length), url), request));
       if (r.ok) return priv(r);
     }

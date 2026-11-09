@@ -19097,7 +19097,6 @@ window.__cplFootXml=function(f){
   function rtRefresh(){if(root&&root.classList.contains('show')&&ST.view==='rates')rtPaint()}
   function rtLoadIdx(){
     if(RT.idx||RT.busy)return;
-    if(window.DEMO_MODE){RT.err='«نرخ عوامل» در نسخه‌ی آزمایشی در دسترس نیست.';return}
     RT.busy=true;RT.err='';
     rtJson('rates-index-v1.json').then(function(j){RT.idx=j},function(e){RT.err=e.message}).then(function(){RT.busy=false;rtRefresh()});
   }
@@ -20525,6 +20524,16 @@ html body #cplBase #cbRtList{margin-top:14px}
 #cplBase .rtTbl td:first-child{min-width:86px;line-height:1.7}
 @media (max-width:420px){#cplBase .rtTbl{font-size:12.5px}#cplBase .rtTbl th,#cplBase .rtTbl td{padding:8px 3px}#cplBase .rtTbl td:first-child,#cplBase .rtTbl th:first-child{padding-inline-start:9px}}
 #cplBase .rtRetry{margin-top:10px;height:40px;padding:0 18px;border-radius:999px}
+/* نرخ عوامل: فونت بزرگ‌تر */
+#cplBase #cbRtList .cbForm label,#cplBase .cbForm label[for],#cplBase #cbRtList label{font-size:16px}
+#cplBase #cbRY,#cplBase #cbRP,#cplBase #cbRG{font-size:18px!important;min-height:52px}
+#cplBase #cbRtList .rtTbl{font-size:17px}
+#cplBase #cbRtList .rtTbl th{font-size:16px;font-weight:800}
+#cplBase #cbRtList .rtTbl th,#cplBase #cbRtList .rtTbl td{padding:12px 6px}
+#cplBase #cbRtList .rtTbl td:first-child{min-width:110px;line-height:1.8}
+#cplBase #cbRtList .cbCount{font-size:15px}
+#cplBase #cbRtList .rtResHd b{font-size:18px}
+@media (max-width:420px){#cplBase #cbRtList .rtTbl{font-size:15px}#cplBase #cbRtList .rtTbl th{font-size:14px}#cplBase #cbRtList .rtTbl th,#cplBase #cbRtList .rtTbl td{padding:11px 3px}#cplBase #cbRY,#cplBase #cbRP,#cplBase #cbRG{font-size:17px!important}}
 </style>
 <style id="home-match-base">
 /* صفحه اول: شروع کادرها و اندازه‌ی آن‌ها دقیقاً مثل صفحه‌ی «داده‌های پایه» (۱۶px پایین‌تر، ارتفاع کارت‌ها ۱۲۱px) */
