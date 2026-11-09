@@ -26,6 +26,7 @@ const PUBLIC_DATA_RE = /^\/data\/manifest(?:-light)?\.json$/;
 const DATA_RULES = {
   index: /^\/data\/shard-index\.json$/,
   adj: /^\/data\/adjustment-index-v\d+\.json$/,
+  rates: /^\/data\/rates-(?:index|\d{4}-[a-z0-9]+)-v\d+\.json$/, /* نرخ عوامل (دستمزد ساعتی): فایل‌های کوچک، بدون سقف روزانه */
   shard: /^\/data\/(shard-\d{4}-\d{2,3}\.json)$/,
   analysis: /^\/data\/(analysis-\d{4}-[a-z]+-v\d+\.json)$/,
   pdf: /^\/data\/chapter-intro-[A-Za-z0-9_.-]*-chapter_(\d{2})\.pdf$/
@@ -74,7 +75,7 @@ async function dataGate(request, env, url) {
   try { user = await userFrom(request, env); } catch { user = null; }
   if (user) {
     if (user.sub_expired) return json({ error: SUB_EXPIRED_DATA_MSG, expired: true }, 403, { 'Cache-Control': 'no-store', 'Vary': 'Cookie' });
-    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.pdf.test(p)) {
+    if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.rates.test(p) || DATA_RULES.pdf.test(p)) {
       const r = await env.ASSETS.fetch(request);
       return r.ok ? priv(r) : notFound();
     }

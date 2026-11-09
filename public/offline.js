@@ -628,6 +628,8 @@
       var idx = await ir.json(), DISC = ['ابنیه', 'مکانیک', 'برق'], files = ['adjustment-index-v158.json'];
       (idx.shards || []).forEach(function (s) { var y = Number(s.y); if (y >= 1399 && y <= 1404 && DISC.indexOf(s.d) >= 0) files.push(s.f); });
       for (var y = 1399; y <= 1404; y++) ['abnieh', 'mechanic', 'bargh'].forEach(function (d) { files.push('analysis-' + y + '-' + d + '-v196.json'); });
+      /* نرخ عوامل (دستمزد ساعتی): فهرست + فایل هر دوره */
+      try { var rr = await rawFetch('./data/rates-index-v1.json', { cache: 'no-store', credentials: 'same-origin' }); if (rr.ok) { var rj = await rr.json(); files.push('rates-index-v1.json'); (rj.years || []).forEach(function (Y) { (Y.p || []).forEach(function (P) { files.push(P.f); }); }); } } catch (e) {}
       var c = await caches.open('metriz-data-v1'), todo = [];
       for (var i = 0; i < files.length; i++) if (!(await c.match('/data/' + files[i], { ignoreVary: true }))) todo.push(files[i]);
       var done = 0, failed = 0, stopMsg = '', next = 0, total = todo.length;
