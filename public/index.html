@@ -19090,11 +19090,17 @@ window.__cplFootXml=function(f){
   function qn(s){return String(s==null?'':s).replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)}).replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).replace(/[‌\s]+/g,'').toLowerCase()}
   /* دریافت با تلاش دوباره‌ی خودکار (قطع/ریست اتصال، کندی شبکه، خطای موقت سرور) — بدون نیاز به دکمه‌ی «تلاش دوباره» */
   function rtSleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  /* دمو: کوکی «cplDemo» را قبل از هر دریافت دوباره مطمئن می‌کنیم (اگر پاک شده یا Secure روی http رد شده باشد) */
+  function rtDemoCookie(){
+    if(!window.DEMO_MODE)return;
+    try{if(!/(?:^|;\s*)cplDemo=1(?:;|$)/.test(document.cookie))document.cookie='cplDemo=1; Path=/; SameSite=Lax'+(location.protocol==='https:'?'; Secure':'')}catch(e){}
+  }
   function rtJson(f){
     var delays=[0,700,1800,3500,6000],lastErr=null;
     function attempt(i){
       if(i>=delays.length)return Promise.reject(lastErr||new Error('دریافت اطلاعات ناموفق بود.'));
       return rtSleep(delays[i]).then(function(){
+        rtDemoCookie();
         var ac=(typeof AbortController!=='undefined')?new AbortController():null,tm=null;
         if(ac)tm=setTimeout(function(){try{ac.abort()}catch(e){}},15000);
         var o={credentials:'same-origin'};if(ac)o.signal=ac.signal;
@@ -19104,6 +19110,7 @@ window.__cplFootXml=function(f){
           return r.json().catch(function(){return {}}).then(function(j){
             var e=new Error(((j&&j.error)||'دریافت اطلاعات ناموفق بود.')+' ['+f+' — '+r.status+']');
             e.fatal=(r.status===401||r.status===403||r.status===404);
+            if(r.status===401&&window.DEMO_MODE&&i<2)e.fatal=false;
             throw e;
           });
         },function(){
@@ -19202,7 +19209,7 @@ window.__cplFootXml=function(f){
     return '<div class="cbCount">'+faN(res.length)+' گروه'+(res.length>MAXR?' (نمایش '+faN(MAXR)+' مورد اول؛ عبارت دقیق‌تری بنویسید)':'')+(fail?' — '+faN(fail)+' دوره دریافت نشد':'')+'</div>'+
       shown.map(function(r){return '<section class="rtRes" data-t="'+E(faN(r.Y.y)+' '+r.P.t+' — '+r.g.n)+'"><div class="rtResHd"><b>'+E(r.g.n)+'</b><span class="rtN">'+faN(r.Y.y)+' · '+E(r.P.t)+'</span></div>'+rtTable(r.rows)+'</section>'}).join('');
   }
-  function rtDemoNote(){return window.DEMO_MODE?'<div class="cbEmpty" data-demo="1">در نسخه آزمایشی فقط بخشی از گروه‌ها و عوامل نرخ عوامل نمایش داده می‌شود. فهرست کامل در نسخه اصلی در دسترس است.</div>':''}
+  function rtDemoNote(){return window.DEMO_MODE?'<div class="cbEmpty rtDemoNote" data-demo="1">در نسخه آزمایشی فقط بخشی از گروه‌ها و عوامل نرخ عوامل نمایش داده می‌شود. فهرست کامل در نسخه اصلی در دسترس است.</div>':''}
   function rtPaint(){var el=$('cbRtList');if(el)el.innerHTML=rtDemoNote()+(RT.q.trim()?rtSearchHtml():rtSelectHtml())}
   function renderRates(box){
     box.innerHTML='<div class="cbForm"><label>جستجوی گروه یا نیروی انسانی<span class="cbSrch"><input id="cbRQ" type="search" autocomplete="off" enterkeyhint="search" placeholder="مثلاً: کارگر ساده، بنا، ۱۴۰۴ آرماتوربند…" value="'+E(RT.q)+'"><button type="button" class="btn" data-cb="rt-search" aria-label="جستجو" title="جستجو">'+ICO_SEARCH+'</button></span></label></div><div id="cbRtList"></div>';
@@ -20569,6 +20576,8 @@ html body #cplBase #cbRtList{margin-top:14px}
 #cplBase .rtTbl td:first-child{min-width:86px;line-height:1.7}
 @media (max-width:420px){#cplBase .rtTbl{font-size:12.5px}#cplBase .rtTbl th,#cplBase .rtTbl td{padding:8px 3px}#cplBase .rtTbl td:first-child,#cplBase .rtTbl th:first-child{padding-inline-start:9px}}
 #cplBase .rtRetry{margin-top:10px;height:40px;padding:0 18px;border-radius:999px}
+#cplBase .rtDemoNote{border:2px solid #e5484d;border-radius:16px;background:rgba(229,72,77,.10);color:#ff8a8d;font-size:17px;font-weight:800;line-height:2;padding:12px 14px;margin:12px 0}
+html[data-theme="light"] #cplBase .rtDemoNote,html[data-palette="sheet"] #cplBase .rtDemoNote{color:#b3261e;background:rgba(229,72,77,.08);border-color:#d93a3f}
 /* نرخ عوامل: فونت بزرگ‌تر */
 #cplBase #cbRtList .cbForm label,#cplBase .cbForm label[for],#cplBase #cbRtList label{font-size:16px}
 #cplBase #cbRY,#cplBase #cbRP,#cplBase #cbRG{font-size:18px!important;min-height:52px}
