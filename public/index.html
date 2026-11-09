@@ -19184,7 +19184,7 @@ window.__cplFootXml=function(f){
     var gPh=!f.P?'— اول زیرمجموعه را انتخاب کن —':(pLoad?'در حال بارگذاری…':'— گروه را انتخاب کن —');
     var h='<div class="cbForm"><div class="cbRow2"><label>سال<select id="cbRY">'+ys.map(function(y){return opt(y.y,faN(y.y),RT.y)}).join('')+'</select></label>'+
       '<label>زیرمجموعه<select id="cbRP"><option value="">— انتخاب کن —</option>'+(Y?Y.p.map(function(x){return opt(x.k,x.t,RT.p)}).join(''):'')+'</select></label></div>'+
-      '<label>گروه<select id="cbRG"><option value="">'+gPh+'</option>'+(f.F?f.F.g.map(function(g,i){return opt(i,g.n,RT.g)}).join('')+(window.DEMO_MODE?'<option value="" disabled>— سایر گروه‌ها در نسخه آزمایشی موجود نیست</option>':''):'')+'</select></label></div>';
+      '<label>گروه<select id="cbRG"><option value="">'+gPh+'</option>'+(f.F?f.F.g.map(function(g,i){return opt(i,g.n,RT.g)}).join(''):'')+'</select></label></div>';
     if(pErr)h+='<div class="cbEmpty">'+E(RT.ferr[f.P.f])+'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button></div>';
     else if(f.G)h+='<div id="rtSel" data-t="'+E(faN(f.Y.y)+' '+f.P.t+' — '+f.G.n)+'">'+rtTable(f.G.r)+(window.DEMO_MODE?'<div class="cbEmpty">سایر عوامل این گروه در نسخه آزمایشی موجود نیست.</div>':'')+'</div>';
     return h;
@@ -19209,7 +19209,7 @@ window.__cplFootXml=function(f){
     return '<div class="cbCount">'+faN(res.length)+' گروه'+(res.length>MAXR?' (نمایش '+faN(MAXR)+' مورد اول؛ عبارت دقیق‌تری بنویسید)':'')+(fail?' — '+faN(fail)+' دوره دریافت نشد':'')+'</div>'+
       shown.map(function(r){return '<section class="rtRes" data-t="'+E(faN(r.Y.y)+' '+r.P.t+' — '+r.g.n)+'"><div class="rtResHd"><b>'+E(r.g.n)+'</b><span class="rtN">'+faN(r.Y.y)+' · '+E(r.P.t)+'</span></div>'+rtTable(r.rows)+'</section>'}).join('');
   }
-  function rtDemoNote(){return window.DEMO_MODE?'<div class="cbEmpty rtDemoNote" data-demo="1">در نسخه آزمایشی فقط بخشی از گروه‌ها و عوامل نرخ عوامل نمایش داده می‌شود. فهرست کامل در نسخه اصلی در دسترس است.</div>':''}
+  function rtDemoNote(){return window.DEMO_MODE?'<div class="cbEmpty rtDemoNote" data-demo="1">در نسخه آزمایشی فقط بخشی از عوامل هر گروه و برای هر عامل فقط یکی از نرخ‌های حداقل، حداکثر یا متوسط نمایش داده می‌شود. فهرست کامل در نسخه اصلی در دسترس است.</div>':''}
   function rtPaint(){var el=$('cbRtList');if(el)el.innerHTML=rtDemoNote()+(RT.q.trim()?rtSearchHtml():rtSelectHtml())}
   function renderRates(box){
     box.innerHTML='<div class="cbForm"><label>جستجوی گروه یا نیروی انسانی<span class="cbSrch"><input id="cbRQ" type="search" autocomplete="off" enterkeyhint="search" placeholder="مثلاً: کارگر ساده، بنا، ۱۴۰۴ آرماتوربند…" value="'+E(RT.q)+'"><button type="button" class="btn" data-cb="rt-search" aria-label="جستجو" title="جستجو">'+ICO_SEARCH+'</button></span></label></div><div id="cbRtList"></div>';
