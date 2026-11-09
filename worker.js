@@ -60,6 +60,9 @@ async function quotaCheck(env, user, name) {
 async function dataGate(request, env, url) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
   const p = url.pathname;
+  /* درخواست شرطی مرورگر (If-None-Match / If-Modified-Since) به ASSETS نرود: پاسخ ۳۰۴ «ok» حساب نمی‌شد و به ۴۰۱/۴۰۴ تبدیل می‌شد
+     (در کروم معمولی که نسخه‌ی کش‌شده داشت، نرخ عوامل ۴۰۱ می‌داد؛ در ناشناس و فایرفاکس نه). */
+  const plain = (req, u) => { const h = new Headers(req.headers); h.delete('If-None-Match'); h.delete('If-Modified-Since'); h.delete('If-Range'); h.delete('Range'); return new Request(u || req.url, { method: req.method, headers: h }); };
   if (PUBLIC_DATA_RE.test(p)) {
     const r = await env.ASSETS.fetch(request);
     const h = new Headers(r.headers); h.set('Cache-Control', 'no-cache, must-revalidate, max-age=0');
@@ -76,12 +79,12 @@ async function dataGate(request, env, url) {
   if (user) {
     if (user.sub_expired) return json({ error: SUB_EXPIRED_DATA_MSG, expired: true }, 403, { 'Cache-Control': 'no-store', 'Vary': 'Cookie' });
     if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.rates.test(p) || DATA_RULES.pdf.test(p)) {
-      const r = await env.ASSETS.fetch(request);
+      const r = await env.ASSETS.fetch(plain(request));
       return r.ok ? priv(r) : notFound();
     }
     const m = p.match(DATA_RULES.shard) || p.match(DATA_RULES.analysis);
     if (m) {
-      const r = await env.ASSETS.fetch(request);
+      const r = await env.ASSETS.fetch(plain(request));
       if (!r.ok) return notFound();
       const deny = await quotaCheck(env, user, m[1]);
       if (deny) return json({ error: deny }, 429, { 'Cache-Control': 'no-store', 'Vary': 'Cookie' });
@@ -92,12 +95,12 @@ async function dataGate(request, env, url) {
   const demo = /(?:^|;\s*)cplDemo=1(?:;|$)/.test(request.headers.get('Cookie') || '');
   if (demo) {
     if (DATA_RULES.index.test(p) || DATA_RULES.adj.test(p) || DATA_RULES.rates.test(p) || DATA_RULES.shard.test(p) || DATA_RULES.analysis.test(p)) {
-      const r = await env.ASSETS.fetch(new Request(new URL('/demo-data/' + p.slice('/data/'.length), url), request));
+      const r = await env.ASSETS.fetch(plain(request, new URL('/demo-data/' + p.slice('/data/'.length), url)));
       if (r.ok) return priv(r);
     }
     const pm = p.match(DATA_RULES.pdf);
     if (pm && Number(pm[1]) >= 1 && Number(pm[1]) <= 7) {
-      const r = await env.ASSETS.fetch(request);
+      const r = await env.ASSETS.fetch(plain(request));
       if (r.ok) return priv(r);
     }
   }

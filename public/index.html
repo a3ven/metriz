@@ -19103,7 +19103,7 @@ window.__cplFootXml=function(f){
         rtDemoCookie();
         var ac=(typeof AbortController!=='undefined')?new AbortController():null,tm=null;
         if(ac)tm=setTimeout(function(){try{ac.abort()}catch(e){}},15000);
-        var o={credentials:'same-origin'};if(ac)o.signal=ac.signal;
+        var o={credentials:'same-origin',cache:'no-store'};if(ac)o.signal=ac.signal;
         return fetch('./data/'+f,o).then(function(r){
           clearTimeout(tm);
           if(r.ok)return r.json();
