@@ -18728,7 +18728,6 @@ window.__cplFootXml=function(f){
       else if(a==='pdf'){closeMenu();doPdf()}
       else if(a==='mclose'){closeMenu();close()}
       else if(a==='items'||a==='index'||a==='ridx'||a==='coef'||a==='rates'){ST.view=a;if(a==='items'){ST.q='';ST.ro=false}render()}
-      else if(a==='rt'){rtToggle(t.getAttribute('data-k'))}
       else if(a==='rt-search'){var ri=$('cbRQ');if(ri){clearTimeout(rqT);RT.q=ri.value;rtPaint();ri.focus()}}
       else if(a==='rt-retry'){RT.err='';RT.ferr={};if(RT.idx)rtPaint();else{rtPaint();rtLoadIdx()}}
       else if(a==='search'){var qi=$('cbQ');if(qi){applyQ();qi.focus()}}
@@ -18756,6 +18755,9 @@ window.__cplFootXml=function(f){
       else if(id==='cbY'){ST.y=v;ST.c='';ST.i='';ST.ro=false;renderBody()}
       else if(id==='cbC'){ST.c=v;ST.i='';ST.ro=false;renderBody()}
       else if(id==='cbI'){ST.i=v;ST.ro=false;renderDetail()}
+      else if(id==='cbRY'){RT.y=v;RT.p='';RT.g='';rtPaint()}
+      else if(id==='cbRP'){RT.p=v;RT.g='';rtPaint()}
+      else if(id==='cbRG'){RT.g=v;rtPaint()}
       else if(id==='cbXD'){ST.xd=v;ST.xy='';ST.xp='all';renderBody()}
       else if(id==='cbXY'){ST.xy=v;ST.xp='all';renderBody()}
       else if(id==='cbXP'){ST.xp=v;renderBody()}
@@ -19081,7 +19083,7 @@ window.__cplFootXml=function(f){
   /* ===== نرخ عوامل: دستمزد ساعتی نیروی انسانی (مرکز آمار ایران) — سال › دوره › گروه › جدول ===== */
   var ICO_RATES=SV+'<circle cx="9" cy="7.5" r="3"/><path d="M3.5 19.5v-1.2a5.5 5.5 0 0 1 11 0v1.2"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M17.5 13.3a5.5 5.5 0 0 1 3 5v1.2"/></svg>';
   var ICO_CHEV=SV+'<path d="M6 9l6 6 6-6"/></svg>';
-  var RT={idx:null,err:'',busy:false,files:{},fbusy:{},ferr:{},open:{},q:''},rqT=null;
+  var RT={idx:null,err:'',busy:false,files:{},fbusy:{},ferr:{},y:'',p:'',g:'',q:''},rqT=null;
   function faN(x){return String(x).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.charAt(+d)})}
   function nv(v){return v==null?'—':nf(v)}
   /* یکدست‌سازی برای جستجو: ی/ک عربی، نیم‌فاصله، فاصله، ارقام فارسی/عربی */
@@ -19108,30 +19110,40 @@ window.__cplFootXml=function(f){
     return '<div class="cbCount">دستمزد ساعتی (ریال) — واحد: یک ساعت</div><div class="cbTblWrap"><table class="cbTbl rtTbl"><thead><tr><th class="cbT">نام قلم</th><th>حداقل</th><th>حداکثر</th><th>متوسط</th></tr></thead><tbody>'+
       rows.map(function(r){return '<tr><td>'+E(r[0])+'</td><td class="cbNum">'+nv(r[2])+'</td><td class="cbNum">'+nv(r[3])+'</td><td class="cbNum">'+nv(r[4])+'</td></tr>'}).join('')+'</tbody></table></div>';
   }
-  function rtDrawer(lv,key,title,badge,inner,extra){
-    var o=!!RT.open[key];
-    return '<section class="rtD rtL'+lv+(o?' open':'')+'"'+(extra||'')+'><button type="button" class="rtHd" data-cb="rt" data-k="'+key+'" aria-expanded="'+(o?'true':'false')+'"><span class="rtT">'+title+'</span><span class="rtN">'+badge+'</span><span class="rtC">'+ICO_CHEV+'</span></button>'+(o?'<div class="rtBody">'+inner+'</div>':'')+'</section>';
+  function rtLoadingHtml(){
+    return RT.err?'<div class="cbEmpty">'+E(RT.err)+(window.DEMO_MODE?'':'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button>')+'</div>':'<div class="cbEmpty">در حال بارگذاری…</div>';
   }
-  function rtPeriodHtml(Y,P){
-    var pk='p'+Y.y+'-'+P.k,o=!!RT.open[pk],inner='';
-    if(o){
-      var F=RT.files[P.f];
-      if(F)inner=F.g.map(function(g,gi){
-        var gk='g'+Y.y+'-'+P.k+'-'+gi;
-        return rtDrawer(3,gk,E(g.n),faN(g.r.length)+' ردیف',RT.open[gk]?rtTable(g.r):'',' data-t="'+E(faN(Y.y)+' '+P.t+' — '+g.n)+'"');
-      }).join('');
-      else inner=RT.ferr[P.f]?'<div class="cbEmpty">'+E(RT.ferr[P.f])+'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button></div>':'<div class="cbEmpty">در حال بارگذاری…</div>';
-    }
-    return rtDrawer(2,pk,E(P.t),faN(P.g)+' گروه',inner);
+  function rtFind(){
+    var Y=null,P=null,F=null,G=null;
+    if(!RT.idx)return {};
+    RT.idx.years.forEach(function(y){if(y.y===RT.y)Y=y});
+    if(Y)Y.p.forEach(function(x){if(x.k===RT.p)P=x});
+    if(P)F=RT.files[P.f]||null;
+    if(F&&RT.g!==''&&F.g[+RT.g])G=F.g[+RT.g];
+    return {Y:Y,P:P,F:F,G:G};
   }
-  function rtTreeHtml(){
-    if(!RT.idx)return RT.err?'<div class="cbEmpty">'+E(RT.err)+(window.DEMO_MODE?'':'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button>')+'</div>':'<div class="cbEmpty">در حال بارگذاری…</div>';
-    return RT.idx.years.map(function(Y){
-      return rtDrawer(1,'y'+Y.y,faN(Y.y),faN(Y.p.length)+' دوره',Y.p.map(function(P){return rtPeriodHtml(Y,P)}).join(''));
-    }).join('');
+  /* سه کشوی پشت‌سرهم مثل «آیتم‌های فهرست بها»: سال › زیرمجموعه › گروه؛ جدول بعد از انتخاب گروه */
+  function rtSelectHtml(){
+    if(!RT.idx)return rtLoadingHtml();
+    var ys=RT.idx.years;
+    if(!ys.some(function(y){return y.y===RT.y}))RT.y=ys.length?ys[0].y:'';
+    var f=rtFind(),Y=f.Y;
+    if(!Y||!Y.p.some(function(x){return x.k===RT.p})){RT.p='';RT.g=''}
+    f=rtFind();
+    if(f.P&&!f.F&&!RT.ferr[f.P.f])rtLoadFile(f.P.f);
+    f=rtFind();
+    if(f.F&&!(RT.g!==''&&f.F.g[+RT.g]))RT.g='';
+    var pLoad=f.P&&!f.F&&!RT.ferr[f.P.f],pErr=f.P&&!f.F&&RT.ferr[f.P.f];
+    var gPh=!f.P?'— اول زیرمجموعه را انتخاب کن —':(pLoad?'در حال بارگذاری…':'— گروه را انتخاب کن —');
+    var h='<div class="cbForm"><div class="cbRow2"><label>سال<select id="cbRY">'+ys.map(function(y){return opt(y.y,faN(y.y),RT.y)}).join('')+'</select></label>'+
+      '<label>زیرمجموعه<select id="cbRP"><option value="">— انتخاب کن —</option>'+(Y?Y.p.map(function(x){return opt(x.k,x.t,RT.p)}).join(''):'')+'</select></label></div>'+
+      '<label>گروه<select id="cbRG"><option value="">'+gPh+'</option>'+(f.F?f.F.g.map(function(g,i){return opt(i,g.n,RT.g)}).join(''):'')+'</select></label></div>';
+    if(pErr)h+='<div class="cbEmpty">'+E(RT.ferr[f.P.f])+'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button></div>';
+    else if(f.G)h+='<div id="rtSel" data-t="'+E(faN(f.Y.y)+' '+f.P.t+' — '+f.G.n)+'">'+rtTable(f.G.r)+'</div>';
+    return h;
   }
   function rtSearchHtml(){
-    if(!RT.idx)return rtTreeHtml();
+    if(!RT.idx)return rtLoadingHtml();
     var terms=RT.q.trim().split(/\s+/).map(qn).filter(Boolean),pend=0,fail=0,all=[];
     RT.idx.years.forEach(function(Y){Y.p.slice().reverse().forEach(function(P){
       if(RT.files[P.f])all.push([Y,P]);else if(RT.ferr[P.f])fail++;else{pend++;rtLoadFile(P.f)}
@@ -19150,19 +19162,12 @@ window.__cplFootXml=function(f){
     return '<div class="cbCount">'+faN(res.length)+' گروه'+(res.length>MAXR?' (نمایش '+faN(MAXR)+' مورد اول؛ عبارت دقیق‌تری بنویسید)':'')+(fail?' — '+faN(fail)+' دوره دریافت نشد':'')+'</div>'+
       shown.map(function(r){return '<section class="rtRes" data-t="'+E(faN(r.Y.y)+' '+r.P.t+' — '+r.g.n)+'"><div class="rtResHd"><b>'+E(r.g.n)+'</b><span class="rtN">'+faN(r.Y.y)+' · '+E(r.P.t)+'</span></div>'+rtTable(r.rows)+'</section>'}).join('');
   }
-  function rtPaint(){var el=$('cbRtList');if(el)el.innerHTML=RT.q.trim()?rtSearchHtml():rtTreeHtml()}
+  function rtPaint(){var el=$('cbRtList');if(el)el.innerHTML=RT.q.trim()?rtSearchHtml():rtSelectHtml()}
   function renderRates(box){
     box.innerHTML='<div class="cbForm"><label>جستجوی گروه یا نیروی انسانی<span class="cbSrch"><input id="cbRQ" type="search" autocomplete="off" enterkeyhint="search" placeholder="مثلاً: کارگر ساده، بنا، ۱۴۰۴ آرماتوربند…" value="'+E(RT.q)+'"><button type="button" class="btn" data-cb="rt-search" aria-label="جستجو" title="جستجو">'+ICO_SEARCH+'</button></span></label></div><div id="cbRtList"></div>';
     rtLoadIdx();rtPaint();
   }
-  function rtToggle(k){
-    RT.open[k]=!RT.open[k];
-    if(RT.open[k]&&k.charAt(0)==='p'&&RT.idx){
-      RT.idx.years.forEach(function(Y){Y.p.forEach(function(P){if('p'+Y.y+'-'+P.k===k)rtLoadFile(P.f)})});
-    }
-    rtPaint();
-  }
-  /* گزارش اکسل/چاپی: جستجو → نتایج؛ وگرنه همه‌ی گروه‌های دوره‌هایی که باز هستند */
+  /* گزارش اکسل/چاپی: جستجو → نتایج؛ وگرنه جدول گروه انتخاب‌شده */
   function rtReport(out){
     var T=function(t,rows){out.tables.push([[t,'حداقل','حداکثر','متوسط']].concat(rows.map(function(r){return [r[0],nv(r[2]),nv(r[3]),nv(r[4])]})))};
     if(RT.q.trim()){
@@ -19173,11 +19178,7 @@ window.__cplFootXml=function(f){
       });
       return;
     }
-    if(!RT.idx)return;
-    RT.idx.years.forEach(function(Y){if(!RT.open['y'+Y.y])return;Y.p.forEach(function(P){
-      if(!RT.open['p'+Y.y+'-'+P.k]||!RT.files[P.f])return;
-      RT.files[P.f].g.forEach(function(g){T(faN(Y.y)+' '+P.t+' — '+g.n,g.r)});
-    })});
+    var f=rtFind();if(f.G)T(faN(f.Y.y)+' '+f.P.t+' — '+f.G.n,f.G.r);
   }
 
   function open(){
@@ -20490,8 +20491,9 @@ html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root 
 </style>
 <style id="rates-css">
 /* نرخ عوامل: کشوهای تودرتو (سال › دوره › گروه) با همان کارت‌ها و گوشه‌های گرد بقیه‌ی داده‌های پایه */
-html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick){grid-column:1/-1;flex-direction:row!important;gap:14px!important;min-height:84px!important;padding:12px 18px!important}
-html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick) svg{width:38px!important;height:38px!important;flex:0 0 38px!important}
+html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick){grid-column:1/-1;flex-direction:row!important;gap:10px!important;box-sizing:border-box!important;height:47px!important;min-height:47px!important;padding:8px 16px!important}
+html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick) svg{width:26px!important;height:26px!important;flex:0 0 26px!important}
+html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick) b{font-size:20px!important;line-height:1.45!important}
 html body #cplBase:has(.cbMenu button[data-cb="rates"]){padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important}
 html body #cplBase #cbRtList{margin-top:14px}
 #cplBase .rtD{border:1px solid var(--c5);border-radius:22px;background:var(--c8);margin:0 0 10px;overflow:hidden}
@@ -20612,7 +20614,7 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
         ['شاخص‌های فصلی','جدول شاخص‌های فصلی برای هر دوره، مورد استفاده در محاسبه‌ی تعدیل.'],
         ['شاخص‌های رشته‌ای','شاخص‌های مربوط به هر رشته‌ی کاری.'],
         ['ضریب تعدیل','محاسبه‌ی ضریب تعدیل بر اساس شاخص‌های دوره‌ی پایه و دوره‌ی اجرا.'],
-        ['نرخ عوامل','حداقل، حداکثر و متوسط دستمزد ساعتی نیروی انسانی هر گروه کاری، به‌تفکیک سال و دوره (نیمه‌سال، فصل، کل سال). با کشوهای سال › دوره › گروه باز می‌شود و جستجو دارد.']
+        ['نرخ عوامل','حداقل، حداکثر و متوسط دستمزد ساعتی نیروی انسانی هر گروه کاری، به‌تفکیک سال و دوره (نیمه‌سال، فصل، کل سال). با سه کشوی سال › زیرمجموعه › گروه انتخاب می‌شود و بعد از انتخاب گروه، جدول نمایش داده می‌شود؛ جستجو هم دارد.']
       ],
       tip:'اگر اشتراک شما تمام شده باشد، دسترسی به این بخش بسته می‌شود.'
     },
