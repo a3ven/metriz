@@ -4381,6 +4381,7 @@ html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button[data-cb="
 html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button[data-cb="index"]{background:#d8e3e6!important;border-color:color-mix(in srgb,#d8e3e6 72%,#6b5a3c)!important}
 html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button[data-cb="ridx"]{background:#d8e3e6!important;border-color:color-mix(in srgb,#d8e3e6 72%,#6b5a3c)!important}
 html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button[data-cb="coef"]{background:#d8e3e6!important;border-color:color-mix(in srgb,#d8e3e6 72%,#6b5a3c)!important}
+html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button[data-cb="rates"]{background:#d8e3e6!important;border-color:color-mix(in srgb,#d8e3e6 72%,#6b5a3c)!important}
 html[data-theme="light"][data-palette="sheet"] #cplBase .cbPick{background:#efe7c6!important;border-color:color-mix(in srgb,#efe7c6 72%,#6b5a3c)!important}
 html[data-theme="light"][data-palette="sheet"] .cplCard#cplGoBase{background:#f3eee3!important;border-color:color-mix(in srgb,#f3eee3 72%,#6b5a3c)!important}
 html[data-theme="light"][data-palette="sheet"] #cplBase .cbMenu button:active{filter:brightness(.96)}
@@ -4436,6 +4437,7 @@ html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-d
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbMenu button[data-cb="index"]{background:#243236!important;border-color:color-mix(in srgb,#243236 72%,#e8dcc0)!important}
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbMenu button[data-cb="ridx"]{background:#243236!important;border-color:color-mix(in srgb,#243236 72%,#e8dcc0)!important}
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbMenu button[data-cb="coef"]{background:#243236!important;border-color:color-mix(in srgb,#243236 72%,#e8dcc0)!important}
+html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbMenu button[data-cb="rates"]{background:#243236!important;border-color:color-mix(in srgb,#243236 72%,#e8dcc0)!important}
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbPick{background:#303954!important;border-color:color-mix(in srgb,#303954 72%,#e8dcc0)!important}
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] #cplBase .cbMenu button:active{filter:brightness(1.12)}
 html[data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"][data-palette="sheet-dark"] :is(.cbTbl,.analysisTable,.analysisPageTable,.adjTable,.mnCovTable,.v53-table) th{background:#252d1f!important;color:#ece6d6!important}
@@ -18725,7 +18727,10 @@ window.__cplFootXml=function(f){
       else if(a==='xls'){closeMenu();doXls()}
       else if(a==='pdf'){closeMenu();doPdf()}
       else if(a==='mclose'){closeMenu();close()}
-      else if(a==='items'||a==='index'||a==='ridx'||a==='coef'){ST.view=a;if(a==='items'){ST.q='';ST.ro=false}render()}
+      else if(a==='items'||a==='index'||a==='ridx'||a==='coef'||a==='rates'){ST.view=a;if(a==='items'){ST.q='';ST.ro=false}render()}
+      else if(a==='rt'){rtToggle(t.getAttribute('data-k'))}
+      else if(a==='rt-search'){var ri=$('cbRQ');if(ri){clearTimeout(rqT);RT.q=ri.value;rtPaint();ri.focus()}}
+      else if(a==='rt-retry'){RT.err='';RT.ferr={};if(RT.idx)rtPaint();else{rtPaint();rtLoadIdx()}}
       else if(a==='search'){var qi=$('cbQ');if(qi){applyQ();qi.focus()}}
       else if(a==='clearq'){ST.q='';var qi2=$('cbQ');if(qi2)qi2.value='';applyQ()}
       else if(a==='chintro'){if(window.openChapterIntroFor)window.openChapterIntroFor(ST.y,ST.d,ST.c)}
@@ -18738,9 +18743,11 @@ window.__cplFootXml=function(f){
     });
     root.addEventListener('input',function(e){
       if(e.target&&e.target.id==='cbQ'){ST.q=e.target.value;clearTimeout(qT);qT=setTimeout(applyQ,160)}
+      else if(e.target&&e.target.id==='cbRQ'){RT.q=e.target.value;clearTimeout(rqT);rqT=setTimeout(rtPaint,160)}
     });
     root.addEventListener('keydown',function(e){
       if(e.target&&e.target.id==='cbQ'&&e.key==='Enter'){e.preventDefault();clearTimeout(qT);applyQ();e.target.blur()}
+      else if(e.target&&e.target.id==='cbRQ'&&e.key==='Enter'){e.preventDefault();clearTimeout(rqT);RT.q=e.target.value;rtPaint();e.target.blur()}
     });
     root.addEventListener('change',function(e){
       var id=e.target&&e.target.id;if(!id||id.indexOf('cb')!==0)return;
@@ -18781,6 +18788,7 @@ window.__cplFootXml=function(f){
       var t='';l.childNodes.forEach(function(n){if(n.nodeType===3)t+=n.textContent});t=t.trim();
       if(t&&v&&!/^—/.test(v))out.filters.push([t,v,l.parentNode]);
     });
+    if(ST.view==='rates'){rtReport(out);return out}
     if(ST.view==='coef'){out.cardFilters=true;var nt=box.querySelector('.cbCount');if(nt)out.note=cellTxt(nt)}
     box.querySelectorAll('table').forEach(function(tb){
       var rows=[];tb.querySelectorAll('tr').forEach(function(tr){var r=[];tr.querySelectorAll('th,td').forEach(function(c){r.push(cellTxt(c))});if(r.length)rows.push(r)});
@@ -18837,7 +18845,7 @@ window.__cplFootXml=function(f){
   }
   function render(){
     if(!root)return;
-    var title=ST.view==='items'?'آیتم‌های فهرست بها - آنالیز بها':ST.view==='index'?'شاخص‌های فصلی':ST.view==='ridx'?'شاخص‌های رشته‌ای':ST.view==='coef'?'ضریب تعدیل':'داده‌های پایه';
+    var title=ST.view==='items'?'آیتم‌های فهرست بها - آنالیز بها':ST.view==='index'?'شاخص‌های فصلی':ST.view==='ridx'?'شاخص‌های رشته‌ای':ST.view==='coef'?'ضریب تعدیل':ST.view==='rates'?'نرخ عوامل':'داده‌های پایه';
     root.innerHTML='<div class="cbWrap">'+head(title)+'<div id="cbBody"></div></div>';
     renderBody();
     root.scrollTop=0;
@@ -18846,9 +18854,10 @@ window.__cplFootXml=function(f){
   function renderBody(){
     var box=$('cbBody');if(!box)return;
     if(ST.view==='menu'){
-      box.innerHTML='<div class="cbMenu"><button type="button" data-cb="items">'+ICO_ITEMS+'<b>فهرست بها - آنالیز بها</b></button><button type="button" data-cb="index">'+ICO_IDX+'<b>شاخص‌های فصلی</b></button><button type="button" data-cb="ridx">'+ICO_IDX+'<b>شاخص‌های رشته‌ای</b></button><button type="button" data-cb="coef">'+ICO_CALC+'<b>ضریب تعدیل</b></button></div>';
+      box.innerHTML='<div class="cbMenu"><button type="button" data-cb="items">'+ICO_ITEMS+'<b>فهرست بها - آنالیز بها</b></button><button type="button" data-cb="index">'+ICO_IDX+'<b>شاخص‌های فصلی</b></button><button type="button" data-cb="ridx">'+ICO_IDX+'<b>شاخص‌های رشته‌ای</b></button><button type="button" data-cb="coef">'+ICO_CALC+'<b>ضریب تعدیل</b></button><button type="button" data-cb="rates">'+ICO_RATES+'<b>نرخ عوامل</b></button></div>';
       return;
     }
+    if(ST.view==='rates'){renderRates(box);return}
     if(window.__DATA_EXPIRED&&!ready()){box.innerHTML='<div class="cbEmpty" style="white-space:pre-line;line-height:2"><b>اتمام اشتراک</b>\n'+(window.__DATA_EXPIRED_MSG||'اشتراک شما به پایان رسیده است و بخش داده‌های پایه بسته است.')+'</div>';return}
     if(!ready()){box.innerHTML=loadingHtml();return}
     if(ST.view==='items')renderItems(box);else if(ST.view==='ridx')renderRIdx(box);else if(ST.view==='coef')renderCoef(box);else renderIndex(box);
@@ -19067,6 +19076,108 @@ window.__cplFootXml=function(f){
       '<div class="cbRow2">'+sel('cbKWY',yo,KS.wy,'سال کارکرد')+sel('cbKWP',po(wps,KS.wy),KS.wp,'دوره کارکرد')+'</div></div>'+
       '<div class="cbCount">ضریب تعدیل = (شاخص کارکرد ÷ شاخص مبنا − ۱) × K</div>'+
       (rows.length?tbl((f?['فصل','عنوان']:['رشته']).concat(['شاخص مبنا','شاخص کارکرد','ضریب تعدیل']),rows):'<div class="cbEmpty">برای سال/دوره‌های انتخاب‌شده شاخصی پیدا نشد.</div>');
+  }
+
+  /* ===== نرخ عوامل: دستمزد ساعتی نیروی انسانی (مرکز آمار ایران) — سال › دوره › گروه › جدول ===== */
+  var ICO_RATES=SV+'<circle cx="9" cy="7.5" r="3"/><path d="M3.5 19.5v-1.2a5.5 5.5 0 0 1 11 0v1.2"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M17.5 13.3a5.5 5.5 0 0 1 3 5v1.2"/></svg>';
+  var ICO_CHEV=SV+'<path d="M6 9l6 6 6-6"/></svg>';
+  var RT={idx:null,err:'',busy:false,files:{},fbusy:{},ferr:{},open:{},q:''},rqT=null;
+  function faN(x){return String(x).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.charAt(+d)})}
+  function nv(v){return v==null?'—':nf(v)}
+  /* یکدست‌سازی برای جستجو: ی/ک عربی، نیم‌فاصله، فاصله، ارقام فارسی/عربی */
+  function qn(s){return String(s==null?'':s).replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)}).replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).replace(/[‌\s]+/g,'').toLowerCase()}
+  function rtJson(f){
+    return fetch('./data/'+f,{credentials:'same-origin'}).then(function(r){
+      if(r.ok)return r.json();
+      return r.json().catch(function(){return {}}).then(function(j){throw new Error((j&&j.error)||'دریافت اطلاعات ناموفق بود.')});
+    },function(){throw new Error('اتصال برقرار نیست و این بخش هنوز روی دستگاه ذخیره نشده است.')});
+  }
+  function rtRefresh(){if(root&&root.classList.contains('show')&&ST.view==='rates')rtPaint()}
+  function rtLoadIdx(){
+    if(RT.idx||RT.busy)return;
+    if(window.DEMO_MODE){RT.err='«نرخ عوامل» در نسخه‌ی آزمایشی در دسترس نیست.';return}
+    RT.busy=true;RT.err='';
+    rtJson('rates-index-v1.json').then(function(j){RT.idx=j},function(e){RT.err=e.message}).then(function(){RT.busy=false;rtRefresh()});
+  }
+  function rtLoadFile(f){
+    if(RT.files[f]||RT.fbusy[f])return;
+    RT.fbusy[f]=1;delete RT.ferr[f];
+    rtJson(f).then(function(j){RT.files[f]=j},function(e){RT.ferr[f]=e.message}).then(function(){delete RT.fbusy[f];rtRefresh()});
+  }
+  function rtTable(rows){
+    return '<div class="cbCount">دستمزد ساعتی (ریال) — واحد: یک ساعت</div><div class="cbTblWrap"><table class="cbTbl rtTbl"><thead><tr><th class="cbT">نام قلم</th><th>حداقل</th><th>حداکثر</th><th>متوسط</th></tr></thead><tbody>'+
+      rows.map(function(r){return '<tr><td>'+E(r[0])+'</td><td class="cbNum">'+nv(r[2])+'</td><td class="cbNum">'+nv(r[3])+'</td><td class="cbNum">'+nv(r[4])+'</td></tr>'}).join('')+'</tbody></table></div>';
+  }
+  function rtDrawer(lv,key,title,badge,inner,extra){
+    var o=!!RT.open[key];
+    return '<section class="rtD rtL'+lv+(o?' open':'')+'"'+(extra||'')+'><button type="button" class="rtHd" data-cb="rt" data-k="'+key+'" aria-expanded="'+(o?'true':'false')+'"><span class="rtT">'+title+'</span><span class="rtN">'+badge+'</span><span class="rtC">'+ICO_CHEV+'</span></button>'+(o?'<div class="rtBody">'+inner+'</div>':'')+'</section>';
+  }
+  function rtPeriodHtml(Y,P){
+    var pk='p'+Y.y+'-'+P.k,o=!!RT.open[pk],inner='';
+    if(o){
+      var F=RT.files[P.f];
+      if(F)inner=F.g.map(function(g,gi){
+        var gk='g'+Y.y+'-'+P.k+'-'+gi;
+        return rtDrawer(3,gk,E(g.n),faN(g.r.length)+' ردیف',RT.open[gk]?rtTable(g.r):'',' data-t="'+E(faN(Y.y)+' '+P.t+' — '+g.n)+'"');
+      }).join('');
+      else inner=RT.ferr[P.f]?'<div class="cbEmpty">'+E(RT.ferr[P.f])+'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button></div>':'<div class="cbEmpty">در حال بارگذاری…</div>';
+    }
+    return rtDrawer(2,pk,E(P.t),faN(P.g)+' گروه',inner);
+  }
+  function rtTreeHtml(){
+    if(!RT.idx)return RT.err?'<div class="cbEmpty">'+E(RT.err)+(window.DEMO_MODE?'':'<br><button type="button" class="btn rtRetry" data-cb="rt-retry">تلاش دوباره</button>')+'</div>':'<div class="cbEmpty">در حال بارگذاری…</div>';
+    return RT.idx.years.map(function(Y){
+      return rtDrawer(1,'y'+Y.y,faN(Y.y),faN(Y.p.length)+' دوره',Y.p.map(function(P){return rtPeriodHtml(Y,P)}).join(''));
+    }).join('');
+  }
+  function rtSearchHtml(){
+    if(!RT.idx)return rtTreeHtml();
+    var terms=RT.q.trim().split(/\s+/).map(qn).filter(Boolean),pend=0,fail=0,all=[];
+    RT.idx.years.forEach(function(Y){Y.p.slice().reverse().forEach(function(P){
+      if(RT.files[P.f])all.push([Y,P]);else if(RT.ferr[P.f])fail++;else{pend++;rtLoadFile(P.f)}
+    })});
+    if(pend)return '<div class="cbEmpty">در حال بارگذاری برای جستجو… ('+faN(all.length)+' از '+faN(all.length+pend+fail)+')</div>';
+    var res=[];
+    all.forEach(function(x){
+      var Y=x[0],P=x[1];RT.files[P.f].g.forEach(function(g){
+        var gh=qn(Y.y+P.t+g.n),inG=terms.every(function(t){return gh.indexOf(t)>=0});
+        var rows=inG?g.r:g.r.filter(function(r){var h=gh+qn(r[0]);return terms.every(function(t){return h.indexOf(t)>=0})});
+        if(rows.length)res.push({Y:Y,P:P,g:g,rows:rows});
+      });
+    });
+    if(!res.length)return '<div class="cbEmpty">موردی پیدا نشد.'+(fail?'<br>'+faN(fail)+' دوره دریافت نشد؛ اینترنت را بررسی کنید.':'')+'</div>';
+    var MAXR=40,shown=res.slice(0,MAXR);
+    return '<div class="cbCount">'+faN(res.length)+' گروه'+(res.length>MAXR?' (نمایش '+faN(MAXR)+' مورد اول؛ عبارت دقیق‌تری بنویسید)':'')+(fail?' — '+faN(fail)+' دوره دریافت نشد':'')+'</div>'+
+      shown.map(function(r){return '<section class="rtRes" data-t="'+E(faN(r.Y.y)+' '+r.P.t+' — '+r.g.n)+'"><div class="rtResHd"><b>'+E(r.g.n)+'</b><span class="rtN">'+faN(r.Y.y)+' · '+E(r.P.t)+'</span></div>'+rtTable(r.rows)+'</section>'}).join('');
+  }
+  function rtPaint(){var el=$('cbRtList');if(el)el.innerHTML=RT.q.trim()?rtSearchHtml():rtTreeHtml()}
+  function renderRates(box){
+    box.innerHTML='<div class="cbForm"><label>جستجوی گروه یا نیروی انسانی<span class="cbSrch"><input id="cbRQ" type="search" autocomplete="off" enterkeyhint="search" placeholder="مثلاً: کارگر ساده، بنا، ۱۴۰۴ آرماتوربند…" value="'+E(RT.q)+'"><button type="button" class="btn" data-cb="rt-search" aria-label="جستجو" title="جستجو">'+ICO_SEARCH+'</button></span></label></div><div id="cbRtList"></div>';
+    rtLoadIdx();rtPaint();
+  }
+  function rtToggle(k){
+    RT.open[k]=!RT.open[k];
+    if(RT.open[k]&&k.charAt(0)==='p'&&RT.idx){
+      RT.idx.years.forEach(function(Y){Y.p.forEach(function(P){if('p'+Y.y+'-'+P.k===k)rtLoadFile(P.f)})});
+    }
+    rtPaint();
+  }
+  /* گزارش اکسل/چاپی: جستجو → نتایج؛ وگرنه همه‌ی گروه‌های دوره‌هایی که باز هستند */
+  function rtReport(out){
+    var T=function(t,rows){out.tables.push([[t,'حداقل','حداکثر','متوسط']].concat(rows.map(function(r){return [r[0],nv(r[2]),nv(r[3]),nv(r[4])]})))};
+    if(RT.q.trim()){
+      var box=$('cbRtList');if(!box)return;
+      box.querySelectorAll('.rtRes').forEach(function(s){
+        var rows=[];s.querySelectorAll('tbody tr').forEach(function(tr){var c=tr.querySelectorAll('td');rows.push([cellTxt(c[0]),cellTxt(c[1]),cellTxt(c[2]),cellTxt(c[3])])});
+        out.tables.push([[s.getAttribute('data-t')||'','حداقل','حداکثر','متوسط']].concat(rows));
+      });
+      return;
+    }
+    if(!RT.idx)return;
+    RT.idx.years.forEach(function(Y){if(!RT.open['y'+Y.y])return;Y.p.forEach(function(P){
+      if(!RT.open['p'+Y.y+'-'+P.k]||!RT.files[P.f])return;
+      RT.files[P.f].g.forEach(function(g){T(faN(Y.y)+' '+P.t+' — '+g.n,g.r)});
+    })});
   }
 
   function open(){
@@ -20377,6 +20488,42 @@ html body #cplBase{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body #cplBase .cbHead>.mzSyncBtn.mzSyncBtn{flex:0 0 auto!important;width:auto!important;min-width:46px!important;max-width:none!important;padding:0 10px!important;gap:5px!important;border-radius:999px!important;background:var(--c8)!important;background-image:none!important;border:1px solid var(--c5)!important;box-shadow:none!important}
 html:root:root:root:root:root:root:root:root:root:root:root:root:root:root:root body #cplBase .cbHead>.mzSyncBtn.mzSyncBtn svg{width:24px!important;height:24px!important;flex:0 0 24px!important}
 </style>
+<style id="rates-css">
+/* نرخ عوامل: کشوهای تودرتو (سال › دوره › گروه) با همان کارت‌ها و گوشه‌های گرد بقیه‌ی داده‌های پایه */
+html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick){grid-column:1/-1;flex-direction:row!important;gap:14px!important;min-height:84px!important;padding:12px 18px!important}
+html body #cplBase .cbWrap .cbMenu button[data-cb="rates"]:not(.cbPick) svg{width:38px!important;height:38px!important;flex:0 0 38px!important}
+html body #cplBase:has(.cbMenu button[data-cb="rates"]){padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important}
+html body #cplBase #cbRtList{margin-top:14px}
+#cplBase .rtD{border:1px solid var(--c5);border-radius:22px;background:var(--c8);margin:0 0 10px;overflow:hidden}
+#cplBase .rtD.rtL2{border-radius:18px;background:var(--c1);border-color:var(--c9);margin:0 0 8px}
+#cplBase .rtD.rtL3{border-radius:16px;background:var(--c8);border-color:var(--c9);margin:0 0 8px}
+#cplBase .rtHd{appearance:none;-webkit-appearance:none;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:10px;font:inherit;color:var(--c2);background:transparent;border:0;border-radius:0;cursor:pointer;text-align:right;direction:rtl;padding:12px 16px;min-height:56px;-webkit-tap-highlight-color:transparent}
+#cplBase .rtL1>.rtHd{font-size:20px;font-weight:800;min-height:64px;padding:0 18px}
+#cplBase .rtL2>.rtHd{font-size:17px;font-weight:800}
+#cplBase .rtL3>.rtHd{font-size:15px;font-weight:700;min-height:48px;padding:10px 14px}
+#cplBase .rtHd:active{background:var(--c9)}
+@media (hover:hover){#cplBase .rtHd:hover{background:var(--c9)}}
+#cplBase .rtHd .rtT{flex:1 1 auto;min-width:0;line-height:1.7;overflow-wrap:anywhere}
+#cplBase .rtN{flex:0 0 auto;font-size:13px;font-weight:600;line-height:1.8;color:var(--c3);background:var(--c9);border-radius:999px;padding:1px 11px;white-space:nowrap}
+#cplBase .rtC{flex:0 0 22px;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s ease}
+#cplBase .rtC svg{width:22px;height:22px}
+#cplBase .rtD.open>.rtHd .rtC{transform:rotate(180deg)}
+#cplBase .rtD.open>.rtHd{border-bottom:1px solid var(--c9)}
+#cplBase .rtBody{padding:8px 8px 2px}
+#cplBase .rtL3>.rtBody{padding:0}
+#cplBase .rtL3>.rtBody .cbCount{margin:8px 14px 6px;font-size:13px}
+#cplBase .rtL3>.rtBody .cbTblWrap{border:0;border-top:1px solid var(--c9);border-radius:0 0 15px 15px;background:transparent}
+#cplBase .rtRes{border:1px solid var(--c5);border-radius:18px;background:var(--c8);padding:10px 10px 12px;margin:0 0 10px}
+#cplBase .rtResHd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 4px 2px}
+#cplBase .rtResHd b{font-size:16px;line-height:1.7;min-width:0;overflow-wrap:anywhere}
+#cplBase .rtRes .cbCount{margin:6px 2px 6px;font-size:13px}
+#cplBase .rtTbl{font-size:14px}
+#cplBase .rtTbl th,#cplBase .rtTbl td{padding:9px 6px}
+#cplBase .rtTbl td:first-child,#cplBase .rtTbl th:first-child{padding-inline-start:12px}
+#cplBase .rtTbl td:first-child{min-width:86px;line-height:1.7}
+@media (max-width:420px){#cplBase .rtTbl{font-size:12.5px}#cplBase .rtTbl th,#cplBase .rtTbl td{padding:8px 3px}#cplBase .rtTbl td:first-child,#cplBase .rtTbl th:first-child{padding-inline-start:9px}}
+#cplBase .rtRetry{margin-top:10px;height:40px;padding:0 18px;border-radius:999px}
+</style>
 <style id="home-match-base">
 /* صفحه اول: شروع کادرها و اندازه‌ی آن‌ها دقیقاً مثل صفحه‌ی «داده‌های پایه» (۱۶px پایین‌تر، ارتفاع کارت‌ها ۱۲۱px) */
 html body #cplHome .cplMainView .cplGrid{margin-top:59px!important}
@@ -20464,7 +20611,8 @@ html body #cplHome .cplMainView .cplGrid .cplCard.cplBaseCard .pickTxt>b{font-si
         ['فهرست بها - آنالیز بها','جست‌وجو و مشاهده‌ی ردیف‌های فهرست بها و جزئیات آنالیز هر ردیف (مصالح، دستمزد، ماشین‌آلات).'],
         ['شاخص‌های فصلی','جدول شاخص‌های فصلی برای هر دوره، مورد استفاده در محاسبه‌ی تعدیل.'],
         ['شاخص‌های رشته‌ای','شاخص‌های مربوط به هر رشته‌ی کاری.'],
-        ['ضریب تعدیل','محاسبه‌ی ضریب تعدیل بر اساس شاخص‌های دوره‌ی پایه و دوره‌ی اجرا.']
+        ['ضریب تعدیل','محاسبه‌ی ضریب تعدیل بر اساس شاخص‌های دوره‌ی پایه و دوره‌ی اجرا.'],
+        ['نرخ عوامل','حداقل، حداکثر و متوسط دستمزد ساعتی نیروی انسانی هر گروه کاری، به‌تفکیک سال و دوره (نیمه‌سال، فصل، کل سال). با کشوهای سال › دوره › گروه باز می‌شود و جستجو دارد.']
       ],
       tip:'اگر اشتراک شما تمام شده باشد، دسترسی به این بخش بسته می‌شود.'
     },
